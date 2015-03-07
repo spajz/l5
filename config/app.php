@@ -149,6 +149,7 @@ return [
          * Added
          */
         'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
+        'Intervention\Image\ImageServiceProvider',
 
 	],
 
@@ -197,6 +198,11 @@ return [
 		'URL'       => 'Illuminate\Support\Facades\URL',
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
+
+        /*
+         * Added
+         */
+        'Image'     => 'Intervention\Image\Facades\Image',
 
 	],
 
