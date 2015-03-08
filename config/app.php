@@ -150,6 +150,8 @@ return [
          */
         'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
         'Intervention\Image\ImageServiceProvider',
+        'Cviebrock\EloquentSluggable\SluggableServiceProvider',
+        'Laracasts\Flash\FlashServiceProvider',
 
 	],
 
@@ -203,6 +205,7 @@ return [
          * Added
          */
         'Image'     => 'Intervention\Image\Facades\Image',
+        'Flash'     => 'Laracasts\Flash\Flash'
 
 	],
 

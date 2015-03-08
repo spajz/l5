@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\BaseController;
+use App\Models\Page as Page;
 
 use Illuminate\Http\Request;
 use View;
@@ -26,6 +27,14 @@ class AdminController extends BaseController
      */
     public function index()
     {
+        $items = Page::all();
+        $page = Page::create(
+            array(
+                'title' => 'Daj novi naslov',
+            )
+        );
+
+        $page->save();
     }
 
     /**

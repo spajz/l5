@@ -49,24 +49,27 @@ var adminDir = 'public/assets/admin';
 var adminBuildDir = 'public/build/assets/admin';
 
 elixir.extend('copy2', function (src, output) {
-    gulp.task('gulp-copy-task', function () {
+    gulp.task('copy2', function () {
         var obj = gulp.src(src);
         output.forEach(function (value) {
             obj.pipe(gulp.dest(value));
         });
     });
-    return this.queueTask('gulp-copy-task');
+    //this.registerWatcher("copy2", "**/*.php");
+    return this.queueTask('copy2');
 });
-
 
 // Bootstrap
 elixir(function (mix) {
     mix.less('app.less');
 
     mix.styles([
-        adminConfig.cssOutput + '/app.css',
-        adminConfig.bowerDir + '/font-awesome/css/font-awesome.css',
         adminConfig.assetsDir + 'css/added.css'
+    ], adminConfig.cssOutput + '/added.css', './');
+
+    mix.styles([
+        adminConfig.cssOutput + '/app.css',
+        adminConfig.bowerDir + '/font-awesome/css/font-awesome.css'
     ], null, './');
 
     mix.scripts([
@@ -76,7 +79,8 @@ elixir(function (mix) {
 
     mix.version([
         adminConfig.cssOutput + '/all.css',
-        adminConfig.jsOutput + '/all.js'
+        adminConfig.jsOutput + '/all.js',
+        adminConfig.cssOutput + '/added.css',
     ]);
 });
 
@@ -87,3 +91,4 @@ elixir(function (mix) {
         ], [adminBuildDir + '/fonts/', adminDir + '/fonts/']
     );
 });
+
