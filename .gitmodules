@@ -1,0 +1,3 @@
+[submodule "_gitrepo/datatables_plugins"]
+	path = _gitrepo/datatables_plugins
+	url = https://github.com/DataTables/Plugins.git
