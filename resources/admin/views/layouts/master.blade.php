@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
+    <meta name="description" content="CMS">
     <meta name="author" content="">
 
     <title>SB Admin 2 - Bootstrap Admin Theme</title>
 
-    <link rel="stylesheet" href="{{ elixir($assetsDir . '/css/all.css') }}">
-    <link rel="stylesheet" href="{{ elixir($assetsDir . '/css/added.css') }}">
+    @if ( Config::get('app.debug') )
+        <link rel="stylesheet" href="{{ asset($assetsDir . '/css/all.css') }}" />
+        <link rel="stylesheet" href="{{ asset($assetsDir . '/css/added.css') }}" />
+    @else
+        <link rel="stylesheet" href="{{ elixir($assetsDir . '/css/all.css') }}">
+        <link rel="stylesheet" href="{{ elixir($assetsDir . '/css/added.css') }}">
+    @endif
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -789,7 +792,13 @@
 </div>
 <!-- /#wrapper -->
 
-<script src="{{ elixir("{$assetsDir}/js/all.js") }}"></script>
+@if ( Config::get('app.debug') )
+    <script src="{{ asset("{$assetsDir}/js/all.js") }}"></script>
+    <script src="{{ asset("{$assetsDir}/js/added.js") }}"></script>
+@else
+    <script src="{{ elixir("{$assetsDir}/js/all.js") }}"></script>
+    <script src="{{ elixir("{$assetsDir}/js/added.js") }}"></script>
+@endif
 
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
 <script>
@@ -797,6 +806,8 @@
         $('#dataTables-example').DataTable({
             responsive: true
         });
+
+        $('#side-menu').metisMenu();
     });
 </script>
 
