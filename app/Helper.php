@@ -11,7 +11,7 @@ class Helper
      * @param string $return
      * @return array $modules
      */
-    static public function getModules($state = 'enabled', $return = 'name')
+    static public function getModules($state = 'enabled', $return = 'name', $module = null)
     {
         $modules = array();
         foreach (File::allFiles(app_path('Http/Controllers')) as $file) {
@@ -20,19 +20,17 @@ class Helper
 
                 switch ($state) {
                     case 'enabled':
-                      //static::getModulesReturnType();
+                        if ($moduleArray['enabled'])
+                            $modules[$moduleArray['order']] = static::getModulesReturnType($moduleArray, $return, $file);
                         break;
 
                     case 'disabled':
-
+                        if (!$moduleArray['enabled'])
+                            $modules[$moduleArray['order']] = static::getModulesReturnType($moduleArray, $return, $file);
                         break;
 
                     default:
-                        if ($return == 'name') {
-                            $modules[$moduleJson['order']] = $moduleJson['name'];
-                        } else {
-                            $modules[$moduleJson['order']] = $file->getPath();
-                        }
+                        $modules[$moduleArray['order']] = static::getModulesReturnType($moduleArray, $return, $file);
                 }
             }
         }
@@ -44,21 +42,17 @@ class Helper
     static function getModulesReturnType($moduleArray, $return, $file)
     {
         $modules = array();
-        switch($return){
+        switch ($return) {
             case 'name':
-                $modules[$moduleArray['order']] = $moduleArray['name'];
+                return $moduleArray['name'];
                 break;
 
             case 'path':
-                $modules[$moduleArray['order']] = $file->getPath();
+                return $file->getPath();
                 break;
 
             case 'array':
-                $modules[$moduleArray['order']] = $moduleArray;
-                break;
-
-            case 'json':
-                $modules[$moduleArray['order']] = $moduleArray['name'];
+                return $moduleArray;
                 break;
 
         }

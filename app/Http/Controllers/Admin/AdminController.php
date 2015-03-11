@@ -38,7 +38,7 @@ class AdminController extends BaseController
 //
 //        $page->save();
 
-        $ff = Helper::getModules('enabled', 'path');
+        $ff = Helper::getModules('enabled  ', 'array');
         dd($ff);
         return view($this->viewPath . '.start');
 
