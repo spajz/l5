@@ -161,8 +161,7 @@ class ImageApi
     public function upload($onlyValidate = false)
     {
         if (Input::hasFile($this->inputField['files'])) {
-
-
+            
             // Loop through all uploaded files
             foreach ($uploads as $key => $upload) {
 
