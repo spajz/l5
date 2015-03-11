@@ -17,7 +17,7 @@ class ImageApi
     protected $errors = array();
 
     protected $uploadedFiles = array();
-    protected $localFiles = array();
+
     protected $processType = 'upload';
 
     public function setConfig($config)
@@ -60,12 +60,6 @@ class ImageApi
         return $this;
     }
 
-    public function setLocalFiles($files)
-    {
-        $this->localFiles = (array)$files;
-        return $this;
-    }
-
     public function setInputFields($field, $value = null)
     {
         if (is_array($field)) {
@@ -97,6 +91,11 @@ class ImageApi
         return $this->errors;
     }
 
+    public function hasErrors()
+    {
+        return $this->errors ? true : false;
+    }
+
     public function uploadFiles()
     {
         if (Input::hasFile($this->inputField['files'])) {
@@ -119,18 +118,12 @@ class ImageApi
         }
     }
 
-    public function validateUploadedFiles()
-    {
-        $this->validateFiles($this->uploadedFiles);
-    }
-
-    public function validateLocalFiles()
-    {
-        $this->validateFiles($this->localFiles);
-    }
-
     protected function validateFiles($files)
     {
+        if (!count($this->uploadedFiles)) {
+            $this->errors[] = 'Nothing uploaded.';
+            return false;
+        }
         // Loop through all uploaded files
         foreach ($files as $key => $file) {
 
@@ -138,12 +131,16 @@ class ImageApi
                 array('file' => $file),
                 array('file' => $this->prepareValidationRules())
             );
-
-            if ($validator->passes()) {
-                // Do something
-//                if (!$onlyValidate) $this->process($file, $key);
+//
+//            if ($validator->passes()) {
+//                // Do something
+//                $this->process($file, $key);
 //            } else {
-                // Collect error messages
+//                // Collect error messages
+//                $this->errors[] = 'File "' . $file->getClientOriginalName() . '":' . $validator->messages()->first('file');
+//            }
+
+            if (!$validator->passes()) {
                 $this->errors[] = 'File "' . $file->getClientOriginalName() . '":' . $validator->messages()->first('file');
             }
 
@@ -233,8 +230,6 @@ class ImageApi
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-
     public function processUpload()
     {
         $this->upload();
@@ -249,7 +244,7 @@ class ImageApi
     public function upload($onlyValidate = false)
     {
         if (Input::hasFile($this->inputField['files'])) {
-            
+
             // Loop through all uploaded files
             foreach ($uploads as $key => $upload) {
 

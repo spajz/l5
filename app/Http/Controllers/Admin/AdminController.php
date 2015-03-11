@@ -6,6 +6,7 @@ use App\Models\Page as Page;
 
 use Illuminate\Http\Request;
 use View;
+use App\Helper;
 
 class AdminController extends BaseController
 {
@@ -18,6 +19,7 @@ class AdminController extends BaseController
     {
         View::share('assetsDir', $this->assetsDir);
         View::share('viewPath', $this->viewPath);
+        View::share('layout', $this->layout);
     }
 
     /**
@@ -27,14 +29,19 @@ class AdminController extends BaseController
      */
     public function index()
     {
-        $items = Page::all();
-        $page = Page::create(
-            array(
-                'title' => 'Daj novi naslov',
-            )
-        );
+//        $items = Page::all();
+//        $page = Page::create(
+//            array(
+//                'title' => 'Daj novi naslov',
+//            )
+//        );
+//
+//        $page->save();
 
-        $page->save();
+        $ff = Helper::getModules('enabled', 'path');
+        dd($ff);
+        return view($this->viewPath . '.start');
+
     }
 
     /**

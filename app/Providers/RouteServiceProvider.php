@@ -3,6 +3,7 @@
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use File;
+use App\Helper;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -40,13 +41,21 @@ class RouteServiceProvider extends ServiceProvider
         $router->group(['namespace' => $this->namespace], function ($router) {
             require app_path('Http/routes.php');
 
-            foreach (File::allFiles(app_path()) as $file) {
-                if ($file->getFilename() == 'module.json') {
-                    if (json_decoder($file->getRealPath(), 'enabled')) {
-                        require $file->getPath() . '/routes.php';
-                    }
+            $modules = Helper::getModules('enabled', 'path');
+
+            if ($modules) {
+                foreach ($modules as $key => $module) {
+                    require $module . '/routes.php';
                 }
             }
+
+//            foreach (File::allFiles(app_path('Http/Controllers')) as $file) {
+//                if ($file->getFilename() == 'module.json') {
+//                    if (json_decoder($file->getRealPath(), 'enabled')) {
+//                        require $file->getPath() . '/routes.php';
+//                    }
+//                }
+//            }
         });
     }
 

@@ -16,3 +16,14 @@ if (!function_exists('json_decoder')) {
         return $json;
     }
 }
+
+if (!function_exists('resources_path')) {
+
+    function resources_path($path = '')
+    {
+        $path = 'resources/' . $path;
+        return app('path') . ($path ? '/' . $path : $path);
+    }
+}
+
+

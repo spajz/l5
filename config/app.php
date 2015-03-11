@@ -152,6 +152,7 @@ return [
         'Intervention\Image\ImageServiceProvider',
         'Cviebrock\EloquentSluggable\SluggableServiceProvider',
         'Laracasts\Flash\FlashServiceProvider',
+        'App\Providers\AdminServiceProvider',
 
 	],
 
