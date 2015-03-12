@@ -1,6 +1,6 @@
 {
     "name": "Front",
-    "enabled": false,
+    "enabled": true,
     "icon": "fa-female",
     "order": 100,
     "title": "Front"

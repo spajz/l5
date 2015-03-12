@@ -11,4 +11,4 @@
 |
 */
 
-Route::get(ADMIN, 'Admin\AdminController@index');
+Route::get('people', 'People\Admin\PeopleController@index');

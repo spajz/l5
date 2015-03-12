@@ -52,6 +52,7 @@ class Helper
                 break;
 
             case 'array':
+                $moduleArray['path'] = $file->getPath();
                 return $moduleArray;
                 break;
 

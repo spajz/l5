@@ -48,14 +48,6 @@ class RouteServiceProvider extends ServiceProvider
                     require $module . '/routes.php';
                 }
             }
-
-//            foreach (File::allFiles(app_path('Http/Controllers')) as $file) {
-//                if ($file->getFilename() == 'module.json') {
-//                    if (json_decoder($file->getRealPath(), 'enabled')) {
-//                        require $file->getPath() . '/routes.php';
-//                    }
-//                }
-//            }
         });
     }
 

@@ -1,39 +1,18 @@
-<?php namespace App\Http\Controllers\Admin;
+<?php namespace App\Http\Controllers\People\Admin;
 
 use App\Http\Requests;
-use App\Http\Controllers\BaseController;
-use App\Models\Page as Page;
+use App\Http\Controllers\Admin\AdminController;
 
 use Illuminate\Http\Request;
-use View;
-use App\Helper;
-use Config;
 
-class AdminController extends BaseController
+class PeopleController extends AdminController
 {
-    protected $layout;
-    protected $assetsDir;
-    protected $viewPath;
-    protected $moduleLower;
-    protected $moduleUpper;
-    protected $config;
 
     public function __construct()
     {
-        $this->setConfig();
-    }
+        parent::__construct();
 
-    protected function setConfig($module = 'admin')
-    {
-        $this->config = Config::get($module . '::config');
-        $moduleConfig = Config::get('admin::config.module');
-        if ($moduleConfig) {
-            foreach ($moduleConfig as $key => $value) {
-                $this->$key = $value;
-
-                View::share($key, $value);
-            }
-        }
+        $this->setConfig('people');
     }
 
     /**
@@ -43,22 +22,7 @@ class AdminController extends BaseController
      */
     public function index()
     {
-//        $items = Page::all();
-//        $page = Page::create(
-//            array(
-//                'title' => 'Daj novi naslov',
-//            )
-//        );
-//
-//        $page->save();
-
-//        $value = Config::get('admin::config');
-//        $value2 = Config::get('front::config.image.path');
-//        echo $value2; exit;
-
-
-        return view($this->viewPath . '.start');
-
+        dd($this->config);
     }
 
     /**

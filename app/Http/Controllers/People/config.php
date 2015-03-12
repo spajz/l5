@@ -5,11 +5,10 @@ return array(
     'under-maintenance' => false,
 
     'module' => array(
-        'layout' => 'admin.views.layouts.master',
-        'assetsDir' => 'assets/admin',
-        'viewPath' => 'admin.views',
-        'moduleLower' => 'admin',
-        'moduleUpper' => 'Admin',
+        'assetsDir' => 'assets/people',
+        'viewPath' => 'people.views',
+        'moduleLower' => 'people',
+        'moduleUpper' => 'People',
     ),
 
 
