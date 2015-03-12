@@ -1,1 +1,3 @@
-<h2>ovo je menu people</h2>
+<li>
+    <a href="{{ route("admin.{$module['name']}.index") }}"><i class="fa {{ $module['icon'] or 'fa-navicon' }} fa-fw"></i> {{ $module['title'] }}</a>
+</li>

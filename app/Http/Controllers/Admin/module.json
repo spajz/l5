@@ -1,5 +1,5 @@
 {
-    "name": "Admin",
+    "name": "admin",
     "enabled": true,
     "icon": "fa-female",
     "order": 10,

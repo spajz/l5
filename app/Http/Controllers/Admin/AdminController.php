@@ -25,8 +25,8 @@ class AdminController extends BaseController
 
     protected function setConfig($module = 'admin')
     {
-        $this->config = Config::get($module . '::config');
-        $moduleConfig = Config::get('admin::config.module');
+        $this->config = config($module . '.config');
+        $moduleConfig = config('admin.module');
         if ($moduleConfig) {
             foreach ($moduleConfig as $key => $value) {
                 $this->$key = $value;

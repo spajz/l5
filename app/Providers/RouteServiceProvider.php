@@ -2,7 +2,6 @@
 
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use File;
 use App\Helper;
 
 class RouteServiceProvider extends ServiceProvider
@@ -41,11 +40,11 @@ class RouteServiceProvider extends ServiceProvider
         $router->group(['namespace' => $this->namespace], function ($router) {
             require app_path('Http/routes.php');
 
+            // Include modules routes
             $modules = Helper::getModules('enabled', 'path');
-
             if ($modules) {
                 foreach ($modules as $key => $module) {
-                    require $module . '/routes.php';
+                    include $module . '/routes.php';
                 }
             }
         });

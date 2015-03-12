@@ -3,7 +3,6 @@
 use Illuminate\Support\ServiceProvider;
 use App\Helper;
 use Config;
-use Request;
 use File;
 
 class AdminServiceProvider extends ServiceProvider
@@ -40,13 +39,8 @@ class AdminServiceProvider extends ServiceProvider
             // Add modules config
             foreach ($modules as $key => $module) {
                 if (is_file($module['path'] . '/config.php')) {
-                    Config::set(strtolower($module['name']) . '::config', include($module['path'] . '/config.php'));
+                    $this->mergeConfigFrom($module['path'] . '/config.php', $module['name']);
                 }
-            }
-
-            // Build menu
-            if (is_admin()) {
-                $this->menu($modules);
             }
         }
     }
@@ -60,11 +54,10 @@ class AdminServiceProvider extends ServiceProvider
     {
         $menus = '';
         foreach (modules() as $module) {
-            $name = strtolower($module['name']);
+            $name = $module['name'];
             $resourcesPath = resources_path($name);
             if (File::exists($resourcesPath . '/views/admin/menu.blade.php')) {
-                $menus .= view($name . '.views.admin.menu')->render();
-
+                $menus .= view($name . '.views.admin.menu', array('module' => $module));
             }
         }
 
