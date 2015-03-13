@@ -5,8 +5,8 @@ return array(
     'under-maintenance' => false,
 
     'module' => array(
-        'assetsDir' => 'assets/people',
-        'viewPath' => 'people.views',
+        'assetsDirModule' => 'assets/people',
+        'viewPathModule' => 'people.views',
         'moduleLower' => 'people',
         'moduleUpper' => 'People',
     ),

@@ -13,7 +13,7 @@ return [
 	|
 	*/
 
-	'debug' => env('APP_DEBUG'),
+	'debug' => true,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -78,7 +78,7 @@ return [
 	|
 	*/
 
-	'key' => env('APP_KEY', 'SomeRandomString'),
+	'key' => env('APP_KEY', 'fghkf8236vfsdfcui3478377fhufe'),
 
 	'cipher' => MCRYPT_RIJNDAEL_128,
 
@@ -148,11 +148,14 @@ return [
         /*
          * Added
          */
+        'yajra\Datatables\DatatablesServiceProvider',
         'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
         'Intervention\Image\ImageServiceProvider',
         'Cviebrock\EloquentSluggable\SluggableServiceProvider',
         'Laracasts\Flash\FlashServiceProvider',
         'App\Providers\AdminServiceProvider',
+        'Former\FormerServiceProvider',
+
 
 	],
 
@@ -205,8 +208,10 @@ return [
         /*
          * Added
          */
-        'Image'     => 'Intervention\Image\Facades\Image',
-        'Flash'     => 'Laracasts\Flash\Flash'
+        'Image'      => 'Intervention\Image\Facades\Image',
+        'Flash'      => 'Laracasts\Flash\Flash',
+        'Former'     => 'Former\Facades\Former',
+        'Datatables' => 'yajra\Datatables\Datatables',
 
 	],
 

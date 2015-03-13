@@ -6,8 +6,8 @@ return array(
 
     'module' => array(
         'layout' => 'admin.views.layouts.master',
-        'assetsDir' => 'assets/admin',
-        'viewPath' => 'admin.views',
+        'assetsDirAdmin' => 'assets/admin',
+        'viewPathAdmin' => 'admin.views',
         'moduleLower' => 'admin',
         'moduleUpper' => 'Admin',
     ),

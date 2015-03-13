@@ -84,7 +84,7 @@ elixir(function (mix) {
         ], adminConfig.cssOutput + '/added.css', './')
 
         .styles([
-            adminConfig.cssOutput + '/app.css',
+            //adminConfig.cssOutput + '/app.css',
             adminConfig.bowerDir + '/font-awesome/css/font-awesome.css',
             //adminConfig.bowerDir + '/datatables/media/css/jquery.dataTables.min.css',
             adminConfig.bowerDir + '/datatables-bootstrap3-plugin/media/css/datatables-bootstrap3.min.css',

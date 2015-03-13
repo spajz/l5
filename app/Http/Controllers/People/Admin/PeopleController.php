@@ -2,8 +2,8 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Admin\AdminController;
-
-use Illuminate\Http\Request;
+use Datatables;
+use App\Models\Page;
 
 class PeopleController extends AdminController
 {
@@ -15,6 +15,12 @@ class PeopleController extends AdminController
         $this->setConfig('people');
     }
 
+    public function getDatatable(){
+        $pages = Page::select(array('title', 'slug', 'created_at'));
+
+        return Datatables::of($pages)->make(true);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +28,7 @@ class PeopleController extends AdminController
      */
     public function index()
     {
-        dd($this->config);
+        return view($this->viewPathModule . '.admin.index');
     }
 
     /**
@@ -32,7 +38,7 @@ class PeopleController extends AdminController
      */
     public function create()
     {
-        //
+        return view($this->viewPathModule . '.admin.create');
     }
 
     /**

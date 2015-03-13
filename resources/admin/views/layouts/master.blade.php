@@ -10,11 +10,12 @@
     <title>Laravel CMS</title>
 
     @if ( Config::get('app.debug') )
-        <link rel="stylesheet" href="{{ asset($assetsDir . '/css/all.css') }}" />
-        <link rel="stylesheet" href="{{ asset($assetsDir . '/css/added.css') }}" />
+        <link rel="stylesheet" href="{{ asset($assetsDirAdmin . '/css/app.css') }}" />
+        <link rel="stylesheet" href="{{ asset($assetsDirAdmin . '/css/all.css') }}" />
+        <link rel="stylesheet" href="{{ asset($assetsDirAdmin . '/css/added.css') }}" />
     @else
-        <link rel="stylesheet" href="{{ elixir($assetsDir . '/css/all.css') }}">
-        <link rel="stylesheet" href="{{ elixir($assetsDir . '/css/added.css') }}">
+        <link rel="stylesheet" href="{{ elixir($assetsDirAdmin . '/css/all.css') }}">
+        <link rel="stylesheet" href="{{ elixir($assetsDirAdmin . '/css/added.css') }}">
     @endif
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -23,6 +24,9 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    @section('scripts_top')
+    @show
 
 </head>
 
@@ -43,10 +47,10 @@
         </div>
         <!-- /.navbar-header -->
 
-        @include("{$viewPath}._partials.topmenu")
+        @include("{$viewPathAdmin}._partials.topmenu")
         <!-- /.navbar-top-links -->
 
-        @include("{$viewPath}._partials.sidebar")
+        @include("{$viewPathAdmin}._partials.sidebar")
         <!-- /.navbar-static-side -->
     </nav>
 
@@ -59,11 +63,11 @@
 <!-- /#wrapper -->
 
 @if ( Config::get('app.debug') )
-    <script src="{{ asset("{$assetsDir}/js/all.js") }}"></script>
-    <script src="{{ asset("{$assetsDir}/js/added.js") }}"></script>
+    <script src="{{ asset("{$assetsDirAdmin}/js/all.js") }}"></script>
+    <script src="{{ asset("{$assetsDirAdmin}/js/added.js") }}"></script>
 @else
-    <script src="{{ elixir("{$assetsDir}/js/all.js") }}"></script>
-    <script src="{{ elixir("{$assetsDir}/js/added.js") }}"></script>
+    <script src="{{ elixir("{$assetsDirAdmin}/js/all.js") }}"></script>
+    <script src="{{ elixir("{$assetsDirAdmin}/js/added.js") }}"></script>
 @endif
 
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
@@ -77,6 +81,8 @@
     });
 </script>
 
-</body>
+@section('scripts_bottom')
+@show
 
+</body>
 </html>

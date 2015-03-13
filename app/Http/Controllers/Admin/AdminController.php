@@ -2,18 +2,15 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\BaseController;
-use App\Models\Page as Page;
-
-use Illuminate\Http\Request;
 use View;
-use App\Helper;
-use Config;
 
 class AdminController extends BaseController
 {
     protected $layout;
-    protected $assetsDir;
-    protected $viewPath;
+    protected $assetsDirAdmin;
+    protected $assetsDirModule;
+    protected $viewPathAdmin;
+    protected $viewPathModule;
     protected $moduleLower;
     protected $moduleUpper;
     protected $config;
@@ -25,8 +22,8 @@ class AdminController extends BaseController
 
     protected function setConfig($module = 'admin')
     {
-        $this->config = config($module . '.config');
-        $moduleConfig = config('admin.module');
+        $this->config = config($module);
+        $moduleConfig = config($module . '.module');
         if ($moduleConfig) {
             foreach ($moduleConfig as $key => $value) {
                 $this->$key = $value;
@@ -43,21 +40,7 @@ class AdminController extends BaseController
      */
     public function index()
     {
-//        $items = Page::all();
-//        $page = Page::create(
-//            array(
-//                'title' => 'Daj novi naslov',
-//            )
-//        );
-//
-//        $page->save();
-
-//        $value = Config::get('admin::config');
-//        $value2 = Config::get('front::config.image.path');
-//        echo $value2; exit;
-
-
-        return view($this->viewPath . '.start');
+        return view($this->viewPathAdmin . '.start');
 
     }
 
