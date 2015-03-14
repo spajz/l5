@@ -27,6 +27,7 @@ class AdminServiceProvider extends ServiceProvider
      */
     public function register()
     {
+
         // Admin base url
         define("ADMIN", "admin");
 
