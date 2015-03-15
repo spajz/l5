@@ -4,6 +4,7 @@ use Illuminate\Support\ServiceProvider;
 use App\Helper;
 use Config;
 use File;
+use App\Library\Datatables;
 
 class AdminServiceProvider extends ServiceProvider
 {
@@ -44,6 +45,12 @@ class AdminServiceProvider extends ServiceProvider
                 }
             }
         }
+
+//        // Extend datatables class
+//        $this->app['datatables'] = $this->app->share(function($app)
+//        {
+//            return new Datatables;
+//        });
     }
 
     /**

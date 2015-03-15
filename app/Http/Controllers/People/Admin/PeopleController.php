@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Http\Controllers\Admin\AdminController;
 use Datatables;
+use DatatablesFront;
 use App\Models\Page;
 
 class PeopleController extends AdminController
@@ -28,6 +29,10 @@ class PeopleController extends AdminController
      */
     public function index()
     {
+        $tt = DatatablesFront::init();
+
+        $tt->setUrl('rrrrrrrrrrrrrrrrrrrrrr');
+
         return view($this->viewPathModule . '.admin.index');
     }
 
@@ -38,6 +43,24 @@ class PeopleController extends AdminController
      */
     public function create()
     {
+
+        $vars['table'] = Datatable::table()
+            ->addColumn('ID', 'Image', 'Full Name', 'Email', 'Friend Email', 'Age', 'Likes', 'FB ID', 'Status', 'Actions')
+            ->setUrl(route("api.{$this->moduleLower}.dt"))
+            ->setOptions('order', array(0, "desc"))
+            ->setId('table_' . $this->moduleLower)
+            ->noScript()
+            ->setCallbacks(
+                'aoColumnDefs', '[
+                        {sClass:"center w40", aTargets:[0]},
+                        {sClass:"center w40", aTargets:[5]},
+                        {sClass:"center w40", aTargets:[6]},
+                        {sClass:"center", aTargets:[7]},
+                        {sClass:"center w40", aTargets:[8]},
+                        {sClass:"center w170", aTargets:[9], bSortable: false }
+                    ]'
+            );
+
         return view($this->viewPathModule . '.admin.create');
     }
 

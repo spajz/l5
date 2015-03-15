@@ -139,12 +139,10 @@ return [
 		/*
 		 * Application Service Providers...
 		 */
-
 		'App\Providers\BusServiceProvider',
 		'App\Providers\ConfigServiceProvider',
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RouteServiceProvider',
-
         'App\Providers\AppServiceProvider',
 
         /*
@@ -214,6 +212,8 @@ return [
         'Flash'      => 'Laracasts\Flash\Flash',
         'Former'     => 'Former\Facades\Former',
         'Datatables' => 'yajra\Datatables\Datatables',
+        'DatatablesFront' => 'App\Library\DatatablesFront',
+
 
 	],
 
