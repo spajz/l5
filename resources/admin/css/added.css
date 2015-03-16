@@ -148,3 +148,6 @@ div.dataTables_paginate li.last a:after, div.dataTables_paginate li.next a:after
     right: 10px;
 }
 
+div.dataTables_processing {
+    background: linear-gradient(to right, rgba(25, 225, 25, 0) 0%, rgba(25, 225, 25, 0.9) 25%, rgba(25, 225, 25, 0.9) 75%, rgba(25, 225, 25, 0) 100%);
+}

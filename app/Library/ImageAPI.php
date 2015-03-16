@@ -1,4 +1,4 @@
-<?php namespace Library;
+<?php namespace App\Library;
 
 class ImageApi
 {

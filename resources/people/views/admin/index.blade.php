@@ -9,9 +9,6 @@
         <!-- /.col-lg-12 -->
     </div>
 
-
-
-
     <table class="table table-striped table-bordered table-hover" id="dt-table">
         <thead>
         <tr>
