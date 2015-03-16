@@ -76,34 +76,10 @@ class Seeder extends GeneratorCommand
         );
 
         $stub = str_replace(
-            '{{name}}', strtolower($this->argument('name')), $stub
+            '{{name}}', strtolower(str_plural($this->argument('name'))), $stub
         );
 
         return $this;
     }
-
-    /**
-     * Execute the console command.
-     *
-     * @return void
-     */
-    public function fire()
-    {
-        $name = $this->parseName($this->getNameInput());
-
-        if ($this->files->exists($path = $this->getPath($name)))
-        {
-            return $this->error($this->type.' already exists!');
-        }
-
-        $this->makeDirectory($path);
-
-        $this->files->put($path, $this->buildClass($name));
-
-        $this->info($this->type.' created successfully.');
-
-        $this->call('command:name', ['argument' => 'foo', '--option' => 'bar']);
-    }
-
 
 }

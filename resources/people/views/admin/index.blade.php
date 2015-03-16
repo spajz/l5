@@ -9,41 +9,42 @@
         <!-- /.col-lg-12 -->
     </div>
 
-    <table class="table table-striped table-bordered table-hover" id="dt-table">
-        <thead>
-        <tr>
-            <th>Rendering engine</th>
-            <th>Browser</th>
-            <th>Platform(s)</th>
-        </tr>
-        </thead>
-        <tbody>
+    {{--<table class="table table-striped table-bordered table-hover" id="dt-table">--}}
 
-        </tbody>
-    </table>
+        {{--<tbody>--}}
 
+        {{--</tbody>--}}
+    {{--</table>--}}
 
+    {!! $dtTable !!}
 
 
 @stop
 
 @section('scripts_bottom')
 @parent
-<script type="text/javascript">
-    $(document).ready(function() {
-        oTable = $('#dt-table').DataTable({
-            "processing": true,
-            "serverSide": true,
-            "ajax": {
-                "url": "{{ route('api.people.dt') }}"
-            },
-            "columns": [
-                {data: 'title', name: 'title'},
-                {data: 'slug', name: 'slug'},
-                {data: 'created_at', name: 'created_at'}
-//                {data: 'actions', name: 'actions'}
-            ]
-        });
-    });
-</script>
+
+{!! $dtJavascript !!}
+
+
+
+{{--<script type="text/javascript">--}}
+    {{--$(document).ready(function() {--}}
+        {{--oTable = $('#dt-table').DataTable({--}}
+            {{--"searchDelay": 1000,--}}
+            {{--"processing": true,--}}
+            {{--"serverSide": true,--}}
+            {{--"ajax": {--}}
+                {{--"url": "{{ route('api.people.dt') }}"--}}
+            {{--},--}}
+            {{--"columns": [--}}
+                {{--{data: 'created_at', name: 'created_at', title: 'zikica jo'},--}}
+                {{--{data: 'title' },--}}
+                {{--{data: 'slug'},--}}
+
+{{--//                {data: 'actions', name: 'actions'}--}}
+            {{--]--}}
+        {{--});--}}
+    {{--});--}}
+{{--</script>--}}
 @stop

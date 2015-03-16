@@ -214,7 +214,6 @@ return [
         'Datatables' => 'yajra\Datatables\Datatables',
         'DatatablesFront' => 'App\Library\DatatablesFront',
 
-
 	],
 
 ];

@@ -1,13 +1,8 @@
-<table id="{{ $id }}" class="{{ $class }}">
-    <colgroup>
-        @for ($i = 0; $i < count($columns); $i++)
-        <col class="con{{ $i }}" />
-        @endfor
-    </colgroup>
+<table id="{{ $id }}" class="table table-striped table-bordered table-hover {{ $class }}">
     <thead>
     <tr>
         @foreach($columns as $i => $c)
-        <th align="center" valign="middle" class="head{{ $i }}">{{ $c }}</th>
+        <th align="center" valign="middle" class="head{{ $i }}">{{ $c['title'] }}</th>
         @endforeach
     </tr>
     </thead>

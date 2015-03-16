@@ -9,6 +9,12 @@ use App\Models\Page;
 class PeopleController extends AdminController
 {
 
+    protected $dtColumns = array(
+        array('data' => 'title'),
+        array('data' => 'slug', 'title' => 'Ovo je slug'),
+        array('data' => 'created_at'),
+    );
+
     public function __construct()
     {
         parent::__construct();
@@ -16,7 +22,8 @@ class PeopleController extends AdminController
         $this->setConfig('people');
     }
 
-    public function getDatatable(){
+    public function getDatatable()
+    {
         $pages = Page::select(array('title', 'slug', 'created_at'));
 
         return Datatables::of($pages)->make(true);
@@ -29,11 +36,14 @@ class PeopleController extends AdminController
      */
     public function index()
     {
-        $tt = DatatablesFront::init();
+        $dt = new DatatablesFront();
+        $dt->addColumns($this->dtColumns);
+        $dt->setUrl(route('api.people.dt'));
+        $dt->setId('dt-' . $this->moduleLower);
 
-        $tt->setUrl('rrrrrrrrrrrrrrrrrrrrrr');
+        $vars = $dt->render();
 
-        return view($this->viewPathModule . '.admin.index');
+        return view($this->viewPathModule . '.admin.index', $vars);
     }
 
     /**

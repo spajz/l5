@@ -27,6 +27,5 @@ $(document).ready(function () {
     if (element.is('li')) {
         element.addClass('active');
     }
-
 })
 //# sourceMappingURL=added.js.map

@@ -1,6 +1,6 @@
 <?php namespace App\Library;
 
-//use yajra\Datatables\Datatables as BaseDatatables;
+use Config;
 
 class DatatablesFront
 {
@@ -17,12 +17,13 @@ class DatatablesFront
     protected $url;
     protected $id;
     protected $class;
-    protected $options;
-    protected $callbacks;
+    protected $options = array();
+    protected $callbacks = array();
+    protected $columns = array();
 
-    public static function init()
+    public function __construct()
     {
-        return new static;
+        $this->setId();
     }
 
     public function setTemplate($template)
@@ -39,20 +40,51 @@ class DatatablesFront
 
     public function setUrl($url)
     {
-        echo $url;
-        $this->url = $url;
-
+        $this->options['ajax'] = $url;
+        $this->options['serverSide'] = true;
+        return $this;
     }
 
-    public function setId($id)
+    public function setId($id = null)
     {
-        $this->id = $id;
+        $this->id = empty($id) ? str_random(8) : $id;
+        return $this;
     }
 
     public function setClass($class)
     {
         $this->class = $class;
+        return $this;
     }
+
+    public function addColumns($columns)
+    {
+        foreach ($columns as &$column) {
+            if (!isset($column['title'])) {
+                $column['title'] = ucfirst(str_replace('_', ' ', $column['data']));
+            }
+        }
+        $this->columns = $columns;
+    }
+
+//    public function addColumn()
+//    {
+//        foreach (func_get_args() as $title) {
+//            if (is_array($title)) {
+//                foreach ($title as $mapping => $arrayTitle) {
+//                    $this->columns[] = $arrayTitle;
+//                    $this->aliasColumns[] = $mapping;
+//                    if (is_string($mapping)) {
+//                        $this->createdMapping = false;
+//                    }
+//                }
+//            } else {
+//                $this->columns[] = $title;
+//                $this->aliasColumns[] = count($this->aliasColumns) + 1;
+//            }
+//        }
+//        return $this;
+//    }
 
     public function setOptions()
     {
@@ -80,4 +112,26 @@ class DatatablesFront
 
         return $this;
     }
+
+    public function render()
+    {
+        $this->options['columns'] = $this->columns;
+        $options = array_merge(Config::get('datatables.default.options'), $this->options);
+        $callbacks = array_merge(Config::get('datatables.default.callbacks'), $this->callbacks);
+
+        $out['dtTable'] = view($this->template, array(
+            'id' => $this->id,
+            'class' => $this->class,
+            'columns' => $this->columns,
+        ));
+
+        $out['dtJavascript'] = view($this->javascript, array(
+            'id' => $this->id,
+            'options' => $options,
+            'callbacks' => $callbacks,
+        ));
+
+        return $out;
+    }
+
 }
