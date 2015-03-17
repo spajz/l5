@@ -155,6 +155,7 @@ return [
         'Laracasts\Flash\FlashServiceProvider',
         'App\Providers\AdminServiceProvider',
         'Former\FormerServiceProvider',
+        'Illuminate\Html\HtmlServiceProvider',
 
 
 	],
@@ -208,11 +209,13 @@ return [
         /*
          * Added
          */
-        'Image'      => 'Intervention\Image\Facades\Image',
-        'Flash'      => 'Laracasts\Flash\Flash',
-        'Former'     => 'Former\Facades\Former',
-        'Datatables' => 'yajra\Datatables\Datatables',
+        'Image'           => 'Intervention\Image\Facades\Image',
+        'Flash'           => 'Laracasts\Flash\Flash',
+        'Former'          => 'Former\Facades\Former',
+        'Datatables'      => 'yajra\Datatables\Datatables',
         'DatatablesFront' => 'App\Library\DatatablesFront',
+        'Html'            => 'Illuminate\Html\HtmlFacade',
+        'Form'            => 'Illuminate\Html\FormFacade',
 
 	],
 

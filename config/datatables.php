@@ -15,6 +15,12 @@ return array(
         ),
         'callbacks' => array(),
     ),
+    'views' => array(
+        'template' => 'admin.views.datatable.template',
+        'javascript' => 'admin.views.datatable.javascript',
+        'statusButtons' => 'admin.views.datatable.status_buttons',
+        'actionButtons' => 'admin.views.datatable.action_buttons',
+    ),
 
 );
 

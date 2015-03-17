@@ -2,7 +2,7 @@
     <thead>
     <tr>
         @foreach($columns as $i => $c)
-        <th align="center" valign="middle" class="head{{ $i }}">{{ $c['title'] }}</th>
+        <th class="head{{ $i }}">{{ $c['title'] }}</th>
         @endforeach
     </tr>
     </thead>

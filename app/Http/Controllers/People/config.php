@@ -9,6 +9,7 @@ return array(
         'viewPathModule' => 'people.views',
         'moduleLower' => 'people',
         'moduleUpper' => 'People',
+        'modelName' => 'App\Models\Page',
     ),
 
 

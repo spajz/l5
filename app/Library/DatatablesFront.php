@@ -5,25 +5,30 @@ use Config;
 class DatatablesFront
 {
 
-//->addColumn('ID', 'Image', 'Full Name', 'Email', 'Friend Email', 'Age', 'Likes', 'FB ID', 'Status', 'Actions')
-//->setUrl(route("api.{$this->moduleLower}.dt"))
-//            ->setOptions('order', array(0, "desc"))
-//    ->setId('table_' . $this->moduleLower)
-//    ->noScript()
-//    ->setCallbacks(
-
-    protected $template = 'admin.views.datatable.template';
-    protected $javascript = 'admin.views.datatable.javascript';
+    protected $template;
+    protected $javascript;
+    protected $actionButtons;
+    protected $statusButtons;
     protected $url;
     protected $id;
     protected $class;
     protected $options = array();
     protected $callbacks = array();
     protected $columns = array();
+    protected $searchColumns = array();
 
     public function __construct()
     {
         $this->setId();
+        $this->template = Config::get('datatables.views.template');
+        $this->javascript = Config::get('datatables.views.javascript');
+        $this->actionButtons = Config::get('datatables.views.actionButtons');
+        $this->statusButtons = Config::get('datatables.views.statusButtons');
+    }
+
+    public static function init()
+    {
+        return new static;
     }
 
     public function setTemplate($template)
@@ -35,6 +40,18 @@ class DatatablesFront
     public function setJavascript($javascript)
     {
         $this->javascript = $javascript;
+        return $this;
+    }
+
+    public function setActionButtons($buttons)
+    {
+        $this->actionButtons = $buttons;
+        return $this;
+    }
+
+    public function setStatusButtons($buttons)
+    {
+        $this->statusButtons = $buttons;
         return $this;
     }
 
@@ -60,11 +77,32 @@ class DatatablesFront
     public function addColumns($columns)
     {
         foreach ($columns as &$column) {
+            if (!isset($column['data'])) $column['data'] = $column['name'];
             if (!isset($column['title'])) {
                 $column['title'] = ucfirst(str_replace('_', ' ', $column['data']));
             }
         }
         $this->columns = $columns;
+        return $this;
+    }
+
+    public function searchColumns()
+    {
+        $this->searchColumns = func_get_args();
+        return $this;
+    }
+
+    private function prepareColumns()
+    {
+        if (!empty($this->searchColumns)) {
+            foreach ($this->columns as &$column) {
+                if (in_array($column['data'], $this->searchColumns)) {
+                    $column['searchable'] = true;
+                } else {
+                    $column['searchable'] = false;
+                }
+            }
+        }
     }
 
 //    public function addColumn()
@@ -115,6 +153,7 @@ class DatatablesFront
 
     public function render()
     {
+        $this->prepareColumns();
         $this->options['columns'] = $this->columns;
         $options = array_merge(Config::get('datatables.default.options'), $this->options);
         $callbacks = array_merge(Config::get('datatables.default.callbacks'), $this->callbacks);
@@ -132,6 +171,16 @@ class DatatablesFront
         ));
 
         return $out;
+    }
+
+    public function renderActionButtons($data)
+    {
+        return view($this->actionButtons, array('data' => $data))->render();
+    }
+
+    public function renderStatusButtons($data, $model = null)
+    {
+        return view($this->statusButtons, array('data' => $data, 'model' => $model))->render();
     }
 
 }

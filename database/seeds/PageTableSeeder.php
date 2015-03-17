@@ -22,6 +22,7 @@ class PageTableSeeder extends Seeder {
 
                 'title' => $title,
                 'slug' => Str::slug($title),
+                'status' => $faker->randomElement(array(1, 1, 1, -1, -1, 0, 0)),
 
                 'created_at' => $faker->dateTimeBetween($startDate = '-2 years', $endDate = '-10 days'),
                 'updated_at' => $faker->dateTimeBetween($startDate = '-2 years', $endDate = '-10 days'),

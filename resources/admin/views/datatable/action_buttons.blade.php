@@ -1,0 +1,2 @@
+<a href="{{ route("admin.{$moduleLower}.edit", $data->id)}}" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit</a>
+<a href="{{ route("admin.{$moduleLower}.destroy", $data->id)}}" class="btn btn-danger btn-xs" data-bb="confirm"><i class="fa fa-trash-o"></i> Delete</a>

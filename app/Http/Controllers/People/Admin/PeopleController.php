@@ -5,14 +5,18 @@ use App\Http\Controllers\Admin\AdminController;
 use Datatables;
 use DatatablesFront;
 use App\Models\Page;
+use Former;
 
 class PeopleController extends AdminController
 {
 
     protected $dtColumns = array(
-        array('data' => 'title'),
+        array('data' => 'id', 'className' => 'w40'),
         array('data' => 'slug', 'title' => 'Ovo je slug'),
+        array('data' => 'title'),
         array('data' => 'created_at'),
+        array('data' => 'status', 'className' => 'w40 center'),
+        array('name' => 'actions', 'className' => 'w120 center', 'orderable' => false),
     );
 
     public function __construct()
@@ -24,9 +28,19 @@ class PeopleController extends AdminController
 
     public function getDatatable()
     {
-        $pages = Page::select(array('title', 'slug', 'created_at'));
+        $model = $this->modelName;
+        $model = $model::select($this->dtSelectColumns());
+        $modelNameSpace = get_class($model);
+        $buttons = DatatablesFront::init();
 
-        return Datatables::of($pages)->make(true);
+        return Datatables::of($model)
+            ->addColumn('status', function ($data) use ($buttons, $modelNameSpace) {
+                return $buttons->renderStatusButtons($data, $modelNameSpace);
+            })
+            ->addColumn('actions', function ($data) use ($buttons, $modelNameSpace) {
+                return $buttons->renderActionButtons($data);
+            })
+            ->make(true);
     }
 
     /**
@@ -36,10 +50,11 @@ class PeopleController extends AdminController
      */
     public function index()
     {
-        $dt = new DatatablesFront();
-        $dt->addColumns($this->dtColumns);
-        $dt->setUrl(route('api.people.dt'));
-        $dt->setId('dt-' . $this->moduleLower);
+        $dt = DatatablesFront::init()
+//            ->searchColumns('slug', 'status')
+            ->addColumns($this->dtColumns)
+            ->setUrl(route('api.people.dt'))
+            ->setId('dt-' . $this->moduleLower);
 
         $vars = $dt->render();
 
@@ -53,25 +68,7 @@ class PeopleController extends AdminController
      */
     public function create()
     {
-
-        $vars['table'] = Datatable::table()
-            ->addColumn('ID', 'Image', 'Full Name', 'Email', 'Friend Email', 'Age', 'Likes', 'FB ID', 'Status', 'Actions')
-            ->setUrl(route("api.{$this->moduleLower}.dt"))
-            ->setOptions('order', array(0, "desc"))
-            ->setId('table_' . $this->moduleLower)
-            ->noScript()
-            ->setCallbacks(
-                'aoColumnDefs', '[
-                        {sClass:"center w40", aTargets:[0]},
-                        {sClass:"center w40", aTargets:[5]},
-                        {sClass:"center w40", aTargets:[6]},
-                        {sClass:"center", aTargets:[7]},
-                        {sClass:"center w40", aTargets:[8]},
-                        {sClass:"center w170", aTargets:[9], bSortable: false }
-                    ]'
-            );
-
-        return view($this->viewPathModule . '.admin.create');
+        //
     }
 
     /**
@@ -103,7 +100,17 @@ class PeopleController extends AdminController
      */
     public function edit($id)
     {
-        //
+        $model = $this->modelName;
+        $item = $model::find($id);
+
+        if (!$item) {
+            flash()->success('The requested item does not exist or has been deleted.');
+            return route("admin.{$this->moduleLower}.index");
+        }
+
+        Former::populate($item);
+
+        return view($this->viewPathModule . '.admin.edit', compact('item'));
     }
 
     /**

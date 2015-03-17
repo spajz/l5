@@ -4,6 +4,87 @@
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
 
+/*Common*/
+.center {
+    text-align: center;
+}
+
+.w20 {
+    width: 20px;
+}
+
+.w30 {
+    width: 30px;
+}
+
+.w40 {
+    width: 40px;
+}
+
+.w50 {
+    width: 50px;
+}
+
+.w60 {
+    width: 60px;
+}
+
+.w70 {
+    width: 70px;
+}
+
+.w80 {
+    width: 80px;
+}
+
+.w90 {
+    width: 90px;
+}
+
+.w100 {
+    width: 100px;
+}
+
+.w110 {
+    width: 110px;
+}
+
+.w120 {
+    width: 120px;
+}
+
+.w130 {
+    width: 130px;
+}
+
+.w140 {
+    width: 140px;
+}
+
+.w150 {
+    width: 150px;
+}
+
+.w160 {
+    width: 160px;
+}
+
+.w170 {
+    width: 170px;
+}
+
+.w180 {
+    width: 180px;
+}
+
+.w190 {
+    width: 190px;
+}
+
+.w200 {
+    width: 200px;
+}
+
 #wrapper {
     width: 100%;
 }
@@ -150,4 +231,9 @@ div.dataTables_paginate li.last a:after, div.dataTables_paginate li.next a:after
 
 div.dataTables_processing {
     background: linear-gradient(to right, rgba(25, 225, 25, 0) 0%, rgba(25, 225, 25, 0.9) 25%, rgba(25, 225, 25, 0.9) 75%, rgba(25, 225, 25, 0) 100%);
+}
+
+.dataTable th {
+    text-align: center;
+    vertical-align: middle;
 }

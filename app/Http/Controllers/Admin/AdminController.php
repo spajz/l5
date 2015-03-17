@@ -3,6 +3,8 @@
 use App\Http\Requests;
 use App\Http\Controllers\BaseController;
 use View;
+use Input;
+use DatatablesFront;
 
 class AdminController extends BaseController
 {
@@ -106,6 +108,61 @@ class AdminController extends BaseController
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Datatables methods
+     *
+     * @return array $out
+     */
+    public function dtSelectColumns()
+    {
+        $out = array();
+        foreach ($this->dtColumns as $column) {
+            if (isset($column['data'])) $out[] = $column['data'];
+        }
+        return $out;
+    }
+
+    public function dtButtons($data, $model = null)
+    {
+        return View::make('admin::datatable.but_status', array('data' => $data, 'model' => $model));
+    }
+
+    public function changeStatus()
+    {
+        if (!Input::get('model')) return false;
+
+        if (!Input::get('id')) return false;
+
+        $model = urldecode2(Input::get('model'));
+
+        $item = $model::find(Input::get('id'));
+
+        if ($item->status != 1) $item->status = 1;
+        else $item->status = 0;
+
+        $item->save();
+
+        return $this->dtStatusButton($item);
+    }
+
+
+    public function sortRows()
+    {
+        $model = Input::get('model');
+        $data = Input::get('data');
+
+        $items = $model::whereIn('id', $data)->get();
+
+        if (count($items)) {
+            $dataFlip = array_flip($data);
+            foreach ($items as $item) {
+                $item->sort = $dataFlip[$item->id];
+                $item->save();
+            }
+        }
+        exit;
     }
 
 }

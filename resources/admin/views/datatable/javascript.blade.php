@@ -8,7 +8,7 @@
         @endforeach
 
         @foreach ($callbacks as $k => $o)
-            {!! json_encode($k) !!}: {!! $o !!},
+            {!! json_encode($k) !!}: {!! json_encode($o) !!},
         @endforeach
 
         });

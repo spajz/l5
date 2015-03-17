@@ -19,6 +19,7 @@ class Page extends BaseModel implements SluggableInterface
     protected $fillable = array(
         'title',
         'slug',
+        'status',
     );
 
 }
