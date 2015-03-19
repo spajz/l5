@@ -156,6 +156,7 @@ return [
         'App\Providers\AdminServiceProvider',
         'Former\FormerServiceProvider',
         'Illuminate\Html\HtmlServiceProvider',
+        'Krucas\Notification\NotificationServiceProvider',
 
 
 	],
@@ -216,6 +217,7 @@ return [
         'DatatablesFront' => 'App\Library\DatatablesFront',
         'Html'            => 'Illuminate\Html\HtmlFacade',
         'Form'            => 'Illuminate\Html\FormFacade',
+        'Notification'    => 'Krucas\Notification\Facades\Notification',
 
 	],
 

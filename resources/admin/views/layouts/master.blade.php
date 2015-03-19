@@ -55,6 +55,8 @@
     </nav>
 
     <div id="page-wrapper">
+        {!! Notification::showAll() !!}
+
         @yield('content')
     </div>
     <!-- /#page-wrapper -->

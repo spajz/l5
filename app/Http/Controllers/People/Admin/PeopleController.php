@@ -6,6 +6,11 @@ use Datatables;
 use DatatablesFront;
 use App\Models\Page;
 use Former;
+use Redirect;
+use Input;
+use View;
+use Notification;
+
 
 class PeopleController extends AdminController
 {
@@ -121,7 +126,33 @@ class PeopleController extends AdminController
      */
     public function update($id)
     {
-        //
+        $model = $this->modelName;
+        $item = $model::find($id);
+        $save = Input::get('save');
+
+        if (!$item) {
+            Notification::danger('Item does not exist.');
+            return Redirect::route("admin.{$this->moduleLower}.index");
+        }
+
+        if (isset($save['reject'])) {
+            Notification::success('Item rejected');
+            $item->status = -1;
+            $item->save();
+            return $this->redirect($item);
+        }
+
+        $item->update(Input::all());
+
+        Notification::success('Item successfully updated.');
+
+        if (isset($save['publish'])) {
+            Notification::success('Item successfully published.');
+            $item->status = 1;
+            return $this->redirect($item);
+        }
+
+        return $this->redirect($item);
     }
 
     /**

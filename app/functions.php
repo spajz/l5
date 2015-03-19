@@ -101,10 +101,3 @@ if (!function_exists('number_list')) {
         return $out;
     }
 }
-
-
-
-
-
-
-

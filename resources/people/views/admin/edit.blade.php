@@ -16,7 +16,7 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Basic Form Elements
+                        Basic Information
                     </div>
                     <div class="panel-body">
                         <div class="row">
@@ -26,9 +26,7 @@
 
                                 {!! Former::text('slug') !!}
 
-                                {!! Form::hidden('status', 0) !!}
-
-                                {!! Former::checkbox('status') !!}
+                                {!! Former::checkbox('status')->value(1) !!}
 
                                 {!! Former::text('ip') !!}
 
@@ -39,11 +37,8 @@
                                         <input class="btn btn-success" type="submit" value="Save & Exit"
                                                name="save[exit]">&nbsp;
                                         <input class="btn btn-warning" type="submit"
-                                               value="Approve & Publish to Wall & Gallery" name="save[publish]"
+                                               value="Approve" name="save[publish]"
                                                data-bb="submit">&nbsp;
-                                        <input class="btn btn-warning" type="submit"
-                                               value="Approve & Publish to Gallery"
-                                               name="save[publish-gallery]" data-bb="submit">&nbsp;
                                         <input class="btn btn-inverse" type="submit" value="Reject" name="save[reject]"
                                                data-bb="submit">&nbsp;
                                     </div>

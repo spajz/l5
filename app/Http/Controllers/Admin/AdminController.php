@@ -5,6 +5,7 @@ use App\Http\Controllers\BaseController;
 use View;
 use Input;
 use DatatablesFront;
+use Redirect;
 
 class AdminController extends BaseController
 {
@@ -163,6 +164,26 @@ class AdminController extends BaseController
             }
         }
         exit;
+    }
+
+    protected function redirect($item)
+    {
+        $save = Input::get('save');
+        switch (true) {
+            case isset($save['edit']):
+                return Redirect::route("admin.{$this->moduleLower}.edit", $item->id);
+                break;
+
+            case isset($save['exit']):
+                return Redirect::route("admin.{$this->moduleLower}.index");
+                break;
+
+            case isset($save['new']):
+                return Redirect::route("admin.{$this->moduleLower}.create");
+                break;
+        }
+
+        return Redirect::route("admin.{$this->moduleLower}.index");
     }
 
 }

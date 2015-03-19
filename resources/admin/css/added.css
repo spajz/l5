@@ -4,7 +4,9 @@
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-/*Common*/
+/*
+* Common
+*/
 .center {
     text-align: center;
 }
@@ -83,6 +85,16 @@
 
 .w200 {
     width: 200px;
+}
+
+/*
+* Bootstrap tweaks
+*/
+.radio input[type="radio"],
+.radio-inline input[type="radio"],
+.checkbox input[type="checkbox"],
+.checkbox-inline input[type="checkbox"] {
+    margin-left: auto;
 }
 
 #wrapper {
