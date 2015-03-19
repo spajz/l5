@@ -26,7 +26,7 @@
 
                                 {!! Former::text('slug') !!}
 
-                                {!! Former::checkbox('status')->value(1) !!}
+                                {!! Former::checkbox('status')->value(1)->unchecked_value(0) !!}
 
                                 {!! Former::text('ip') !!}
 
@@ -60,4 +60,13 @@
 
     </div>
 
+@stop
+
+@section('scripts_bottom')
+    @parent
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#overlay-modal').modal();
+        })
+    </script>
 @stop

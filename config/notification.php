@@ -78,7 +78,7 @@ return array(
     */
     'default_types'                         => array(
 
-        'default'               => array('info', 'success', 'warning', 'error', 'danger'),
+        'default'               => array('info', 'success', 'warning', 'error', 'danger', 'default'),
 
     ),
 

@@ -11,9 +11,9 @@
 
     {{--<table class="table table-striped table-bordered table-hover" id="dt-table">--}}
 
-        {{--<tbody>--}}
+    {{--<tbody>--}}
 
-        {{--</tbody>--}}
+    {{--</tbody>--}}
     {{--</table>--}}
 
     {!! $dtTable !!}
@@ -22,29 +22,20 @@
 @stop
 
 @section('scripts_bottom')
-@parent
+    @parent
 
-{!! $dtJavascript !!}
+    {!! $dtJavascript !!}
 
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('body').on('click', '*[data-bb="confirm"]', function (e) {
+                e.preventDefault();
+                var href = $(this).attr('href');
+                bootbox.confirm("Are you sure?", function (result) {
+                    if (result) window.location.href = href;
+                });
+            })
+        })
+    </script>
 
-
-{{--<script type="text/javascript">--}}
-    {{--$(document).ready(function() {--}}
-        {{--oTable = $('#dt-table').DataTable({--}}
-            {{--"searchDelay": 1000,--}}
-            {{--"processing": true,--}}
-            {{--"serverSide": true,--}}
-            {{--"ajax": {--}}
-                {{--"url": "{{ route('api.people.dt') }}"--}}
-            {{--},--}}
-            {{--"columns": [--}}
-                {{--{data: 'created_at', name: 'created_at', title: 'zikica jo'},--}}
-                {{--{data: 'title' },--}}
-                {{--{data: 'slug'},--}}
-
-{{--//                {data: 'actions', name: 'actions'}--}}
-            {{--]--}}
-        {{--});--}}
-    {{--});--}}
-{{--</script>--}}
 @stop

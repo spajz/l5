@@ -101,3 +101,18 @@ if (!function_exists('number_list')) {
         return $out;
     }
 }
+
+if (!function_exists('msg')) {
+    function msg($text, $type = 'danger')
+    {
+        Notification::$type($text, view('views.notifications.default')->render());
+    }
+}
+
+if (!function_exists('msg_modal')) {
+    function msg_modal($text, $type = 'danger', $title = null)
+    {
+        Notification::$type($text, view('views.notifications.modal')->render());
+    }
+}
+

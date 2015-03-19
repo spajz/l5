@@ -144,7 +144,7 @@ class PeopleController extends AdminController
 
         $item->update(Input::all());
 
-        Notification::success('Item successfully updated.');
+        msg_modal('Item successfully updated.', 'success');
 
         if (isset($save['publish'])) {
             Notification::success('Item successfully published.');

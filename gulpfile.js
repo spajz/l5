@@ -103,6 +103,7 @@ elixir(function (mix) {
             adminConfig.bowerDir + '/datatables-bootstrap3-plugin/media/js/datatables-bootstrap3.min.js',
             adminConfig.bowerDir + '/metisMenu/dist/metisMenu.min.js',
             adminConfig.bowerDir + '/jquery-pjax/jquery.pjax.js',
+            adminConfig.bowerDir + '/bootbox/bootbox.js',
 
         ], null, './')
 
