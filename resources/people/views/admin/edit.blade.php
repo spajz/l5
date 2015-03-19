@@ -32,6 +32,7 @@
 
                                 <div class="form-group">
                                     <div class="col-lg-offset-2 col-md-offset-3 col-sm-offset-3 col-lg-10 col-md-9 col-sm-9">
+                                        <a href="{{ route("admin.{$moduleLower}.index") }}" class="btn btn-default">Back To List</a>
                                         <input class="btn btn-success" type="submit" value="Save" name="save[edit]"
                                                data-pjax="1">&nbsp;
                                         <input class="btn btn-success" type="submit" value="Save & Exit"
