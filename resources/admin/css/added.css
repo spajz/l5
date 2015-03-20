@@ -97,6 +97,18 @@
     margin-left: auto;
 }
 
+#info-box {
+    /*display: none;*/
+    z-index: 99999;
+    position: fixed;
+    width: 100%;
+    top: 0;
+}
+
+#info-box .alert {
+    margin-bottom: auto;
+}
+
 #wrapper {
     width: 100%;
 }
@@ -249,3 +261,5 @@ div.dataTables_processing {
     text-align: center;
     vertical-align: middle;
 }
+
+

@@ -6,7 +6,6 @@ use Datatables;
 use DatatablesFront;
 use App\Models\Page;
 use Former;
-use Redirect;
 use Input;
 use View;
 use Notification;
@@ -109,8 +108,8 @@ class PeopleController extends AdminController
         $item = $model::find($id);
 
         if (!$item) {
-            flash()->success('The requested item does not exist or has been deleted.');
-            return route("admin.{$this->moduleLower}.index");
+            msg('The requested item does not exist or has been deleted.', 'danger');
+            return redirect()->route("admin.{$this->moduleLower}.index");
         }
 
         Former::populate($item);
@@ -131,12 +130,12 @@ class PeopleController extends AdminController
         $save = Input::get('save');
 
         if (!$item) {
-            Notification::danger('Item does not exist.');
-            return Redirect::route("admin.{$this->moduleLower}.index");
+            msg('Item does not exist.', 'danger');
+            return redirect()->route("admin.{$this->moduleLower}.index");
         }
 
         if (isset($save['reject'])) {
-            Notification::success('Item rejected');
+            msg('Item rejected.');
             $item->status = -1;
             $item->save();
             return $this->redirect($item);
@@ -144,10 +143,10 @@ class PeopleController extends AdminController
 
         $item->update(Input::all());
 
-        msg_modal('Item successfully updated.', 'success');
+        msg('Item successfully updated.');
 
         if (isset($save['publish'])) {
-            Notification::success('Item successfully published.');
+            msg('Item successfully published.');
             $item->status = 1;
             return $this->redirect($item);
         }

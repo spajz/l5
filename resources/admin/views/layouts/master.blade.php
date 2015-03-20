@@ -31,6 +31,7 @@
 </head>
 
 <body>
+<div id="info-box">{!! Notification::showAll() !!}</div>
 
 <div id="wrapper">
 
@@ -55,8 +56,6 @@
     </nav>
 
     <div id="page-wrapper">
-        {!! Notification::showAll() !!}
-
         @yield('content')
     </div>
     <!-- /#page-wrapper -->

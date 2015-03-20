@@ -12,6 +12,8 @@ return array(
             'processing' => true,
             'serverSide' => true,
             'stateSave' => true,
+            'responsive' => true,
+            'autoWidth' => false,
         ),
         'callbacks' => array(),
     ),

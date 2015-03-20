@@ -27,4 +27,14 @@ $(document).ready(function () {
     if (element.is('li')) {
         element.addClass('active');
     }
+
+    // Select2
+    function initSelect2() {
+        $('select.select2').select2(
+            {placeholder: "Select a State", maximumSelectionSize: 6}
+        );
+    }
+
+    initSelect2();
+
 })

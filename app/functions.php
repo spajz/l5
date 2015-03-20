@@ -103,14 +103,14 @@ if (!function_exists('number_list')) {
 }
 
 if (!function_exists('msg')) {
-    function msg($text, $type = 'danger')
+    function msg($text, $type = 'success')
     {
         Notification::$type($text, view('views.notifications.default')->render());
     }
 }
 
 if (!function_exists('msg_modal')) {
-    function msg_modal($text, $type = 'danger', $title = null)
+    function msg_modal($text, $type = 'success', $title = null)
     {
         Notification::$type($text, view('views.notifications.modal')->render());
     }

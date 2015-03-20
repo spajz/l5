@@ -1,0 +1,5 @@
+# Datatables plugins - integration Bootstrap
+https://github.com/DataTables/Plugins/tree/master/integration/bootstrap/3
+
+# Datatables responsive
+https://github.com/Comanche/datatables-responsive

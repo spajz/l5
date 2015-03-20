@@ -1,15 +1,32 @@
 <script type="text/javascript">
     jQuery(document).ready(function(){
-        // dynamic table
-        oTable = jQuery('#{!! $id !!}').DataTable({
 
-        @foreach ($options as $k => $o)
-            {!! json_encode($k) !!}: {!! json_encode($o) !!},
-        @endforeach
+        var responsiveHelper;
+        var breakpointDefinition = {
+            tablet: 1024,
+            phone : 480
+        };
 
-        @foreach ($callbacks as $k => $o)
-            {!! json_encode($k) !!}: {!! json_encode($o) !!},
-        @endforeach
+        tableElement = jQuery('#{!! $id !!}');
+
+        tableElement.DataTable({
+
+            @foreach ($options as $k => $o)
+                {!! json_encode($k) !!}: {!! json_encode($o) !!},
+            @endforeach
+
+            preDrawCallback: function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper) {
+                    responsiveHelper = new ResponsiveDatatablesHelper(tableElement, breakpointDefinition);
+                }
+            },
+            rowCallback    : function (nRow) {
+                responsiveHelper.createExpandIcon(nRow);
+            },
+            drawCallback   : function (oSettings) {
+                responsiveHelper.respond();
+            }
 
         });
     });

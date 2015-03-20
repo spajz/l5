@@ -2,7 +2,7 @@ var gulp = require('gulp');
 var elixir = require('laravel-elixir');
 // gulp-util from elixir
 var util = require('./node_modules/laravel-elixir/node_modules/gulp-util');
-//var runSequence = require('./node_modules/laravel-elixir/node_modules/run-sequence');
+var runSequence = require('./node_modules/laravel-elixir/node_modules/run-sequence');
 
 var inProduction = elixir.config.production;
 
@@ -50,17 +50,33 @@ elixir.config = objMerge(elixir.config, adminConfig);
 var bowerDir = elixir.config.bowerDir;
 var adminDir = 'public/assets/admin';
 var adminBuildDir = 'public/build/assets/admin';
+var copyNo = 1;
+var copyTasks = [];
 
-elixir.extend('copy2', function (src, output) {
-    gulp.task('copy2', function () {
+elixir.extend('gulper', function () {
+    gulp.task('gulper', function (callback) {
+        runSequence(copyTasks,
+            callback);
+    });
+    return this.queueTask('gulper');
+});
+
+// Gulp copy
+function gulpCopy(src, output) {
+    src = typeof src == 'string' ? [src] : src;
+    output = typeof output == 'string' ? [output] : output;
+
+    var currentTask = 'copyTask' + copyNo;
+    copyNo++;
+    copyTasks.push(currentTask);
+
+    gulp.task(currentTask, function () {
         var obj = gulp.src(src);
         output.forEach(function (value) {
             obj.pipe(gulp.dest(value));
         });
-    });
-    //this.registerWatcher("copy2", "**/*");
-    return queueTask('copy2');
-});
+    })
+}
 
 // Multiple copy
 function multiCopy(src, output) {
@@ -75,6 +91,7 @@ function multiCopy(src, output) {
     });
 }
 
+
 // Bootstrap
 elixir(function (mix) {
     mix.less('app.less')
@@ -86,9 +103,12 @@ elixir(function (mix) {
         .styles([
             //adminConfig.cssOutput + '/app.css',
             adminConfig.bowerDir + '/font-awesome/css/font-awesome.css',
-            //adminConfig.bowerDir + '/datatables/media/css/jquery.dataTables.min.css',
-            adminConfig.bowerDir + '/datatables-bootstrap3-plugin/media/css/datatables-bootstrap3.min.css',
+            adminConfig.assetsDir + '/vendor/css/dataTables.bootstrap.css',
+            adminConfig.assetsDir + '/vendor/css/datatables.responsive.css',
             adminConfig.bowerDir + '/metisMenu/dist/metisMenu.min.css',
+            adminConfig.bowerDir + '/select2/select2.css',
+            adminConfig.bowerDir + '/select2-bootstrap-css/select2-bootstrap.css',
+            adminConfig.bowerDir + '/fancybox/source/jquery.fancybox.css',
 
         ], null, './')
 
@@ -100,10 +120,13 @@ elixir(function (mix) {
             adminConfig.bowerDir + '/jquery-legacy/dist/jquery.min.js',
             adminConfig.bowerDir + '/bootstrap/dist/js/bootstrap.min.js',
             adminConfig.bowerDir + '/datatables/media/js/jquery.dataTables.min.js',
-            adminConfig.bowerDir + '/datatables-bootstrap3-plugin/media/js/datatables-bootstrap3.min.js',
+            adminConfig.assetsDir + '/vendor/js/dataTables.bootstrap.js',
+            adminConfig.assetsDir + '/vendor/js/datatables.responsive.js',
             adminConfig.bowerDir + '/metisMenu/dist/metisMenu.min.js',
             adminConfig.bowerDir + '/jquery-pjax/jquery.pjax.js',
             adminConfig.bowerDir + '/bootbox/bootbox.js',
+            adminConfig.bowerDir + '/select2/select2.js',
+            adminConfig.bowerDir + '/fancybox/source/jquery.fancybox.pack.js',
 
         ], null, './')
 
@@ -114,6 +137,62 @@ elixir(function (mix) {
             adminConfig.jsOutput + '/added.js',
         ]);
 });
+
+multiCopy([
+    adminConfig.bowerDir + '/font-awesome/fonts',
+    adminConfig.bowerDir + '/bootstrap/fonts',
+], [
+    adminBuildDir + '/fonts/',
+    adminDir + '/fonts/'
+]);
+
+gulpCopy(
+    [
+        adminConfig.bowerDir + '/select2/select2.png',
+        adminConfig.bowerDir + '/select2/select2x2.png',
+    ],
+    [adminBuildDir + '/css/', adminDir + '/css/']
+);
+
+gulpCopy(
+    [adminConfig.bowerDir + '/fancybox/source/*.{gif,png}'],
+    [adminBuildDir + '/css/', adminDir + '/css/']
+);
+
+gulpCopy(
+    [adminConfig.bowerDir + '/fancybox/source/*.{gif,png}'],
+    [adminBuildDir + '/css/', adminDir + '/css/']
+);
+
+elixir(function (mix) {
+    mix.gulper()
+});
+
+//elixir(function (mix) {
+//    mix.copy2([
+//            adminConfig.bowerDir + '/select2/select2.png',
+//            adminConfig.bowerDir + '/select2/select2x2.png',
+//        ], [adminBuildDir + '/css/', adminDir + '/css/']
+//    )
+//});
+
+//elixir.extend('copy2', function (src, output) {
+//    gulp.task('copy2', function () {
+//        var obj = gulp.src(src);
+//        output.forEach(function (value) {
+//            obj.pipe(gulp.dest(value));
+//        });
+//    });
+//    //this.registerWatcher("copy2", "**/*");
+//    return this.queueTask('copy2');
+//});
+
+//elixir(function (mix) {
+//    mix.copy2([
+//            adminConfig.bowerDir + '/fancybox/source/*.{gif,png}'
+//        ], [adminBuildDir + '/css/', adminDir + '/css/']
+//    )
+//});
 
 //elixir(function (mix) {
 //    mix.copy(
@@ -131,13 +210,6 @@ elixir(function (mix) {
 //    );
 //});
 
-multiCopy([
-    adminConfig.bowerDir + '/font-awesome/fonts',
-    adminConfig.bowerDir + '/bootstrap/fonts',
-], [
-    adminBuildDir + '/fonts/',
-    adminDir + '/fonts/'
-]);
 
 // Datatables images
 //multiCopy([
@@ -187,6 +259,3 @@ multiCopy([
 //        'adminCopy',
 //        callback);
 //});
-
-
-

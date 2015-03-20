@@ -30,6 +30,8 @@
 
                                 {!! Former::text('ip') !!}
 
+                                {!! Former::select('clients')->options(array('a', 'b', 'c', 1, 2, 3, 4, 5, 6), 123)->class('select2') !!}
+
                                 <div class="form-group">
                                     <div class="col-lg-offset-2 col-md-offset-3 col-sm-offset-3 col-lg-10 col-md-9 col-sm-9">
                                         <a href="{{ route("admin.{$moduleLower}.index") }}" class="btn btn-default">Back To List</a>
