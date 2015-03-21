@@ -25,6 +25,8 @@
     "bootbox": "~4.4.0",
     "select2": "~3.5.2",
     "select2-bootstrap-css": "~1.4.6",
-    "fancybox": "~2.1.5"
+    "fancybox": "~2.1.5",
+    "ckeditor": "~4.4.7",
+    "jquery-ui": "~1.11.4"
   }
 }

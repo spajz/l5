@@ -9,7 +9,7 @@ return array(
     'default' => array(
         'options' => array(
             'searchDelay' => 1000,
-            'processing' => true,
+            'processing' => false,
             'serverSide' => true,
             'stateSave' => true,
             'responsive' => true,

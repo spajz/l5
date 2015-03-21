@@ -103,12 +103,13 @@ elixir(function (mix) {
         .styles([
             //adminConfig.cssOutput + '/app.css',
             adminConfig.bowerDir + '/font-awesome/css/font-awesome.css',
-            adminConfig.assetsDir + '/vendor/css/dataTables.bootstrap.css',
-            adminConfig.assetsDir + '/vendor/css/datatables.responsive.css',
+            adminConfig.assetsDir + 'vendor/css/dataTables.bootstrap.css',
+            adminConfig.assetsDir + 'vendor/css/datatables.responsive.css',
             adminConfig.bowerDir + '/metisMenu/dist/metisMenu.min.css',
             adminConfig.bowerDir + '/select2/select2.css',
             adminConfig.bowerDir + '/select2-bootstrap-css/select2-bootstrap.css',
             adminConfig.bowerDir + '/fancybox/source/jquery.fancybox.css',
+            adminConfig.bowerDir + '/jquery-ui/themes/base/jquery-ui.min.css',
 
         ], null, './')
 
@@ -120,13 +121,14 @@ elixir(function (mix) {
             adminConfig.bowerDir + '/jquery-legacy/dist/jquery.min.js',
             adminConfig.bowerDir + '/bootstrap/dist/js/bootstrap.min.js',
             adminConfig.bowerDir + '/datatables/media/js/jquery.dataTables.min.js',
-            adminConfig.assetsDir + '/vendor/js/dataTables.bootstrap.js',
-            adminConfig.assetsDir + '/vendor/js/datatables.responsive.js',
+            adminConfig.assetsDir + 'vendor/js/dataTables.bootstrap.js',
+            adminConfig.assetsDir + 'vendor/js/datatables.responsive.js',
             adminConfig.bowerDir + '/metisMenu/dist/metisMenu.min.js',
             adminConfig.bowerDir + '/jquery-pjax/jquery.pjax.js',
             adminConfig.bowerDir + '/bootbox/bootbox.js',
             adminConfig.bowerDir + '/select2/select2.js',
             adminConfig.bowerDir + '/fancybox/source/jquery.fancybox.pack.js',
+            adminConfig.bowerDir + '/jquery-ui/jquery-ui.min.js',
 
         ], null, './')
 
@@ -162,6 +164,24 @@ gulpCopy(
 gulpCopy(
     [adminConfig.bowerDir + '/fancybox/source/*.{gif,png}'],
     [adminBuildDir + '/css/', adminDir + '/css/']
+);
+
+gulpCopy(
+    [adminConfig.assetsDir + 'images/**/*'],
+    [adminBuildDir + '/images/', adminDir + '/images/']
+);
+
+gulpCopy(
+    [adminConfig.bowerDir + '/jquery-ui/themes/base/images/**/*'],
+    [adminBuildDir + '/images/', adminDir + '/images/']
+);
+
+gulpCopy(
+    [
+        adminConfig.bowerDir + '/ckeditor/**/*',
+        '!' + adminConfig.bowerDir + '/ckeditor/samples{,/**}',
+    ],
+    [adminDir + '/vendor/ckeditor']
 );
 
 elixir(function (mix) {

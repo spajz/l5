@@ -24,17 +24,19 @@
 
                                 {!! Former::text('title') !!}
 
-                                {!! Former::text('slug') !!}
-
                                 {!! Former::checkbox('status')->value(1)->unchecked_value(0) !!}
 
                                 {!! Former::text('ip') !!}
 
-                                {!! Former::select('clients')->options(array('a', 'b', 'c', 1, 2, 3, 4, 5, 6), 123)->class('select2') !!}
+                                {!! Former::textarea('slug')->id('ckeditor') !!}
+
+                                {!! Former::select('clients')->options(array('a', 'b', 'c', 1, 2, 3, 4, 5, 6),
+                                123)->class('select2') !!}
 
                                 <div class="form-group">
                                     <div class="col-lg-offset-2 col-md-offset-3 col-sm-offset-3 col-lg-10 col-md-9 col-sm-9">
-                                        <a href="{{ route("admin.{$moduleLower}.index") }}" class="btn btn-default">Back To List</a>
+                                        <a href="{{ route("admin.{$moduleLower}.index") }}" class="btn btn-default">Back
+                                            To List</a>
                                         <input class="btn btn-success" type="submit" value="Save" name="save[edit]"
                                                data-pjax="1">&nbsp;
                                         <input class="btn btn-success" type="submit" value="Save & Exit"
@@ -61,6 +63,157 @@
 
         {!! Former::close() !!}
 
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Table
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+
+
+                                <div class="container">
+                                    <div class="row clearfix">
+                                        <div class="col-md-12 column">
+                                            <table class="table sortable">
+                                                <thead>
+                                                <tr>
+                                                    <th>
+                                                        #
+                                                    </th>
+                                                    <th>
+                                                        Product
+                                                    </th>
+                                                    <th>
+                                                        Payment Taken
+                                                    </th>
+                                                    <th>
+                                                        Status
+                                                    </th>
+                                                    <th>
+                                                        Sort
+                                                    </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>
+                                                        1
+                                                    </td>
+                                                    <td>
+                                                        TB - Monthly
+                                                    </td>
+                                                    <td>
+                                                        01/04/2012
+                                                    </td>
+                                                    <td>
+                                                        Default
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-info btn-xs btn-sort">
+                                                            <i class="fa fa-arrows-v"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr class="active">
+                                                    <td>
+                                                        1
+                                                    </td>
+                                                    <td>
+                                                        TB - Monthly
+                                                    </td>
+                                                    <td>
+                                                        01/04/2012
+                                                    </td>
+                                                    <td>
+                                                        Approved
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-info btn-xs btn-sort">
+                                                            <i class="fa fa-arrows-v"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr class="success">
+                                                    <td>
+                                                        2
+                                                    </td>
+                                                    <td>
+                                                        TB - Monthly
+                                                    </td>
+                                                    <td>
+                                                        02/04/2012
+                                                    </td>
+                                                    <td>
+                                                        Declined
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-info btn-xs btn-sort">
+                                                            <i class="fa fa-arrows-v"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr class="warning">
+                                                    <td>
+                                                        3
+                                                    </td>
+                                                    <td>
+                                                        TB - Monthly
+                                                    </td>
+                                                    <td>
+                                                        03/04/2012
+                                                    </td>
+                                                    <td>
+                                                        Pending
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-info btn-xs btn-sort">
+                                                            <i class="fa fa-arrows-v"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr class="danger">
+                                                    <td>
+                                                        4
+                                                    </td>
+                                                    <td>
+                                                        TB - Monthly
+                                                    </td>
+                                                    <td>
+                                                        04/04/2012
+                                                    </td>
+                                                    <td>
+                                                        Call in to confirm
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-info btn-xs btn-sort">
+                                                            <i class="fa fa-arrows-v"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <!-- /.col-lg-12 -->
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+
+
     </div>
 
 @stop
@@ -72,4 +225,43 @@
             $('#overlay-modal').modal();
         })
     </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+            $('.sortable').sortable({
+                items: 'tr',
+
+                handle: '.btn-sort',
+                forcePlaceholderSize: true,
+                cancel: '',
+
+                helper: function(e, ui)
+                {
+                    ui.children().each(function() {
+                        $(this).width($(this).width());
+                    });
+                    return ui;
+                }
+
+            }).bind('sortupdate', function (e, ui) {
+
+                var sort = {};
+                $('.sortable tr').each(function (index) {
+                    console.log($(this).data('id'));
+                    console.log(index);
+                    sort[index] = $(this).data('id');
+                    model = $(this).data('model');
+                });
+
+                var model = $('.sortable tr').first().data('model');
+
+                //sortRows(model, sort);
+
+            });
+        });
+    </script>
+
+
 @stop

@@ -7,7 +7,12 @@
             phone : 480
         };
 
-        tableElement = jQuery('#{!! $id !!}');
+        var tableElement = jQuery('#{!! $id !!}');
+
+        tableElement.on( 'processing.dt', function ( e, settings, processing ) {
+            if(processing) loaderShow();
+            else loaderHide();
+        })
 
         tableElement.DataTable({
 

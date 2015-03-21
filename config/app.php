@@ -154,9 +154,8 @@ return [
         'Cviebrock\EloquentSluggable\SluggableServiceProvider',
         'App\Providers\AdminServiceProvider',
         'Former\FormerServiceProvider',
-        'Illuminate\Html\HtmlServiceProvider',
         'Krucas\Notification\NotificationServiceProvider',
-
+        'Collective\Html\HtmlServiceProvider',
 
 	],
 
@@ -213,9 +212,9 @@ return [
         'Former'          => 'Former\Facades\Former',
         'Datatables'      => 'yajra\Datatables\Datatables',
         'DatatablesFront' => 'App\Library\DatatablesFront',
-        'Html'            => 'Illuminate\Html\HtmlFacade',
-        'Form'            => 'Illuminate\Html\FormFacade',
         'Notification'    => 'Krucas\Notification\Facades\Notification',
+        'Form'            => 'Collective\Html\FormFacade',
+        'Html'            => 'Collective\Html\HtmlFacade',
 
 	],
 

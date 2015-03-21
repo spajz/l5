@@ -17,6 +17,7 @@ class Kernel extends HttpKernel {
 		'Illuminate\View\Middleware\ShareErrorsFromSession',
 		'App\Http\Middleware\VerifyCsrfToken',
         'Krucas\Notification\Middleware\NotificationMiddleware',
+        'JacobBennett\Pjax\PjaxMiddleware',
 	];
 
 	/**
@@ -28,7 +29,6 @@ class Kernel extends HttpKernel {
 		'auth' => 'App\Http\Middleware\Authenticate',
 		'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
 		'guest' => 'App\Http\Middleware\RedirectIfAuthenticated',
-        'admin' => 'JacobBennett\Pjax\PjaxMiddleware',
 	];
 
 }

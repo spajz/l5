@@ -31,6 +31,7 @@
 </head>
 
 <body>
+<img src="{{ cure('assets/admin/images/ajax.gif') }}" class="ajax-loader">
 <div id="info-box">{!! Notification::showAll() !!}</div>
 
 <div id="wrapper">
@@ -70,6 +71,9 @@
     <script src="{{ elixir("{$assetsDirAdmin}/js/all.js") }}"></script>
     <script src="{{ elixir("{$assetsDirAdmin}/js/added.js") }}"></script>
 @endif
+
+<script src="{{ asset("{$assetsDirAdmin}/vendor/ckeditor/ckeditor.js") }}"></script>
+<script src="{{ asset("{$assetsDirAdmin}/vendor/ckeditor/adapters/jquery.js") }}"></script>
 
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
 <script>

@@ -9,6 +9,7 @@ use Former;
 use Input;
 use View;
 use Notification;
+use Redirect;
 
 
 class PeopleController extends AdminController
@@ -109,7 +110,7 @@ class PeopleController extends AdminController
 
         if (!$item) {
             msg('The requested item does not exist or has been deleted.', 'danger');
-            return redirect()->route("admin.{$this->moduleLower}.index");
+            return Redirect::route("admin.{$this->moduleLower}.index");
         }
 
         Former::populate($item);
@@ -131,7 +132,7 @@ class PeopleController extends AdminController
 
         if (!$item) {
             msg('Item does not exist.', 'danger');
-            return redirect()->route("admin.{$this->moduleLower}.index");
+            return Redirect::route("admin.{$this->moduleLower}.index");
         }
 
         if (isset($save['reject'])) {

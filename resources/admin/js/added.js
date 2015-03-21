@@ -1,3 +1,30 @@
+// Ajax loader
+function loaderShow() {
+    $('.ajax-loader').show();
+}
+
+function loaderHide() {
+    $('.ajax-loader').hide();
+}
+
+// Sort rows
+function sortRows(model, sortData) {
+    $.ajax({
+        url: baseUrlAdmin + '/sort-rows',
+        type: 'post',
+        data: {
+            "model": model,
+            "data": sortData
+        },
+        success: function (data, status) {
+
+        },
+        error: function (xhr, desc, err) {
+            alert('Server error.');
+        }
+    });
+}
+
 $(document).ready(function () {
 //Loads the correct sidebar on window load,
 //collapses the sidebar on window resize.
@@ -20,6 +47,7 @@ $(document).ready(function () {
         }
     });
 
+    // Menu
     var url = window.location;
     var element = $('ul.nav a').filter(function () {
         return this.href == url || url.href.indexOf(this.href) == 0;
@@ -36,5 +64,51 @@ $(document).ready(function () {
     }
 
     initSelect2();
+
+    // Fancybox
+    function initFancyBox() {
+        if ($('.fancybox').length) {
+            $('.fancybox').fancybox({
+                openEffect: 'none',
+                closeEffect: 'none'
+            });
+        }
+    }
+
+    initFancyBox();
+
+    // CKEditor
+    function initCkeditor() {
+        CKEDITOR.disableAutoInline = true;
+        if ($('#ckeditor').length) {
+            $('#ckeditor').ckeditor();
+        }
+    }
+
+    initCkeditor();
+
+    // Pjax
+    $.pjax.defaults.scrollTo = false;
+
+    $(document).on('pjax:send', function () {
+        loaderShow();
+    })
+    $(document).on('pjax:complete', function () {
+        initSelect2();
+        initCkeditor();
+        loaderHide();
+    })
+
+    $(document).on('submit', 'form[data-pjax]', function (event) {
+        var btn = $(":input[type=submit]:focus");
+        if (btn.data('pjax')) {
+            $.pjax.submit(event, {container: '#pjax-container', timeout: 5000});
+        }
+    })
+
+    //$(document).on('click', 'a[data-pjax]', function (e) {
+    //    $.pjax.click(e, {container: '#pjax-container', timeout: 5000})
+    //})
+
 
 })

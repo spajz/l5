@@ -4,9 +4,8 @@
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
 
-/*
-* Common
-*/
+/*** Common ***/
+
 .center {
     text-align: center;
 }
@@ -87,9 +86,19 @@
     width: 200px;
 }
 
-/*
-* Bootstrap tweaks
-*/
+/*** Ajax loader ***/
+.ajax-loader {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -64px;
+    margin-left: -64px;
+    z-index: 999999999;
+}
+
+/*** Bootstrap tweaks ***/
+
 .radio input[type="radio"],
 .radio-inline input[type="radio"],
 .checkbox input[type="checkbox"],
@@ -242,7 +251,7 @@
     }
 }
 
-/* Datatables bootstrap */
+/**** Datatables bootstrap ****/
 div.dataTables_paginate li.first a:before, div.dataTables_paginate li.previous a:before {
     top: 8px;
     left: 10px;

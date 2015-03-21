@@ -116,3 +116,13 @@ if (!function_exists('msg_modal')) {
     }
 }
 
+if (!function_exists('cure')) {
+    function cure($asset)
+    {
+        if (Config::get('app.debug')) $prefix = '';
+        else $prefix = 'build/';
+
+        return asset($prefix . $asset);
+    }
+}
+
