@@ -152,10 +152,11 @@ return [
         'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
         'Intervention\Image\ImageServiceProvider',
         'Cviebrock\EloquentSluggable\SluggableServiceProvider',
-        'App\Providers\AdminServiceProvider',
         'Former\FormerServiceProvider',
         'Krucas\Notification\NotificationServiceProvider',
         'Collective\Html\HtmlServiceProvider',
+
+        'App\Modules\ModulesServiceProvider',
 
 	],
 

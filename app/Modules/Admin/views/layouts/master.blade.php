@@ -25,6 +25,11 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <script type="text/javascript">
+        var baseUrl = "{{ url('/') }}";
+        var baseUrlAdmin = "{{ url(ADMIN) }}";
+    </script>
+
     @section('scripts_top')
     @show
 
@@ -49,10 +54,10 @@
         </div>
         <!-- /.navbar-header -->
 
-        @include("{$viewPathAdmin}._partials.topmenu")
+        @include("admin::_partials.topmenu")
         <!-- /.navbar-top-links -->
 
-        @include("{$viewPathAdmin}._partials.sidebar")
+        @include("admin::_partials.sidebar")
         <!-- /.navbar-static-side -->
     </nav>
 

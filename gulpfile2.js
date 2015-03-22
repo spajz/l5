@@ -39,8 +39,7 @@ function objMerge(obj1, obj2) {
 
 var adminConfig = {
     srcDir: 'app',
-    //assetsDir: 'resources/admin/',
-    assetsDir: 'app/Modules/Admin/assets/',
+    assetsDir: 'resources/admin/',
     cssOutput: 'public/assets/admin/css',
     jsOutput: 'public/assets/admin/js',
     bowerDir: 'bower_components'

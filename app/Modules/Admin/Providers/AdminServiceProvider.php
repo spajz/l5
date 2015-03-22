@@ -1,14 +1,10 @@
-<?php namespace App\Providers;
+<?php namespace App\Modules\Admin\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Helper;
-use Config;
-use File;
-use App\Library\Datatables;
+use App\Helper2;
 
 class AdminServiceProvider extends ServiceProvider
 {
-
     /**
      * Bootstrap the application services.
      *
@@ -16,9 +12,7 @@ class AdminServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (modules() && is_admin()) {
-            $this->menu();
-        }
+        //
     }
 
     /**
@@ -29,28 +23,6 @@ class AdminServiceProvider extends ServiceProvider
     public function register()
     {
 
-        // Admin base url
-        define("ADMIN", "admin");
-
-        $modules = Helper::getModules('enabled', 'array');
-
-        define("MODULES", json_encode($modules ?: array()));
-
-        if ($modules) {
-
-            // Add modules config
-            foreach ($modules as $key => $module) {
-                if (is_file($module['path'] . '/config.php')) {
-                    $this->mergeConfigFrom($module['path'] . '/config.php', $module['name']);
-                }
-            }
-        }
-
-//        // Extend datatables class
-//        $this->app['datatables'] = $this->app->share(function($app)
-//        {
-//            return new Datatables;
-//        });
     }
 
     /**
@@ -75,5 +47,4 @@ class AdminServiceProvider extends ServiceProvider
             });
         }
     }
-
 }

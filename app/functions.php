@@ -26,6 +26,15 @@ if (!function_exists('resources_path')) {
     }
 }
 
+if (!function_exists('modules_path')) {
+
+    function modules_path($path = '')
+    {
+        $path = $path ? 'Modules/' . $path : 'Modules';
+        return app_path($path);
+    }
+}
+
 if (!function_exists('modules')) {
 
     function modules()
@@ -125,4 +134,14 @@ if (!function_exists('cure')) {
         return asset($prefix . $asset);
     }
 }
+
+if (!function_exists('get_property_class')) {
+    function get_property_class($obj, $property, $key = 0)
+    {
+        if (isset($obj->$property[$key])) return get_class($obj->$property[$key]);
+
+        return false;
+    }
+}
+
 

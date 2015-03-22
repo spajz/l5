@@ -78,7 +78,8 @@
                                 <div class="container">
                                     <div class="row clearfix">
                                         <div class="col-md-12 column">
-                                            <table class="table sortable">
+                                            <table class="table sortable"
+                                                   data-model="{{  get_property_class($item, 'images') ?  get_property_class($item, 'images') : '' }}">
                                                 <thead>
                                                 <tr>
                                                     <th>
