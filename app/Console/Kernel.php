@@ -12,7 +12,8 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected $commands = [
 		'App\Console\Commands\Inspire',
-        'App\Console\Commands\Seeder',
+        'App\Console\Commands\ModulesMakeSeeder',
+        'App\Console\Commands\ModulesSeed',
 	];
 
 	/**

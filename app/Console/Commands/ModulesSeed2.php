@@ -1,8 +1,10 @@
 <?php namespace App\Console\Commands;
 
 use Illuminate\Console\GeneratorCommand;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
-class Seeder extends GeneratorCommand
+class ModulesSeed2 extends GeneratorCommand
 {
 
     /**
@@ -10,14 +12,14 @@ class Seeder extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'make:seeder';
+    protected $name = 'modules:make:seeder';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a new database seed class';
+    protected $description = 'Create a new module database seed class';
 
     /**
      * The type of class being generated.
@@ -55,7 +57,15 @@ class Seeder extends GeneratorCommand
      */
     protected function getPath($name)
     {
-        return './database/seeds/' . str_replace('\\', '/', $name) . '.php';
+        $name = $this->argument('name');
+        $class = $this->option('class');
+        if ($class) {
+            $className = $class . '.php';
+        } else {
+            $className = $name . 'TableSeeder.php';
+        }
+
+        return './app/Modules/' . $name . '/database/seeds/' . $className;
     }
 
     /**
@@ -80,6 +90,30 @@ class Seeder extends GeneratorCommand
         );
 
         return $this;
+    }
+
+    /**
+     * Get the console command arguments.
+     *
+     * @return array
+     */
+    protected function getArguments()
+    {
+        return array(
+            array('name', InputArgument::REQUIRED, 'Name of the module'),
+        );
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return array(
+            array('class', null, InputOption::VALUE_OPTIONAL, 'Name of the class')
+        );
     }
 
 }

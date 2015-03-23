@@ -1,7 +1,6 @@
 <?php namespace App\Modules\Admin\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Helper2;
 
 class AdminServiceProvider extends ServiceProvider
 {
@@ -12,7 +11,7 @@ class AdminServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->menu();
     }
 
     /**
@@ -22,7 +21,7 @@ class AdminServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
+        //
     }
 
     /**
@@ -35,14 +34,14 @@ class AdminServiceProvider extends ServiceProvider
         $menus = '';
         foreach (modules() as $module) {
             $name = $module['name'];
-            $resourcesPath = resources_path($name);
-            if (File::exists($resourcesPath . '/views/admin/menu.blade.php')) {
-                $menus .= view($name . '.views.admin.menu', array('module' => $module));
+            $modulesPath = modules_path($name . '/');
+            if (is_file($modulesPath . "/views/admin/menu.blade.php")) {
+                $menus .= view($name . '::admin.menu', array('module' => $module));
             }
         }
 
         if ($menus) {
-            view()->composer('admin.views._partials.sidebar', function ($view) use ($menus) {
+            view()->composer('admin::_partials.sidebar', function ($view) use ($menus) {
                 $view->with('menu', $menus);
             });
         }

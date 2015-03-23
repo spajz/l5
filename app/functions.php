@@ -37,12 +37,10 @@ if (!function_exists('modules_path')) {
 
 if (!function_exists('modules')) {
 
-    function modules()
+    function modules($status = 'enabled')
     {
-        $modules = array();
-        if (defined('MODULES')) {
-            $modules = json_decode(MODULES, true);
-        }
+        $module = app('module');
+        $modules = $module->getModules($status, 'array');
         return $modules;
     }
 }
@@ -119,7 +117,7 @@ if (!function_exists('msg')) {
 }
 
 if (!function_exists('msg_modal')) {
-    function msg_modal($text, $type = 'success', $title = null)
+    function msg_modal($text, $type = 'success')
     {
         Notification::$type($text, view('views.notifications.modal')->render());
     }
@@ -128,7 +126,7 @@ if (!function_exists('msg_modal')) {
 if (!function_exists('cure')) {
     function cure($asset)
     {
-        if (Config::get('app.debug')) $prefix = '';
+        if (config('app.debug')) $prefix = '';
         else $prefix = 'build/';
 
         return asset($prefix . $asset);
@@ -143,5 +141,4 @@ if (!function_exists('get_property_class')) {
         return false;
     }
 }
-
 

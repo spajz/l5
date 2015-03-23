@@ -6,7 +6,6 @@ return array(
 
     'module' => array(
         'assetsDirModule' => 'assets/people',
-        'viewPathModule' => 'people.views',
         'moduleLower' => 'people',
         'moduleUpper' => 'People',
         'modelName' => 'App\Modules\People\Models\People',

@@ -7,10 +7,7 @@ use DatatablesFront;
 use App\Models\Page;
 use Former;
 use Input;
-use View;
-use Notification;
 use Redirect;
-
 
 class PeopleController extends AdminController
 {
@@ -28,7 +25,7 @@ class PeopleController extends AdminController
     {
         parent::__construct();
 
-        $this->setConfig('people');
+        $this->setConfig(__FILE__);
     }
 
     public function getDatatable()
@@ -36,14 +33,14 @@ class PeopleController extends AdminController
         $model = $this->modelName;
         $model = $model::select($this->dtSelectColumns());
         $modelNameSpace = get_class($model);
-        $buttons = DatatablesFront::init();
+        $dtFront = DatatablesFront::init();
 
         return Datatables::of($model)
-            ->addColumn('status', function ($data) use ($buttons, $modelNameSpace) {
-                return $buttons->renderStatusButtons($data, $modelNameSpace);
+            ->addColumn('status', function ($data) use ($dtFront, $modelNameSpace) {
+                return $dtFront->renderStatusButtons($data, $modelNameSpace);
             })
-            ->addColumn('actions', function ($data) use ($buttons, $modelNameSpace) {
-                return $buttons->renderActionButtons($data);
+            ->addColumn('actions', function ($data) use ($dtFront, $modelNameSpace) {
+                return $dtFront->renderActionButtons($data);
             })
             ->make(true);
     }
@@ -55,15 +52,15 @@ class PeopleController extends AdminController
      */
     public function index()
     {
-        $dt = DatatablesFront::init()
+        $dtFront = DatatablesFront::init()
 //            ->searchColumns('slug', 'status')
             ->addColumns($this->dtColumns)
             ->setUrl(route('api.people.dt'))
             ->setId('dt-' . $this->moduleLower);
 
-        $vars = $dt->render();
+        $vars = $dtFront->render();
 
-        return view($this->viewPathModule . '.admin.index', $vars);
+        return view($this->moduleLower . '::admin.index', $vars);
     }
 
     /**
@@ -115,7 +112,7 @@ class PeopleController extends AdminController
 
         Former::populate($item);
 
-        return view($this->viewPathModule . '.admin.edit', compact('item'));
+        return view($this->moduleLower . '::admin.edit', compact('item'));
     }
 
     /**

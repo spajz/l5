@@ -12,25 +12,29 @@ class AdminController extends BaseController
     protected $layout;
     protected $assetsDirAdmin;
     protected $assetsDirModule;
-    protected $viewPathAdmin;
-    protected $viewPathModule;
     protected $moduleLower;
     protected $moduleUpper;
     protected $config;
 
     public function __construct()
     {
-        $this->setConfig();
+        $this->setConfig(__FILE__);
     }
 
-    protected function setConfig($module = 'admin')
+    protected function setConfig($module, $path = true)
     {
+        if ($path) {
+            $pathInfo = pathinfo($module);
+            $pathInfo['filename'];
+            $module = explode('_', snake_case($pathInfo['filename']));
+            $module = $module[0];
+        }
+
         $this->config = config($module);
         $moduleConfig = config($module . '.module');
         if ($moduleConfig) {
             foreach ($moduleConfig as $key => $value) {
                 $this->$key = $value;
-
                 View::share($key, $value);
             }
         }

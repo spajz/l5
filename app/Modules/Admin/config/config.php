@@ -4,10 +4,11 @@ return array(
 
     'under-maintenance' => false,
 
+    'baseUrl' => 'admin',
+
     'module' => array(
         'layout' => 'admin::layouts.master',
         'assetsDirAdmin' => 'assets/admin',
-        'viewPathAdmin' => 'admin.views',
         'moduleLower' => 'admin',
         'moduleUpper' => 'Admin',
     ),
