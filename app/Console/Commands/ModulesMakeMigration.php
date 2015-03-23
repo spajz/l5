@@ -4,7 +4,7 @@ use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-class ModulesSeed2 extends GeneratorCommand
+class ModulesMakeMigration extends GeneratorCommand
 {
 
     /**
@@ -12,21 +12,21 @@ class ModulesSeed2 extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'modules:make:seeder';
+    protected $name = 'modules:make:migration';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a new module database seed class';
+    protected $description = 'Create a new module database migration class.';
 
     /**
      * The type of class being generated.
      *
      * @var string
      */
-    protected $type = 'Seed';
+    protected $type = 'Migration';
 
     /**
      * Parse the name and format according to the root namespace.
@@ -46,7 +46,7 @@ class ModulesSeed2 extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__ . '/../stubs/seeder.stub';
+        return __DIR__ . '/../stubs/modules/migration.stub';
     }
 
     /**
@@ -58,14 +58,9 @@ class ModulesSeed2 extends GeneratorCommand
     protected function getPath($name)
     {
         $name = $this->argument('name');
-        $class = $this->option('class');
-        if ($class) {
-            $className = $class . '.php';
-        } else {
-            $className = $name . 'TableSeeder.php';
-        }
+        $class = snake_case($this->option('class')) . '.php';
 
-        return './app/Modules/' . $name . '/database/seeds/' . $className;
+        return './app/Modules/' . $name . '/database/migrations/' . date('Y_m_d_His') . '_' . $class;
     }
 
     /**
@@ -99,9 +94,9 @@ class ModulesSeed2 extends GeneratorCommand
      */
     protected function getArguments()
     {
-        return array(
-            array('name', InputArgument::REQUIRED, 'Name of the module'),
-        );
+        return [
+            ['name', InputArgument::REQUIRED, 'The name of the module.'],
+        ];
     }
 
     /**
@@ -111,9 +106,10 @@ class ModulesSeed2 extends GeneratorCommand
      */
     protected function getOptions()
     {
-        return array(
-            array('class', null, InputOption::VALUE_OPTIONAL, 'Name of the class')
-        );
+        return [
+            ['class', null, InputOption::VALUE_OPTIONAL, 'The name of the class.'],
+        ];
     }
+
 
 }

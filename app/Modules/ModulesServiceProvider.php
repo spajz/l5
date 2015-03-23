@@ -27,7 +27,7 @@ class ModulesServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('module', function ($app) {
+        $this->app->bind('module', function ($app) {
             return new Module($app);
         });
     }

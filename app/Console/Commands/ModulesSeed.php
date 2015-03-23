@@ -3,6 +3,7 @@
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use Illuminate\Foundation\Application;
 
 class ModulesSeed extends Command
 {
@@ -22,16 +23,6 @@ class ModulesSeed extends Command
     protected $description = 'Seed the database from modules.';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      * @return void
      */
@@ -40,42 +31,22 @@ class ModulesSeed extends Command
         $this->info('Seeding database from modules.');
 
         $modules = modules('all');
+
         $moduleName = $this->input->getArgument('module');
 
-        if ($modules) {
-
-            if($moduleName && isset($modules[strtolower($moduleName)])){
+        if ($modules && isset($modules[strtolower($moduleName)])) {
+            if ($moduleName) {
                 app('module')->seed(strtolower($moduleName));
+                $this->info("Seeded '" . $moduleName . "' module.");
             } else {
-                foreach($modules as $key => $module){
+                foreach ($modules as $key => $module) {
                     app('module')->seed($key);
+                    $this->info("Seeded '" . $key . "' module.");
                 }
             }
+        } else {
+            $this->error("Module does not exist.");
         }
-
-//        // Get all modules or 1 specific
-//        if ($moduleName = $this->input->getArgument('module')) $modules = array(app('modules')->module($moduleName));
-//        else                                                   $modules = app('modules')->modules();
-//
-//        foreach ($modules as $module)
-//        {
-//            if ($module)
-//            {
-//                if ($module->def('seeder'))
-//                {
-//                    $module->seed();
-//                    $this->info("Seeded '" . $module->name() . "' module.");
-//                }
-//                else
-//                {
-//                    $this->line("Module <info>'" . $module->name() . "'</info> has no seeds.");
-//                }
-//            }
-//            else
-//            {
-//                $this->error("Module '" . $moduleName . "' does not exist.");
-//            }
-//        }
     }
 
     /**

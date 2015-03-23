@@ -119,16 +119,19 @@ class Module extends ServiceProvider
     /**
      * Run the seeder if it exists
      *
-     * @param string $class
+     * @param string $module
      * @return void
      */
     public function seed($module)
     {
         $modules = modules();
 
-        $class = $modules['module']['path'] . '/database/seeds/';
+        $path = $modules[$module]['path'] . '/database/seeds/' . $modules[$module]['class'] . 'TableSeeder.php';
 
-        if (class_exists($class)) {
+        if (is_file($path)) {
+            include_once($path);
+            $pathInfo = pathinfo($path);
+            $class = $pathInfo['filename'];
             $seeder = new $class;
             $seeder->run();
         }

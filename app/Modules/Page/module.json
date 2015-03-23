@@ -1,5 +1,6 @@
 {
     "name": "page",
+    "class": "Page",
     "enabled": true,
     "icon": "fa-female",
     "order": 453542,
