@@ -14,7 +14,6 @@ class Kernel extends ConsoleKernel {
 		'App\Console\Commands\Inspire',
         'App\Console\Commands\ModulesMakeSeeder',
         'App\Console\Commands\ModulesSeed',
-        'App\Console\Commands\ModulesMakeMigration',
 	];
 
 	/**

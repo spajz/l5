@@ -4,10 +4,10 @@ use App\Http\Requests;
 use App\Modules\Admin\Controllers\AdminController;
 use Datatables;
 use DatatablesFront;
-use App\Models\Page;
 use Former;
 use Input;
 use Redirect;
+use App\Modules\People\Models\People;
 
 class PeopleController extends AdminController
 {
@@ -111,8 +111,9 @@ class PeopleController extends AdminController
         }
 
         Former::populate($item);
+        $people = People::orderBy('order')->get();
 
-        return view($this->moduleLower . '::admin.edit', compact('item'));
+        return view($this->moduleLower . '::admin.edit', compact('item', 'people'));
     }
 
     /**

@@ -78,8 +78,8 @@
                                 <div class="container">
                                     <div class="row clearfix">
                                         <div class="col-md-12 column">
-                                            <table class="table sortable"
-                                                   data-model="{{  get_property_class($item, 'images') ?  get_property_class($item, 'images') : '' }}">
+                                            <table class="table table-striped table-bordered table-hover sortable"
+                                                   data-model="{{  get_class($item) }}">
                                                 <thead>
                                                 <tr>
                                                     <th>
@@ -100,101 +100,28 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr>
-                                                    <td>
-                                                        1
-                                                    </td>
-                                                    <td>
-                                                        TB - Monthly
-                                                    </td>
-                                                    <td>
-                                                        01/04/2012
-                                                    </td>
-                                                    <td>
-                                                        Default
-                                                    </td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-info btn-xs btn-sort">
-                                                            <i class="fa fa-arrows-v"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                <tr class="active">
-                                                    <td>
-                                                        1
-                                                    </td>
-                                                    <td>
-                                                        TB - Monthly
-                                                    </td>
-                                                    <td>
-                                                        01/04/2012
-                                                    </td>
-                                                    <td>
-                                                        Approved
-                                                    </td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-info btn-xs btn-sort">
-                                                            <i class="fa fa-arrows-v"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                <tr class="success">
-                                                    <td>
-                                                        2
-                                                    </td>
-                                                    <td>
-                                                        TB - Monthly
-                                                    </td>
-                                                    <td>
-                                                        02/04/2012
-                                                    </td>
-                                                    <td>
-                                                        Declined
-                                                    </td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-info btn-xs btn-sort">
-                                                            <i class="fa fa-arrows-v"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                <tr class="warning">
-                                                    <td>
-                                                        3
-                                                    </td>
-                                                    <td>
-                                                        TB - Monthly
-                                                    </td>
-                                                    <td>
-                                                        03/04/2012
-                                                    </td>
-                                                    <td>
-                                                        Pending
-                                                    </td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-info btn-xs btn-sort">
-                                                            <i class="fa fa-arrows-v"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                <tr class="danger">
-                                                    <td>
-                                                        4
-                                                    </td>
-                                                    <td>
-                                                        TB - Monthly
-                                                    </td>
-                                                    <td>
-                                                        04/04/2012
-                                                    </td>
-                                                    <td>
-                                                        Call in to confirm
-                                                    </td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-info btn-xs btn-sort">
-                                                            <i class="fa fa-arrows-v"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
+                                                @foreach($people as $p)
+                                                    <tr data-id="{{ $p->id }}">
+                                                        <td>
+                                                            {{ $p->title }}
+                                                        </td>
+                                                        <td>
+                                                            {{ $p->id }}
+                                                        </td>
+                                                        <td>
+                                                            {{ $p->order }}
+                                                        </td>
+                                                        <td>
+                                                           <input type="checkbox"  class="">
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-info btn-xs btn-sort">
+                                                                <i class="fa fa-arrows-v"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+
                                                 </tbody>
                                             </table>
                                         </div>
@@ -220,49 +147,6 @@
 @stop
 
 @section('scripts_bottom')
-    @parent
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#overlay-modal').modal();
-        })
-    </script>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-
-
-            $('.sortable').sortable({
-                items: 'tr',
-
-                handle: '.btn-sort',
-                forcePlaceholderSize: true,
-                cancel: '',
-
-                helper: function(e, ui)
-                {
-                    ui.children().each(function() {
-                        $(this).width($(this).width());
-                    });
-                    return ui;
-                }
-
-            }).bind('sortupdate', function (e, ui) {
-
-                var sort = {};
-                $('.sortable tr').each(function (index) {
-                    console.log($(this).data('id'));
-                    console.log(index);
-                    sort[index] = $(this).data('id');
-                    model = $(this).data('model');
-                });
-
-                var model = $('.sortable tr').first().data('model');
-
-                //sortRows(model, sort);
-
-            });
-        });
-    </script>
-
+@parent
 
 @stop

@@ -4,9 +4,9 @@ Route::group(array('prefix' => ADMIN), function () {
 
     Route::get('/', array('as' => 'admin', 'uses' => 'App\Modules\Admin\Controllers\AdminController@index'));
 
-    Route::get('change-status', array('as' => 'admin.change.status', 'uses' => 'App\Modules\Admin\Controllers\AdminController@changeStatus'));
+    Route::get('api/change-status', array('as' => 'api.admin.change.status', 'uses' => 'App\Modules\Admin\Controllers\AdminController@changeStatus'));
 
-    Route::post('sort-rows', array('as' => 'admin.sort.rows', 'uses' => 'App\Modules\Admin\Controllers\AdminController@sortRows'));
+    Route::post('api/sort-rows', array('as' => 'api.admin.sort.rows', 'uses' => 'App\Modules\Admin\Controllers\AdminController@sortRows'));
 
 });
 

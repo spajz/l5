@@ -1,3 +1,16 @@
+// Add csrf token to all ajax calls
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+    beforeSend: function () {
+        $('.ajax-loader').show();
+    },
+    complete: function () {
+        $('.ajax-loader').hide();
+    }
+});
+
 // Ajax loader
 function loaderShow() {
     $('.ajax-loader').show();
@@ -7,22 +20,20 @@ function loaderHide() {
     $('.ajax-loader').hide();
 }
 
-// Sort rows
-function sortRows(model, sortData) {
-    $.ajax({
-        url: baseUrlAdmin + '/sort-rows',
-        type: 'post',
-        data: {
-            "model": model,
-            "data": sortData
-        },
-        success: function (data, status) {
+function colorSuccess(item) {
+    var color = item.css('background-color');
+    item.css('background-color', '#64c664')
+        .animate({'background-color': color}, 500, function () {
+            item.removeAttr('style');
+        });
+}
 
-        },
-        error: function (xhr, desc, err) {
-            alert('Server error.');
-        }
-    });
+function colorDanger(item) {
+    var color = item.css('background-color');
+    item.css('background-color', '#e71a1a')
+        .animate({'background-color': color}, 500, function () {
+            item.removeAttr('style');
+        });
 }
 
 $(document).ready(function () {
@@ -56,6 +67,56 @@ $(document).ready(function () {
         element.addClass('active');
     }
 
+    // Sortable
+    $('table.sortable').sortable({
+        axis: 'y',
+        items: 'tr',
+        handle: '.btn-sort',
+        forcePlaceholderSize: true,
+        cancel: '',
+        placeholder: 'sortable-placeholder',
+        helper: function (e, ui) {
+            ui.children().each(function () {
+                $(this).width($(this).width());
+            });
+            return ui;
+        },
+        start: function (e, ui) {
+            ui.item.siblings("tr").has(':checkbox:checked').not(".ui-sortable-placeholder").appendTo(ui.item).hide();
+        },
+        stop: function (e, ui) {
+            var items = ui.item.find("tr");
+            ui.item.after(items.show().each(function () {
+                colorSuccess($(this));
+            }));
+            colorSuccess(ui.item);
+            $('table.sortable input:checkbox').removeAttr('checked');
+        }
+
+    }).bind('sortupdate', function (e, ui) {
+        var sort = [];
+        $('table.sortable tbody tr').each(function (index) {
+            sort[index + 1] = $(this).data('id');
+        });
+        sortRows($('table.sortable').data('model'), sort, ui.item);
+    });
+
+    function sortRows(model, sortData, item) {
+        $.ajax({
+            url: baseUrlAdmin + '/api/sort-rows',
+            type: 'post',
+            data: {
+                "model": model,
+                "data": sortData
+            },
+            success: function (data, textStatus, jqXHR) {
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Server error.');
+            }
+        });
+    }
+
     // Select2
     function initSelect2() {
         $('select.select2').select2(
@@ -76,6 +137,11 @@ $(document).ready(function () {
     }
 
     initFancyBox();
+
+    // Msg modal
+    if ($('#overlay-modal').length) {
+        $('#overlay-modal').modal();
+    }
 
     // CKEditor
     function initCkeditor() {

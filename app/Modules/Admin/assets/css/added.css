@@ -271,4 +271,8 @@ div.dataTables_processing {
     vertical-align: middle;
 }
 
+/*Sortable placeholder*/
+.sortable-placeholder {
+    background-color: #64c664 !important;
+}
 

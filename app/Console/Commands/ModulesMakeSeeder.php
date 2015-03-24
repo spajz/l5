@@ -1,6 +1,7 @@
 <?php namespace App\Console\Commands;
 
 use Illuminate\Console\GeneratorCommand;
+use Illuminate\Foundation\Composer;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -27,6 +28,31 @@ class ModulesMakeSeeder extends GeneratorCommand
      * @var string
      */
     protected $type = 'Seed';
+
+    /**
+     * Execute the console command.
+     *
+     * @return void
+     */
+    public function fire()
+    {
+        $name = $this->parseName($this->getNameInput());
+
+        if ($this->files->exists($path = $this->getPath($name)))
+        {
+            return $this->error($this->type.' already exists!');
+        }
+
+        $this->makeDirectory($path);
+
+        $this->files->put($path, $this->buildClass($name));
+
+        $this->info($this->type.' created successfully.');
+
+        app('composer')->dumpAutoloads();
+        $this->info('Composer dump-autoload executed.');
+
+    }
 
     /**
      * Parse the name and format according to the root namespace.
@@ -65,7 +91,7 @@ class ModulesMakeSeeder extends GeneratorCommand
             $className = $name . 'TableSeeder.php';
         }
 
-        return './app/Modules/' . $name . '/database/seeds/' . $className;
+        return './app/Modules/' . $name . '/Database/Seeds/' . $className;
     }
 
     /**
@@ -87,6 +113,10 @@ class ModulesMakeSeeder extends GeneratorCommand
 
         $stub = str_replace(
             '{{name}}', strtolower(str_plural($this->argument('name'))), $stub
+        );
+
+        $stub = str_replace(
+            '{{module}}', $this->argument('name'), $stub
         );
 
         return $this;

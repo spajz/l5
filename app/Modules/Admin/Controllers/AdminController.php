@@ -151,7 +151,6 @@ class AdminController extends BaseController
         return $this->dtStatusButton($item);
     }
 
-
     public function sortRows()
     {
         $model = Input::get('model');
@@ -162,11 +161,10 @@ class AdminController extends BaseController
         if (count($items)) {
             $dataFlip = array_flip($data);
             foreach ($items as $item) {
-                $item->sort = $dataFlip[$item->id];
+                $item->order = $dataFlip[$item->id];
                 $item->save();
             }
         }
-        exit;
     }
 
     protected function redirect($item)

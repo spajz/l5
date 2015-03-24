@@ -1,9 +1,8 @@
-<?php
+<?php namespace App\Modules\Page\Database\Seeds;
 
 use Faker\Factory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class PageTableSeeder extends Seeder {
 
@@ -17,11 +16,11 @@ class PageTableSeeder extends Seeder {
         // Create 100 items
         for ($i = 0; $i < 100; $i++) {
 
-            $title =  $faker->sentence(rand(1,5));
             array_push($items, array(
 
-                'title' => $title,
-                'slug' => Str::slug($title),
+                'title' => $faker->sentence(4),
+                'slug' => $faker->sentence(4),
+
                 'status' => $faker->randomElement(array(1, 1, 1, -1, -1, 0, 0)),
 
                 'created_at' => $faker->dateTimeBetween($startDate = '-2 years', $endDate = '-10 days'),

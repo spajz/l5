@@ -60,7 +60,7 @@ class ModulesMakeMigration extends GeneratorCommand
         $name = $this->argument('name');
         $class = snake_case($this->option('class')) . '.php';
 
-        return './app/Modules/' . $name . '/database/migrations/' . date('Y_m_d_His') . '_' . $class;
+        return './app/Modules/' . $name . '/Database/Migrations/' . date('Y_m_d_His') . '_' . $class;
     }
 
     /**
@@ -82,6 +82,10 @@ class ModulesMakeMigration extends GeneratorCommand
 
         $stub = str_replace(
             '{{name}}', strtolower(str_plural($this->argument('name'))), $stub
+        );
+
+        $stub = str_replace(
+            '{{module}}', $this->argument('name'), $stub
         );
 
         return $this;

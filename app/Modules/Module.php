@@ -6,9 +6,14 @@ use Lang;
 
 class Module extends ServiceProvider
 {
+    /**
+     * Register the application services.
+     *
+     * @return void
+     */
     public function register()
     {
-
+        //
     }
 
     /**
@@ -125,13 +130,10 @@ class Module extends ServiceProvider
     public function seed($module)
     {
         $modules = modules();
+        $class = $modules[$module]['class'];
+        $class = 'App\Modules\\' . $class . '\Database\Seeds\\' . $class . 'TableSeeder';
 
-        $path = $modules[$module]['path'] . '/database/seeds/' . $modules[$module]['class'] . 'TableSeeder.php';
-
-        if (is_file($path)) {
-            include_once($path);
-            $pathInfo = pathinfo($path);
-            $class = $pathInfo['filename'];
+        if (class_exists($class)) {
             $seeder = new $class;
             $seeder->run();
         }
