@@ -1,0 +1,7 @@
+{
+    "name": "user",
+    "enabled": true,
+    "icon": "fa-user",
+    "order": 99999,
+    "title": "User"
+}

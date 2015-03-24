@@ -142,3 +142,13 @@ if (!function_exists('get_property_class')) {
     }
 }
 
+if (!function_exists('get_dirname')) {
+    function get_dirname($path, $level = 1, $basename = true)
+    {
+        for ($x = 1; $x <= $level; $x++) {
+            $path = dirname($path);
+        }
+        return $basename ? basename($path) : $path;
+    }
+}
+

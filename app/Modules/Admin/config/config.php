@@ -1,5 +1,8 @@
 <?php
 
+$moduleUpper = get_dirname(__FILE__, 2);
+$moduleLower = strtolower($moduleUpper);
+
 return array(
 
     'under-maintenance' => false,
@@ -7,13 +10,11 @@ return array(
     'baseUrl' => 'admin',
 
     'module' => array(
-        'layout' => 'admin::layouts.master',
-        'assetsDirAdmin' => 'assets/admin',
-        'moduleLower' => 'admin',
-        'moduleUpper' => 'Admin',
+        'layout' => $moduleLower . '::layouts.master',
+        'assetsDirAdmin' => 'assets/' . $moduleLower,
+        'moduleLower' => $moduleLower,
+        'moduleUpper' => $moduleUpper,
     ),
-
-
 
     'image' => array(
         'path' => public_path() . '/media/images/', // main path with trailing slash
