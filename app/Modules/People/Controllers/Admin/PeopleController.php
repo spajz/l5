@@ -73,7 +73,7 @@ class PeopleController extends AdminController
      */
     public function create()
     {
-        //
+        return view("{$this->moduleLower}::admin.create");
     }
 
     /**

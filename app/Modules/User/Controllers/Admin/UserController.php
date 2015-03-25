@@ -1,6 +1,5 @@
 <?php namespace App\Modules\User\Controllers\Admin;
 
-use App\Http\Requests;
 use App\Modules\Admin\Controllers\AdminController;
 use Datatables;
 use DatatablesFront;
@@ -9,21 +8,30 @@ use Input;
 use Redirect;
 use App\Modules\People\Models\People;
 
+use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Contracts\Auth\Registrar;
+use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+
 class UserController extends AdminController
 {
 
     protected $dtColumns = array(
         array('data' => 'id', 'className' => 'w40'),
-        array('data' => 'slug', 'title' => 'Ovo je slug'),
-        array('data' => 'title'),
+        array('data' => 'name'),
+        array('data' => 'email'),
         array('data' => 'created_at'),
         array('data' => 'status', 'className' => 'w40 center'),
         array('name' => 'actions', 'className' => 'w120 center', 'orderable' => false),
     );
 
-    public function __construct()
+    public function __construct(Guard $auth, Registrar $registrar)
     {
         parent::__construct();
+
+        $this->auth = $auth;
+        $this->registrar = $registrar;
+
+//        $this->middleware('guest', ['except' => 'getLogout']);
 
         $this->setConfig(__FILE__);
     }
@@ -70,7 +78,7 @@ class UserController extends AdminController
      */
     public function create()
     {
-        //
+        return view("{$this->moduleLower}::admin.create");
     }
 
     /**
@@ -80,7 +88,17 @@ class UserController extends AdminController
      */
     public function store()
     {
-        //
+        $validator = $this->registrar->validator(Input::all());
+
+        if ($validator->fails()) {
+            msg($validator->messages(), 'danger');
+            echo 123; exit;
+            return redirect()->back();
+        }
+
+        $this->auth->login($this->registrar->create(Input::all()));
+
+        return redirect()->back();
     }
 
     /**
