@@ -24,10 +24,11 @@ class AdminController extends BaseController
     protected function setConfig($module, $path = true)
     {
         if ($path) {
-            $pathInfo = pathinfo($module);
-            $pathInfo['filename'];
-            $module = explode('_', snake_case($pathInfo['filename']));
-            $module = $module[0];
+            if (get_dirname($module, 1) == 'Admin') {
+                $module = strtolower(get_dirname($module, 3));
+            } else {
+                $module = strtolower(get_dirname($module, 2));
+            }
         }
 
         $this->config = config($module);
@@ -130,7 +131,7 @@ class AdminController extends BaseController
 
     public function dtButtons($data, $model = null)
     {
-        return View::make('admin::datatable.but_status', array('data' => $data, 'model' => $model));
+        return View::make('admin::datatables.but_status', array('data' => $data, 'model' => $model));
     }
 
     public function changeStatus()

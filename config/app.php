@@ -157,6 +157,7 @@ return [
         'Collective\Html\HtmlServiceProvider',
 
         'App\Modules\ModulesServiceProvider',
+        'App\Providers\AuthServiceProvider',
 
 	],
 

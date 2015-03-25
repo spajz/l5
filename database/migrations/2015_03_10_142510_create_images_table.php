@@ -12,11 +12,19 @@ class CreateImagesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('images', function(Blueprint $table)
-		{
-			$table->increments('id');
-			$table->timestamps();
-		});
+        Schema::create('images', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('alt', 255)->nullable();
+            $table->text('description')->nullable();
+            $table->string('image', 255);
+            $table->integer('model_id');
+            $table->string('model_type', 255);
+            $table->integer('order')->default(0);
+
+            $table->index(['model_id', 'model_type']);
+
+            $table->timestamps();
+        });
 	}
 
 	/**

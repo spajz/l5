@@ -18,10 +18,10 @@ return array(
         'callbacks' => array(),
     ),
     'views' => array(
-        'template' => 'admin::datatable.template',
-        'javascript' => 'admin::datatable.javascript',
-        'statusButtons' => 'admin::datatable.status_buttons',
-        'actionButtons' => 'admin::datatable.action_buttons',
+        'template' => 'admin::datatables.template',
+        'javascript' => 'admin::datatables.javascript',
+        'statusButtons' => 'admin::datatables.status_buttons',
+        'actionButtons' => 'admin::datatables.action_buttons',
     ),
 
 );

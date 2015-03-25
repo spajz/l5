@@ -70,7 +70,7 @@ $(document).ready(function () {
     // Sortable
     $('table.sortable').sortable({
         axis: 'y',
-        items: 'tr',
+        items: 'tbody tr',
         handle: '.btn-sort',
         forcePlaceholderSize: true,
         cancel: '',
@@ -86,9 +86,8 @@ $(document).ready(function () {
         },
         stop: function (e, ui) {
             var items = ui.item.find("tr");
-            ui.item.after(items.show().each(function () {
-                colorSuccess($(this));
-            }));
+            ui.item.after(items.show());
+            colorSuccess(items);
             colorSuccess(ui.item);
             $('table.sortable input:checkbox').removeAttr('checked');
         }

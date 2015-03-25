@@ -68,20 +68,9 @@ $(document).ready(function () {
     }
 
     // Sortable
-    var countChecked = function () {
-        //alert($( "input:checked" ).length);
-    };
-
-
-    //$("table.sortable tr").click(function(){
-    //    //$(this).toggleClass("selected");
-    //})
-
-
-
     $('table.sortable').sortable({
         axis: 'y',
-        items: 'tr',
+        items: 'tbody tr',
         handle: '.btn-sort',
         forcePlaceholderSize: true,
         cancel: '',
@@ -97,9 +86,8 @@ $(document).ready(function () {
         },
         stop: function (e, ui) {
             var items = ui.item.find("tr");
-            ui.item.after(items.show().each(function () {
-                colorSuccess($(this));
-            }));
+            ui.item.after(items.show());
+            colorSuccess(items);
             colorSuccess(ui.item);
             $('table.sortable input:checkbox').removeAttr('checked');
         }
@@ -121,17 +109,8 @@ $(document).ready(function () {
                 "data": sortData
             },
             success: function (data, textStatus, jqXHR) {
-                //item.css('background-color', '#64c664')
-                //    .animate({'background-color': color}, 500, function () {
-                //        item.removeAttr('style');
-                //    });
-
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                //item.css('background-color', '#e71a1a')
-                //    .animate({'background-color': color}, 500, function () {
-                //        item.removeAttr('style');
-                //    });
                 alert('Server error.');
             }
         });

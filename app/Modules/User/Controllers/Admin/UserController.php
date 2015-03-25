@@ -1,4 +1,4 @@
-<?php namespace App\Modules\People\Controllers\Admin;
+<?php namespace App\Modules\User\Controllers\Admin;
 
 use App\Http\Requests;
 use App\Modules\Admin\Controllers\AdminController;
@@ -8,10 +8,8 @@ use Former;
 use Input;
 use Redirect;
 use App\Modules\People\Models\People;
-use Auth;
-use Illuminate\Contracts\Auth\Registrar;
 
-class PeopleController extends AdminController
+class UserController extends AdminController
 {
 
     protected $dtColumns = array(
@@ -23,10 +21,9 @@ class PeopleController extends AdminController
         array('name' => 'actions', 'className' => 'w120 center', 'orderable' => false),
     );
 
-    public function __construct(Registrar $registrar)
+    public function __construct()
     {
         parent::__construct();
-        $this->registrar = $registrar;
 
         $this->setConfig(__FILE__);
     }
@@ -105,11 +102,6 @@ class PeopleController extends AdminController
      */
     public function edit($id)
     {
-
-        $this->registrar->create(['email' => 'admin@admin.com', 'password' => 'admin123123123', 'name' => 'djole']);
-//        Auth::attempt(['email' => 'admin@admin.com', 'password' => 'admin123123123']);
-
-
         $model = $this->modelName;
         $item = $model::find($id);
 

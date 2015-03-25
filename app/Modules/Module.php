@@ -1,19 +1,39 @@
 <?php namespace App\Modules;
 
-use Illuminate\Support\ServiceProvider;
-use File;
-use Lang;
+use Illuminate\Foundation\Application;
 
-class Module extends ServiceProvider
+class Module
 {
     /**
-     * Register the application services.
+     * The application instance.
      *
+     * @var \Illuminate\Contracts\Foundation\Application
+     */
+    protected $app;
+
+    /**
+     * Create a new service provider instance.
+     *
+     * @param  \Illuminate\Contracts\Foundation\Application $app
      * @return void
      */
-    public function register()
+    public function __construct(Application $app)
     {
-        //
+        $this->app = $app;
+    }
+
+    /**
+     * Merge the given configuration with the existing configuration.
+     *
+     * @param  string $path
+     * @param  string $key
+     * @return void
+     */
+    protected function mergeConfigFrom($path, $key)
+    {
+        $config = $this->app['config']->get($key, []);
+
+        $this->app['config']->set($key, array_merge(require $path, $config));
     }
 
     /**
@@ -29,7 +49,7 @@ class Module extends ServiceProvider
             foreach ($modules as $key => $module) {
 
                 // Merge configs
-                $configs = File::files($module['path'] . '/config');
+                $configs = $this->app['files']->files($module['path'] . '/config');
                 foreach ($configs as $config) {
                     if (basename($config) == 'config.php') {
                         $this->mergeConfigFrom($config, $module['name']);
@@ -46,12 +66,12 @@ class Module extends ServiceProvider
 
                 // Add views with namespace
                 if (is_dir($module['path'] . '/views')) {
-                    view()->addNamespace($module['name'], $module['path'] . '/views');
+                    $this->app['view']->addNamespace($module['name'], $module['path'] . '/views');
                 }
 
                 // Add translations with namespace
                 if (is_dir($module['path'] . '/lang')) {
-                    Lang::addNamespace($module['name'], $module['path'] . '/lang');
+                    $this->app['translator']->addNamespace($module['name'], $module['path'] . '/lang');
                 }
 
                 // Register main provider per module {MODULE_NAME}ServiceProvider
@@ -73,7 +93,7 @@ class Module extends ServiceProvider
     public function getModules($state = 'enabled', $return = 'name', $key = 'numeric')
     {
         $modules = array();
-        foreach (File::files(app_path('Modules/*')) as $file) {
+        foreach ($this->app['files']->files(app_path('Modules/*')) as $file) {
             if (basename($file) == 'module.json') {
                 $moduleArray = json_decoder($file);
 

@@ -1,24 +1,21 @@
-<?php namespace App\Modules\User\Modules;
+<?php namespace App\Modules\User\Models;
 
-use Cviebrock\EloquentSluggable\SluggableInterface;
-use Cviebrock\EloquentSluggable\SluggableTrait;
-use App\BaseModel;
+use App\User as UserModel;
 
-class People extends BaseModel implements SluggableInterface
+class User extends UserModel
 {
-    protected $table = 'pages';
 
-    use SluggableTrait;
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'first_name',
+        'last_name',
+        'group_id',
+    ];
 
-    protected $sluggable = array(
-        'build_from' => 'title',
-        'save_to'    => 'slug',
-    );
-
-    protected $fillable = array(
-        'title',
-        'slug',
-        'status',
-    );
-
+    public function group()
+    {
+        return $this->belongsTo('App\Modules\User\Models\Group', 'group_id', 'id');
+    }
 }
