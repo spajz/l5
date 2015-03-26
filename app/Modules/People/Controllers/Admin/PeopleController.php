@@ -16,7 +16,7 @@ class PeopleController extends AdminController
 
     protected $dtColumns = array(
         array('data' => 'id', 'className' => 'w40'),
-        array('data' => 'slug', 'title' => 'Ovo je slug'),
+        array('data' => 'slug'),
         array('data' => 'title'),
         array('data' => 'created_at'),
         array('data' => 'status', 'className' => 'w40 center'),
