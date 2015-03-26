@@ -45,6 +45,16 @@ if (!function_exists('modules')) {
     }
 }
 
+if (!function_exists('module')) {
+
+    function module($status = 'enabled')
+    {
+        $module = app('module');
+        $modules = $module->getModules($status, 'array');
+        return $modules;
+    }
+}
+
 if (!function_exists('is_admin')) {
 
     function is_admin()

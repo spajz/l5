@@ -14,6 +14,7 @@ class AdminController extends BaseController
     protected $assetsDirModule;
     protected $moduleLower;
     protected $moduleUpper;
+    protected $moduleTitle;
     protected $config;
 
     public function __construct()
@@ -186,6 +187,28 @@ class AdminController extends BaseController
         }
 
         return Redirect::route("admin.{$this->moduleLower}.index");
+    }
+
+    protected function formButtons($filter = array(), $extra = '')
+    {
+        // Default buttons and order
+        $formButtons = [
+            'back',
+            'save',
+            'save_new',
+            'save_exit',
+            'approve',
+            'reject',
+        ];
+
+        if (isset($filter['only'])) {
+            $formButtons = array_intersect($formButtons, $filter['only']);
+        } elseif (isset($filter['except'])) {
+            $formButtons = array_diff($formButtons, $filter['except']);
+        }
+
+        return view('admin::_partials.form_buttons_template', compact('formButtons', 'extra'));
+
     }
 
 }

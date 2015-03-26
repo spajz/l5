@@ -36,6 +36,11 @@ function colorDanger(item) {
         });
 }
 
+function randomString(length) {
+    length = typeof length !== 'undefined' ? length : 8;
+    return Math.random().toString(36).slice(length);
+}
+
 $(document).ready(function () {
 //Loads the correct sidebar on window load,
 //collapses the sidebar on window resize.
@@ -175,5 +180,20 @@ $(document).ready(function () {
     //    $.pjax.click(e, {container: '#pjax-container', timeout: 5000})
     //})
 
+    // Password generator
+    $('[data-random-string]').on('click', function (e) {
+        e.preventDefault();
+        var element = $(this).data('random-string');
+        $(element).val(randomString());
+    })
+
+    // Bootbox
+    $('body').on('click', '*[data-bb="confirm"]', function (e) {
+        e.preventDefault();
+        var href = $(this).attr('href');
+        bootbox.confirm("Are you sure?", function (result) {
+            if (result) window.location.href = href;
+        });
+    })
 
 })

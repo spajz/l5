@@ -12,6 +12,7 @@ class User extends UserModel
         'first_name',
         'last_name',
         'group_id',
+        'status',
     ];
 
     public function group()

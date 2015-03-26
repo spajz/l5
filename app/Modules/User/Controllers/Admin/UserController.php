@@ -5,12 +5,11 @@ use Datatables;
 use DatatablesFront;
 use Former;
 use Input;
-use Redirect;
-use App\Modules\People\Models\People;
+use App\modules\User\Models\Group;
 
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
-use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Auth;
 
 class UserController extends AdminController
 {
@@ -23,6 +22,8 @@ class UserController extends AdminController
         array('data' => 'status', 'className' => 'w40 center'),
         array('name' => 'actions', 'className' => 'w120 center', 'orderable' => false),
     );
+
+    protected $formButtons = array('except' => array('approve', 'reject'));
 
     public function __construct(Guard $auth, Registrar $registrar)
     {
@@ -78,7 +79,9 @@ class UserController extends AdminController
      */
     public function create()
     {
-        return view("{$this->moduleLower}::admin.create");
+        $groups = Group::orderBy('name')->get()->lists('name');
+        $formButtons = $this->formButtons($this->formButtons);
+        return view("{$this->moduleLower}::admin.create", compact('groups', 'formButtons'));
     }
 
     /**
@@ -88,15 +91,19 @@ class UserController extends AdminController
      */
     public function store()
     {
-        $validator = $this->registrar->validator(Input::all());
+        $validator = $this->registrar->validatorAdmin(Input::all());
 
         if ($validator->fails()) {
-            msg($validator->messages(), 'danger');
-            echo 123; exit;
-            return redirect()->back();
+            msg($validator->messages()->all(), 'danger');
+            return redirect()->back()->withInput();
         }
 
-        $this->auth->login($this->registrar->create(Input::all()));
+        if ($item = $this->registrar->create(Input::all())) {
+            msg('Item successfully created.');
+            return $this->redirect($item);
+        }
+
+        msg('Item has not been created.', 'danger');
 
         return redirect()->back();
     }
@@ -125,13 +132,14 @@ class UserController extends AdminController
 
         if (!$item) {
             msg('The requested item does not exist or has been deleted.', 'danger');
-            return Redirect::route("admin.{$this->moduleLower}.index");
+            return redirect()->route("admin.{$this->moduleLower}.index");
         }
 
         Former::populate($item);
-        $people = People::orderBy('order')->get();
+        $groups = Group::orderBy('name')->get()->lists('name');
+        $formButtons = $this->formButtons($this->formButtons);
 
-        return view("{$this->moduleLower}::admin.edit", compact('item', 'people'));
+        return view("{$this->moduleLower}::admin.edit", compact('item', 'groups', 'formButtons'));
     }
 
     /**
@@ -144,29 +152,25 @@ class UserController extends AdminController
     {
         $model = $this->modelName;
         $item = $model::find($id);
-        $save = Input::get('save');
 
         if (!$item) {
-            msg('Item does not exist.', 'danger');
-            return Redirect::route("admin.{$this->moduleLower}.index");
+            msg('The requested item does not exist or has been deleted.', 'danger');
+            return redirect()->back();
         }
 
-        if (isset($save['reject'])) {
-            msg('Item rejected.');
-            $item->status = -1;
-            $item->save();
+        $validator = $this->registrar->validatorAdminUpdate(Input::all());
+
+        if ($validator->fails()) {
+            msg($validator->messages()->all(), 'danger');
+            return redirect()->back()->withInput();
+        }
+
+        if ($this->registrar->update(Input::all())) {
+            msg('Item successfully updated.');
             return $this->redirect($item);
         }
 
-        $item->update(Input::all());
-
-        msg('Item successfully updated.');
-
-        if (isset($save['publish'])) {
-            msg('Item successfully published.');
-            $item->status = 1;
-            return $this->redirect($item);
-        }
+        msg('Nothing changed.', 'info');
 
         return $this->redirect($item);
     }

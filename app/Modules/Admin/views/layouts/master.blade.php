@@ -55,7 +55,7 @@
         </div>
         <!-- /.navbar-header -->
 
-        @include("admin::_partials.topmenu")
+        @include("admin::_partials.top_menu")
         <!-- /.navbar-top-links -->
 
         @include("admin::_partials.sidebar")
