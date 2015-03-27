@@ -31,10 +31,10 @@
                                 {!! Former::text('email')->required() !!}
 
                                 {!!
-                                    Former::text('password')->required()
-                                    ->help('<button type="button" data-random-string="[name=\'password\']" class="btn btn-success">
-                                    Create random password
-                                    </button> ')
+                                    Former::text('password')
+                                    ->required()
+                                    ->append('<button class="btn btn-success" type="button" data-random-string="[name=\'password\']">
+                                    Create random password</button>')
                                 !!}
 
                                 {!! Former::text('first_name') !!}

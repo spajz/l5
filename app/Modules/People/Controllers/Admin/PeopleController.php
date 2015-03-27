@@ -10,6 +10,7 @@ use Redirect;
 use App\Modules\People\Models\People;
 use Auth;
 use Illuminate\Contracts\Auth\Registrar;
+use Route;
 
 class PeopleController extends AdminController
 {
@@ -106,7 +107,8 @@ class PeopleController extends AdminController
     public function edit($id)
     {
 
-        $this->registrar->create(['email' => 'admin@admin.com', 'password' => 'admin123123123', 'name' => 'djole']);
+        dd(Route::currentRouteName());
+//        $this->registrar->create(['email' => 'admin@admin.com', 'password' => 'admin123123123', 'name' => 'djole']);
 //        Auth::attempt(['email' => 'admin@admin.com', 'password' => 'admin123123123']);
 
 

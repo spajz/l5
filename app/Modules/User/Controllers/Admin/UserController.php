@@ -11,6 +11,8 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
 use Auth;
 
+use App\Modules\User\Requests\UserRequest;
+
 class UserController extends AdminController
 {
 
@@ -89,7 +91,17 @@ class UserController extends AdminController
      *
      * @return Response
      */
-    public function store()
+    public function store(UserRequest $request)
+    {
+
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return Response
+     */
+    public function store2()
     {
         $validator = $this->registrar->validatorAdmin(Input::all());
 
