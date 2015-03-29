@@ -150,7 +150,7 @@ class UserController extends AdminController
 
         if($item->update(Input::all())){
             msg('Item successfully updated.');
-            return $this->redirect($item, ['withInput']);
+            return $this->redirect($item);
         }
 
         msg('Nothing changed.', 'info');

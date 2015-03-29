@@ -22,6 +22,7 @@ return array(
         'javascript' => 'admin::datatables.javascript',
         'statusButtons' => 'admin::datatables.status_buttons',
         'actionButtons' => 'admin::datatables.action_buttons',
+        'transButtons' => 'admin::datatables.trans_buttons',
     ),
 
 );

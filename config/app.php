@@ -158,6 +158,7 @@ return [
 
         'App\Modules\ModulesServiceProvider',
         'App\Providers\AuthServiceProvider',
+        'Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider'
 
 	],
 
@@ -217,6 +218,7 @@ return [
         'Notification'    => 'Krucas\Notification\Facades\Notification',
         'Form'            => 'Collective\Html\FormFacade',
         'Html'            => 'Collective\Html\HtmlFacade',
+        'LaravelLocalization' => 'Mcamara\LaravelLocalization\Facades\LaravelLocalization',
 
 	],
 

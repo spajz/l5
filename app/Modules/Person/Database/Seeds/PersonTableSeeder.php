@@ -23,6 +23,9 @@ class PersonTableSeeder extends Seeder {
                 'job_title' => $faker->sentence(2),
                 'description' => $faker->sentence(4),
 
+                'lang' => 'sr',
+                'trans_id' => 0,
+
                 'order' => $faker->randomDigitNotNull(),
                 'status' => $faker->randomElement(array(1, 1, 1, -1, -1, 0, 0)),
 

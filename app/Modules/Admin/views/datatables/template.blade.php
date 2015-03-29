@@ -6,6 +6,13 @@
         @endforeach
     </tr>
     </thead>
+    <tfoot>
+    <tr>
+        @foreach($columns as $i => $c)
+            <td></td>
+        @endforeach
+    </tr>
+    </tfoot>
     <tbody>
 
     </tbody>

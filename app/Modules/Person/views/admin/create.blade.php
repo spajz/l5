@@ -2,17 +2,26 @@
 
 @section('content')
 
-    <div id="pjax-container">
+    <div id="pjax-container" xmlns="http://www.w3.org/1999/html">
 
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
-                    <i class="fa {{ modules()[$moduleLower]['icon'] }} fa-fw"></i> {{ $moduleTitle or $moduleUpper }} Create
+                    <i class="fa {{ modules()[$moduleLower]['icon'] }} fa-fw"></i> {{ $moduleTitle or $moduleUpper }}
+                    Create
                 </h1>
             </div>
         </div>
 
-        {!! Former::open_for_files()->route("admin.{$moduleLower}.create")->method('put')->data_pjax() !!}
+        @if($transButtons)
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>{!! $transButtons !!}</p>
+                </div>
+            </div>
+        @endif
+
+        {!! Former::open_for_files()->route("admin.{$moduleLower}.store")->method('post') !!}
 
         <div class="row">
             <div class="col-lg-12">
@@ -24,35 +33,21 @@
                         <div class="row">
                             <div class="col-lg-12">
 
+                                {!! Former::hidden('id') !!}
+
                                 {!! Former::text('first_name') !!}
 
                                 {!! Former::text('last_name') !!}
 
-                                {!! Former::text('email') !!}
+                                {!! Former::text('job_title') !!}
 
-                                {!! Former::text('phone') !!}
+                                {!! Former::textarea('description') !!}
 
-                                {!! Former::text('age') !!}
+                                {!! Former::text('lang')->forceValue($lang)->disabled() !!}
 
-                                {!! Former::text('email2')->label('Email 2') !!}
+                                {!! Former::checkbox('status')->value(1) !!}
 
-                                {!! Former::text('ip') !!}
-
-                                <div class="form-group">
-                                    <div class="col-lg-offset-2 col-md-offset-3 col-sm-offset-3 col-lg-10 col-md-9 col-sm-9">
-                                        <input class="btn btn-success" type="submit" value="Save" name="save[edit]"
-                                               data-pjax="1">&nbsp;
-                                        <input class="btn btn-success" type="submit" value="Save & Exit"
-                                               name="save[exit]">&nbsp;
-                                        <input class="btn btn-warning" type="submit"
-                                               value="Approve & Publish to Wall & Gallery" name="save[publish]"
-                                               data-bb="submit">&nbsp;
-                                        <input class="btn btn-warning" type="submit" value="Approve & Publish to Gallery"
-                                               name="save[publish-gallery]" data-bb="submit">&nbsp;
-                                        <input class="btn btn-inverse" type="submit" value="Reject" name="save[reject]"
-                                               data-bb="submit">&nbsp;
-                                    </div>
-                                </div>
+                                {!! $formButtons or '' !!}
 
                             </div>
                             <!-- /.col-lg-12 -->

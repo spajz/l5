@@ -20,6 +20,9 @@ class PersonController extends AdminController
         ['data' => 'created_at'],
         ['data' => 'order', 'className' => 'w40'],
         ['data' => 'status', 'className' => 'w40 center'],
+        ['data' => 'lang', 'className' => 'w40'],
+        ['data' => 'trans_id', 'className' => 'w40', 'title' => 'Parent'],
+        ['name' => 'translate', 'className' => 'w120 center', 'orderable' => false],
         ['name' => 'actions', 'className' => 'w120 center', 'orderable' => false],
     ];
 
@@ -36,11 +39,15 @@ class PersonController extends AdminController
     {
         $model = $this->modelName;
         $model = $model::select($this->dtSelectColumns());
+//            ->where('lang', 'sr');
         $modelNameSpace = get_class($model);
 
         return Datatables::of($model)
             ->addColumn('status', function ($data) use ($dtFront, $modelNameSpace) {
                 return $dtFront->renderStatusButtons($data, $modelNameSpace);
+            })
+            ->addColumn('translate', function ($data) use ($dtFront, $modelNameSpace) {
+                return $dtFront->renderTransButtons($data);
             })
             ->addColumn('actions', function ($data) use ($dtFront, $modelNameSpace) {
                 return $dtFront->renderActionButtons($data);
@@ -70,9 +77,31 @@ class PersonController extends AdminController
      *
      * @return Response
      */
-    public function create()
+    public function create($trans_id = null, $lang = null)
     {
-        return view("{$this->moduleLower}::admin.create");
+        $model = $this->modelName;
+        $transButtons = '';
+
+        if (is_null($lang)) $lang = $this->language;
+        if (is_numeric($trans_id)) {
+
+            $trans = $model::hasTrans($trans_id, $lang)->first();
+            if ($trans) {
+                msg('This item already exists in the requested language.', 'info');
+                return $this->redirect($trans, ['save' => ['edit' => 'Save']]);
+            }
+
+            $item = $model::find($trans_id);
+            if (!$item) {
+                msg('Item which you want to translate does not exist or has been deleted.', 'danger');
+                return redirect()->route("admin.{$this->moduleLower}.index");
+            }
+            Former::populate($item);
+            $transButtons = $this->renderTransButtons($item);
+        }
+
+        $formButtons = $this->formButtons($this->formButtons);
+        return view("{$this->moduleLower}::admin.create", compact('formButtons', 'trans_id', 'lang', 'transButtons'));
     }
 
     /**
@@ -112,7 +141,7 @@ class PersonController extends AdminController
      * @param  int $id
      * @return Response
      */
-    public function edit($id)
+    public function edit($id, $lang = null)
     {
         $model = $this->modelName;
         $item = $model::find($id);
@@ -124,8 +153,9 @@ class PersonController extends AdminController
 
         Former::populate($item);
         $formButtons = $this->formButtons($this->formButtons);
+        $transButtons = $this->renderTransButtons($item);
 
-        return view("{$this->moduleLower}::admin.edit", compact('item', 'formButtons'));
+        return view("{$this->moduleLower}::admin.edit", compact('item', 'formButtons', 'transButtons'));
     }
 
     /**
@@ -149,7 +179,7 @@ class PersonController extends AdminController
 
         if ($item->update(Input::all())) {
             msg('Item successfully updated.');
-            return $this->redirect($item, ['withInput']);
+            return $this->redirect($item);
         }
 
         msg('Nothing changed.', 'info');
@@ -177,6 +207,11 @@ class PersonController extends AdminController
         $model = $this->modelName;
         $items = $model::all();
         return view("{$this->moduleLower}::admin.order", compact('model', 'items'));
+    }
+
+    protected function createTransChild($id)
+    {
+
     }
 
 }

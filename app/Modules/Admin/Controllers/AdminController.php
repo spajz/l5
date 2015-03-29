@@ -16,10 +16,12 @@ class AdminController extends BaseController
     protected $moduleUpper;
     protected $moduleTitle;
     protected $config;
+    protected $language;
 
     public function __construct()
     {
         $this->setConfig(__FILE__);
+        $this->language = config('admin.language');
     }
 
     protected function setConfig($module, $path = true)
@@ -95,33 +97,29 @@ class AdminController extends BaseController
         }
     }
 
-    protected function redirect($item, $array = [])
+    protected function redirect($item, $input = null)
     {
-        $save = Input::get('save');
-        $array = (array)$array;
+        if (is_null($input)) {
+            $input = Input::all();
+        }
+        $action = $input['save'];
 
         switch (true) {
-            case isset($save['edit']):
+            case isset($action['edit']):
                 $route = Redirect::route("admin.{$this->moduleLower}.edit", $item->id);
                 break;
 
-            case isset($save['exit']):
+            case isset($action['exit']):
                 $route = Redirect::route("admin.{$this->moduleLower}.index");
                 break;
 
-            case isset($save['new']):
+            case isset($action['new']):
                 $route = Redirect::route("admin.{$this->moduleLower}.create");
                 break;
 
             default:
                 $route = Redirect::route("admin.{$this->moduleLower}.index");
 
-        }
-
-        if ($array) {
-            $method = $array[0];
-            array_shift($array);
-            return $route->{$method}($array ?: []);
         }
         return $route;
     }
@@ -146,6 +144,12 @@ class AdminController extends BaseController
 
         return view('admin::_partials.form_buttons_template', compact('formButtons', 'extra'));
 
+    }
+
+    public function renderTransButtons($item)
+    {
+        $dtFront = new DatatablesFront;
+        return $dtFront->renderTransButtons($item);
     }
 
 }

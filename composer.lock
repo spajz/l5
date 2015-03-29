@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "71b9611d8fa3cbcb5cb115ddc1121069",
+    "hash": "461f49e10639a456313b3fdbe102a941",
     "packages": [
         {
             "name": "anahkiasen/former",
@@ -828,16 +828,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.0.22",
+            "version": "v5.0.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "388289de68ba912746bd1adb20a8b1cd0f846ea1"
+                "reference": "59219f7afb60be05d74ce01fcb5d2440f7a1b13d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/388289de68ba912746bd1adb20a8b1cd0f846ea1",
-                "reference": "388289de68ba912746bd1adb20a8b1cd0f846ea1",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/59219f7afb60be05d74ce01fcb5d2440f7a1b13d",
+                "reference": "59219f7afb60be05d74ce01fcb5d2440f7a1b13d",
                 "shasum": ""
             },
             "require": {
@@ -950,7 +950,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2015-03-27 14:49:51"
+            "time": "2015-03-28 16:56:59"
         },
         {
             "name": "laravelcollective/html",
@@ -1084,6 +1084,54 @@
                 "storage"
             ],
             "time": "2015-03-10 11:04:14"
+        },
+        {
+            "name": "mcamara/laravel-localization",
+            "version": "1.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mcamara/laravel-localization.git",
+                "reference": "952d26841ab9f4bc76460514609d38b98311c898"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mcamara/laravel-localization/zipball/952d26841ab9f4bc76460514609d38b98311c898",
+                "reference": "952d26841ab9f4bc76460514609d38b98311c898",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "5.0.*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "3.0.*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [],
+                "psr-0": {
+                    "Mcamara\\LaravelLocalization": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marc Cámara",
+                    "email": "mcamara88@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Easy localization for Laravel",
+            "homepage": "https://github.com/mcamara/laravel-localization",
+            "keywords": [
+                "laravel",
+                "localization",
+                "php"
+            ],
+            "time": "2015-03-11 16:51:00"
         },
         {
             "name": "monolog/monolog",
@@ -2475,16 +2523,16 @@
         },
         {
             "name": "yajra/laravel-datatables-oracle",
-            "version": "4.0.10",
+            "version": "v4.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables-oracle.git",
-                "reference": "b4a4850d14ffbf4144ad40721c339e22bb5c8685"
+                "reference": "98ce85ffd32a65cecaccd23d2565229e99d9f79a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables-oracle/zipball/b4a4850d14ffbf4144ad40721c339e22bb5c8685",
-                "reference": "b4a4850d14ffbf4144ad40721c339e22bb5c8685",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables-oracle/zipball/98ce85ffd32a65cecaccd23d2565229e99d9f79a",
+                "reference": "98ce85ffd32a65cecaccd23d2565229e99d9f79a",
                 "shasum": ""
             },
             "require": {
@@ -2524,7 +2572,7 @@
                 "laravel4",
                 "laravel5"
             ],
-            "time": "2015-03-28 01:09:05"
+            "time": "2015-03-28 15:05:00"
         }
     ],
     "packages-dev": [

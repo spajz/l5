@@ -8,7 +8,9 @@ Route::group(array("prefix" => ADMIN), function () use ($moduleUpper, $moduleLow
 
     Route::get($moduleLower, array("as" => "admin.{$moduleLower}.index", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@index"));
 
-    Route::get("{$moduleLower}/create", array("as" => "admin.{$moduleLower}.create", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@create"));
+    Route::get("{$moduleLower}/create/{id?}/{lang?}", array("as" => "admin.{$moduleLower}.create", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@create"));
+
+    Route::get("{$moduleLower}/{id}/trans/{lang?}", array("as" => "admin.{$moduleLower}.create2", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@createTrans"));
 
     Route::get("{$moduleLower}/order", array("as" => "admin.{$moduleLower}.order", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@order"));
 

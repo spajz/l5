@@ -27,6 +27,7 @@
     "select2-bootstrap-css": "~1.4.6",
     "fancybox": "~2.1.5",
     "ckeditor": "~4.4.7",
-    "jquery-ui": "~1.11.4"
+    "jquery-ui": "~1.11.4",
+    "yadcf": "~0.8.7"
   }
 }

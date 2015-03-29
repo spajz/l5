@@ -162,3 +162,12 @@ if (!function_exists('get_dirname')) {
     }
 }
 
+if ( ! function_exists('ee'))
+{
+    function ee()
+    {
+        array_map(function($x) { (new Illuminate\Support\Debug\Dumper)->dump($x); }, func_get_args());
+
+    }
+}
+

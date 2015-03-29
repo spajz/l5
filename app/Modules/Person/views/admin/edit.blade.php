@@ -10,9 +10,15 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-lg-12">
+            <p>{!! $transButtons !!}</p>
+        </div>
+    </div>
+
     <div id="pjax-container">
 
-        {!! Former::open_for_files()->route("admin.{$moduleLower}.update", $item->id)->method('put')->data_pjax() !!}
+        {!! Former::open_for_files()->route("admin.{$moduleLower}.update", $item->id)->method('put') !!}
 
         <div class="row">
             <div class="col-lg-12">
@@ -24,32 +30,21 @@
                         <div class="row">
                             <div class="col-lg-12">
 
-                                {!! Former::text('title') !!}
+                                {!! Former::hidden('id') !!}
 
-                                {!! Former::checkbox('status')->value(1)->unchecked_value(0) !!}
+                                {!! Former::text('first_name') !!}
 
-                                {!! Former::text('ip') !!}
+                                {!! Former::text('last_name') !!}
 
-                                {!! Former::textarea('slug')->id('ckeditor') !!}
+                                {!! Former::text('job_title') !!}
 
-                                {!! Former::select('clients')->options(array('a', 'b', 'c', 1, 2, 3, 4, 5, 6),
-                                123)->class('select2') !!}
+                                {!! Former::textarea('description') !!}
 
-                                <div class="form-group">
-                                    <div class="col-lg-offset-2 col-md-offset-3 col-sm-offset-3 col-lg-10 col-md-9 col-sm-9">
-                                        <a href="{{ route("admin.{$moduleLower}.index") }}" class="btn btn-default">Back
-                                            To List</a>
-                                        <input class="btn btn-success" type="submit" value="Save" name="save[edit]"
-                                               data-pjax="1">&nbsp;
-                                        <input class="btn btn-success" type="submit" value="Save & Exit"
-                                               name="save[exit]">&nbsp;
-                                        <input class="btn btn-warning" type="submit"
-                                               value="Approve" name="save[publish]"
-                                               data-bb="submit">&nbsp;
-                                        <input class="btn btn-inverse" type="submit" value="Reject" name="save[reject]"
-                                               data-bb="submit">&nbsp;
-                                    </div>
-                                </div>
+                                {!! Former::text('lang')->value('sr') !!}
+
+                                {!! Former::checkbox('status')->value(1) !!}
+
+                                {!! $formButtons or '' !!}
 
                             </div>
                             <!-- /.col-lg-12 -->
@@ -66,10 +61,5 @@
         {!! Former::close() !!}
 
     </div>
-
-@stop
-
-@section('scripts_bottom')
-@parent
 
 @stop

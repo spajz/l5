@@ -1,6 +1,7 @@
 <?php namespace App\Library;
 
 use Config;
+use Illuminate\Database\Eloquent\Collection;
 
 class DatatablesFront
 {
@@ -9,6 +10,7 @@ class DatatablesFront
     protected $javascript;
     protected $actionButtons;
     protected $statusButtons;
+    protected $transButtons;
     protected $url;
     protected $id;
     protected $class;
@@ -24,6 +26,7 @@ class DatatablesFront
         $this->javascript = Config::get('datatables.views.javascript');
         $this->actionButtons = Config::get('datatables.views.actionButtons');
         $this->statusButtons = Config::get('datatables.views.statusButtons');
+        $this->transButtons = Config::get('datatables.views.transButtons');
     }
 
     public function setTemplate($template)
@@ -171,6 +174,15 @@ class DatatablesFront
     public function renderActionButtons($data)
     {
         return view($this->actionButtons, array('data' => $data))->render();
+    }
+
+    public function renderTransButtons($item)
+    {
+        $languages = Config::get('admin.languages');
+
+        $transRelated =  $item->transRelated();
+
+        return view($this->transButtons, compact('item', 'languages', 'transRelated'))->render();
     }
 
     public function renderStatusButtons($data, $model = null)

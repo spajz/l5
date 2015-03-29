@@ -5,6 +5,14 @@ $moduleLower = strtolower($moduleUpper);
 
 return array(
 
+    'language' => 'sr',
+
+    'languages' => [
+        'sr',
+        'en',
+        'de',
+    ],
+
     'under-maintenance' => false,
 
     'baseUrl' => 'admin',
