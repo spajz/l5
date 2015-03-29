@@ -14,11 +14,11 @@
   ],
   "devDependencies": {
     "jquery-legacy": "jquery#^1",
-    "bootstrap": "~3.3.2",
+    "bootstrap": "~3.3.4",
     "font-awesome": "~4.3.0",
     "html5shiv": "~3.7.2",
     "respond": "~1.4.2",
-    "bootswatch": "~3.3.2",
+    "bootswatch": "~3.3.4",
     "datatables": "~1.10.5",
     "metisMenu": "~1.1.3",
     "jquery-pjax": "~1.9.5",

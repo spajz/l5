@@ -25,7 +25,7 @@ class AdminServiceProvider extends ServiceProvider
     }
 
     /**
-     * Build admin menu from view files
+     * Build admin menu from view files.
      *
      * @return void
      */

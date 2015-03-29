@@ -26,11 +26,6 @@ class DatatablesFront
         $this->statusButtons = Config::get('datatables.views.statusButtons');
     }
 
-    public static function init()
-    {
-        return new static;
-    }
-
     public function setTemplate($template)
     {
         $this->template = $template;

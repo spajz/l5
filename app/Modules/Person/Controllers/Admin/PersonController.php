@@ -1,43 +1,42 @@
-<?php namespace App\Modules\People\Controllers\Admin;
+<?php namespace App\Modules\Person\Controllers\Admin;
 
-use App\Http\Requests;
 use App\Modules\Admin\Controllers\AdminController;
+use App\Modules\Person\Models\Person as Model;
+
 use Datatables;
 use DatatablesFront;
 use Former;
 use Input;
-use Redirect;
-use App\Modules\People\Models\People;
-use Auth;
-use Illuminate\Contracts\Auth\Registrar;
-use Route;
+use Illuminate\Http\Request as HttpRequest;
 
-class PeopleController extends AdminController
+class PersonController extends AdminController
 {
 
-    protected $dtColumns = array(
-        array('data' => 'id', 'className' => 'w40'),
-        array('data' => 'slug'),
-        array('data' => 'title'),
-        array('data' => 'created_at'),
-        array('data' => 'status', 'className' => 'w40 center'),
-        array('name' => 'actions', 'className' => 'w120 center', 'orderable' => false),
-    );
+    protected $dtColumns = [
+        ['data' => 'id', 'className' => 'w40'],
+        ['data' => 'first_name'],
+        ['data' => 'last_name'],
+        ['data' => 'job_title'],
+        ['data' => 'created_at'],
+        ['data' => 'order', 'className' => 'w40'],
+        ['data' => 'status', 'className' => 'w40 center'],
+        ['name' => 'actions', 'className' => 'w120 center', 'orderable' => false],
+    ];
 
-    public function __construct(Registrar $registrar)
+    protected $formButtons = array('except' => array('approve', 'reject'));
+
+    public function __construct()
     {
         parent::__construct();
-        $this->registrar = $registrar;
 
         $this->setConfig(__FILE__);
     }
 
-    public function getDatatable()
+    public function getDatatable(DatatablesFront $dtFront)
     {
         $model = $this->modelName;
         $model = $model::select($this->dtSelectColumns());
         $modelNameSpace = get_class($model);
-        $dtFront = DatatablesFront::init();
 
         return Datatables::of($model)
             ->addColumn('status', function ($data) use ($dtFront, $modelNameSpace) {
@@ -52,13 +51,12 @@ class PeopleController extends AdminController
     /**
      * Display a listing of the resource.
      *
+     * @param \DatatablesFront $dtFront
      * @return Response
      */
-    public function index()
+    public function index(DatatablesFront $dtFront)
     {
-        $dtFront = DatatablesFront::init()
-//            ->searchColumns('slug', 'status')
-            ->addColumns($this->dtColumns)
+        $dtFront->addColumns($this->dtColumns)
             ->setUrl(route("api.{$this->moduleLower}.dt"))
             ->setId("dt-{$this->moduleLower}");
 
@@ -80,11 +78,21 @@ class PeopleController extends AdminController
     /**
      * Store a newly created resource in storage.
      *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Modules\Person\Models\Person $model
      * @return Response
      */
-    public function store()
+    public function store(HttpRequest $request, Model $model)
     {
-        //
+        $this->validate($request, $model->rules());
+
+        if ($item = $model->create(Input::all())) {
+            msg('Item successfully created.');
+            return $this->redirect($item);
+        }
+
+        msg('Item has not been created.', 'danger');
+        return redirect()->back();
     }
 
     /**
@@ -106,60 +114,45 @@ class PeopleController extends AdminController
      */
     public function edit($id)
     {
-
-        dd(Route::currentRouteName());
-//        $this->registrar->create(['email' => 'admin@admin.com', 'password' => 'admin123123123', 'name' => 'djole']);
-//        Auth::attempt(['email' => 'admin@admin.com', 'password' => 'admin123123123']);
-
-
         $model = $this->modelName;
         $item = $model::find($id);
 
         if (!$item) {
             msg('The requested item does not exist or has been deleted.', 'danger');
-            return Redirect::route("admin.{$this->moduleLower}.index");
+            return redirect()->route("admin.{$this->moduleLower}.index");
         }
 
         Former::populate($item);
-        $people = People::orderBy('order')->get();
+        $formButtons = $this->formButtons($this->formButtons);
 
-        return view("{$this->moduleLower}::admin.edit", compact('item', 'people'));
+        return view("{$this->moduleLower}::admin.edit", compact('item', 'formButtons'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  int $id
+     * @param \Illuminate\Http\Request $request
      * @return Response
      */
-    public function update($id)
+    public function update($id, HttpRequest $request)
     {
         $model = $this->modelName;
         $item = $model::find($id);
-        $save = Input::get('save');
 
         if (!$item) {
-            msg('Item does not exist.', 'danger');
-            return Redirect::route("admin.{$this->moduleLower}.index");
+            msg('The requested item does not exist or has been deleted.', 'danger');
+            return redirect()->back();
         }
 
-        if (isset($save['reject'])) {
-            msg('Item rejected.');
-            $item->status = -1;
-            $item->save();
-            return $this->redirect($item);
+        $this->validate($request, $item->rules());
+
+        if ($item->update(Input::all())) {
+            msg('Item successfully updated.');
+            return $this->redirect($item, ['withInput']);
         }
 
-        $item->update(Input::all());
-
-        msg('Item successfully updated.');
-
-        if (isset($save['publish'])) {
-            msg('Item successfully published.');
-            $item->status = 1;
-            return $this->redirect($item);
-        }
-
+        msg('Nothing changed.', 'info');
         return $this->redirect($item);
     }
 
@@ -172,6 +165,18 @@ class PeopleController extends AdminController
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Reorder items.
+     *
+     * @return Response
+     */
+    public function order()
+    {
+        $model = $this->modelName;
+        $items = $model::all();
+        return view("{$this->moduleLower}::admin.order", compact('model', 'items'));
     }
 
 }

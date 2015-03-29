@@ -32,20 +32,19 @@
 
                                 {!! Former::text('email')->required() !!}
 
-                                {!! Former::checkbox('change_password')->value(1)->unchecked_value(0) !!}
+                                {!! Former::checkbox('change_password')->value(1) !!}
 
                                 {!!
                                     Former::text('password')->forceValue('')
-                                    ->help('<button type="button" data-random-string="[name=\'password\']" class="btn btn-success">
-                                        Create random password
-                                    </button> ')
+                                    ->append('<button class="btn btn-success" type="button" data-random-string="[name=\'password\']">
+                                        Create random password</button>')
                                 !!}
 
                                 {!! Former::text('first_name') !!}
 
                                 {!! Former::text('last_name') !!}
 
-                                {!! Former::checkbox('status')->value(1)->unchecked_value(0) !!}
+                                {!! Former::checkbox('status')->value(1) !!}
 
                                 {!! $formButtons or '' !!}
 

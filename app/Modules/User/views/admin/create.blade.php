@@ -41,7 +41,7 @@
 
                                 {!! Former::text('last_name') !!}
 
-                                {!! Former::checkbox('status')->value(1)->unchecked_value(0) !!}
+                                {!! Former::checkbox('status')->value(1) !!}
 
                                 {!! $formButtons or '' !!}
 

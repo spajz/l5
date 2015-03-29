@@ -1,16 +1,15 @@
 <?php namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Route;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\Validator;
 
 abstract class Request extends FormRequest
 {
 
-//    abstract protected function separateValidation();
-
     public function rules()
     {
-        return $this->rulesType();
+        return $this->rulesMerge();
     }
 
     public function rulesAll()
@@ -28,7 +27,7 @@ abstract class Request extends FormRequest
         return array();
     }
 
-    protected function rulesType()
+    protected function rulesMerge()
     {
         $name = Route::currentRouteName();
         $name = explode('.', $name);
@@ -40,5 +39,27 @@ abstract class Request extends FormRequest
         }
 
         return array_merge($rules, $this->rulesStore());
+    }
+
+    public function response(array $errors)
+    {
+        if ($this->ajax() || $this->wantsJson()) {
+            return new JsonResponse($errors, 422);
+        }
+
+        msg($errors, 'danger');
+        return $this->redirector->to($this->getRedirectUrl())
+            ->withInput($this->except($this->dontFlash));
+//            ->withErrors($errors, $this->errorBag);
+    }
+
+    public function setRedirectRoute($redirectRoute)
+    {
+        $this->redirectRoute = $redirectRoute;
+    }
+
+    protected function formatErrors(Validator $validator)
+    {
+        return $validator->errors()->all();
     }
 }

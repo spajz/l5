@@ -1,50 +1,40 @@
 <?php namespace App\Modules\User\Controllers\Admin;
 
 use App\Modules\Admin\Controllers\AdminController;
+use App\Modules\User\Models\Group;
+use App\Modules\User\Models\User as Model;
+
 use Datatables;
 use DatatablesFront;
 use Former;
 use Input;
-use App\modules\User\Models\Group;
-
-use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Auth\Registrar;
-use Auth;
-
-use App\Modules\User\Requests\UserRequest;
+use Illuminate\Http\Request as HttpRequest;
 
 class UserController extends AdminController
 {
-
-    protected $dtColumns = array(
-        array('data' => 'id', 'className' => 'w40'),
-        array('data' => 'name'),
-        array('data' => 'email'),
-        array('data' => 'created_at'),
-        array('data' => 'status', 'className' => 'w40 center'),
-        array('name' => 'actions', 'className' => 'w120 center', 'orderable' => false),
-    );
+    protected $dtColumns = [
+        ['data' => 'id', 'className' => 'w40'],
+        ['data' => 'name'],
+        ['data' => 'email'],
+        ['data' => 'created_at'],
+        ['data' => 'status', 'className' => 'w40 center'],
+        ['name' => 'actions', 'className' => 'w120 center', 'orderable' => false],
+    ];
 
     protected $formButtons = array('except' => array('approve', 'reject'));
 
-    public function __construct(Guard $auth, Registrar $registrar)
+    public function __construct()
     {
         parent::__construct();
-
-        $this->auth = $auth;
-        $this->registrar = $registrar;
-
-//        $this->middleware('guest', ['except' => 'getLogout']);
 
         $this->setConfig(__FILE__);
     }
 
-    public function getDatatable()
+    public function getDatatable(DatatablesFront $dtFront)
     {
         $model = $this->modelName;
         $model = $model::select($this->dtSelectColumns());
         $modelNameSpace = get_class($model);
-        $dtFront = DatatablesFront::init();
 
         return Datatables::of($model)
             ->addColumn('status', function ($data) use ($dtFront, $modelNameSpace) {
@@ -59,13 +49,12 @@ class UserController extends AdminController
     /**
      * Display a listing of the resource.
      *
+     * @param \DatatablesFront $dtFront
      * @return Response
      */
-    public function index()
+    public function index(DatatablesFront $dtFront)
     {
-        $dtFront = DatatablesFront::init()
-//            ->searchColumns('slug', 'status')
-            ->addColumns($this->dtColumns)
+        $dtFront->addColumns($this->dtColumns)
             ->setUrl(route("api.{$this->moduleLower}.dt"))
             ->setId("dt-{$this->moduleLower}");
 
@@ -89,34 +78,20 @@ class UserController extends AdminController
     /**
      * Store a newly created resource in storage.
      *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Modules\User\Models\User $model
      * @return Response
      */
-    public function store(UserRequest $request)
+    public function store(HttpRequest $request, Model $model)
     {
+        $this->validate($request, $model->rules());
 
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @return Response
-     */
-    public function store2()
-    {
-        $validator = $this->registrar->validatorAdmin(Input::all());
-
-        if ($validator->fails()) {
-            msg($validator->messages()->all(), 'danger');
-            return redirect()->back()->withInput();
-        }
-
-        if ($item = $this->registrar->create(Input::all())) {
+        if ($item = $model->create(Input::all())) {
             msg('Item successfully created.');
             return $this->redirect($item);
         }
 
         msg('Item has not been created.', 'danger');
-
         return redirect()->back();
     }
 
@@ -158,9 +133,10 @@ class UserController extends AdminController
      * Update the specified resource in storage.
      *
      * @param  int $id
+     * @param \Illuminate\Http\Request $request
      * @return Response
      */
-    public function update($id)
+    public function update($id, HttpRequest $request)
     {
         $model = $this->modelName;
         $item = $model::find($id);
@@ -170,20 +146,14 @@ class UserController extends AdminController
             return redirect()->back();
         }
 
-        $validator = $this->registrar->validatorAdminUpdate(Input::all());
+        $this->validate($request, $item->rules());
 
-        if ($validator->fails()) {
-            msg($validator->messages()->all(), 'danger');
-            return redirect()->back()->withInput();
-        }
-
-        if ($this->registrar->update(Input::all())) {
+        if($item->update(Input::all())){
             msg('Item successfully updated.');
-            return $this->redirect($item);
+            return $this->redirect($item, ['withInput']);
         }
 
         msg('Nothing changed.', 'info');
-
         return $this->redirect($item);
     }
 

@@ -6,7 +6,9 @@
 
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Create</h1>
+                <h1 class="page-header">
+                    <i class="fa {{ modules()[$moduleLower]['icon'] }} fa-fw"></i> {{ $moduleTitle or $moduleUpper }} Create
+                </h1>
             </div>
         </div>
 

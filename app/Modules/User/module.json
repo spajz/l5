@@ -1,5 +1,6 @@
 {
     "name": "user",
+    "class": "User",
     "enabled": true,
     "icon": "fa-user",
     "order": 99999,

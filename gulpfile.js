@@ -48,12 +48,12 @@ var adminConfig = {
 
 elixir.config = objMerge(elixir.config, adminConfig);
 
-var bowerDir = elixir.config.bowerDir;
 var adminDir = 'public/assets/admin';
 var adminBuildDir = 'public/build/assets/admin';
 var copyNo = 1;
 var copyTasks = [];
 
+// Gulper
 elixir.extend('gulper', function () {
     gulp.task('gulper', function (callback) {
         runSequence(copyTasks,
@@ -93,7 +93,7 @@ function multiCopy(src, output) {
 }
 
 
-// Bootstrap
+// Main admin mix
 elixir(function (mix) {
     mix.less('app.less')
 
@@ -141,24 +141,19 @@ elixir(function (mix) {
         ]);
 });
 
-multiCopy([
-    adminConfig.bowerDir + '/font-awesome/fonts',
-    adminConfig.bowerDir + '/bootstrap/fonts',
-], [
-    adminBuildDir + '/fonts/',
-    adminDir + '/fonts/'
-]);
+multiCopy(
+    [
+        adminConfig.bowerDir + '/font-awesome/fonts',
+        adminConfig.bowerDir + '/bootstrap/fonts',
+    ],
+    [adminBuildDir + '/fonts/', adminDir + '/fonts/']
+);
 
 gulpCopy(
     [
         adminConfig.bowerDir + '/select2/select2.png',
         adminConfig.bowerDir + '/select2/select2x2.png',
     ],
-    [adminBuildDir + '/css/', adminDir + '/css/']
-);
-
-gulpCopy(
-    [adminConfig.bowerDir + '/fancybox/source/*.{gif,png}'],
     [adminBuildDir + '/css/', adminDir + '/css/']
 );
 
@@ -188,95 +183,3 @@ gulpCopy(
 elixir(function (mix) {
     mix.gulper()
 });
-
-//elixir(function (mix) {
-//    mix.copy2([
-//            adminConfig.bowerDir + '/select2/select2.png',
-//            adminConfig.bowerDir + '/select2/select2x2.png',
-//        ], [adminBuildDir + '/css/', adminDir + '/css/']
-//    )
-//});
-
-//elixir.extend('copy2', function (src, output) {
-//    gulp.task('copy2', function () {
-//        var obj = gulp.src(src);
-//        output.forEach(function (value) {
-//            obj.pipe(gulp.dest(value));
-//        });
-//    });
-//    //this.registerWatcher("copy2", "**/*");
-//    return this.queueTask('copy2');
-//});
-
-//elixir(function (mix) {
-//    mix.copy2([
-//            adminConfig.bowerDir + '/fancybox/source/*.{gif,png}'
-//        ], [adminBuildDir + '/css/', adminDir + '/css/']
-//    )
-//});
-
-//elixir(function (mix) {
-//    mix.copy(
-//        adminConfig.bowerDir + '/font-awesome/fonts',
-//        adminDir + '/fonts/'
-//    ).copy(
-//        adminConfig.bowerDir + '/font-awesome/fonts',
-//        adminBuildDir + '/fonts/'
-//    ).copy(
-//        adminConfig.bowerDir + '/bootstrap/fonts',
-//        adminDir + '/fonts/'
-//    ).copy(
-//        adminConfig.bowerDir + '/bootstrap/fonts',
-//        adminBuildDir + '/fonts/'
-//    );
-//});
-
-
-// Datatables images
-//multiCopy([
-//    adminConfig.bowerDir + '/datatables/media/images'
-//], [
-//    adminBuildDir + '/images/',
-//    adminDir + '/images/'
-//]);
-
-//multiCopy(adminConfig.bowerDir + '/bootstrap/fonts', [
-//    adminBuildDir + '/fonts/',
-//    adminDir + '/fonts/'
-//]);
-
-//elixir(function (mix) {
-//
-//    mix.copy2([
-//            adminConfig.bowerDir + '/font-awesome/fonts/**/*',
-//            adminConfig.bowerDir + '/bootstrap/fonts/**/*'
-//        ], [adminBuildDir + '/fonts/', adminDir + '/fonts/']
-//    ).copy2([
-//            adminConfig.bowerDir + '/datatables/media/images/**/*',
-//            gitRepoDir + '/Plugins/integration/bootstrap/3/images/**/*'
-//        ], [adminBuildDir + '/images/', adminDir + '/images/']
-//    );
-//
-//
-//});
-//
-//elixir(function (mix) {
-//    mix.copy2([
-//            adminConfig.bowerDir + '/datatables/media/images/**/*.png',
-//            gitRepoDir + '/Plugins/integration/bootstrap/3/images/**/*.png'
-//        ], [adminBuildDir + '/images/', adminDir + '/images/']
-//    );
-//
-//
-//});
-
-//gulp.task('adminCopy', function () {
-//    gulp.src(adminConfig.bowerDir + '/font-awesome/fonts/**/*')
-//        .pipe(gulp.dest(adminBuildDir + '/fonts/'));
-//});
-//
-//gulp.task('admin', function (callback) {
-//    runSequence('default',
-//        'adminCopy',
-//        callback);
-//});

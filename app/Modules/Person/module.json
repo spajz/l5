@@ -1,0 +1,8 @@
+{
+    "name": "person",
+    "class": "Person",
+    "enabled": true,
+    "icon": "fa-female",
+    "order": 1367,
+    "title": "Person"
+}

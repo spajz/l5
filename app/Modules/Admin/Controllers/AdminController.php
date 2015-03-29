@@ -43,16 +43,6 @@ class AdminController extends BaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
-    {
-        return view('admin::start');
-    }
-
-    /**
      * Datatables methods
      *
      * @return array $out
@@ -105,24 +95,35 @@ class AdminController extends BaseController
         }
     }
 
-    protected function redirect($item)
+    protected function redirect($item, $array = [])
     {
         $save = Input::get('save');
+        $array = (array)$array;
+
         switch (true) {
             case isset($save['edit']):
-                return Redirect::route("admin.{$this->moduleLower}.edit", $item->id);
+                $route = Redirect::route("admin.{$this->moduleLower}.edit", $item->id);
                 break;
 
             case isset($save['exit']):
-                return Redirect::route("admin.{$this->moduleLower}.index");
+                $route = Redirect::route("admin.{$this->moduleLower}.index");
                 break;
 
             case isset($save['new']):
-                return Redirect::route("admin.{$this->moduleLower}.create");
+                $route = Redirect::route("admin.{$this->moduleLower}.create");
                 break;
+
+            default:
+                $route = Redirect::route("admin.{$this->moduleLower}.index");
+
         }
 
-        return Redirect::route("admin.{$this->moduleLower}.index");
+        if ($array) {
+            $method = $array[0];
+            array_shift($array);
+            return $route->{$method}($array ?: []);
+        }
+        return $route;
     }
 
     protected function formButtons($filter = array(), $extra = '')
