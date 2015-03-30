@@ -18,7 +18,6 @@ function sortByProperty(array, propertyName) {
     });
 }
 
-
 // Ajax loader
 function loaderShow() {
     $('.ajax-loader').show();
@@ -28,6 +27,7 @@ function loaderHide() {
     $('.ajax-loader').hide();
 }
 
+// Background color for drag & drop
 function colorSuccess(item) {
     var color = item.css('background-color');
     item.css('background-color', '#64c664')
@@ -47,6 +47,30 @@ function colorDanger(item) {
 function randomString(length) {
     length = typeof length !== 'undefined' ? length : 8;
     return Math.random().toString(36).slice(length);
+}
+
+// Get model (type: json | list | option)
+function getModel(model, column, type) {
+    type = typeof type !== 'undefined' ? type : 'json';
+    column = typeof column !== 'undefined' ? column : '*';
+    var out = '';
+    $.ajax({
+        url: baseUrlAdmin + '/api/get-model',
+        type: 'post',
+        data: {
+            "model": model,
+            "column": column,
+            "type": type,
+        },
+        success: function (data, textStatus, jqXHR) {
+            out = data;
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert('Server error.');
+        },
+        async: false
+    });
+    return out;
 }
 
 $(document).ready(function () {

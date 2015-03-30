@@ -14,10 +14,12 @@ class DatatablesFront
     protected $url;
     protected $id;
     protected $class;
-    protected $options = array();
-    protected $callbacks = array();
-    protected $columns = array();
-    protected $searchColumns = array();
+    protected $options = [];
+    protected $callbacks = [];
+    protected $columns = [];
+    protected $searchColumns = [];
+    protected $columnFilters = [];
+    protected $modelName;
 
     public function __construct()
     {
@@ -72,6 +74,13 @@ class DatatablesFront
         return $this;
     }
 
+    public function setModelName($modelName)
+    {
+        $this->modelName = $modelName;
+        return $this;
+    }
+
+
     public function addColumns($columns)
     {
         foreach ($columns as &$column) {
@@ -84,9 +93,18 @@ class DatatablesFront
             if (!isset($column['title'])) {
                 $column['title'] = ucfirst_replace($column['data']);
             }
+
+            if (isset($column['columnFilter'])) {
+                $this->setColumnFilters($column['name'], $column['columnFilter']);
+            }
         }
         $this->columns = $columns;
         return $this;
+    }
+
+    public function setColumnFilters($column, $type = 'text')
+    {
+        $this->columnFilters[$column] = $type;
     }
 
     public function searchColumns()
@@ -172,6 +190,8 @@ class DatatablesFront
             'id' => $this->id,
             'options' => $options,
             'callbacks' => $callbacks,
+            'columnFilters' => $this->columnFilters,
+            'modelName' => $this->modelName,
         ));
 
         return $out;

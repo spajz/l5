@@ -11,7 +11,7 @@ return array(
             'searchDelay' => 1000,
             'processing' => false,
             'serverSide' => true,
-            'stateSave' => false,
+            'stateSave' => true,
             'responsive' => true,
             'autoWidth' => false,
         ),

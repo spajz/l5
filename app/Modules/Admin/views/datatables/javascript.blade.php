@@ -33,69 +33,67 @@
                 responsiveHelper.respond();
             },
 
+            @if($columnFilters)
+
+                initComplete: function () {
+
+                    // Move tfoot
+                    tableElement.addClass('move-tfoot');
+
+                    var api = this.api();
+
+                    var state = api.state().columns;
 
 
-        initComplete: function () {
-            var api = this.api();
 
-//            var model = getModel('App\\Modules\\Person\\Models\\Person');
+                    var columnFilters = {!! json_encode($columnFilters) !!};
 
-            api.columns().indexes().flatten().each( function ( i ) {
-                var column = api.column( i );
-                var select = $('<select><option value=""></option></select>')
-                        .appendTo( $(column.footer()).empty() )
-                        .on( 'change', function () {
-                            var val = $.fn.dataTable.util.escapeRegex(
-                                    $(this).val()
-                            );
+                    api.columns().indexes().flatten().each( function ( i ) {
 
-                            column
-                                    .search( val ? val : '', true, false )
-                                    .draw();
-                        } );
+                        var column = api.column(i);
 
-                console.log(column.dataSrc());
+                        var searchValue = '';
 
-                if( column.dataSrc() == 'first_name'){
-                    select.append(getModel('App\\Modules\\Person\\Models\\Person', column.dataSrc(), 'option') )
+                        if(state[i].search.search){
+                            searchValue = state[i].search.search;
+                        }
+
+                        var dataSrc = column.dataSrc();
+
+                        if(columnFilters.hasOwnProperty(dataSrc)) {
+
+                            if (columnFilters[dataSrc] == 'select') {
+                                var select = $('<select class="form-control input-xs"><option value=""></option></select>')
+                                        .appendTo($(column.footer()).empty())
+                                        .on('change', function () {
+                                            var val = $.fn.dataTable.util.escapeRegex(
+                                                    $(this).val()
+                                            );
+                                            column.search(val ? val : '', true, false).draw();
+                                        });
+
+                                select.append(getModel('{!! addslashes($modelName) !!}', dataSrc, 'option'))
+                                    .val(searchValue);
+                            }
+
+                            if (columnFilters[dataSrc] == 'text') {
+
+                                var text = $('<input type="text" class="form-control input-xs" placeholder="Search">')
+                                        .appendTo($(column.footer()).empty())
+                                        .val(searchValue)
+                                        .on('keyup change', _.debounce(function () {
+                                            api.column(i)
+                                                    .search(this.value)
+                                                    .draw();
+                                        }, 500));
+
+                            }
+                        }
+                    });
                 }
 
-//                column.data().unique().sort().each( function ( d, j ) {
-//                    select.append( '<option value="'+d+'">'+d+'</option>' )
-//                } );
-            } );
-        }
-    });
+            @endif
 
-
-    // type: json | list | option
-    function getModel(model, column, type) {
-        type = typeof type !== 'undefined' ? type : 'json';
-        column = typeof column !== 'undefined' ? column : '*';
-        var out = '';
-        $.ajax({
-            url: baseUrlAdmin + '/api/get-model',
-            type: 'post',
-            data: {
-                "model": model,
-                "column": column,
-                "type": type,
-            },
-            success: function (data, textStatus, jqXHR) {
-                out = data;
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                alert('Server error.');
-            },
-            async: false
         });
-
-        return out;
-    }
-
-
-
-
-
     });
 </script>

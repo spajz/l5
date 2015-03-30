@@ -98,6 +98,13 @@
 }
 
 /*** Bootstrap tweaks ***/
+.input-xs {
+    height: 22px;
+    padding: 3px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
 
 .radio input[type="radio"],
 .radio-inline input[type="radio"],
@@ -269,6 +276,11 @@ div.dataTables_processing {
 .dataTable th {
     text-align: center;
     vertical-align: middle;
+}
+
+/*Tfoot before tbody*/
+.move-tfoot tfoot {
+    display: table-row-group;
 }
 
 /*Sortable placeholder*/

@@ -487,12 +487,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "81f8e9439d0041866849c05d334584ea31c7b05e"
+                "reference": "6b1d646e38fad6dcd3191d69c40918fd7aeaa2f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/81f8e9439d0041866849c05d334584ea31c7b05e",
-                "reference": "81f8e9439d0041866849c05d334584ea31c7b05e",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/6b1d646e38fad6dcd3191d69c40918fd7aeaa2f8",
+                "reference": "6b1d646e38fad6dcd3191d69c40918fd7aeaa2f8",
                 "shasum": ""
             },
             "require": {
@@ -531,7 +531,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2015-03-18 16:46:58"
+            "time": "2015-03-30 08:56:14"
         },
         {
             "name": "intervention/image",

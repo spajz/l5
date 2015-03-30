@@ -14,13 +14,13 @@ class PersonController extends AdminController
 
     protected $dtColumns = [
         ['name' => 'id', 'className' => 'w40'],
-        ['name' => 'first_name'],
-        ['name' => 'last_name'],
+        ['name' => 'first_name', 'columnFilter' => 'text'],
+        ['name' => 'last_name', 'columnFilter' => 'text'],
         ['name' => 'job_title'],
         ['name' => 'created_at'],
         ['name' => 'order', 'className' => 'w40'],
         ['name' => 'status', 'className' => 'w40 center'],
-        ['name' => 'lang', 'className' => 'w40'],
+        ['name' => 'lang', 'className' => 'w40', 'columnFilter' => 'select'],
         ['name' => 'trans_id', 'className' => 'w40', 'title' => 'Parent'],
         ['name' => 'translate', 'className' => 'w120 center', 'actionColumn' => true],
         ['name' => 'actions', 'className' => 'w120 center', 'actionColumn' => true],
@@ -65,7 +65,8 @@ class PersonController extends AdminController
     {
         $dtFront->addColumns($this->dtColumns)
             ->setUrl(route("api.{$this->moduleLower}.dt"))
-            ->setId("dt-{$this->moduleLower}");
+            ->setId("dt-{$this->moduleLower}")
+            ->setModelName($this->modelName);
 
         $vars = $dtFront->render();
 

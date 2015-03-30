@@ -6,6 +6,7 @@ use View;
 use Input;
 use DatatablesFront;
 use Redirect;
+use DB;
 
 class AdminController extends BaseController
 {
@@ -143,7 +144,6 @@ class AdminController extends BaseController
         }
 
         return view('admin::_partials.form_buttons_template', compact('formButtons', 'extra'));
-
     }
 
     public function renderTransButtons($item)
@@ -164,31 +164,31 @@ class AdminController extends BaseController
             $column = explode(',', $column);
         }
         if (!$column) $column = '*';
-        $column = 'first_name';
-        $items = $model::select($column)
-            ->orderBy($column)
-            ->get();
 
+        $items = $model::select([$column, DB::raw('count(*) as total')])
+            ->orderBy($column);
+
+        if (!count($items)) return $out;
 
         switch ($type) {
             case 'list':
-                $out = $items->lists($column, $key);
+                $out = $items->get()->lists($column, $key);
                 break;
 
             case 'option':
+                $items = $items->groupBy($column)->get();
                 if ($items) {
                     foreach ($items as $item) {
-                        $out .= '<option value="' . addslashes($item->$column) . '">' . $item->$column . '</option>';
+                        $out .= '<option value="' . addslashes($item->$column) . '">' . $item->$column . ' [' . $item->total . ']</option>';
                     }
                 }
                 break;
 
             default:
-                $out = $items;
+                $out = $items->get();
         }
 
         return $out;
-
     }
 
 }
