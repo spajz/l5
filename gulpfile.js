@@ -130,6 +130,7 @@ elixir(function (mix) {
             adminConfig.bowerDir + '/select2/select2.js',
             adminConfig.bowerDir + '/fancybox/source/jquery.fancybox.pack.js',
             adminConfig.bowerDir + '/jquery-ui/jquery-ui.min.js',
+            adminConfig.bowerDir + '/underscore/underscore-min.js',
 
         ], null, './')
 

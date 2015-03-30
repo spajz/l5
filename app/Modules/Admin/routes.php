@@ -8,6 +8,8 @@ Route::group(array('prefix' => ADMIN), function () {
 
     Route::post('api/sort-rows', array('as' => 'api.admin.sort.rows', 'uses' => 'App\Modules\Admin\Controllers\AdminController@sortRows'));
 
+    Route::post('api/get-model', array('as' => 'api.admin.get.model', 'uses' => 'App\Modules\Admin\Controllers\AdminController@getModel'));
+
 });
 
 Route::get('admin/login', array('as' => 'admin.login', 'uses' => 'App\Modules\Admin\Controllers\AdminController@login'));

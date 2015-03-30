@@ -11,6 +11,14 @@ $.ajaxSetup({
     }
 });
 
+// Sort array by property   sortByProperty(myArray, "name");
+function sortByProperty(array, propertyName) {
+    return array.sort(function (a, b) {
+        return a[propertyName] - b[propertyName];
+    });
+}
+
+
 // Ajax loader
 function loaderShow() {
     $('.ajax-loader').show();

@@ -13,17 +13,17 @@ class PersonController extends AdminController
 {
 
     protected $dtColumns = [
-        ['data' => 'id', 'className' => 'w40'],
-        ['data' => 'first_name'],
-        ['data' => 'last_name'],
-        ['data' => 'job_title'],
-        ['data' => 'created_at'],
-        ['data' => 'order', 'className' => 'w40'],
-        ['data' => 'status', 'className' => 'w40 center'],
-        ['data' => 'lang', 'className' => 'w40'],
-        ['data' => 'trans_id', 'className' => 'w40', 'title' => 'Parent'],
-        ['name' => 'translate', 'className' => 'w120 center', 'orderable' => false],
-        ['name' => 'actions', 'className' => 'w120 center', 'orderable' => false],
+        ['name' => 'id', 'className' => 'w40'],
+        ['name' => 'first_name'],
+        ['name' => 'last_name'],
+        ['name' => 'job_title'],
+        ['name' => 'created_at'],
+        ['name' => 'order', 'className' => 'w40'],
+        ['name' => 'status', 'className' => 'w40 center'],
+        ['name' => 'lang', 'className' => 'w40'],
+        ['name' => 'trans_id', 'className' => 'w40', 'title' => 'Parent'],
+        ['name' => 'translate', 'className' => 'w120 center', 'actionColumn' => true],
+        ['name' => 'actions', 'className' => 'w120 center', 'actionColumn' => true],
     ];
 
     protected $formButtons = array('except' => array('approve', 'reject'));
@@ -38,7 +38,7 @@ class PersonController extends AdminController
     public function getDatatable(DatatablesFront $dtFront)
     {
         $model = $this->modelName;
-        $model = $model::select($this->dtSelectColumns());
+        $model = $model::select('*');
 //            ->where('lang', 'sr');
         $modelNameSpace = get_class($model);
 

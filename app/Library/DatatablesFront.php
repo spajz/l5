@@ -75,9 +75,14 @@ class DatatablesFront
     public function addColumns($columns)
     {
         foreach ($columns as &$column) {
+            if (isset($column['actionColumn'])) {
+                $column['orderable'] = false;
+                $column['searchable'] = false;
+                unset($column['actionColumn']);
+            }
             if (!isset($column['data'])) $column['data'] = $column['name'];
             if (!isset($column['title'])) {
-                $column['title'] = ucfirst(str_replace('_', ' ', $column['data']));
+                $column['title'] = ucfirst_replace($column['data']);
             }
         }
         $this->columns = $columns;
@@ -92,6 +97,7 @@ class DatatablesFront
 
     private function prepareColumns()
     {
+        //'orderable' => false, 'searchable' => false,
         if (!empty($this->searchColumns)) {
             foreach ($this->columns as &$column) {
                 if (in_array($column['data'], $this->searchColumns)) {
@@ -180,7 +186,7 @@ class DatatablesFront
     {
         $languages = Config::get('admin.languages');
 
-        $transRelated =  $item->transRelated();
+        $transRelated = $item->transRelated();
 
         return view($this->transButtons, compact('item', 'languages', 'transRelated'))->render();
     }

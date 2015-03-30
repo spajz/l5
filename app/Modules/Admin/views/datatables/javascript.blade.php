@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    jQuery(document).ready(function(){
+    $(document).ready(function(){
 
         var responsiveHelper;
         var breakpointDefinition = {
@@ -7,7 +7,7 @@
             phone : 480
         };
 
-        var tableElement = jQuery('#{!! $id !!}');
+        var tableElement = $('#{!! $id !!}');
 
         tableElement.on( 'processing.dt', function ( e, settings, processing ) {
             if(processing) loaderShow();
@@ -35,9 +35,10 @@
 
 
 
-
         initComplete: function () {
             var api = this.api();
+
+//            var model = getModel('App\\Modules\\Person\\Models\\Person');
 
             api.columns().indexes().flatten().each( function ( i ) {
                 var column = api.column( i );
@@ -49,19 +50,52 @@
                             );
 
                             column
-                                    .search( val ? '^'+val+'$' : '', true, false )
+                                    .search( val ? val : '', true, false )
                                     .draw();
                         } );
 
-                column.data().unique().sort().each( function ( d, j ) {
-                    select.append( '<option value="'+d+'">'+d+'</option>' )
-                } );
+                console.log(column.dataSrc());
+
+                if( column.dataSrc() == 'first_name'){
+                    select.append(getModel('App\\Modules\\Person\\Models\\Person', column.dataSrc(), 'option') )
+                }
+
+//                column.data().unique().sort().each( function ( d, j ) {
+//                    select.append( '<option value="'+d+'">'+d+'</option>' )
+//                } );
             } );
         }
+    });
 
 
-
-
+    // type: json | list | option
+    function getModel(model, column, type) {
+        type = typeof type !== 'undefined' ? type : 'json';
+        column = typeof column !== 'undefined' ? column : '*';
+        var out = '';
+        $.ajax({
+            url: baseUrlAdmin + '/api/get-model',
+            type: 'post',
+            data: {
+                "model": model,
+                "column": column,
+                "type": type,
+            },
+            success: function (data, textStatus, jqXHR) {
+                out = data;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Server error.');
+            },
+            async: false
         });
+
+        return out;
+    }
+
+
+
+
+
     });
 </script>

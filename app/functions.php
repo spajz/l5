@@ -162,12 +162,37 @@ if (!function_exists('get_dirname')) {
     }
 }
 
-if ( ! function_exists('ee'))
-{
+if (!function_exists('ee')) {
     function ee()
     {
-        array_map(function($x) { (new Illuminate\Support\Debug\Dumper)->dump($x); }, func_get_args());
+        array_map(function ($x) {
+            (new Illuminate\Support\Debug\Dumper)->dump($x);
+        }, func_get_args());
 
     }
 }
+
+if (!function_exists('pp')) {
+    function pp($obj)
+    {
+        print_r($obj);
+        exit;
+    }
+}
+
+if (!function_exists('ucfirst_replace')) {
+    function ucfirst_replace($str, $search = '_', $replace = ' ')
+    {
+        return ucfirst(str_replace($search, $replace, $str));
+    }
+}
+
+if (!function_exists('_s')) {
+    function _s($str, $char ='`')
+    {
+       return $char . $str . $char;
+    }
+}
+
+
 

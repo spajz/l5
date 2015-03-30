@@ -53,7 +53,7 @@ class AdminController extends BaseController
     {
         $out = array();
         foreach ($this->dtColumns as $column) {
-            if (isset($column['data'])) $out[] = $column['data'];
+            if (!isset($column['actionColumn'])) $out[] = $column['name'];
         }
         return $out;
     }
@@ -150,6 +150,45 @@ class AdminController extends BaseController
     {
         $dtFront = new DatatablesFront;
         return $dtFront->renderTransButtons($item);
+    }
+
+    public function getModel()
+    {
+        $out = '';
+        $model = Input::get('model');
+        $key = Input::get('column');
+        $column = Input::get('column');
+        $type = Input::get('type');
+
+        if (strpos($column, ',')) {
+            $column = explode(',', $column);
+        }
+        if (!$column) $column = '*';
+        $column = 'first_name';
+        $items = $model::select($column)
+            ->orderBy($column)
+            ->get();
+
+
+        switch ($type) {
+            case 'list':
+                $out = $items->lists($column, $key);
+                break;
+
+            case 'option':
+                if ($items) {
+                    foreach ($items as $item) {
+                        $out .= '<option value="' . addslashes($item->$column) . '">' . $item->$column . '</option>';
+                    }
+                }
+                break;
+
+            default:
+                $out = $items;
+        }
+
+        return $out;
+
     }
 
 }
