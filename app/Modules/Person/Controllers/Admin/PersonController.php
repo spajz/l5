@@ -21,7 +21,7 @@ class PersonController extends AdminController
         ['name' => 'created_at'],
         ['name' => 'order', 'className' => 'w40'],
         ['name' => 'status', 'className' => 'w40 center'],
-        ['name' => 'lang', 'className' => 'w40', 'columnFilter' => 'select'],
+        ['name' => 'lang', 'className' => 'w40', 'columnFilter' => 'select', 'tfClass' => 'filter-count'],
         ['name' => 'trans_id', 'className' => 'w40', 'title' => 'Parent'],
         ['name' => 'translate', 'className' => 'w120 center', 'actionColumn' => true],
         ['name' => 'actions', 'className' => 'w120 center', 'actionColumn' => true],
@@ -183,9 +183,10 @@ class PersonController extends AdminController
         $imageApi->setConfig("{$this->moduleLower}.image");
         $imageApi->setModelId($id);
         $imageApi->setModelName(get_class($item));
+        $imageApi->setBaseName('ovo je bazba');
 
 
-        $imageApi->uploadFiles();
+        $imageApi->process();
 
 
 

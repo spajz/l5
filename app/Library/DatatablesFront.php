@@ -1,7 +1,6 @@
 <?php namespace App\Library;
 
 use Config;
-use Illuminate\Database\Eloquent\Collection;
 
 class DatatablesFront
 {
@@ -20,6 +19,8 @@ class DatatablesFront
     protected $searchColumns = [];
     protected $columnFilters = [];
     protected $modelName;
+    protected $thClass = [];
+    protected $tfClass = [];
 
     public function __construct()
     {
@@ -80,6 +81,26 @@ class DatatablesFront
         return $this;
     }
 
+    public function setThClass($key, $value = null)
+    {
+        if (is_array($key)) {
+            $this->thClass = array_merge($this->thClass, $key);
+        } else {
+            $this->thClass[$key] = $value;
+        }
+        return $this;
+    }
+
+    public function setTfClass($key, $value = null)
+    {
+        if (is_array($key)) {
+            $this->tfClass = array_merge($this->tfClass, $key);
+        } else {
+            $this->tfClass[$key] = $value;
+        }
+        return $this;
+    }
+
     public function addColumns($columns)
     {
         foreach ($columns as &$column) {
@@ -88,6 +109,17 @@ class DatatablesFront
                 $column['searchable'] = false;
                 unset($column['actionColumn']);
             }
+
+            if (isset($column['thClass'])) {
+                $this->setThClass($column['name'], $column['thClass']);
+                unset($column['thClass']);
+            }
+
+            if (isset($column['tfClass'])) {
+                $this->setTfClass($column['name'], $column['tfClass']);
+                unset($column['tfClass']);
+            }
+
             if (!isset($column['data'])) $column['data'] = $column['name'];
             if (!isset($column['title'])) {
                 $column['title'] = ucfirst_replace($column['data']);
@@ -183,6 +215,8 @@ class DatatablesFront
             'id' => $this->id,
             'class' => $this->class,
             'columns' => $this->columns,
+            'thClass' => $this->thClass,
+            'tfClass' => $this->tfClass,
         ));
 
         $out['dtJavascript'] = view($this->javascript, array(

@@ -159,6 +159,7 @@ class AdminController extends BaseController
         $key = Input::get('column');
         $column = Input::get('column');
         $type = Input::get('type');
+        $extra = Input::get('extra');
 
         if (strpos($column, ',')) {
             $column = explode(',', $column);
@@ -179,7 +180,11 @@ class AdminController extends BaseController
                 $items = $items->groupBy($column)->get();
                 if ($items) {
                     foreach ($items as $item) {
-                        $out .= '<option value="' . addslashes($item->$column) . '">' . $item->$column . ' [' . $item->total . ']</option>';
+                        if (isset($extra['filterCount']) && $extra['filterCount']) {
+                            $out .= '<option value="' . addslashes($item->$column) . '">' . $item->$column . ' [' . $item->total . ']</option>';
+                        } else {
+                            $out .= '<option value="' . addslashes($item->$column) . '">' . $item->$column . '</option>';
+                        }
                     }
                 }
                 break;

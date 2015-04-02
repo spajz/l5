@@ -58,7 +58,7 @@ function randomString(length) {
 }
 
 // Get model (type: json | list | option)
-function getModel(model, column, type) {
+function getModel(model, column, type, extra) {
     type = typeof type !== 'undefined' ? type : 'json';
     column = typeof column !== 'undefined' ? column : '*';
     var out = '';
@@ -69,6 +69,7 @@ function getModel(model, column, type) {
             "model": model,
             "column": column,
             "type": type,
+            "extra": extra,
         },
         success: function (data, textStatus, jqXHR) {
             out = data;

@@ -10,12 +10,6 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-xs-12">
-           <p><a href="#" class="btn btn-primary dt-clear">Clear</a> </p>
-        </div>
-    </div>
-
     {!! $dtTable !!}
 
 @stop

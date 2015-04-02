@@ -1,6 +1,10 @@
 <?php namespace App\Library;
 
+use Sanitize;
 use Input;
+use Image;
+use File;
+use Validator;
 
 class ImageApi
 {
@@ -8,14 +12,16 @@ class ImageApi
     protected $modelName;
     protected $modelId;
     protected $baseName;
+    protected $filenameFormat = '[:base_name]_____[:original_name]_89_[:uniqid]'; // [:original_name]
     protected $key;
-    protected $actionsAll;
-    protected $actionsBySize;
-    protected $inputFields = array(
+    protected $defaultQuality = 75;
+    protected $actionsAll = [];
+    protected $actionsBySize = [];
+    protected $inputFields = [
         'files' => 'files',
         'alt' => 'alt',
         'description' => 'description'
-    );
+    ];
     protected $errors = array();
 
     protected $uploadedFiles = array();
@@ -50,6 +56,12 @@ class ImageApi
         return $this;
     }
 
+    public function setFilenameFormat($format)
+    {
+        $this->filenameFormat = $format;
+        return $this;
+    }
+
     public function setKey($key)
     {
         $this->key = $key;
@@ -72,11 +84,14 @@ class ImageApi
         return $this;
     }
 
-    public function setActionsBySize($actions)
+    public function setActionsBySize($size, $actions = null)
     {
-        if (is_array($actions)) {
-            $this->actionsBySize = $actions;
+        if (is_array($size)) {
+            $this->actionsBySize = array_merge($this->actionsBySize, $size);
+        } elseif ($actions) {
+            $this->actionsBySize[$size] = $actions;
         }
+
         return $this;
     }
 
@@ -112,8 +127,6 @@ class ImageApi
                 }
             }
 
-            dd($this->uploadedFiles);
-
             return true;
 
         } else {
@@ -124,13 +137,26 @@ class ImageApi
 
     public function process()
     {
-        $this->validateFiles();
+        $this->uploadFiles();
+
+        if ($this->hasErrors()) return false;
+
+
+
+        $this->validateFiles($this->uploadedFiles);
+        dd($this->getErrors());
+
+
+        if ($this->hasErrors()) return false;
+
+        $this->processUpload($this->uploadedFiles, 12);
+
     }
 
     protected function validateFiles($files)
     {
-        if (!count($this->uploadedFiles)) {
-            $this->errors[] = 'Nothing uploaded.';
+        if (!count($files)) {
+            $this->errors[] = 'There is no files.';
             return false;
         }
         // Loop through all uploaded files
@@ -140,22 +166,108 @@ class ImageApi
                 array('file' => $file),
                 array('file' => $this->prepareValidationRules())
             );
-//
-//            if ($validator->passes()) {
-//                // Do something
-//                $this->process($file, $key);
-//            } else {
-//                // Collect error messages
-//                $this->errors[] = 'File "' . $file->getClientOriginalName() . '":' . $validator->messages()->first('file');
-//            }
 
             if (!$validator->passes()) {
                 $this->errors[] = 'File "' . $file->getClientOriginalName() . '":' . $validator->messages()->first('file');
             }
-
         }
     }
 
+    protected function makeFilename($upload)
+    {
+        $originalName = $upload->getClientOriginalName();
+        $originalExtension = $upload->guessExtension();
+
+        $pathinfo = pathinfo($originalName);
+        $extension = strtolower($originalExtension ?: $pathinfo['extension']);
+        $extension = $this->extensionReplace($extension);
+
+        $search = [
+            '[:base_name]',
+            '[:uniqid]',
+            '[:original_name]',
+        ];
+
+        $replace = [
+            $this->baseName,
+            uniqid(),
+            $pathinfo['filename']
+        ];
+
+        $baseName = str_replace($search, $replace, $this->filenameFormat);
+        $baseName = Sanitize::string($baseName);
+
+        return $baseName . '.' . $extension;
+    }
+
+
+    protected function extensionReplace($extension)
+    {
+        $extensions = [
+            'jpeg' => 'jpg'
+        ];
+
+        if (isset($extensions[$extension]))
+            return $extensions[$extension];
+
+        return $extension;
+    }
+
+    protected function processUpload($uploadedFiles)
+    {
+        foreach ($uploadedFiles as $key => $upload) {
+
+            $config = $this->config;
+            $defaultQuality = isset($config['quality']) ? $config['quality'] : $this->defaultQuality;
+            $fullPath = null;
+            $error = null;
+            $filename = $this->makeFilename($upload);
+
+            if (isset($config['sizes'])) {
+                foreach ($config['sizes'] as $k => $size) {
+                    $image = Image::make($upload);
+
+                    if (!empty($this->actionsAll)) {
+                        $size['actions'] = array_merge($size['actions'], $this->actionsAll);
+                    }
+
+                    if (isset($this->actionsBySize[$k])) {
+                        $size['actions'] = array_merge($size['actions'], $this->actionsBySize[$k]['actions']);
+                    }
+
+                    $quality = isset($size['quality']) ? $size['quality'] : $defaultQuality;
+
+                    // Make directory
+                    $dir = $config['path'] . $size['folder'];
+                    if (!is_dir($dir)) {
+                        File::makeDirectory($dir);
+                    }
+                    $fullPath = $dir . $filename;
+
+                    // Apply actions
+                    if (isset($size['actions']) && !empty($size['actions'])) {
+
+                        foreach ($size['actions'] as $action => $param) {
+                            call_user_func_array(array($image, $action), $param);
+                        }
+                    }
+
+                    $image->save($fullPath, $quality);
+                    if (!is_file($fullPath)) {
+                        $error = true;
+                    }
+                }
+
+                if ($error) {
+                    $this->errors[] = 'File "' . $upload->getClientOriginalName() . '": error during processing.';
+                    // Delete already uploaded images
+                    $this->delete($fullPath);
+                } else {
+                    $this->uploadedFiles2[$key] = $filename;
+                }
+            }
+        }
+    }
 
     public function uploadtest()
     {
@@ -187,64 +299,6 @@ class ImageApi
     }
 
 
-    protected function processOld($upload, $key)
-    {
-        $config = $this->config;
-        $originalName = $upload->getClientOriginalName();
-        $pathinfo = pathinfo($originalName);
-        $extension = strtolower($pathinfo['extension']);
-        $baseName = $this->baseName ? $this->baseName : $pathinfo['filename'];
-        $baseName = Sanitize::string($baseName) . '_' . uniqid();
-        $file = $baseName . '.' . $extension;
-        $defaultQuality = isset($config['quality']) ? $config['quality'] : 90;
-        $fullPath = false;
-        $error = false;
-
-        if (isset($config['sizes'])) {
-            foreach ($config['sizes'] as $k => $size) {
-                $image = Image::make($upload);
-
-                if (!empty($this->actionsAll)) {
-                    $size['actions'] = array_merge($size['actions'], $this->actionsAll);
-                }
-
-                if (isset($this->actionsBySize[$k])) {
-                    $size['actions'] = array_merge($size['actions'], $this->actionsBySize[$k]['actions']);
-                }
-
-                $quality = isset($size['quality']) ? $size['quality'] : $defaultQuality;
-
-                if (isset($size['actions']) && !empty($size['actions'])) {
-
-                    foreach ($size['actions'] as $action => $param) {
-                        call_user_func_array(array($image, $action), $param);
-
-                        $fullPath = $config['path'] . $size['folder'] . $file;
-                        $image->save($fullPath, $quality);
-                        if (!is_file($fullPath)) {
-                            $error = true;
-                        }
-                    }
-                } else {
-                    $fullPath = $config['path'] . $size['folder'] . $file;
-                    $image->save($fullPath, $quality);
-                    if (!is_file($fullPath)) {
-                        $error = true;
-                    }
-                }
-            }
-
-            if ($error) {
-                $this->errors[] = 'File "' . $upload->getClientOriginalName() . '": error during processing.';
-                // Delete already uploaded images
-                $this->delete($fullPath);
-            } else {
-                $this->uploadedFiles[$key] = $file;
-            }
-        }
-    }
-
-
     protected function prepareValidationRules()
     {
         $config = $this->config;
@@ -270,7 +324,7 @@ class ImageApi
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    public function processUpload()
+    public function processUpload4()
     {
         $this->upload();
 

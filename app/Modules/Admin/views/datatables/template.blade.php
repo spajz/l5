@@ -2,14 +2,14 @@
     <thead>
     <tr>
         @foreach($columns as $i => $c)
-        <th class="head{{ $i }}">{{ $c['title'] }}</th>
+        <th class="head{{ $i }} {{ array_get($thClass, $c['name']) }}">{{ $c['title'] }}</th>
         @endforeach
     </tr>
     </thead>
     <tfoot>
     <tr>
         @foreach($columns as $i => $c)
-            <td></td>
+            <td class="{{ array_get($tfClass, $c['name']) }}"></td>
         @endforeach
     </tr>
     </tfoot>

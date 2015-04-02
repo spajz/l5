@@ -44,8 +44,6 @@
 
                     var state = api.state().columns;
 
-
-
                     var columnFilters = {!! json_encode($columnFilters) !!};
 
                     api.columns().indexes().flatten().each( function ( i ) {
@@ -62,6 +60,10 @@
 
                         if(columnFilters.hasOwnProperty(dataSrc)) {
 
+                            var extra = {
+                                'filterCount': $(column.footer()).hasClass('filter-count') ? '1' : ''
+                            };
+
                             if (columnFilters[dataSrc] == 'select') {
                                 var select = $('<select class="form-control input-xs"><option value=""></option></select>')
                                         .appendTo($(column.footer()).empty())
@@ -72,7 +74,7 @@
                                             column.search(val ? val : '', true, false).draw();
                                         });
 
-                                select.append(getModel('{!! addslashes($modelName) !!}', dataSrc, 'option'))
+                                select.append(getModel('{!! addslashes($modelName) !!}', dataSrc, 'option', extra))
                                     .val(searchValue);
                             }
 

@@ -3,7 +3,6 @@ var elixir = require('laravel-elixir');
 // gulp-util from elixir
 var util = require('./node_modules/laravel-elixir/node_modules/gulp-util');
 var runSequence = require('./node_modules/laravel-elixir/node_modules/run-sequence');
-
 var inProduction = elixir.config.production;
 
 /**
@@ -92,7 +91,6 @@ function multiCopy(src, output) {
     });
 }
 
-
 // Main admin mix
 elixir(function (mix) {
     mix.less('app.less')
@@ -111,7 +109,6 @@ elixir(function (mix) {
             adminConfig.bowerDir + '/select2-bootstrap-css/select2-bootstrap.css',
             adminConfig.bowerDir + '/fancybox/source/jquery.fancybox.css',
             adminConfig.bowerDir + '/jquery-ui/themes/base/jquery-ui.min.css',
-
         ], null, './')
 
         .scripts([
@@ -131,7 +128,6 @@ elixir(function (mix) {
             adminConfig.bowerDir + '/fancybox/source/jquery.fancybox.pack.js',
             adminConfig.bowerDir + '/jquery-ui/jquery-ui.min.js',
             adminConfig.bowerDir + '/underscore/underscore-min.js',
-
         ], null, './')
 
         .version([

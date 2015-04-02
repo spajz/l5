@@ -158,7 +158,7 @@ return [
 
         'App\Modules\ModulesServiceProvider',
         'App\Providers\AuthServiceProvider',
-        'Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider'
+        'Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider',
 
 	],
 
@@ -219,6 +219,7 @@ return [
         'Form'            => 'Collective\Html\FormFacade',
         'Html'            => 'Collective\Html\HtmlFacade',
         'LaravelLocalization' => 'Mcamara\LaravelLocalization\Facades\LaravelLocalization',
+        'Sanitize'            => 'App\Library\Sanitize',
 
 	],
 
