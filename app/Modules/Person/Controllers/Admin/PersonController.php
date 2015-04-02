@@ -1,5 +1,6 @@
 <?php namespace App\Modules\Person\Controllers\Admin;
 
+use App\Library\ImageApi;
 use App\Modules\Admin\Controllers\AdminController;
 use App\Modules\Person\Models\Person as Model;
 
@@ -177,6 +178,19 @@ class PersonController extends AdminController
         }
 
         $this->validate($request, $item->rules());
+
+        $imageApi = new ImageApi;
+        $imageApi->setConfig("{$this->moduleLower}.image");
+        $imageApi->setModelId($id);
+        $imageApi->setModelName(get_class($item));
+
+
+        $imageApi->uploadFiles();
+
+
+
+
+
 
         if ($item->update(Input::all())) {
             msg('Item successfully updated.');

@@ -80,7 +80,6 @@ class DatatablesFront
         return $this;
     }
 
-
     public function addColumns($columns)
     {
         foreach ($columns as &$column) {

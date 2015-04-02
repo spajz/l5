@@ -86,6 +86,38 @@
     width: 200px;
 }
 
+.bottom5 {
+    margin-bottom: 5px;
+}
+
+.bottom10 {
+    margin-bottom: 10px;
+}
+
+.bottom15 {
+    margin-bottom: 15px;
+}
+
+.bottom20 {
+    margin-bottom: 20px;
+}
+
+.top5 {
+    margin-top: 5px;
+}
+
+.top10 {
+    margin-top: 10px;
+}
+
+.top15 {
+    margin-top: 15px;
+}
+
+.top20 {
+    margin-top: 20px;
+}
+
 /*** Ajax loader ***/
 .ajax-loader {
     display: none;
@@ -98,6 +130,27 @@
 }
 
 /*** Bootstrap tweaks ***/
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
 .input-xs {
     height: 22px;
     padding: 3px 5px;

@@ -2,10 +2,10 @@
 
 @section('content')
 
-    <div id="pjax-container" xmlns="http://www.w3.org/1999/html">
+    <div id="pjax-container">
 
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-xs-12">
                 <h1 class="page-header">
                     <i class="fa {{ modules()[$moduleLower]['icon'] }} fa-fw"></i> {{ $moduleTitle or $moduleUpper }}
                     Create
@@ -15,7 +15,7 @@
 
         @if($transButtons)
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-xs-12">
                     <p>{!! $transButtons !!}</p>
                 </div>
             </div>
@@ -24,14 +24,14 @@
         {!! Former::open_for_files()->route("admin.{$moduleLower}.store")->method('post') !!}
 
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-xs-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         Basic Information
                     </div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-lg-12">
+                            <div class="col-xs-12">
 
                                 {!! Former::hidden('id') !!}
 
@@ -50,7 +50,7 @@
                                 {!! $formButtons or '' !!}
 
                             </div>
-                            <!-- /.col-lg-12 -->
+                            <!-- /.col-xs-12 -->
                         </div>
                         <!-- /.row -->
                     </div>
@@ -58,7 +58,7 @@
                 </div>
                 <!-- /.panel -->
             </div>
-            <!-- /.col-lg-12 -->
+            <!-- /.col-xs-12 -->
         </div>
 
         {!! Former::close() !!}
