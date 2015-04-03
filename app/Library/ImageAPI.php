@@ -11,22 +11,23 @@ class ImageApi
     protected $config;
     protected $modelName;
     protected $modelId;
+    protected $modelItem;
     protected $baseName;
-    protected $filenameFormat = '[:base_name]_____[:original_name]_89_[:uniqid]'; // [:original_name]
-    protected $key;
+    protected $filenameFormat = '[:base_name]_[:uniqid]'; // [:base_name][:original_name][:uniqid]
     protected $defaultQuality = 75;
     protected $actionsAll = [];
     protected $actionsBySize = [];
     protected $inputFields = [
-        'files' => 'files',
-        'alt' => 'alt',
-        'description' => 'description'
+        'files_new' => 'files_new',
+        'files_update' => 'files_update',
+        'alt_new' => 'alt_new',
+        'alt_update' => 'alt_new',
+        'description_new' => 'description_new',
+        'description_update' => 'description_update'
     ];
-    protected $errors = array();
-
-    protected $uploadedFiles = array();
-
-    protected $processType = 'upload';
+    protected $errors = [];
+    protected $errorsUpload = [];
+    protected $uploadedFiles = [];
 
     public function setConfig($config)
     {
@@ -50,6 +51,12 @@ class ImageApi
         return $this;
     }
 
+    public function setModelItem($modelItem)
+    {
+        $this->modelItem = $modelItem;
+        return $this;
+    }
+
     public function setBaseName($baseName)
     {
         $this->baseName = $baseName;
@@ -59,18 +66,6 @@ class ImageApi
     public function setFilenameFormat($format)
     {
         $this->filenameFormat = $format;
-        return $this;
-    }
-
-    public function setKey($key)
-    {
-        $this->key = $key;
-        return $this;
-    }
-
-    public function setProcessType($type)
-    {
-        $this->processType = $type;
         return $this;
     }
 
@@ -91,7 +86,6 @@ class ImageApi
         } elseif ($actions) {
             $this->actionsBySize[$size] = $actions;
         }
-
         return $this;
     }
 
@@ -103,9 +97,43 @@ class ImageApi
         return $this;
     }
 
+    public function getUploadedFiles($type = null)
+    {
+        if ($type == 'new') {
+            return isset($this->uploadedFiles['new']) ? $this->uploadedFiles['new'] : [];
+        }
+
+        if ($type == 'update') {
+            return isset($this->uploadedFiles['update']) ? $this->uploadedFiles['update'] : [];
+        }
+        return $this->uploadedFiles;
+    }
+
     public function getErrors()
     {
         return $this->errors;
+    }
+
+    public function getErrorsUpload($type = null)
+    {
+        if ($type == 'new') {
+            return isset($this->errorsUpload['new']) ? $this->errorsUpload['new'] : [];
+        }
+
+        if ($type == 'update') {
+            return isset($this->errorsUpload['update']) ? $this->errorsUpload['update'] : [];
+        }
+        return $this->errorsUpload;
+    }
+
+    public function getErrorsNew()
+    {
+        return isset($this->errors['new']) ? $this->errors['new'] : [];
+    }
+
+    public function getErrorsUpdate()
+    {
+        return isset($this->errors['update']) ? $this->errors['update'] : [];
     }
 
     public function hasErrors()
@@ -113,39 +141,95 @@ class ImageApi
         return $this->errors ? true : false;
     }
 
+    public function hasErrorsNew()
+    {
+        return $this->errors['new'] ? true : false;
+    }
+
+    public function hasErrorsUpdate()
+    {
+        return $this->errors['update'] ? true : false;
+    }
+
     public function uploadFiles()
     {
-        if (Input::hasFile($this->inputFields['files'])) {
-            $this->uploadedFiles = Input::file($this->inputFields['files']);
+        foreach (['new', 'update'] as $type) {
+            $filesType = "files_{$type}";
 
-            // Make sure it really is an array
-            if (!is_array($this->uploadedFiles)) {
-                if (is_null($this->key)) {
-                    $this->uploadedFiles = array($this->uploadedFiles);
-                } else {
-                    $this->uploadedFiles = array($this->key => $this->uploadedFiles);
+            if (Input::hasFile($this->inputFields[$filesType])) {
+                $this->uploadedFiles[$type] = Input::file($this->inputFields[$filesType]);
+
+                // Make sure it really is an array
+                if (!is_array($this->uploadedFiles[$type])) {
+                    $this->uploadedFiles[$type] = [$this->uploadedFiles[$type]];
+                }
+            } else {
+                $this->errorsUpload[$type][] = 'File(s) not uploaded ' . $this->inputFields[$filesType] . '.';
+            }
+        }
+    }
+
+    protected function checkRequired()
+    {
+        $config = $this->config;
+
+        if (isset($config['required']) && $config['required']) {
+
+            // Existing model
+            if ($this->modelItem) {
+                if (count($this->modelItem->images)) {
+                    return true;
                 }
             }
 
-            return true;
-
-        } else {
-            $this->errors[] = 'File not uploaded ' . $this->inputFields['files'];
+            // New uploads
+            if (count($this->getUploadedFiles('new'))) {
+                return true;
+            }
             return false;
         }
+        return true;
+    }
+
+    protected function checkMultiple()
+    {
+        $config = $this->config;
+
+        if (isset($config['multiple']) && !$config['multiple']) {
+
+            // Existing model
+            $exists = 0;
+            if ($this->modelItem) {
+                $exists = count($this->modelItem->images);
+            }
+
+            $new = count($this->getUploadedFiles('new'));
+
+            if (($exists + $new) > 1) {
+                $this->errorsUpload['new'][] = 'Multiple files is not allowed.';
+                return false;
+            }
+        }
+        return true;
     }
 
     public function process()
     {
         $this->uploadFiles();
 
-        if ($this->hasErrors()) return false;
+//        if (!$this->checkRequired()) {
+//            dd($this->getErrorsUploaded('new'));
+//        }
 
 
+        if (!$this->checkMultiple()) {
+            dd($this->getErrorsNew());
+        }
 
-        $this->validateFiles($this->uploadedFiles);
+        //if ($this->hasErrors()) return false;
+
+        $this->validateFiles();
         dd($this->getErrors());
-
 
         if ($this->hasErrors()) return false;
 
@@ -153,22 +237,33 @@ class ImageApi
 
     }
 
-    protected function validateFiles($files)
+    protected function validateFiles($types = ['new', 'update'])
     {
-        if (!count($files)) {
-            $this->errors[] = 'There is no files.';
-            return false;
-        }
-        // Loop through all uploaded files
-        foreach ($files as $key => $file) {
+        foreach ($types as $type) {
+//            if (!count($files)) {
+//                $this->errors[] = 'There is no files.';
+//                return false;
+//            }
 
-            $validator = Validator::make(
-                array('file' => $file),
-                array('file' => $this->prepareValidationRules())
-            );
+            $files = $this->getUploadedFiles($type);
 
-            if (!$validator->passes()) {
-                $this->errors[] = 'File "' . $file->getClientOriginalName() . '":' . $validator->messages()->first('file');
+            if (!count($files)) {
+//                $this->errors[$type][] = 'No uploaded files.';
+                continue;
+            }
+
+            foreach ($files as $key => $file) {
+
+                if (!is_object($file)) continue;
+
+                $validator = Validator::make(
+                    array('file' => $file),
+                    array('file' => $this->prepareValidationRules())
+                );
+
+                if (!$validator->passes()) {
+                    $this->errors[$type][] = 'File "' . $file->getClientOriginalName() . '". ' . $validator->messages()->first('file');
+                }
             }
         }
     }

@@ -100,7 +100,7 @@
                                     <div class="col-xs-9 col-lg-10">
                                         <div class="row bottom15">
                                             <div class="col-md-12">
-                                                <input type="text" class="form-control" value="" name="alt[]"
+                                                <input type="text" class="form-control" value="" name="alt_new[]"
                                                        placeholder="Enter alt text..."/>
                                             </div>
                                         </div>
@@ -109,13 +109,41 @@
                                                 <div class="input-group">
                                                     <span class="input-group-btn">
                                                         <span class="btn btn-default btn-file">
-                                                            Browse&hellip; <input type="file" multiple name="files[]">
+                                                            Browse&hellip; <input type="file" multiple name="files_new[]">
                                                         </span>
                                                     </span>
                                                     <input type="text" class="form-control" readonly>
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-btn">
+                                                        <span class="btn btn-default btn-file">
+                                                            Browse&hellip; <input type="file" multiple name="files_new[]">
+                                                        </span>
+                                                    </span>
+                                                    <input type="text" class="form-control" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-btn">
+                                                        <span class="btn btn-default btn-file">
+                                                            Browse&hellip; <input type="file" multiple name="files_update[45]">
+                                                        </span>
+                                                    </span>
+                                                    <input type="text" class="form-control" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
                                     </div>
                                 </div>
 
