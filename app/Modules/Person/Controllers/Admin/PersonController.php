@@ -39,18 +39,24 @@ class PersonController extends AdminController
     public function getDatatable(DatatablesFront $dtFront)
     {
         $model = $this->modelName;
-        $model = $model::select('*');
+        $query = $model::select('*');
+//        $model = $model::select('persons.*', 'images.image')
 //            ->where('lang', 'sr');
-        $modelNameSpace = get_class($model);
+//            ->leftJoin('images', 'authors.id','=','articles.author_id');
 
-        return Datatables::of($model)
-            ->addColumn('status', function ($data) use ($dtFront, $modelNameSpace) {
-                return $dtFront->renderStatusButtons($data, $modelNameSpace);
+//            ->leftJoin('images', function ($join) use ($model) {
+//                $join->on('images.model_id', '=', 'persons.id')
+//                    ->where('images.model_type', '=', $model);
+//            });
+
+        return Datatables::of($query)
+            ->addColumn('status', function ($data) use ($dtFront, $model) {
+                return $dtFront->renderStatusButtons($data, $model);
             })
-            ->addColumn('translate', function ($data) use ($dtFront, $modelNameSpace) {
+            ->addColumn('translate', function ($data) use ($dtFront, $model) {
                 return $dtFront->renderTransButtons($data);
             })
-            ->addColumn('actions', function ($data) use ($dtFront, $modelNameSpace) {
+            ->addColumn('actions', function ($data) use ($dtFront, $model) {
                 return $dtFront->renderActionButtons($data);
             })
             ->make(true);
@@ -185,13 +191,11 @@ class PersonController extends AdminController
         $imageApi->setModelName(get_class($item));
         $imageApi->setBaseName('ovo je bazba');
 
-
-        $imageApi->process();
-
-
-
-
-
+        if (!$imageApi->process()) {
+            msg($imageApi->getErrorsAll(), 'danger');
+            return redirect()->back();
+            dd($imageApi->getErrorsAll());
+        }
 
         if ($item->update(Input::all())) {
             msg('Item successfully updated.');

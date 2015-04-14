@@ -164,6 +164,16 @@ class ImageApi
         return $this->errors['update'] ? true : false;
     }
 
+    public function getErrorsAll()
+    {
+        return array_merge(
+            isset($this->errorsUpload['new']) ? $this->errorsUpload['new'] : [],
+//            isset($this->errorsUpload['update']) ? $this->errorsUpload['update'] : [],
+            isset($this->errors['new']) ? $this->errors['new'] : [],
+            isset($this->errors['update']) ? $this->errors['update'] : []
+        );
+    }
+
     public function uploadFiles()
     {
         foreach (['new', 'update'] as $type) {
@@ -180,7 +190,6 @@ class ImageApi
                 $this->errorsUpload[$type][] = 'File(s) not uploaded ' . $this->inputFields[$filesType] . '.';
             }
         }
-
     }
 
     protected function checkRequired()
@@ -231,21 +240,21 @@ class ImageApi
     {
         $this->uploadFiles();
 
-//        if (!$this->checkRequired()) {
-//            dd($this->getErrorsUploaded('new'));
-//        }
-//dd($this->getUploadedFiles('new'));
-
-        if (!$this->checkMultiple()) {
-            dd($this->getErrorsUpload());
+        if (!$this->checkRequired()) {
+            return false;
+            dd($this->getErrorsUploaded('new'));
         }
 
-        //if ($this->hasErrors()) return false;
+        if (!$this->checkMultiple()) {
+            return false;
+            return $this->getErrorsUpload('new');
+        }
 
         $this->validateFiles();
-        dd($this->getErrors());
 
-        if ($this->hasErrors()) return false;
+        if ($this->hasErrors()) {
+            return false;
+        }
 
         $this->processUpload($this->uploadedFiles, 12);
 
