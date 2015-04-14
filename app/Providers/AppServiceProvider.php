@@ -30,9 +30,9 @@ class AppServiceProvider extends ServiceProvider
             'App\Services\Registrar'
         );
 
-        // Laracasts generator for local only
+        // Register only for local
         if ($this->app->environment() == 'local') {
-            $this->app->register('Laracasts\Generators\GeneratorsServiceProvider');
+          //
         }
     }
 

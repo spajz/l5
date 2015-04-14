@@ -100,14 +100,27 @@ class ImageApi
     public function getUploadedFiles($type = null)
     {
         if ($type == 'new') {
-            return isset($this->uploadedFiles['new']) ? $this->uploadedFiles['new'] : [];
+            if (isset($this->uploadedFiles['new']) && count($this->uploadedFiles['new'])) {
+                foreach ($this->uploadedFiles['new'] as $key => $file) {
+                    if (!is_object($file)) unset($this->uploadedFiles['new'][$key]);
+                }
+                return $this->uploadedFiles['new'];
+            }
+            return [];
         }
 
         if ($type == 'update') {
-            return isset($this->uploadedFiles['update']) ? $this->uploadedFiles['update'] : [];
+            if (isset($this->uploadedFiles['update']) && count($this->uploadedFiles['update'])) {
+                foreach ($this->uploadedFiles['update'] as $key => $file) {
+                    if (!is_object($file)) unset($this->uploadedFiles['update'][$key]);
+                }
+                return $this->uploadedFiles['update'];
+            }
+            return [];
         }
         return $this->uploadedFiles;
     }
+
 
     public function getErrors()
     {
@@ -167,6 +180,7 @@ class ImageApi
                 $this->errorsUpload[$type][] = 'File(s) not uploaded ' . $this->inputFields[$filesType] . '.';
             }
         }
+
     }
 
     protected function checkRequired()
@@ -220,10 +234,10 @@ class ImageApi
 //        if (!$this->checkRequired()) {
 //            dd($this->getErrorsUploaded('new'));
 //        }
-
+//dd($this->getUploadedFiles('new'));
 
         if (!$this->checkMultiple()) {
-            dd($this->getErrorsNew());
+            dd($this->getErrorsUpload());
         }
 
         //if ($this->hasErrors()) return false;
@@ -253,8 +267,6 @@ class ImageApi
             }
 
             foreach ($files as $key => $file) {
-
-                if (!is_object($file)) continue;
 
                 $validator = Validator::make(
                     array('file' => $file),
