@@ -5,6 +5,7 @@ use Input;
 use Image;
 use File;
 use Validator;
+use App\Models\Image as ImageModel;
 
 class ImageApi
 {
@@ -139,6 +140,15 @@ class ImageApi
         return $this->errorsUpload;
     }
 
+    protected function setErrorsUpload($type, $error = [])
+    {
+        if (is_array($type)) {
+            $this->errorsUpload = $type;
+        } else {
+            $this->errorsUpload[$type] = $error;
+        }
+    }
+
     public function getErrorsNew()
     {
         return isset($this->errors['new']) ? $this->errors['new'] : [];
@@ -168,7 +178,7 @@ class ImageApi
     {
         return array_merge(
             isset($this->errorsUpload['new']) ? $this->errorsUpload['new'] : [],
-//            isset($this->errorsUpload['update']) ? $this->errorsUpload['update'] : [],
+            isset($this->errorsUpload['update']) ? $this->errorsUpload['update'] : [],
             isset($this->errors['new']) ? $this->errors['new'] : [],
             isset($this->errors['update']) ? $this->errors['update'] : []
         );
@@ -187,7 +197,7 @@ class ImageApi
                     $this->uploadedFiles[$type] = [$this->uploadedFiles[$type]];
                 }
             } else {
-                $this->errorsUpload[$type][] = 'File(s) not uploaded ' . $this->inputFields[$filesType] . '.';
+                $this->errorsUpload[$type][] = 'The file is required. The file not uploaded ' . $this->inputFields[$filesType] . '.';
             }
         }
     }
@@ -201,16 +211,19 @@ class ImageApi
             // Existing model
             if ($this->modelItem) {
                 if (count($this->modelItem->images)) {
+                    $this->setErrorsUpload([]);
                     return true;
                 }
             }
 
             // New uploads
             if (count($this->getUploadedFiles('new'))) {
+                $this->setErrorsUpload([]);
                 return true;
             }
             return false;
         }
+        $this->setErrorsUpload([]);
         return true;
     }
 
@@ -229,7 +242,7 @@ class ImageApi
             $new = count($this->getUploadedFiles('new'));
 
             if (($exists + $new) > 1) {
-                $this->errorsUpload['new'][] = 'Multiple files is not allowed.';
+                $this->errorsUpload['new'][] = 'Multiple files are not allowed.';
                 return false;
             }
         }
@@ -242,12 +255,10 @@ class ImageApi
 
         if (!$this->checkRequired()) {
             return false;
-            dd($this->getErrorsUploaded('new'));
         }
 
         if (!$this->checkMultiple()) {
             return false;
-            return $this->getErrorsUpload('new');
         }
 
         $this->validateFiles();
@@ -316,7 +327,6 @@ class ImageApi
         return $baseName . '.' . $extension;
     }
 
-
     protected function extensionReplace($extension)
     {
         $extensions = [
@@ -329,57 +339,64 @@ class ImageApi
         return $extension;
     }
 
-    protected function processUpload($uploadedFiles)
+    protected function processUpload()
     {
-        foreach ($uploadedFiles as $key => $upload) {
+        foreach (['new', 'update'] as $type) {
 
-            $config = $this->config;
-            $defaultQuality = isset($config['quality']) ? $config['quality'] : $this->defaultQuality;
-            $fullPath = null;
-            $error = null;
-            $filename = $this->makeFilename($upload);
+            $uploadedFiles = $this->getUploadedFiles($type);
 
-            if (isset($config['sizes'])) {
-                foreach ($config['sizes'] as $k => $size) {
-                    $image = Image::make($upload);
+            if (!$uploadedFiles) continue;
 
-                    if (!empty($this->actionsAll)) {
-                        $size['actions'] = array_merge($size['actions'], $this->actionsAll);
-                    }
+            foreach ($uploadedFiles as $key => $upload) {
 
-                    if (isset($this->actionsBySize[$k])) {
-                        $size['actions'] = array_merge($size['actions'], $this->actionsBySize[$k]['actions']);
-                    }
+                $config = $this->config;
+                $defaultQuality = isset($config['quality']) ? $config['quality'] : $this->defaultQuality;
+                $fullPath = null;
+                $error = null;
+                $filename = $this->makeFilename($upload);
 
-                    $quality = isset($size['quality']) ? $size['quality'] : $defaultQuality;
+                if (isset($config['sizes'])) {
+                    foreach ($config['sizes'] as $k => $size) {
+                        $image = Image::make($upload);
 
-                    // Make directory
-                    $dir = $config['path'] . $size['folder'];
-                    if (!is_dir($dir)) {
-                        File::makeDirectory($dir);
-                    }
-                    $fullPath = $dir . $filename;
+                        if (!empty($this->actionsAll)) {
+                            $size['actions'] = array_merge($size['actions'], $this->actionsAll);
+                        }
 
-                    // Apply actions
-                    if (isset($size['actions']) && !empty($size['actions'])) {
+                        if (isset($this->actionsBySize[$k])) {
+                            $size['actions'] = array_merge($size['actions'], $this->actionsBySize[$k]['actions']);
+                        }
 
-                        foreach ($size['actions'] as $action => $param) {
-                            call_user_func_array(array($image, $action), $param);
+                        $quality = isset($size['quality']) ? $size['quality'] : $defaultQuality;
+
+                        // Make directory
+                        $dir = $config['path'] . $size['folder'];
+                        if (!is_dir($dir)) {
+                            File::makeDirectory($dir);
+                        }
+                        $fullPath = $dir . $filename;
+
+                        // Apply actions
+                        if (isset($size['actions']) && !empty($size['actions'])) {
+
+                            foreach ($size['actions'] as $action => $param) {
+                                call_user_func_array(array($image, $action), $param);
+                            }
+                        }
+
+                        $image->save($fullPath, $quality);
+                        if (!is_file($fullPath)) {
+                            $error = true;
                         }
                     }
 
-                    $image->save($fullPath, $quality);
-                    if (!is_file($fullPath)) {
-                        $error = true;
+                    if ($error) {
+                        $this->errors[] = 'File "' . $upload->getClientOriginalName() . '": error during processing.';
+                        // Delete already uploaded images
+                        $this->delete($fullPath);
+                    } else {
+                        $this->uploadedFiles2[$key] = $filename;
                     }
-                }
-
-                if ($error) {
-                    $this->errors[] = 'File "' . $upload->getClientOriginalName() . '": error during processing.';
-                    // Delete already uploaded images
-                    $this->delete($fullPath);
-                } else {
-                    $this->uploadedFiles2[$key] = $filename;
                 }
             }
         }
@@ -432,8 +449,29 @@ class ImageApi
         return implode('|', $validationArray);
     }
 
-
-
+    /**
+     * Delete all images that are not in the database.
+     *
+     * @return void
+     */
+    public function cleaner()
+    {
+        $log = '';
+        $images = File::allFiles(public_path('media/images'));
+        if ($images) {
+            foreach ($images as $image) {
+                $item = ImageModel::where('image', $image->getFilename())->first();
+                if (!$item) {
+                    $path = $image->getRealPath();
+                    if (is_file($path)) {
+                        $log .= $path . "\n";
+                        unlink($path);
+                    }
+                }
+            }
+        }
+        return $log;
+    }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
