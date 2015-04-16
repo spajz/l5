@@ -16,7 +16,7 @@ return array(
         'path' => public_path() . '/media/images/', // main path with trailing slash
         'baseUrl' => url('media/images') . '/',
         'required' => true, // true or false
-        'multiple' => false,
+        'multiple' => true,
         'quality' => 85,
         'allowed_types' => 'jpeg,gif,png',
         'max' => '2000', // max size in kilobytes (0 for no limit)

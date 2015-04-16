@@ -122,6 +122,8 @@ if (!function_exists('number_list')) {
 if (!function_exists('msg')) {
     function msg($text, $type = 'success')
     {
+        if (!is_array($text)) $text = (array)$text;
+        $text = array_map("nl2br", $text);
         Notification::$type($text, view('notifications.default')->render());
     }
 }
@@ -188,9 +190,9 @@ if (!function_exists('ucfirst_replace')) {
 }
 
 if (!function_exists('_s')) {
-    function _s($str, $char ='`')
+    function _s($str, $char = '`')
     {
-       return $char . $str . $char;
+        return $char . $str . $char;
     }
 }
 

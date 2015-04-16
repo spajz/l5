@@ -188,15 +188,12 @@ class PersonController extends AdminController
         $imageApi = new ImageApi;
         $imageApi->setConfig("{$this->moduleLower}.image");
         $imageApi->setModelId($id);
-        $imageApi->setModelName(get_class($item));
+        $imageApi->setModelType(get_class($item));
         $imageApi->setBaseName('ovo je bazba');
-
-        dd($imageApi->cleaner());
 
         if (!$imageApi->process()) {
             msg($imageApi->getErrorsAll(), 'danger');
             return redirect()->back();
-            dd($imageApi->getErrorsAll());
         }
 
         if ($item->update(Input::all())) {
