@@ -485,13 +485,22 @@ class ImageApi
      */
     protected function dbSave($type, $filename, $key = null)
     {
-//        if ($type == 'update') {
-//            $image = ImageModel::find($key);
-//            if (!$image) return false;
-//
-//            $image->alt = Input::get($this->inputFields['alt_' . $type] . '.' . $key);
-//            $image->description = Input::get($this->inputFields['description_' . $type] . '.' . $key);
-//        }
+        if ($type == 'update') {
+            $image = ImageModel::find($key);
+            if (!$image) return false;
+            $oldImage = $image->image;
+
+            $image->alt = Input::get($this->inputFields['alt_' . $type] . '.' . $key);
+            $image->description = Input::get($this->inputFields['description_' . $type] . '.' . $key);
+
+            $image->model_id = $this->modelId;
+            $image->model_type = $this->modelType;
+            $image->image = $filename;
+            $image->save();
+
+            // Delete old image
+            $this->delete($oldImage);
+        }
 
         if ($type == 'new') {
             $image = new ImageModel();

@@ -2,10 +2,12 @@
 
 use App\BaseModel;
 use App\Traits\ValidationTrait;
+use App\Traits\TransTrait;
 
 class Person extends BaseModel
 {
     use ValidationTrait;
+    use TransTrait;
 
     protected $table = 'persons';
 
@@ -18,7 +20,7 @@ class Person extends BaseModel
         'status'
     );
 
-    protected $useTransParentImages = true;
+   protected $useTransParentImages = false;
 
     public function rulesAll()
     {
@@ -27,33 +29,6 @@ class Person extends BaseModel
             'last_name' => 'required|max:255',
             'job_title' => 'required|max:255',
         ];
-    }
-
-    public function images()
-    {
-        if ($this->useTransParentImages && $this->trans_id != 0) {
-            return $this->imagesFromTransParent();
-        }
-
-        return $this->imagesFromSelf();
-    }
-
-    public function imagesFromTransParent()
-    {
-        $transParent = $this->transParent()->first();
-        if ($transParent) {
-            return $transParent->imagesMorph()->get();
-        }
-    }
-
-    public function imagesFromSelf()
-    {
-        return $this->imagesMorph();
-    }
-
-    protected function imagesMorph()
-    {
-        return $this->morphMany('App\Models\Image', 'model');
     }
 
     public static function boot()
@@ -67,36 +42,6 @@ class Person extends BaseModel
 //        });
     }
 
-    public function transParent()
-    {
-        return $this->belongsTo(__CLASS__, 'trans_id', 'id');
-    }
 
-    public function transChildren()
-    {
-        return $this->hasMany(__CLASS__, 'trans_id', 'id');
-    }
-
-    public function transRelated()
-    {
-        $query = $this->newQuery();
-
-        if ($this->trans_id == 0) {
-            $query->where('id', $this->id)
-                ->orWhere('trans_id', $this->id);
-        } else {
-            $query->where('id', $this->trans_id)
-                ->orWhere('trans_id', $this->trans_id);
-        }
-
-        return $query->get()
-            ->keyBy('lang');
-    }
-
-    public function scopeHasTrans($query, $id, $lang)
-    {
-        return $query->where('trans_id', $id)
-            ->where('lang', $lang);
-    }
 
 }
