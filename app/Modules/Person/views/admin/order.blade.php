@@ -38,7 +38,7 @@
                                                     Status
                                                 </th>
                                                 <th>
-                                                    Sort
+                                                    Order
                                                 </th>
                                             </tr>
                                             </thead>

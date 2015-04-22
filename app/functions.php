@@ -196,23 +196,30 @@ if (!function_exists('_s')) {
     }
 }
 
+if (!function_exists('array_to_attribute')) {
+    function array_to_attribute($attributes)
+    {
+        $out = '';
+        foreach ($attributes as $key => $value) {
+            $out .= $key . '="' . $value . '" ';
+        }
+        return $out;
+    }
+}
+
 if (!function_exists('link_to_image')) {
     function link_to_image($image, $config, $image_attr = [], $href_attr = [], $sizes = ['thumb', 'large'], $secure = null)
     {
-        return link_to(
-            $config['image']['baseUrl'] . $sizes[1] . '/' . $image->image,
-            Html::image(
-                $config['image']['baseUrl'] . $sizes[0] . '/' . $image->image,
-                $image->alt,
-                $image_attr,
-                $secure
-            ),
-            $href_attr,
-            $secure);
+        $out = '<a href="' . $config['image']['baseUrl'] . $sizes[1] . '/' . $image->image . '" ' . array_to_attribute($href_attr) . '>';
+        $out .= Html::image(
+            $config['image']['baseUrl'] . $sizes[0] . '/' . $image->image,
+            $image->alt,
+            $image_attr,
+            $secure
+        );
+        $out .= '</a>';
 
-
-
-
+        return  $out;
     }
 }
 

@@ -6,10 +6,6 @@
 
 /*** Common ***/
 
-.center {
-    text-align: center;
-}
-
 .w20 {
     width: 20px;
 }
@@ -116,6 +112,10 @@
 
 .top20 {
     margin-top: 20px;
+}
+
+table th {
+    text-align: center;
 }
 
 /*** Ajax loader ***/

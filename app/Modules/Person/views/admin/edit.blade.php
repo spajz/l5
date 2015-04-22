@@ -69,36 +69,48 @@
                         <div class="row">
                             <div class="col-xs-12">
 
-                                <table class="table table-bordered table-striped table-hover">
+                                @if(count($item->images))
+                                    <table class="table table-bordered table-striped table-hover sortable" data-model="{{  get_class($item->images[0]) }}">
+                                @else
+                                    <table class="table table-bordered table-striped table-hover">
+                                @endif
+
                                     <thead>
-                                    <tr>
-                                        <th>Image</th>
-                                        <th>Alt</th>
-                                        <th>Order</th>
-                                        <th>Actions</th>
-                                    </tr>
+                                        <tr>
+                                            <th>Image</th>
+                                            <th>Alt</th>
+                                            <th>Order</th>
+                                            <th>Actions</th>
+                                        </tr>
                                     </thead>
 
                                     <tbody>
                                     @if(count($item->images))
                                         @foreach($item->images as $image)
-                                            <tr>
+                                            <tr data-id="{{ $image->id }}">
                                                 <td>
-
                                                     {!!
                                                         link_to_image(
                                                             $image,
                                                             $config,
                                                             ['class' => 'img-thumbnail'],
-                                                            ['class' => 'fancybox']
+                                                            ['class' => 'fancybox', 'rel' => 'gallery']
                                                         )
                                                     !!}
-
-
                                                 </td>
-                                                <td>{{ $image->alt }}</td>
-                                                <td>{{ $image->order }}</td>
-                                                <td>{{ $image->status }}</td>
+                                                <td>
+                                                    {!! Former::text("alt_update[{$image->id}]")->label(null)->value($image->alt)->placeholder('Enter alt text.') !!}
+                                                </td>
+                                                <td class="text-center">
+                                                    <button type="button" class="btn btn-info btn-sm btn-sort">
+                                                        <i class="fa fa-arrows-v"></i>
+                                                    </button>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a href="#" class="btn btn-danger btn-xs" data-bb="confirm">
+                                                        <i class="fa fa-trash-o"></i> Delete
+                                                    </a>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     @else
@@ -118,7 +130,7 @@
                                         <div class="row bottom15">
                                             <div class="col-md-12">
                                                 <input type="text" class="form-control" value="" name="alt_new[]"
-                                                       placeholder="Enter alt text..."/>
+                                                       placeholder="Enter alt text."/>
                                             </div>
                                         </div>
                                         <div class="row">

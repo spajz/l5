@@ -124,10 +124,12 @@ $(document).ready(function () {
         helper: function (e, ui) {
             ui.children().each(function () {
                 $(this).width($(this).width());
+                $(this).height($(this).height());
             });
             return ui;
         },
         start: function (e, ui) {
+            $('.sortable-placeholder').height(ui.item.height());
             ui.item.siblings("tr").has(':checkbox:checked').not(".ui-sortable-placeholder").appendTo(ui.item).hide();
         },
         stop: function (e, ui) {

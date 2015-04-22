@@ -20,11 +20,11 @@ class PersonController extends AdminController
         ['name' => 'job_title'],
         ['name' => 'created_at'],
         ['name' => 'order', 'className' => 'w40'],
-        ['name' => 'status', 'className' => 'w40 center'],
+        ['name' => 'status', 'className' => 'w40 text-center'],
         ['name' => 'lang', 'className' => 'w40', 'columnFilter' => 'select', 'tfClass' => 'filter-count'],
         ['name' => 'trans_id', 'className' => 'w40', 'title' => 'Parent'],
-        ['name' => 'translate', 'className' => 'w120 center', 'actionColumn' => true],
-        ['name' => 'actions', 'className' => 'w120 center', 'actionColumn' => true],
+        ['name' => 'translate', 'className' => 'w120 text-center', 'actionColumn' => true],
+        ['name' => 'actions', 'className' => 'w120 text-center', 'actionColumn' => true],
     ];
 
     protected $formButtons = array('except' => array('approve', 'reject'));
@@ -153,7 +153,6 @@ class PersonController extends AdminController
      */
     public function edit($id, $lang = null)
     {
-        echo link_to_image('foo/bar', 'sdfsdf', $attributes = array(), $secure = null); exit;
         $model = $this->modelName;
         $item = $model::find($id);
 
