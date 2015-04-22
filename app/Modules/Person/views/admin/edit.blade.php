@@ -74,16 +74,33 @@
                                     <tr>
                                         <th>Image</th>
                                         <th>Alt</th>
-                                        <th>Sort</th>
+                                        <th>Order</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
 
                                     <tbody>
                                     @if(count($item->images))
-                                        <tr>
+                                        @foreach($item->images as $image)
+                                            <tr>
+                                                <td>
 
-                                        </tr>
+                                                    {!!
+                                                        link_to_image(
+                                                            $image,
+                                                            $config,
+                                                            ['class' => 'img-thumbnail'],
+                                                            ['class' => 'fancybox']
+                                                        )
+                                                    !!}
+
+
+                                                </td>
+                                                <td>{{ $image->alt }}</td>
+                                                <td>{{ $image->order }}</td>
+                                                <td>{{ $image->status }}</td>
+                                            </tr>
+                                        @endforeach
                                     @else
                                         <tr>
                                             <td colspan="4">There is no items.</td>

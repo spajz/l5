@@ -83,6 +83,8 @@ class PersonController extends AdminController
     /**
      * Show the form for creating a new resource.
      *
+     * @param int $trans_id
+     * @param string $lang
      * @return Response
      */
     public function create($trans_id = null, $lang = null)
@@ -151,6 +153,7 @@ class PersonController extends AdminController
      */
     public function edit($id, $lang = null)
     {
+        echo link_to_image('foo/bar', 'sdfsdf', $attributes = array(), $secure = null); exit;
         $model = $this->modelName;
         $item = $model::find($id);
 

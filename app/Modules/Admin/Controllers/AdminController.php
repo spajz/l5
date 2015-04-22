@@ -36,6 +36,7 @@ class AdminController extends BaseController
         }
 
         $this->config = config($module);
+        View::share('config', $this->config);
         $moduleConfig = config($module . '.module');
         if ($moduleConfig) {
             foreach ($moduleConfig as $key => $value) {
