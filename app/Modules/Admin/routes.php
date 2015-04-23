@@ -10,6 +10,8 @@ Route::group(array('prefix' => ADMIN), function () {
 
     Route::post('api/get-model', array('as' => 'api.admin.get.model', 'uses' => 'App\Modules\Admin\Controllers\AdminController@getModel'));
 
+    Route::get('api/image-destroy/{id}', array('as' => 'api.admin.image.destroy', 'uses' => 'App\Modules\Admin\Controllers\AdminController@imageDestroy'));
+
 });
 
 Route::get('admin/login', array('as' => 'admin.login', 'uses' => 'App\Modules\Admin\Controllers\AdminController@login'));

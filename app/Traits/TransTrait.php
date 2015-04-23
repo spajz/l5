@@ -72,7 +72,7 @@ trait TransTrait
 
     protected function imagesMorph()
     {
-        return $this->morphMany('App\Models\Image', 'model');
+        return $this->morphMany('App\Models\Image', 'model')->orderBy('order');
     }
 }
 

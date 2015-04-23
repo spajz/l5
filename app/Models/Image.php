@@ -2,7 +2,8 @@
 
 use App\BaseModel;
 
-class Image extends BaseModel{
+class Image extends BaseModel
+{
 
     protected $table = 'images';
 
@@ -39,6 +40,15 @@ class Image extends BaseModel{
     public function model()
     {
         return $this->morphTo();
+    }
+
+    public function sameParent()
+    {
+        $query = $this->newQuery();
+
+        return $query->where('model_id', $this->model_id)
+            ->where('model_type', $this->model_type)
+            ->get();
     }
 
 }

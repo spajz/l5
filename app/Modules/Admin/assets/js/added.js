@@ -12,12 +12,16 @@ $.ajaxSetup({
 });
 
 // Bootstrap file button
-$(document).on('change', '.btn-file :file', function () {
-    var input = $(this),
-        numFiles = input.get(0).files ? input.get(0).files.length : 1,
-        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-    input.trigger('fileselect', [numFiles, label]);
-});
+
+    $('body').on('change', '.btn-file :file', function () {
+        var input = $(this),
+            numFiles = input.get(0).files ? input.get(0).files.length : 1,
+            label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        input.trigger('fileselect', [numFiles, label]);
+    });
+
+
+
 
 // Sort array by property   sortByProperty(myArray, "name");
 function sortByProperty(array, propertyName) {
@@ -52,6 +56,7 @@ function colorDanger(item) {
         });
 }
 
+// Custom functions
 function randomString(length) {
     length = typeof length !== 'undefined' ? length : 8;
     return Math.random().toString(36).slice(length);
@@ -114,39 +119,41 @@ $(document).ready(function () {
     }
 
     // Sortable
-    $('table.sortable').sortable({
-        axis: 'y',
-        items: 'tbody tr',
-        handle: '.btn-sort',
-        forcePlaceholderSize: true,
-        cancel: '',
-        placeholder: 'sortable-placeholder',
-        helper: function (e, ui) {
-            ui.children().each(function () {
-                $(this).width($(this).width());
-                $(this).height($(this).height());
-            });
-            return ui;
-        },
-        start: function (e, ui) {
-            $('.sortable-placeholder').height(ui.item.height());
-            ui.item.siblings("tr").has(':checkbox:checked').not(".ui-sortable-placeholder").appendTo(ui.item).hide();
-        },
-        stop: function (e, ui) {
-            var items = ui.item.find("tr");
-            ui.item.after(items.show());
-            colorSuccess(items);
-            colorSuccess(ui.item);
-            $('table.sortable input:checkbox').removeAttr('checked');
-        }
+    function initSortable(){
+        $('table.sortable').sortable({
+            axis: 'y',
+            items: 'tbody tr',
+            handle: '.btn-sort',
+            forcePlaceholderSize: true,
+            cancel: '',
+            placeholder: 'sortable-placeholder',
+            helper: function (e, ui) {
+                ui.children().each(function () {
+                    $(this).width($(this).width());
+                    $(this).height($(this).height());
+                });
+                return ui;
+            },
+            start: function (e, ui) {
+                $('.sortable-placeholder').height(ui.item.height());
+                ui.item.siblings("tr").has(':checkbox:checked').not(".ui-sortable-placeholder").appendTo(ui.item).hide();
+            },
+            stop: function (e, ui) {
+                var items = ui.item.find("tr");
+                ui.item.after(items.show());
+                colorSuccess(items);
+                colorSuccess(ui.item);
+                $('table.sortable input:checkbox').removeAttr('checked');
+            }
 
-    }).bind('sortupdate', function (e, ui) {
-        var sort = [];
-        $('table.sortable tbody tr').each(function (index) {
-            sort[index + 1] = $(this).data('id');
+        }).bind('sortupdate', function (e, ui) {
+            var sort = [];
+            $('table.sortable tbody tr').each(function (index) {
+                sort[index + 1] = $(this).data('id');
+            });
+            sortRows($('table.sortable').data('model'), sort, ui.item);
         });
-        sortRows($('table.sortable').data('model'), sort, ui.item);
-    });
+    }
 
     function sortRows(model, sortData, item) {
         $.ajax({
@@ -163,6 +170,8 @@ $(document).ready(function () {
             }
         });
     }
+
+    initSortable();
 
     // Select2
     function initSelect2() {
@@ -203,25 +212,26 @@ $(document).ready(function () {
     // Pjax
     $.pjax.defaults.scrollTo = false;
 
-    $(document).on('pjax:send', function () {
+    $('body').on('pjax:send', function () {
         loaderShow();
     })
-    $(document).on('pjax:complete', function () {
+    $('body').on('pjax:complete', function () {
         initSelect2();
         initCkeditor();
         loaderHide();
+        initSortable();
     })
 
-    $(document).on('submit', 'form[data-pjax]', function (event) {
+    $('body').on('submit', 'form[data-pjax]', function (e) {
         var btn = $(":input[type=submit]:focus");
         if (btn.data('pjax')) {
-            $.pjax.submit(event, {container: '#pjax-container', timeout: 5000});
+            $.pjax.submit(e, {container: '#pjax-container', timeout: 5000});
         }
     })
 
-    //$(document).on('click', 'a[data-pjax]', function (e) {
-    //    $.pjax.click(e, {container: '#pjax-container', timeout: 5000})
-    //})
+    $('body').on('click', 'a[data-pjax]', function (e) {
+        $.pjax.click(e, {container: '#pjax-container', timeout: 5000})
+    })
 
     // Password generator
     $('[data-random-string]').on('click', function (e) {
@@ -230,17 +240,68 @@ $(document).ready(function () {
         $(element).val(randomString());
     })
 
-    // Bootbox
-    $('body').on('click', '*[data-bb="confirm"]', function (e) {
+
+    // Boot box confirm with pjax options
+    // confirm, confirmPjax, submit, submitPjax
+    var bbFunction = {};
+
+    $('body').on('click', '[data-bb]', function (e) {
         e.preventDefault();
-        var href = $(this).attr('href');
+        var type = $(this).data('bb');
+        var thisObj = $(this);
+
+        if (typeof bbFunction[type] === 'function') {
+            bbFunction[type](thisObj);
+        }
+    });
+
+    bbFunction.confirm = function (thisObj) {
         bootbox.confirm("Are you sure?", function (result) {
-            if (result) window.location.href = href;
+            if (result) {
+                location.href = thisObj.attr('href');
+            }
         });
-    })
+    };
+
+    bbFunction.confirmPjax = function (thisObj) {
+        bootbox.confirm("Are you sure?", function (result) {
+            if (result) {
+                $.pjax({url: thisObj.attr('href'), container: '#pjax-container', timeout: 5000})
+            }
+        });
+    };
+
+    bbFunction.submit = function (thisObj) {
+        bootbox.confirm("Are you sure?", function (result) {
+            if (result) {
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: thisObj.attr('name'),
+                    value: thisObj.attr('value')
+                }).appendTo(thisObj.closest('form'));
+                thisObj.closest('form').submit();
+            }
+        });
+    };
+
+    bbFunction.submitPjax = function (thisObj) {
+        bootbox.confirm("Are you sure?", function (result) {
+            if (result) {
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: thisObj.attr('name'),
+                    value: thisObj.attr('value')
+                }).appendTo(thisObj.closest('form'));
+
+                thisObj.closest('form').on('submit', function (e) {
+                        $.pjax.submit(e, {container: '#pjax-container', timeout: 5000});
+                }).submit()
+            }
+        });
+    };
 
     // File button
-    $('.btn-file :file').on('fileselect', function (event, numFiles, label) {
+    $('body').on('fileselect', '.btn-file :file', function (event, numFiles, label) {
         var input = $(this).parents('.input-group').find(':text');
         var log = numFiles > 1 ? numFiles + ' files selected' : label;
         if (input.length) {

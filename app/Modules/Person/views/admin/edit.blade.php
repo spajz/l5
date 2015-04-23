@@ -18,7 +18,9 @@
 
     <div id="pjax-container">
 
-        {!! Former::open_for_files()->route("admin.{$moduleLower}.update", $item->id)->method('put') !!}
+        <div id="info-box">{!! Notification::showAll() !!}</div>
+
+        {!! Former::open_for_files()->route("admin.{$moduleLower}.update", $item->id)->method('put')->data_pjax() !!}
 
         <div class="row">
             <div class="col-xs-12">
@@ -79,6 +81,7 @@
                                         <tr>
                                             <th>Image</th>
                                             <th>Alt</th>
+                                            <th>Upload</th>
                                             <th>Order</th>
                                             <th>Actions</th>
                                         </tr>
@@ -101,13 +104,23 @@
                                                 <td>
                                                     {!! Former::text("alt_update[{$image->id}]")->label(null)->value($image->alt)->placeholder('Enter alt text.') !!}
                                                 </td>
+                                                <td class="w200">
+                                                    <div class="input-group">
+                                                    <span class="input-group-btn">
+                                                        <span class="btn btn-default btn-file">
+                                                            Browse&hellip;  <input type="file"  name="files_update[{{$image->id}}]">
+                                                        </span>
+                                                    </span>
+                                                        <input type="text" class="form-control" readonly>
+                                                    </div>
+                                                </td>
                                                 <td class="text-center">
                                                     <button type="button" class="btn btn-info btn-sm btn-sort">
                                                         <i class="fa fa-arrows-v"></i>
                                                     </button>
                                                 </td>
                                                 <td class="text-center">
-                                                    <a href="#" class="btn btn-danger btn-xs" data-bb="confirm">
+                                                    <a href="{{ route('api.admin.image.destroy', $image->id) }}" class="btn btn-danger btn-xs" data-bb="confirmPjax">
                                                         <i class="fa fa-trash-o"></i> Delete
                                                     </a>
                                                 </td>
@@ -145,37 +158,8 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-btn">
-                                                        <span class="btn btn-default btn-file">
-                                                            Browse&hellip; <input type="file" multiple name="files_new[]">
-                                                        </span>
-                                                    </span>
-                                                    <input type="text" class="form-control" readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-btn">
-                                                        <span class="btn btn-default btn-file">
-                                                            Browse&hellip; <input type="file" multiple name="files_update[45]">
-                                                        </span>
-                                                    </span>
-                                                    <input type="text" class="form-control" readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
                                     </div>
                                 </div>
-
 
                             </div>
                             <!-- /.col-xs-12 -->

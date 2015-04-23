@@ -38,7 +38,6 @@
 
 <body>
 <img src="{{ cure('assets/admin/images/ajax.gif') }}" class="ajax-loader">
-<div id="info-box">{!! Notification::showAll() !!}</div>
 
 <div id="wrapper">
 

@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\BaseController;
+use App\Library\ImageApi;
 use View;
 use Input;
 use DatatablesFront;
@@ -193,8 +194,17 @@ class AdminController extends BaseController
             default:
                 $out = $items->get();
         }
-
         return $out;
+    }
+
+    public function imageDestroy($id, ImageApi $imageApi)
+    {
+        $imageApi->setConfig("{$this->moduleLower}.image");
+        if ($imageApi->destroy($id)) {
+            msg('The image successfully deleted.');
+        }
+
+        return redirect()->back();
     }
 
 }

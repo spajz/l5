@@ -22,7 +22,7 @@ class ImageApi
         'files_new' => 'files_new',
         'files_update' => 'files_update',
         'alt_new' => 'alt_new',
-        'alt_update' => 'alt_new',
+        'alt_update' => 'alt_update',
         'description_new' => 'description_new',
         'description_update' => 'description_update'
     ];
@@ -49,12 +49,6 @@ class ImageApi
     public function setModelId($modelId)
     {
         $this->modelId = $modelId;
-        return $this;
-    }
-
-    public function setModelItem($modelItem)
-    {
-        $this->modelItem = $modelItem;
         return $this;
     }
 
@@ -96,6 +90,21 @@ class ImageApi
             $this->actionsAll = $actions;
         }
         return $this;
+    }
+
+    public function setModelItem($modelItem)
+    {
+        $this->modelItem = $modelItem;
+        return $this;
+    }
+
+    protected function getModelItem($find = true)
+    {
+        if ($this->modelId && $this->modelType && $find) {
+            $model = $this->modelType;
+            return $model::find($this->modelId);
+        }
+        return $this->modelItem;
     }
 
     public function getUploadedFiles($type = null)
@@ -246,8 +255,8 @@ class ImageApi
         if (isset($config['required']) && $config['required']) {
 
             // Existing model
-            if ($this->modelItem) {
-                if (count($this->modelItem->images)) {
+            if ($modelItem = $this->getModelItem()) {
+                if (count($modelItem->images)) {
                     $this->setErrorsUpload([]);
                     return true;
                 }
@@ -311,8 +320,8 @@ class ImageApi
 
             // Existing model
             $exists = 0;
-            if ($this->modelItem) {
-                $exists = count($this->modelItem->images);
+            if ($modelItem = $this->getModelItem()) {
+                $exists = count($modelItem->images);
             }
 
             $new = count($this->getUploadedFiles('new'));
@@ -559,13 +568,25 @@ class ImageApi
         foreach ($ids as $id) {
 
             $image = ImageModel::find($id);
-            $filename = $image->image;
 
-            if ($image && $image->delete()) {
-                if ($withImages && !$this->checkImageReusedByFilename($filename)) {
-                    $this->delete($filename);
+            if ($image) {
+
+                $moduleLower = strtolower(class_basename($image->model_type));
+                $config = (config($moduleLower));
+
+                $filename = $image->image;
+                // Don't delete last image if is required
+                if ((count($image->sameParent()) < 2) && $config['image']['required']) {
+                    msg('You can not delete last image.', 'danger');
+                    return $return;
                 }
-                $return[] = $id;
+
+                if ($image->delete()) {
+                    if ($withImages && !$this->checkImageReusedByFilename($filename)) {
+                        $this->delete($filename);
+                    }
+                    $return[] = $id;
+                }
             }
         }
 
