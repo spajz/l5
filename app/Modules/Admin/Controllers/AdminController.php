@@ -68,9 +68,7 @@ class AdminController extends BaseController
 
     public function changeStatus()
     {
-        if (!Input::get('model')) return false;
-
-        if (!Input::get('id')) return false;
+        if (!Input::get('model') || !Input::get('id')) return false;
 
         $model = urldecode2(Input::get('model'));
 
@@ -81,7 +79,15 @@ class AdminController extends BaseController
 
         $item->save();
 
-        return $this->dtStatusButton($item);
+        $dtFront = new DatatablesFront;
+
+        return $this->renderStatusButtons($item);
+    }
+
+    public function renderStatusButtons($item)
+    {
+        $dtFront = new DatatablesFront;
+        return $dtFront->renderStatusButtons($item);
     }
 
     public function sortRows()
@@ -200,11 +206,41 @@ class AdminController extends BaseController
     public function imageDestroy($id, ImageApi $imageApi)
     {
         $imageApi->setConfig("{$this->moduleLower}.image");
+
         if ($imageApi->destroy($id)) {
             msg('The image successfully deleted.');
         }
 
         return redirect()->back();
+    }
+
+    public function imageCrop($id)
+    {
+        $config = $this->config;
+
+        $model = $this->modelName;
+        $item = $model::find($id);
+
+        $imageModel = ImageModel::find(Input::get('image_id'));
+        if ($imageModel) {
+            $imageApi = new ImageApi();
+            $imageApi->setModelId($id);
+            $imageApi->setModelType(get_class($item));
+            $imageApi->setBaseName('drawing');
+            $imageApi->setConfig("{$this->moduleLower}.image");
+            $imageApi->setActionsAll(array('crop' => array(
+                Input::get('w'),
+                Input::get('h'),
+                Input::get('x'),
+                Input::get('y'),
+            )));
+            $imageApi->processLocal($config['image']['path'] . 'original/' . $imageModel->image);
+            $imageApi->destroy(Input::get('image_id'));
+            msg('Image successfully croped.');
+        } else {
+            msg('An error occurred. Please try again.', 'danger');
+        }
+
     }
 
 }

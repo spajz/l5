@@ -12,6 +12,8 @@ Route::group(array('prefix' => ADMIN), function () {
 
     Route::get('api/image-destroy/{id}', array('as' => 'api.admin.image.destroy', 'uses' => 'App\Modules\Admin\Controllers\AdminController@imageDestroy'));
 
+    Route::post("api/image/{id}/crop", array('as' => 'api.admin.image.crop', "uses" => 'App\Modules\Admin\Controllers\AdminController@imageCrop'));
+
 });
 
 Route::get('admin/login', array('as' => 'admin.login', 'uses' => 'App\Modules\Admin\Controllers\AdminController@login'));

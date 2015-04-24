@@ -21,6 +21,7 @@ class DatatablesFront
     protected $modelName;
     protected $thClass = [];
     protected $tfClass = [];
+    protected $buttonSize = 'btn-xs';
 
     public function __construct()
     {
@@ -98,6 +99,12 @@ class DatatablesFront
         } else {
             $this->tfClass[$key] = $value;
         }
+        return $this;
+    }
+
+    public function setButtonSize($size)
+    {
+        $this->buttonSize = $size;
         return $this;
     }
 
@@ -232,7 +239,7 @@ class DatatablesFront
 
     public function renderActionButtons($data)
     {
-        return view($this->actionButtons, array('data' => $data))->render();
+        return view($this->actionButtons, array('data' => $data, 'buttonSize' => $this->buttonSize))->render();
     }
 
     public function renderTransButtons($item)
@@ -241,12 +248,14 @@ class DatatablesFront
 
         $transRelated = $item->transRelated();
 
-        return view($this->transButtons, compact('item', 'languages', 'transRelated'))->render();
+        $buttonSize = $this->buttonSize;
+
+        return view($this->transButtons, compact('item', 'languages', 'transRelated', 'buttonSize'))->render();
     }
 
     public function renderStatusButtons($data, $model = null)
     {
-        return view($this->statusButtons, array('data' => $data, 'model' => $model))->render();
+        return view($this->statusButtons, array('data' => $data, 'model' => $model, 'buttonSize' => $this->buttonSize))->render();
     }
 
 }

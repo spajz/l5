@@ -109,6 +109,7 @@ elixir(function (mix) {
             adminConfig.bowerDir + '/select2-bootstrap-css/select2-bootstrap.css',
             adminConfig.bowerDir + '/fancybox/source/jquery.fancybox.css',
             adminConfig.bowerDir + '/jquery-ui/themes/base/jquery-ui.min.css',
+            adminConfig.bowerDir + '/Jcrop/css/jquery.Jcrop.css',
         ], null, './')
 
         .scripts([
@@ -128,6 +129,7 @@ elixir(function (mix) {
             adminConfig.bowerDir + '/fancybox/source/jquery.fancybox.pack.js',
             adminConfig.bowerDir + '/jquery-ui/jquery-ui.min.js',
             adminConfig.bowerDir + '/underscore/underscore-min.js',
+            adminConfig.bowerDir + '/Jcrop/js/jquery.Jcrop.min.js',
         ], null, './')
 
         .version([
@@ -175,6 +177,11 @@ gulpCopy(
         '!' + adminConfig.bowerDir + '/ckeditor/samples{,/**}',
     ],
     [adminDir + '/vendor/ckeditor']
+);
+
+gulpCopy(
+    [adminConfig.bowerDir + '/Jcrop/css/Jcrop.gif'],
+    [adminBuildDir + '/css/', adminDir + '/css/']
 );
 
 elixir(function (mix) {

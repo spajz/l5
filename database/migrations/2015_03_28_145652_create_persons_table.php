@@ -14,6 +14,8 @@ class CreatePersonsTable extends Migration {
 	{
         Schema::create('persons', function(Blueprint $table)
         {
+            $table->engine = 'MyISAM';
+
             $table->increments('id');
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();

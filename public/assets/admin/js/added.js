@@ -192,6 +192,11 @@ $(document).ready(function () {
         }
     }
 
+    $('body').on('click', '.fancy-close', function (e){
+        e.preventDefault();
+        $.fancybox.close();
+    })
+
     initFancyBox();
 
     // Msg modal
@@ -220,6 +225,7 @@ $(document).ready(function () {
         initCkeditor();
         loaderHide();
         initSortable();
+        initColspan();
     })
 
     $('body').on('submit', 'form[data-pjax]', function (e) {
@@ -310,6 +316,35 @@ $(document).ready(function () {
             if (log) alert(log);
         }
     });
+
+    // Colspan
+    function initColspan(){
+        var count = $('.colspan').closest('table').find('thead tr').children().length;
+        $('.colspan').attr('colspan', count);
+    }
+
+    initColspan();
+
+    // Change status button
+    $('body').on('click', '.change-status', function (e) {
+        e.preventDefault();
+        var thisObj = $(this);
+        $.ajax({
+            url: baseUrlAdmin + '/api/change-status',
+            type: 'get',
+            data: {
+                "model": thisObj.data('model'),
+                "id": thisObj.data('id')
+            },
+            success: function (data, textStatus, jqXHR) {
+                thisObj.replaceWith(data);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Server error.');
+            }
+        });
+    })
+
 
 })
 //# sourceMappingURL=added.js.map

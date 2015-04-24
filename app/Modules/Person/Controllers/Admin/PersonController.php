@@ -12,7 +12,6 @@ use Illuminate\Http\Request as HttpRequest;
 
 class PersonController extends AdminController
 {
-
     protected $dtColumns = [
         ['name' => 'id', 'className' => 'w40'],
         ['name' => 'first_name', 'columnFilter' => 'text'],
@@ -20,12 +19,14 @@ class PersonController extends AdminController
         ['name' => 'job_title'],
         ['name' => 'created_at'],
         ['name' => 'order', 'className' => 'w40'],
-        ['name' => 'status', 'className' => 'w40 text-center'],
         ['name' => 'lang', 'className' => 'w40', 'columnFilter' => 'select', 'tfClass' => 'filter-count'],
         ['name' => 'trans_id', 'className' => 'w40', 'title' => 'Parent'],
         ['name' => 'translate', 'className' => 'w120 text-center', 'actionColumn' => true],
+        ['name' => 'status', 'className' => 'w40 text-center'],
         ['name' => 'actions', 'className' => 'w120 text-center', 'actionColumn' => true],
     ];
+
+    protected $dtChangeStatus = false;
 
     protected $formButtons = array('except' => array('approve', 'reject'));
 
@@ -38,6 +39,10 @@ class PersonController extends AdminController
 
     public function getDatatable(DatatablesFront $dtFront)
     {
+        if(isset($this->dtChangeStatus) && !$this->dtChangeStatus){
+            view()->share('changeStatusDisabled', true);
+        }
+
         $model = $this->modelName;
         $query = $model::select('*');
 //        $model = $model::select('persons.*', 'images.image')
@@ -161,11 +166,15 @@ class PersonController extends AdminController
             return redirect()->route("admin.{$this->moduleLower}.index");
         }
 
+        $thisObj = $this;
         Former::populate($item);
         $formButtons = $this->formButtons($this->formButtons);
         $transButtons = $this->renderTransButtons($item);
+        $statusButton = function ($item) use ($thisObj) {
+            return $thisObj->renderStatusButtons($item);
+        };
 
-        return view("{$this->moduleLower}::admin.edit", compact('item', 'formButtons', 'transButtons'));
+        return view("{$this->moduleLower}::admin.edit", compact('item', 'formButtons', 'transButtons', 'statusButton'));
     }
 
     /**
@@ -228,11 +237,6 @@ class PersonController extends AdminController
         $model = $this->modelName;
         $items = $model::all();
         return view("{$this->moduleLower}::admin.order", compact('model', 'items'));
-    }
-
-    protected function createTransChild($id)
-    {
-
     }
 
 }

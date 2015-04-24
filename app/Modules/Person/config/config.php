@@ -17,6 +17,7 @@ return array(
         'baseUrl' => url('media/images') . '/',
         'required' => false, // true or false
         'multiple' => true,
+        'order' => true, // allow reordering
         'quality' => 85,
         'allowed_types' => 'jpeg,gif,png',
         'max' => '2000', // max size in kilobytes (0 for no limit)

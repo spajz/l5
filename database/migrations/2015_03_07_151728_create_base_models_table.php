@@ -14,6 +14,8 @@ class CreateBaseModelsTable extends Migration {
 	{
 		Schema::create('base_models', function(Blueprint $table)
 		{
+            $table->engine = 'MyISAM';
+
 			$table->increments('id');
 			$table->timestamps();
 		});

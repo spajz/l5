@@ -526,13 +526,34 @@ class ImageApi
                 $image->description = current(Input::get($this->inputFields['description_' . $type], []));
             }
 
+            // Order
+            $order = 1;
+
+            // Create order or not
+            if ($this->config['order']) {
+                $previousImage = ImageModel::where('model_id', $this->modelId)
+                    ->where('model_type', $this->modelType)
+                    ->orderBy('order', 'desc')
+                    ->first();
+
+                if ($previousImage) {
+                    $order = $previousImage->order + 1;
+                }
+            }
+
             $image->model_id = $this->modelId;
             $image->model_type = $this->modelType;
             $image->image = $filename;
+            $image->order = $order;
             $image->save();
         }
     }
 
+    /**
+     * Update alt and description.
+     *
+     * @return void
+     */
     protected function dbUpdate()
     {
         $inputAlt = Input::get($this->inputFields['alt_update']);
