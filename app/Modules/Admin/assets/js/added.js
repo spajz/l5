@@ -12,16 +12,12 @@ $.ajaxSetup({
 });
 
 // Bootstrap file button
-
-    $('body').on('change', '.btn-file :file', function () {
-        var input = $(this),
-            numFiles = input.get(0).files ? input.get(0).files.length : 1,
-            label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-        input.trigger('fileselect', [numFiles, label]);
-    });
-
-
-
+$('body').on('change', '.btn-file :file', function () {
+    var input = $(this),
+        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+    input.trigger('fileselect', [numFiles, label]);
+});
 
 // Sort array by property   sortByProperty(myArray, "name");
 function sortByProperty(array, propertyName) {
@@ -119,7 +115,7 @@ $(document).ready(function () {
     }
 
     // Sortable
-    function initSortable(){
+    function initSortable() {
         $('table.sortable').sortable({
             axis: 'y',
             items: 'tbody tr',
@@ -192,7 +188,7 @@ $(document).ready(function () {
         }
     }
 
-    $('body').on('click', '.fancy-close', function (e){
+    $('body').on('click', '.fancy-close', function (e) {
         e.preventDefault();
         $.fancybox.close();
     })
@@ -216,6 +212,7 @@ $(document).ready(function () {
 
     // Pjax
     $.pjax.defaults.scrollTo = false;
+    $.pjax.defaults.timeout = 5000;
 
     $('body').on('pjax:send', function () {
         loaderShow();
@@ -228,15 +225,24 @@ $(document).ready(function () {
         initColspan();
     })
 
+    function addSubmitButtons(thisObj) {
+        $('<input>').attr({
+            type: 'hidden',
+            name: thisObj.attr('name'),
+            value: thisObj.attr('value')
+        }).appendTo(thisObj.closest('form'));
+    }
+
     $('body').on('submit', 'form[data-pjax]', function (e) {
         var btn = $(":input[type=submit]:focus");
         if (btn.data('pjax')) {
-            $.pjax.submit(e, {container: '#pjax-container', timeout: 5000});
+            addSubmitButtons(btn);
+            $.pjax.submit(e, {container: '#pjax-container'});
         }
     })
 
     $('body').on('click', 'a[data-pjax]', function (e) {
-        $.pjax.click(e, {container: '#pjax-container', timeout: 5000})
+        $.pjax.click(e, {container: '#pjax-container'})
     })
 
     // Password generator
@@ -245,7 +251,6 @@ $(document).ready(function () {
         var element = $(this).data('random-string');
         $(element).val(randomString());
     })
-
 
     // Boot box confirm with pjax options
     // confirm, confirmPjax, submit, submitPjax
@@ -272,7 +277,7 @@ $(document).ready(function () {
     bbFunction.confirmPjax = function (thisObj) {
         bootbox.confirm("Are you sure?", function (result) {
             if (result) {
-                $.pjax({url: thisObj.attr('href'), container: '#pjax-container', timeout: 5000})
+                $.pjax({url: thisObj.attr('href'), container: '#pjax-container'})
             }
         });
     };
@@ -280,11 +285,7 @@ $(document).ready(function () {
     bbFunction.submit = function (thisObj) {
         bootbox.confirm("Are you sure?", function (result) {
             if (result) {
-                $('<input>').attr({
-                    type: 'hidden',
-                    name: thisObj.attr('name'),
-                    value: thisObj.attr('value')
-                }).appendTo(thisObj.closest('form'));
+                addSubmitButtons(thisObj);
                 thisObj.closest('form').submit();
             }
         });
@@ -293,14 +294,9 @@ $(document).ready(function () {
     bbFunction.submitPjax = function (thisObj) {
         bootbox.confirm("Are you sure?", function (result) {
             if (result) {
-                $('<input>').attr({
-                    type: 'hidden',
-                    name: thisObj.attr('name'),
-                    value: thisObj.attr('value')
-                }).appendTo(thisObj.closest('form'));
-
+                addSubmitButtons(thisObj);
                 thisObj.closest('form').on('submit', function (e) {
-                        $.pjax.submit(e, {container: '#pjax-container', timeout: 5000});
+                    $.pjax.submit(e, {container: '#pjax-container'});
                 }).submit()
             }
         });
@@ -318,7 +314,7 @@ $(document).ready(function () {
     });
 
     // Colspan
-    function initColspan(){
+    function initColspan() {
         var count = $('.colspan').closest('table').find('thead tr').children().length;
         $('.colspan').attr('colspan', count);
     }

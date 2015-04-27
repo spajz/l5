@@ -137,6 +137,14 @@
                                                     {!! $statusButton($image) !!}
                                                 </td>
                                                 <td class="text-center">
+
+                                                    <a href="{{ array_get($config, 'image.baseUrl') . 'original/' . $image->image }}" class="btn btn-info btn-xs fancybox3"
+                                                        data-w="{{ $size[0] }}"
+                                                        data-h="{{ $size[1] }}"
+                                                        data-image-id="{{ $image->id }}">
+                                                        <i class="fa fa-crop"></i> Crop
+                                                    </a>
+
                                                     <a href="{{ route('api.admin.image.destroy', $image->id) }}" class="btn btn-danger btn-xs" data-bb="confirmPjax">
                                                         <i class="fa fa-trash-o"></i> Delete
                                                     </a>
@@ -226,6 +234,12 @@
 @parent
 <script type="text/javascript">
     $(document).ready(function () {
+
+
+        $(".fancybox3").fancybox();
+
+
+//        onclick="$('a.fancybox').eq(0).trigger('click'); return false;"
 
         function initFancyBoxCrop(){
             $(".fancybox2").fancybox({
