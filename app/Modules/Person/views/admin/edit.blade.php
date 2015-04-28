@@ -105,7 +105,7 @@
                                                                 'class' => 'img-thumbnail',
                                                             ],
                                                             [
-                                                                'class' => 'fancybox2', 'rel' => 'gallery',
+                                                                'class' => 'fancybox', 'rel' => 'gallery',
                                                                 'data-w' => $size[0],
                                                                 'data-h' => $size[1],
                                                                 'data-image-id' => $image->id,
@@ -138,7 +138,7 @@
                                                 </td>
                                                 <td class="text-center">
 
-                                                    <a href="{{ array_get($config, 'image.baseUrl') . 'original/' . $image->image }}" class="btn btn-info btn-xs fancybox3"
+                                                    <a href="{{ array_get($config, 'image.baseUrl') . 'original/' . $image->image }}" class="btn btn-info btn-xs fancybox-crop"
                                                         data-w="{{ $size[0] }}"
                                                         data-h="{{ $size[1] }}"
                                                         data-image-id="{{ $image->id }}">
@@ -213,6 +213,7 @@
         H:<span id="h"></span>&nbsp;
 
         {!! Form::open(array('route' => array("api.admin.image.crop", $item->id), 'method' => 'post', 'id' => 'jcrop-form')) !!}
+
         <div class="clearfix">
             <input type="hidden" name="id" value="{{$item->id}}">
             <input type="hidden" name="image_id" value="">
@@ -221,7 +222,7 @@
             <input type="hidden" name="w" value="">
             <input type="hidden" name="h" value="">
             <input type="submit" name="crop" value="Crop" class="btn btn-success btn-sm pull-right">
-            <input type="button" name="fancy-close" value="Close" class="btn btn-default btn-sm pull-right mar-r10 fancy-close">
+            <input type="button" name="fancy-close" value="Close" class="btn btn-default btn-sm pull-right right10 fancy-close">
         </div>
 
         {!! Form::close() !!}
@@ -236,13 +237,8 @@
     $(document).ready(function () {
 
 
-        $(".fancybox3").fancybox();
-
-
-//        onclick="$('a.fancybox').eq(0).trigger('click'); return false;"
-
         function initFancyBoxCrop(){
-            $(".fancybox2").fancybox({
+            $(".fancybox-crop").fancybox({
 
                 afterShow: function () {
                     $('.fancybox-outer input[name=image_id]').val($(this.element).attr('data-image-id'))

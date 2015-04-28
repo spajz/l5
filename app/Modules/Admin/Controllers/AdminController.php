@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Http\Controllers\BaseController;
 use App\Library\ImageApi;
+use Notification;
 use View;
 use Input;
 use DatatablesFront;
@@ -205,8 +206,6 @@ class AdminController extends BaseController
 
     public function imageDestroy($id, ImageApi $imageApi)
     {
-        $imageApi->setConfig("{$this->moduleLower}.image");
-
         if ($imageApi->destroy($id)) {
             msg('The image successfully deleted.');
         }
@@ -214,33 +213,15 @@ class AdminController extends BaseController
         return redirect()->back();
     }
 
-    public function imageCrop($id)
+    public function imageCrop(ImageApi $imageApi)
     {
-        $config = $this->config;
-
-        $model = $this->modelName;
-        $item = $model::find($id);
-
-        $imageModel = ImageModel::find(Input::get('image_id'));
-        if ($imageModel) {
-            $imageApi = new ImageApi();
-            $imageApi->setModelId($id);
-            $imageApi->setModelType(get_class($item));
-            $imageApi->setBaseName('drawing');
-            $imageApi->setConfig("{$this->moduleLower}.image");
-            $imageApi->setActionsAll(array('crop' => array(
-                Input::get('w'),
-                Input::get('h'),
-                Input::get('x'),
-                Input::get('y'),
-            )));
-            $imageApi->processLocal($config['image']['path'] . 'original/' . $imageModel->image);
-            $imageApi->destroy(Input::get('image_id'));
-            msg('Image successfully croped.');
+        if ($imageApi->imageCrop()) {
+            msg('The image successfully deleted 123.');
         } else {
-            msg('An error occurred. Please try again.', 'danger');
+            msg('An error occurred. Please try again. 123', 'danger');
         }
 
+        return redirect()->back();
     }
 
 }

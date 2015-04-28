@@ -18,9 +18,12 @@ return array(
         'required' => false, // true or false
         'multiple' => true,
         'order' => true, // allow reordering
+        'baseName' => $moduleLower, // image base name
+        'filenameFormat' => '', // default: [:base_name]_[:uniqid]
         'quality' => 85,
         'allowed_types' => 'jpeg,gif,png',
         'max' => '2000', // max size in kilobytes (0 for no limit)
+        'mainSize' => 'original', //  required
         'sizes' => array(
             'original' => array(
                 'folder' => 'original/', // relative path from main image folder with trailing slash

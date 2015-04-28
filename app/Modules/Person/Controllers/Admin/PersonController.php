@@ -200,7 +200,7 @@ class PersonController extends AdminController
         $imageApi->setConfig("{$this->moduleLower}.image");
         $imageApi->setModelId($id);
         $imageApi->setModelType(get_class($item));
-        $imageApi->setBaseName('ovo je bazba');
+//        $imageApi->setBaseName('novi fajl');
 
         if (!$imageApi->process()) {
             msg($imageApi->getErrorsAll(), 'danger');

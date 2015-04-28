@@ -180,12 +180,10 @@ $(document).ready(function () {
 
     // Fancybox
     function initFancyBox() {
-        if ($('.fancybox').length) {
-            $('.fancybox').fancybox({
-                openEffect: 'none',
-                closeEffect: 'none'
-            });
-        }
+        $('.fancybox').fancybox({
+            openEffect: 'none',
+            closeEffect: 'none'
+        });
     }
 
     $('body').on('click', '.fancy-close', function (e) {
@@ -196,16 +194,12 @@ $(document).ready(function () {
     initFancyBox();
 
     // Msg modal
-    if ($('#overlay-modal').length) {
-        $('#overlay-modal').modal();
-    }
+    $('#overlay-modal').modal();
 
     // CKEditor
     function initCkeditor() {
         CKEDITOR.disableAutoInline = true;
-        if ($('#ckeditor').length) {
-            $('#ckeditor').ckeditor();
-        }
+        $('#ckeditor').ckeditor();
     }
 
     initCkeditor();

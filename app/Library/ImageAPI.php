@@ -14,7 +14,8 @@ class ImageApi
     protected $modelId;
     protected $modelItem;
     protected $baseName;
-    protected $filenameFormat = '[:base_name]_[:uniqid]'; // [:base_name][:original_name][:uniqid]
+    protected $filenameFormat; // [:base_name][:original_name][:uniqid]
+    protected $defaultFilenameFormat = '[:base_name]_[:uniqid]';
     protected $defaultQuality = 75;
     protected $actionsAll = [];
     protected $actionsBySize = [];
@@ -193,6 +194,23 @@ class ImageApi
         );
     }
 
+    protected function processConfig()
+    {
+        $config = $this->config;
+
+        if (!$this->baseName && array_get($config, 'baseName')) {
+            $this->setBaseName(array_get($config, 'baseName'));
+        }
+
+        if (!$this->filenameFormat && array_get($config, 'filenameFormat')) {
+            $this->setFilenameFormat(array_get($config, 'filenameFormat'));
+        }
+
+        if (!$this->filenameFormat) {
+            $this->setFilenameFormat($this->defaultFilenameFormat);
+        }
+    }
+
     /**
      * Main process method.
      *
@@ -200,6 +218,8 @@ class ImageApi
      */
     public function process()
     {
+        $this->processConfig();
+
         $this->uploadFiles();
 
         if (!$this->checkRequired()) {
@@ -218,7 +238,7 @@ class ImageApi
         }
 
         // Process upload
-        $this->processUpload($this->uploadedFiles);
+        $this->processUpload();
 
         if ($this->hasErrors()) {
             return false;
@@ -273,10 +293,15 @@ class ImageApi
         return true;
     }
 
-    protected function makeFilename($upload)
+    protected function makeFilename($upload, $local = false)
     {
-        $originalName = $upload->getClientOriginalName();
-        $originalExtension = $upload->guessExtension();
+        if ($local) {
+            $originalName = $upload;
+            $originalExtension = pathinfo($upload, PATHINFO_EXTENSION);
+        } else {
+            $originalName = $upload->getClientOriginalName();
+            $originalExtension = $upload->guessExtension();
+        }
 
         $pathinfo = pathinfo($originalName);
         $extension = strtolower($originalExtension ?: $pathinfo['extension']);
@@ -414,6 +439,7 @@ class ImageApi
                 $filename = $this->makeFilename($upload);
 
                 if (isset($config['sizes'])) {
+
                     foreach ($config['sizes'] as $k => $size) {
                         $image = Image::make($upload);
 
@@ -453,6 +479,7 @@ class ImageApi
                         // Delete already uploaded images
                         $this->delete($filename);
                     } else {
+
                         $this->dbSave($type, $filename, $key);
                     }
                 }
@@ -654,6 +681,86 @@ class ImageApi
             }
         }
         return false;
+    }
+
+    public function imageCrop()
+    {
+        $imageId = Input::get('image_id');
+        if (!is_numeric($imageId)) {
+            msg('An error occurred. Please try again.', 'danger');
+            return false;
+        }
+        $imageModel = ImageModel::find(Input::get('image_id'));
+        $moduleLower = strtolower(class_basename($imageModel->model_type));
+        $this->setConfig("{$moduleLower}.image");
+        $this->processConfig();
+
+        if ($imageModel) {
+            $this->setModelId($imageModel->model_id);
+            $this->setModelType($imageModel->model_type);
+            $this->setActionsAll(array('crop' => array(
+                Input::get('w'),
+                Input::get('h'),
+                Input::get('x'),
+                Input::get('y'),
+            )));
+            $this->processLocal($imageModel->image);
+            $this->destroy($imageId);
+            return true;
+        }
+        return false;
+    }
+
+    protected function processLocal($currentFilename)
+    {
+        $config = $this->config;
+        $defaultQuality = isset($config['quality']) ? $config['quality'] : $this->defaultQuality;
+        $fullPath = null;
+        $error = null;
+        $mainImage = $config['path'] . $config['mainSize'] . '/' . $currentFilename;
+        $filename = $this->makeFilename($currentFilename, true);
+
+        if (isset($config['sizes'])) {
+
+            foreach ($config['sizes'] as $k => $size) {
+                $image = Image::make($mainImage);
+
+                if (!empty($this->actionsAll)) {
+                    $size['actions'] = $this->actionsAll + $size['actions'];
+                }
+
+                if (isset($this->actionsBySize[$k])) {
+                    $size['actions'] = $this->actionsBySize[$k]['actions'] + $size['actions'];
+                }
+
+                $quality = isset($size['quality']) ? $size['quality'] : $defaultQuality;
+
+                // Make directory
+                $dir = $config['path'] . $size['folder'];
+                if (!is_dir($dir)) {
+                    File::makeDirectory($dir);
+                }
+                $fullPath = $dir . $filename;
+
+                // Apply actions
+                if (isset($size['actions']) && !empty($size['actions'])) {
+                    foreach ($size['actions'] as $action => $param) {
+                        call_user_func_array(array($image, $action), $param);
+                    }
+                }
+
+                $image->save($fullPath, $quality);
+                if (!is_file($fullPath)) {
+                    $error = true;
+                }
+            }
+
+            if ($error) {
+                $this->errors['new'][] = 'File "' . $filename . '": error during processing.';
+            } else {
+                $this->dbSave('new', $filename);
+            }
+        }
     }
 
 }
