@@ -15,7 +15,7 @@ class ImageApi
     protected $modelItem;
     protected $baseName;
     protected $filenameFormat; // [:base_name][:original_name][:uniqid]
-    protected $defaultFilenameFormat = '[:base_name]_[:uniqid]';
+    protected $filenameFormatDefault = '[:base_name]_[:uniqid]';
     protected $defaultQuality = 75;
     protected $actionsAll = [];
     protected $actionsBySize = [];
@@ -208,7 +208,7 @@ class ImageApi
         }
 
         if (!$this->filenameFormat) {
-            $this->setFilenameFormat($this->defaultFilenameFormat);
+            $this->setFilenameFormat($this->filenameFormatDefault);
         }
     }
 
@@ -625,12 +625,15 @@ class ImageApi
 
                 $moduleLower = strtolower(class_basename($image->model_type));
                 $config = (config($moduleLower));
-
                 $filename = $image->image;
-                // Don't delete last image if is required
-                if ((count($image->sameParent()) < 2) && $config['image']['required']) {
-                    msg('You can not delete last image.', 'danger');
-                    return $return;
+
+                // File exist
+                if(is_file(array_get($config, 'image.path') . 'original/' . $filename)){
+                    // Don't delete last image if is required
+                    if ((count($image->sameParent()) < 2) && $config['image']['required']) {
+                        msg('You can not delete last image.', 'danger');
+                        return $return;
+                    }
                 }
 
                 if ($image->delete()) {

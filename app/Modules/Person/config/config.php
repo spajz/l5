@@ -15,7 +15,7 @@ return array(
     'image' => array(
         'path' => public_path() . '/media/images/', // main path with trailing slash
         'baseUrl' => url('media/images') . '/',
-        'required' => false, // true or false
+        'required' => true, // true or false
         'multiple' => true,
         'order' => true, // allow reordering
         'crop' => true, // allow cropping

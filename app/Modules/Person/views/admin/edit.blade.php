@@ -93,65 +93,76 @@
                                     <tbody>
                                     @if(count($item->images))
                                         @foreach($item->images as $image)
-                                            <?php $size = getimagesize(array_get($config, 'image.path') . 'original/' . $image->image); ?>
-                                            <tr data-id="{{ $image->id }}">
-                                                <td>
+                                            @if(is_file(array_get($config, 'image.path') . 'original/' . $image->image))
+                                                <?php $size = getimagesize(array_get($config, 'image.path') . 'original/' . $image->image); ?>
+                                                <tr data-id="{{ $image->id }}">
+                                                    <td>
 
-                                                    {!!
-                                                        link_to_image(
-                                                            $image,
-                                                            $config,
-                                                            [
-                                                                'class' => 'img-thumbnail',
-                                                            ],
-                                                            [
-                                                                'class' => 'fancybox', 'rel' => 'gallery',
-                                                                'data-w' => $size[0],
-                                                                'data-h' => $size[1],
-                                                                'data-image-id' => $image->id,
-                                                            ]
-                                                        )
-                                                    !!}
-                                                </td>
-                                                <td>
-                                                    {!! Former::text("alt_update[{$image->id}]")->label(null)->value($image->alt)->placeholder('Enter alt text.') !!}
-                                                </td>
-                                                <td class="w200">
-                                                    <div class="input-group">
-                                                    <span class="input-group-btn">
-                                                        <span class="btn btn-default btn-file">
-                                                            Browse&hellip;  <input type="file"  name="files_update[{{$image->id}}]">
+                                                        {!!
+                                                            link_to_image(
+                                                                $image,
+                                                                $config,
+                                                                [
+                                                                    'class' => 'img-thumbnail',
+                                                                ],
+                                                                [
+                                                                    'class' => 'fancybox', 'rel' => 'gallery',
+                                                                    'data-w' => $size[0],
+                                                                    'data-h' => $size[1],
+                                                                    'data-image-id' => $image->id,
+                                                                ]
+                                                            )
+                                                        !!}
+                                                    </td>
+                                                    <td>
+                                                        {!! Former::text("alt_update[{$image->id}]")->label(null)->value($image->alt)->placeholder('Enter alt text.') !!}
+                                                    </td>
+                                                    <td class="w200">
+                                                        <div class="input-group">
+                                                        <span class="input-group-btn">
+                                                            <span class="btn btn-default btn-file">
+                                                                Browse&hellip;  <input type="file"  name="files_update[{{$image->id}}]">
+                                                            </span>
                                                         </span>
-                                                    </span>
-                                                        <input type="text" class="form-control" readonly>
-                                                    </div>
-                                                </td>
-                                                @if(array_get($config, 'image.order'))
-                                                <td class="text-center">
-                                                    <button type="button" class="btn btn-info btn-xs btn-sort">
-                                                        <i class="fa fa-arrows-v w20"></i>
-                                                    </button>
-                                                </td>
-                                                @endif
-                                                <td class="text-center">
-                                                    {!! $statusButton($image) !!}
-                                                </td>
-                                                <td class="text-center">
-
-                                                    @if(array_get($config, 'image.crop'))
-                                                    <a href="{{ array_get($config, 'image.baseUrl') . 'original/' . $image->image }}" class="btn btn-info btn-xs fancybox-crop"
-                                                        data-w="{{ $size[0] }}"
-                                                        data-h="{{ $size[1] }}"
-                                                        data-image-id="{{ $image->id }}">
-                                                        <i class="fa fa-crop"></i> Crop
-                                                    </a>
+                                                            <input type="text" class="form-control" readonly>
+                                                        </div>
+                                                    </td>
+                                                    @if(array_get($config, 'image.order'))
+                                                    <td class="text-center">
+                                                        <button type="button" class="btn btn-info btn-xs btn-sort">
+                                                            <i class="fa fa-arrows-v w20"></i>
+                                                        </button>
+                                                    </td>
                                                     @endif
+                                                    <td class="text-center">
+                                                        {!! $statusButton($image) !!}
+                                                    </td>
+                                                    <td class="text-center">
 
-                                                    <a href="{{ route('api.admin.image.destroy', $image->id) }}" class="btn btn-danger btn-xs" data-bb="confirmPjax">
-                                                        <i class="fa fa-trash-o"></i> Delete
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                                        @if(array_get($config, 'image.crop'))
+                                                        <a href="{{ array_get($config, 'image.baseUrl') . 'original/' . $image->image }}" class="btn btn-info btn-xs fancybox-crop"
+                                                            data-w="{{ $size[0] }}"
+                                                            data-h="{{ $size[1] }}"
+                                                            data-image-id="{{ $image->id }}">
+                                                            <i class="fa fa-crop"></i> Crop
+                                                        </a>
+                                                        @endif
+
+                                                        <a href="{{ route('api.admin.image.destroy', $image->id) }}" class="btn btn-danger btn-xs" data-bb="confirmPjax">
+                                                            <i class="fa fa-trash-o"></i> Delete
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                @else
+                                                    <tr>
+                                                        <td class="colspan">Whoops, looks like something went wrong,
+                                                            file "{{$image->image}}" does not exist. Please delete record from database.
+                                                            <a href="{{ route('api.admin.image.destroy', $image->id) }}" class="btn btn-danger btn-xs" data-bb="confirmPjax">
+                                                                <i class="fa fa-trash-o"></i> Delete
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                @endif
                                         @endforeach
                                     @else
                                         <tr>
