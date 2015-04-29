@@ -19,7 +19,7 @@ return array(
         'required' => true, // true or false
         'multiple' => true,
         'quality' => 85,
-        'allowed_types' => 'jpeg,gif,png',
+        'allowedTypes' => 'jpeg,gif,png',
         'max' => '2000', // max size in kilobytes (0 for no limit)
         'sizes' => array(
             'original' => array(

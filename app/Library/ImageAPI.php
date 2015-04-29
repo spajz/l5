@@ -30,6 +30,7 @@ class ImageApi
     protected $errors = [];
     protected $errorsUpload = [];
     protected $uploadedFiles = [];
+    protected $order;
 
     public function setConfig($config)
     {
@@ -410,7 +411,7 @@ class ImageApi
 
         $validationArray[] = 'image';
 
-        if ($config['allowed_types']) $validationArray[] = 'mimes:' . $config['allowed_types'];
+        if ($config['allowedTypes']) $validationArray[] = 'mimes:' . $config['allowedTypes'];
 
         if ($config['max']) $validationArray[] = 'max:' . $config['max'];
 
@@ -568,6 +569,9 @@ class ImageApi
                 }
             }
 
+            // Image crop we want same order
+            if (is_numeric($this->order)) $order = $this->order;
+
             $image->model_id = $this->modelId;
             $image->model_type = $this->modelType;
             $image->image = $filename;
@@ -687,13 +691,13 @@ class ImageApi
     {
         $imageId = Input::get('image_id');
         if (!is_numeric($imageId)) {
-            msg('An error occurred. Please try again.', 'danger');
             return false;
         }
         $imageModel = ImageModel::find(Input::get('image_id'));
         $moduleLower = strtolower(class_basename($imageModel->model_type));
         $this->setConfig("{$moduleLower}.image");
         $this->processConfig();
+        $this->order = $imageModel->order;
 
         if ($imageModel) {
             $this->setModelId($imageModel->model_id);
@@ -705,6 +709,9 @@ class ImageApi
                 Input::get('y'),
             )));
             $this->processLocal($imageModel->image);
+            if ($this->getErrorsNew()) {
+                return false;
+            }
             $this->destroy($imageId);
             return true;
         }
@@ -757,6 +764,7 @@ class ImageApi
 
             if ($error) {
                 $this->errors['new'][] = 'File "' . $filename . '": error during processing.';
+                $this->delete($filename);
             } else {
                 $this->dbSave('new', $filename);
             }

@@ -216,12 +216,10 @@ class AdminController extends BaseController
     public function imageCrop(ImageApi $imageApi)
     {
         if ($imageApi->imageCrop()) {
-            msg('The image successfully deleted 123.');
+            msg('The image successfully cropped.');
         } else {
-            msg('An error occurred. Please try again. 123', 'danger');
+            msg('An error occurred. Please try again.', 'danger');
         }
-
-        return redirect()->back();
     }
 
 }

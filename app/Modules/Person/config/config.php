@@ -18,10 +18,11 @@ return array(
         'required' => false, // true or false
         'multiple' => true,
         'order' => true, // allow reordering
+        'crop' => true, // allow cropping
         'baseName' => $moduleLower, // image base name
         'filenameFormat' => '', // default: [:base_name]_[:uniqid]
         'quality' => 85,
-        'allowed_types' => 'jpeg,gif,png',
+        'allowedTypes' => 'jpeg,gif,png',
         'max' => '2000', // max size in kilobytes (0 for no limit)
         'mainSize' => 'original', //  required
         'sizes' => array(

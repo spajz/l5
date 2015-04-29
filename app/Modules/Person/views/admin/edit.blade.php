@@ -82,7 +82,7 @@
                                             <th>Image</th>
                                             <th>Alt</th>
                                             <th>Upload</th>
-                                            @if($config['image']['order'])
+                                            @if(array_get($config, 'image.order'))
                                             <th>Order</th>
                                             @endif
                                             <th>Status</th>
@@ -126,7 +126,7 @@
                                                         <input type="text" class="form-control" readonly>
                                                     </div>
                                                 </td>
-                                                @if($config['image']['order'])
+                                                @if(array_get($config, 'image.order'))
                                                 <td class="text-center">
                                                     <button type="button" class="btn btn-info btn-xs btn-sort">
                                                         <i class="fa fa-arrows-v w20"></i>
@@ -138,12 +138,14 @@
                                                 </td>
                                                 <td class="text-center">
 
+                                                    @if(array_get($config, 'image.crop'))
                                                     <a href="{{ array_get($config, 'image.baseUrl') . 'original/' . $image->image }}" class="btn btn-info btn-xs fancybox-crop"
                                                         data-w="{{ $size[0] }}"
                                                         data-h="{{ $size[1] }}"
                                                         data-image-id="{{ $image->id }}">
                                                         <i class="fa fa-crop"></i> Crop
                                                     </a>
+                                                    @endif
 
                                                     <a href="{{ route('api.admin.image.destroy', $image->id) }}" class="btn btn-danger btn-xs" data-bb="confirmPjax">
                                                         <i class="fa fa-trash-o"></i> Delete
@@ -160,7 +162,7 @@
 
                                 </table>
 
-                                @if($config['image']['multiple'] || (!$config['image']['multiple'] && count($item->images) < 1))
+                                @if(array_get($config, 'image.multiple') || (!array_get($config, 'image.multiple') && count($item->images) < 1))
 
 
                                     <div class="form-group">
@@ -206,99 +208,8 @@
 
     </div>
 
-    <div id="fancy-footer" style="display: none">
-        X:<span id="x"></span>&nbsp;
-        Y:<span id="y"></span>&nbsp;
-        W:<span id="w"></span>&nbsp;
-        H:<span id="h"></span>&nbsp;
+    @if(array_get($config, 'image.crop'))
+    @include("admin::_partials.crop_form", ['item' => $item])
+    @endif
 
-        {!! Form::open(array('route' => array("api.admin.image.crop", $item->id), 'method' => 'post', 'id' => 'jcrop-form')) !!}
-
-        <div class="clearfix">
-            <input type="hidden" name="id" value="{{$item->id}}">
-            <input type="hidden" name="image_id" value="">
-            <input type="hidden" name="x" value="">
-            <input type="hidden" name="y" value="">
-            <input type="hidden" name="w" value="">
-            <input type="hidden" name="h" value="">
-            <input type="submit" name="crop" value="Crop" class="btn btn-success btn-sm pull-right">
-            <input type="button" name="fancy-close" value="Close" class="btn btn-default btn-sm pull-right right10 fancy-close">
-        </div>
-
-        {!! Form::close() !!}
-
-    </div>
-
-@stop
-
-@section('scripts_bottom')
-@parent
-<script type="text/javascript">
-    $(document).ready(function () {
-
-
-        function initFancyBoxCrop(){
-            $(".fancybox-crop").fancybox({
-
-                afterShow: function () {
-                    $('.fancybox-outer input[name=image_id]').val($(this.element).attr('data-image-id'))
-                    $('.fancybox-inner').find('img').Jcrop({
-                        allowMove: true,
-                        onChange: updateCoords,
-                        trueSize: [$(this.element).attr('data-w'), $(this.element).attr('data-h')]
-                    });
-                },
-                beforeShow: function () {
-                    $('#fancy-footer').clone().appendTo('.fancybox-outer').show();
-                }
-            });
-        }
-
-        initFancyBoxCrop();
-
-        $(document).on('pjax:complete', function () {
-            initFancyBoxCrop();
-        });
-
-        function updateCoords(c) //update the cropped image cords on change
-        {
-            console.log(c.x)
-            $('.fancybox-outer #x').text(Math.round(c.x));
-            $('.fancybox-outer #y').text(Math.round(c.y));
-            $('.fancybox-outer #w').text(Math.round(c.w));
-            $('.fancybox-outer #h').text(Math.round(c.h));
-
-            $('.fancybox-outer input[name=x]').val(Math.round(c.x));
-            $('.fancybox-outer input[name=y]').val(Math.round(c.y));
-            $('.fancybox-outer input[name=w]').val(Math.round(c.w));
-            $('.fancybox-outer input[name=h]').val(Math.round(c.h));
-        };
-
-        $(document).on('submit', '#jcrop-form', function (e) {
-            e.preventDefault();
-            var postData = $(this).serializeArray();
-            var formURL = $(this).attr("action");
-            $.ajax(
-                    {
-                        url: formURL,
-                        type: "post",
-                        data: postData,
-                        success: function (data, textStatus, jqXHR) {
-                            $.fancybox.close();
-                            parent.location.reload(true);
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            alert('Server error.')
-                        }
-                    });
-        })
-
-        $('#datatable-static').dataTable({
-            bStateSave: true,
-            iDisplayLength: 10,
-            aLengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
-        });
-
-    });
-</script>
 @stop
