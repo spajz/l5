@@ -4,6 +4,8 @@
 
     <div id="pjax-container">
 
+        <div id="info-box">{!! Notification::showAll() !!}</div>
+
         <div class="row">
             <div class="col-xs-12">
                 <h1 class="page-header">
@@ -21,7 +23,7 @@
             </div>
         @endif
 
-        {!! Former::open_for_files()->route("admin.{$moduleLower}.store")->method('post') !!}
+        {!! Former::open_for_files()->route("admin.{$moduleLower}.store")->method('post')->rules($validationRules) !!}
 
         <div class="row">
             <div class="col-xs-12">

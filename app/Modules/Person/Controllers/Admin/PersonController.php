@@ -115,8 +115,11 @@ class PersonController extends AdminController
             $transButtons = $this->renderTransButtons($item);
         }
 
+        // Add validation from model to former
+        $validationRules = $model::rulesMergeStore();
+
         $formButtons = $this->formButtons($this->formButtons);
-        return view("{$this->moduleLower}::admin.create", compact('formButtons', 'trans_id', 'lang', 'transButtons'));
+        return view("{$this->moduleLower}::admin.create", compact('formButtons', 'trans_id', 'lang', 'transButtons', 'validationRules'));
     }
 
     /**
@@ -174,7 +177,10 @@ class PersonController extends AdminController
             return $thisObj->renderStatusButtons($item);
         };
 
-        return view("{$this->moduleLower}::admin.edit", compact('item', 'formButtons', 'transButtons', 'statusButton'));
+        // Add validation from model to former
+        $validationRules = $model::rulesMergeUpdate();
+
+        return view("{$this->moduleLower}::admin.edit", compact('item', 'formButtons', 'transButtons', 'statusButton', 'validationRules'));
     }
 
     /**

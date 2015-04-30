@@ -38,4 +38,14 @@ trait ValidationTrait
         return array_merge($rules, $this->rulesStore());
     }
 
+    protected function rulesMergeUpdate()
+    {
+        return array_merge($rules = $this->rulesAll(), $this->rulesUpdate());
+    }
+
+    protected function rulesMergeStore()
+    {
+        return array_merge($rules = $this->rulesAll(), $this->rulesStore());
+    }
+
 }

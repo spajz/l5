@@ -152,6 +152,7 @@ gulpCopy(
     [
         adminConfig.bowerDir + '/select2/select2.png',
         adminConfig.bowerDir + '/select2/select2x2.png',
+        adminConfig.bowerDir + '/select2/select2-spinner.gif',
     ],
     [adminBuildDir + '/css/', adminDir + '/css/']
 );

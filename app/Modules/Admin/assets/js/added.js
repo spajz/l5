@@ -198,8 +198,14 @@ $(document).ready(function () {
 
     // CKEditor
     function initCkeditor() {
+        var roxyFileman = baseUrl + '/assets/admin/fileman/index.html';
+
         CKEDITOR.disableAutoInline = true;
-        $('#ckeditor').ckeditor();
+        $('#ckeditor').ckeditor(
+            {filebrowserBrowseUrl:roxyFileman,
+                filebrowserImageBrowseUrl:roxyFileman+'?type=image',
+                removeDialogTabs: 'link:upload;image:upload'}
+        );
     }
 
     initCkeditor();

@@ -13,13 +13,15 @@ use Illuminate\Http\Request as HttpRequest;
 class UserController extends AdminController
 {
     protected $dtColumns = [
-        ['data' => 'id', 'className' => 'w40'],
-        ['data' => 'name'],
-        ['data' => 'email'],
-        ['data' => 'created_at'],
-        ['data' => 'status', 'className' => 'w40 center'],
-        ['name' => 'actions', 'className' => 'w120 center', 'orderable' => false],
+        ['name' => 'id', 'className' => 'w40'],
+        ['name' => 'name'],
+        ['name' => 'email'],
+        ['name' => 'created_at'],
+        ['name' => 'status', 'className' => 'w40 text-center'],
+        ['name' => 'actions', 'className' => 'w120 text-center', 'actionColumn' => true],
     ];
+
+    protected $dtChangeStatus = true;
 
     protected $formButtons = array('except' => array('approve', 'reject'));
 
@@ -32,15 +34,18 @@ class UserController extends AdminController
 
     public function getDatatable(DatatablesFront $dtFront)
     {
-        $model = $this->modelName;
-        $model = $model::select($this->dtSelectColumns());
-        $modelNameSpace = get_class($model);
+        if (isset($this->dtChangeStatus) && !$this->dtChangeStatus) {
+            view()->share('changeStatusDisabled', true);
+        }
 
-        return Datatables::of($model)
-            ->addColumn('status', function ($data) use ($dtFront, $modelNameSpace) {
-                return $dtFront->renderStatusButtons($data, $modelNameSpace);
+        $model = $this->modelName;
+        $query = $model::select($this->dtSelectColumns());
+
+        return Datatables::of($query)
+            ->addColumn('status', function ($data) use ($dtFront, $model) {
+                return $dtFront->renderStatusButtons($data, $model);
             })
-            ->addColumn('actions', function ($data) use ($dtFront, $modelNameSpace) {
+            ->addColumn('actions', function ($data) use ($dtFront, $model) {
                 return $dtFront->renderActionButtons($data);
             })
             ->make(true);
@@ -56,7 +61,8 @@ class UserController extends AdminController
     {
         $dtFront->addColumns($this->dtColumns)
             ->setUrl(route("api.{$this->moduleLower}.dt"))
-            ->setId("dt-{$this->moduleLower}");
+            ->setId("dt-{$this->moduleLower}")
+            ->setModelName($this->modelName);
 
         $vars = $dtFront->render();
 
@@ -123,7 +129,9 @@ class UserController extends AdminController
         }
 
         Former::populate($item);
+
         $groups = Group::orderBy('name')->get()->lists('name');
+        $groups[''] = 'Please select';
         $formButtons = $this->formButtons($this->formButtons);
 
         return view("{$this->moduleLower}::admin.edit", compact('item', 'groups', 'formButtons'));
@@ -148,7 +156,7 @@ class UserController extends AdminController
 
         $this->validate($request, $item->rules());
 
-        if($item->update(Input::all())){
+        if ($item->update(Input::all())) {
             msg('Item successfully updated.');
             return $this->redirect($item);
         }

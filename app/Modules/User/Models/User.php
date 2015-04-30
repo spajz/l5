@@ -20,6 +20,7 @@ class User extends UserModel
     public function rulesAll()
     {
         return [
+            'group_id' => 'required',
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|confirmed|min:6',

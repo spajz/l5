@@ -24,7 +24,7 @@ abstract class Controller extends BaseController
     protected function buildFailedValidationResponse(Request $request, array $errors)
     {
         if ($request->ajax() || $request->wantsJson()) {
-            return new JsonResponse($errors, 422);
+//            return new JsonResponse($errors, 422);
         }
 
         msg($errors, 'danger');

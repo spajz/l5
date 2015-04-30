@@ -12,7 +12,7 @@
 
     <div id="pjax-container">
 
-        {!! Former::open_for_files()->route("admin.{$moduleLower}.update", $item->id)->method('put') !!}
+        {!! Former::open_for_files()->route("admin.{$moduleLower}.update", $item->id)->method('put')->data_pjax() !!}
 
         <div class="row">
             <div class="col-xs-12">
