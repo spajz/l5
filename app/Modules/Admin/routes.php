@@ -16,7 +16,7 @@ Route::group(array('prefix' => ADMIN), function () {
 
 });
 
-Route::get('admin/login', array('as' => 'admin.login', 'uses' => 'App\Modules\Admin\Controllers\AdminController@login'));
+Route::get('admin/login', array('as' => 'admin.login', 'uses' => 'App\Modules\Admin\Controllers\AuthController@index'));
 
 Route::post('admin/login', array('before' => 'csrf', 'as' => 'admin.login', 'uses' => 'App\Modules\Admin\Controllers\AdminController@login'));
 

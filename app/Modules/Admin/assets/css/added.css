@@ -122,6 +122,21 @@
     margin-top: 20px;
 }
 
+.mar-y5 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.mar-y10 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.mar-y20 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 .font0 {
     font-size: 0;
 }
@@ -175,6 +190,10 @@ table th {
 .radio-inline input[type="radio"],
 .checkbox input[type="checkbox"],
 .checkbox-inline input[type="checkbox"] {
+    /*margin-left: auto;*/
+}
+
+.checkbox > input[type="checkbox"] {
     margin-left: auto;
 }
 

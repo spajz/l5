@@ -12,6 +12,8 @@
 
     <div id="pjax-container">
 
+        <div id="info-box">{!! Notification::showAll() !!}</div>
+
         {!! Former::open_for_files()->route("admin.{$moduleLower}.update", $item->id)->method('put')->data_pjax() !!}
 
         <div class="row">

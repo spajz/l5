@@ -90,7 +90,7 @@ class Module
      * @param string $return (name|path|array)
      * @return array $modules
      */
-    public function getModules($state = 'enabled', $return = 'name', $key = 'numeric')
+    public function getModules($state = 'enabled', $return = 'name')
     {
         $modules = array();
         foreach ($this->app['files']->files(app_path('Modules/*')) as $file) {

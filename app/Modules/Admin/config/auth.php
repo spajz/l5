@@ -6,10 +6,10 @@ $moduleLower = strtolower($moduleUpper);
 return array(
 
     'module' => array(
-        'assetsDirModule' => 'assets/' . $moduleLower,
+        'layout' => $moduleLower . '::layouts.auth',
+        'assetsDirAdmin' => 'assets/' . $moduleLower,
         'moduleLower' => $moduleLower,
         'moduleUpper' => $moduleUpper,
-        'modelName' => 'App\Modules\\' . $moduleUpper . '\Models\\' . $moduleUpper,
     ),
 
 );

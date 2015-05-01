@@ -3,8 +3,6 @@
 use App\Http\Requests;
 use App\Http\Controllers\BaseController;
 use App\Library\ImageApi;
-use Notification;
-use View;
 use Input;
 use DatatablesFront;
 use Redirect;
@@ -38,12 +36,12 @@ class AdminController extends BaseController
         }
 
         $this->config = config($module);
-        View::share('config', $this->config);
+        view()->share('config', $this->config);
         $moduleConfig = config($module . '.module');
         if ($moduleConfig) {
             foreach ($moduleConfig as $key => $value) {
                 $this->$key = $value;
-                View::share($key, $value);
+                view()->share($key, $value);
             }
         }
     }
@@ -64,7 +62,7 @@ class AdminController extends BaseController
 
     public function dtButtons($data, $model = null)
     {
-        return View::make('admin::datatables.but_status', array('data' => $data, 'model' => $model));
+        return view()->make('admin::datatables.but_status', array('data' => $data, 'model' => $model));
     }
 
     public function changeStatus()

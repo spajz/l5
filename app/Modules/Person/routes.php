@@ -2,6 +2,7 @@
 
 extract(config(strtolower(get_dirname(__FILE__)) . '.module', array()));
 
+// Admin
 $namespaceAdmin = 'App\Modules\\' . $moduleUpper . '\Controllers\Admin\\';
 
 Route::group(array("prefix" => ADMIN), function () use ($moduleUpper, $moduleLower, $namespaceAdmin) {
@@ -28,3 +29,8 @@ Route::group(array("prefix" => ADMIN), function () use ($moduleUpper, $moduleLow
 //    Route::get("api/{$moduleLower}/image/download/{id}", array("as" => "api.{$moduleLower}.image.download", "uses" => $moduleUpper . '\Admin\Controllers\\' . "{$moduleUpper}Controller@imageDownload"));
 
 });
+
+// Front
+$namespaceAdmin = 'App\Modules\\' . $moduleUpper . '\Controllers\\';
+
+Route::get($moduleLower, array("as" => "{$moduleLower}.index", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@index"));

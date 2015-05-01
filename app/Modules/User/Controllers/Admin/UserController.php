@@ -77,6 +77,11 @@ class UserController extends AdminController
     public function create()
     {
         $groups = Group::orderBy('name')->get()->lists('name');
+        if(!count($groups)){
+            msg('Groups are not defined, please define them.', 'danger');
+            return redirect()->route("admin.{$this->moduleLower}.index");
+        }
+
         $formButtons = $this->formButtons($this->formButtons);
         return view("{$this->moduleLower}::admin.create", compact('groups', 'formButtons'));
     }
@@ -131,7 +136,10 @@ class UserController extends AdminController
         Former::populate($item);
 
         $groups = Group::orderBy('name')->get()->lists('name');
-        $groups[''] = 'Please select';
+        if(!count($groups)){
+            msg('Groups are not defined, please define them.', 'danger');
+            return redirect()->route("admin.{$this->moduleLower}.index");
+        }
         $formButtons = $this->formButtons($this->formButtons);
 
         return view("{$this->moduleLower}::admin.edit", compact('item', 'groups', 'formButtons'));
