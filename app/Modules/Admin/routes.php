@@ -1,26 +1,26 @@
 <?php
 
-Route::group(array('prefix' => ADMIN), function () {
+Route::group(['prefix' => ADMIN], function () {
 
-    Route::get('/', array('as' => 'admin', 'uses' => 'App\Modules\Admin\Controllers\AdminController@index'));
+    Route::get('/', ['as' => 'admin', 'uses' => 'App\Modules\Admin\Controllers\AdminController@index']);
 
-    Route::get('api/change-status', array('as' => 'api.admin.change.status', 'uses' => 'App\Modules\Admin\Controllers\AdminController@changeStatus'));
+    Route::get('api/change-status',['as' => 'api.admin.change.status', 'uses' => 'App\Modules\Admin\Controllers\AdminController@changeStatus']);
 
-    Route::post('api/sort-rows', array('as' => 'api.admin.sort.rows', 'uses' => 'App\Modules\Admin\Controllers\AdminController@sortRows'));
+    Route::post('api/sort-rows', ['as' => 'api.admin.sort.rows', 'uses' => 'App\Modules\Admin\Controllers\AdminController@sortRows']);
 
-    Route::post('api/get-model', array('as' => 'api.admin.get.model', 'uses' => 'App\Modules\Admin\Controllers\AdminController@getModel'));
+    Route::post('api/get-model', ['as' => 'api.admin.get.model', 'uses' => 'App\Modules\Admin\Controllers\AdminController@getModel']);
 
-    Route::get('api/image-destroy/{id}', array('as' => 'api.admin.image.destroy', 'uses' => 'App\Modules\Admin\Controllers\AdminController@imageDestroy'));
+    Route::get('api/image-destroy/{id}', ['as' => 'api.admin.image.destroy', 'uses' => 'App\Modules\Admin\Controllers\AdminController@imageDestroy']);
 
-    Route::post("api/image/{id}/crop", array('as' => 'api.admin.image.crop', "uses" => 'App\Modules\Admin\Controllers\AdminController@imageCrop'));
+    Route::post("api/image/{id}/crop", ['as' => 'api.admin.image.crop', "uses" => 'App\Modules\Admin\Controllers\AdminController@imageCrop']);
 
 });
 
-Route::get('admin/login', array('as' => 'admin.login', 'uses' => 'App\Modules\Admin\Controllers\AuthController@index'));
+Route::get('admin/login', ['as' => 'admin.get.login', 'uses' => 'App\Modules\Admin\Controllers\AuthController@getLogin']);
 
-Route::post('admin/login', array('before' => 'csrf', 'as' => 'admin.login', 'uses' => 'App\Modules\Admin\Controllers\AdminController@login'));
+Route::post('admin/login', ['as' => 'admin.post.login', 'uses' => 'App\Modules\Admin\Controllers\AuthController@postLogin']);
 
-Route::get('admin/logout', array('as' => 'admin.logout', 'uses' => 'App\Modules\Admin\Controllers\AdminController@logout'));
+Route::get('admin/logout', ['as' => 'admin.logout', 'uses' => 'App\Modules\Admin\Controllers\AuthController@getLogout']);
 
 
 

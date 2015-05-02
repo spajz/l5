@@ -2,7 +2,8 @@
 
 @section('content')
 
-<div class="container-fluid">
+
+<div class="container">
 
     <div class="row top20">
         <div class="col-md-8 col-md-offset-2">
@@ -25,45 +26,26 @@
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="/auth/login">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    {!! Former::open()->route("admin.post.login")->method('post')->rules($validationRules) !!}
 
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">E-Mail Address</label>
-                            <div class="col-md-6">
-                                <input type="email" class="form-control" name="email" value="{{ old('email') }}">
-                            </div>
-                        </div>
+                        {!! Former::text('email')->label('E-Mail Address') !!}
 
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Password</label>
-                            <div class="col-md-6">
-                                <input type="password" class="form-control" name="password">
-                            </div>
-                        </div>
+                        {!! Former::password('password') !!}
 
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember"> Remember Me
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
+                        {!! Former::checkbox('remember')->label('Remember Me') !!}
 
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-success" style="margin-right: 15px;">
-                                    Login
-                                </button>
+                        {!!
+                            Former::actions(
+                                Former::success_submit()->addClass(''),
+                                Former::primary_reset()->addClass('reset-form')
+                            )
+                        !!}
 
-                                <?php /*
-                                <a href="/password/email">Forgot Your Password?</a>
-                                */ ?>
-                            </div>
-                        </div>
-                    </form>
+                        <?php /*
+                        <a href="/password/email">Forgot Your Password?</a>
+                        */ ?>
+
+                    {!! Former::close() !!}
                 </div>
             </div>
         </div>

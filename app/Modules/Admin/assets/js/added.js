@@ -83,6 +83,12 @@ function getModel(model, column, type, extra) {
     return out;
 }
 
+function resetForm(form) {
+    form.find('input:text, input:password, input:file, select, textarea').val('');
+    form.find('input:radio, input:checkbox')
+        .removeAttr('checked').removeAttr('selected');
+}
+
 $(document).ready(function () {
 //Loads the correct sidebar on window load,
 //collapses the sidebar on window resize.
@@ -202,9 +208,11 @@ $(document).ready(function () {
 
         CKEDITOR.disableAutoInline = true;
         $('#ckeditor').ckeditor(
-            {filebrowserBrowseUrl:roxyFileman,
-                filebrowserImageBrowseUrl:roxyFileman+'?type=image',
-                removeDialogTabs: 'link:upload;image:upload'}
+            {
+                filebrowserBrowseUrl: roxyFileman,
+                filebrowserImageBrowseUrl: roxyFileman + '?type=image',
+                removeDialogTabs: 'link:upload;image:upload'
+            }
         );
     }
 
@@ -247,7 +255,7 @@ $(document).ready(function () {
     })
 
     // Password generator
-    $('[data-random-string]').on('click', function (e) {
+    $('body').on('click', '[data-random-string]', function (e) {
         e.preventDefault();
         var element = $(this).data('random-string');
         $(element).val(randomString());
@@ -397,5 +405,11 @@ $(document).ready(function () {
     }
 
     initFancyBoxCrop();
+
+    // Reset form button
+    $('body').on('click', '.reset-form', function (e) {
+        e.preventDefault();
+        resetForm($(this).closest('form'));
+    })
 
 })

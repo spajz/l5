@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="CMS">
     <meta name="author" content="">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Laravel CMS</title>
 
@@ -37,11 +36,10 @@
 </head>
 
 <body>
+<div id="info-box">{!! Notification::showAll() !!}</div>
 
 <div id="wrapper">
-
-        @yield('content')
-
+    @yield('content')
 </div>
 <!-- /#wrapper -->
 

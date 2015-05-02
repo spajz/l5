@@ -21,6 +21,8 @@ class AdminController extends BaseController
 
     public function __construct()
     {
+        $this->middleware('auth.admin');
+
         $this->setConfig(__FILE__);
         $this->language = config('admin.language');
     }
