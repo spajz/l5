@@ -18,7 +18,8 @@ class AddColumnsToUsersTable extends Migration {
             $table->string('last_name')->nullable()->after('first_name');
             $table->integer('group_id')->after('last_name');
             $table->tinyInteger('status')->default(0)->after('group_id');
-
+            $table->tinyInteger('active')->default(0)->after('status');
+            $table->string('hash_activate')->nullable()->after('active');
 		});
 	}
 

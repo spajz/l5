@@ -1,5 +1,6 @@
 {
     "name": "admin",
+    "class": "Admin",
     "enabled": true,
     "icon": "fa-female",
     "order": 100,

@@ -12,7 +12,7 @@ var moduleLower = '';
 var allowedModules = ['Front'];
 
 if (typeof util.env.module !== 'undefined') {
-    if(allowedModules.indexOf(util.env.module) >= 0){
+    if (allowedModules.indexOf(util.env.module) >= 0) {
         moduleUpper = util.env.module;
         moduleLower = moduleUpper.toString().toLowerCase();
     } else {
@@ -111,7 +111,6 @@ if (!moduleLower) {
     var adminDir = 'public/assets/admin';
     var adminBuildDir = 'public/build/assets/admin';
 
-
     // Main admin mix
     elixir(function (mix) {
         mix.less('app.less')
@@ -122,6 +121,7 @@ if (!moduleLower) {
 
             .styles([
                 //adminConfig.cssOutput + '/app.css',
+                adminConfig.bowerDir + '/bootstrapxl/BootstrapXL.css',
                 adminConfig.bowerDir + '/font-awesome/css/font-awesome.css',
                 adminConfig.assetsDir + 'vendor/css/dataTables.bootstrap.css',
                 adminConfig.assetsDir + 'vendor/css/datatables.responsive.css',
@@ -205,7 +205,7 @@ if (!moduleLower) {
         [adminConfig.bowerDir + '/Jcrop/css/Jcrop.gif'],
         [adminBuildDir + '/css/', adminDir + '/css/']
     );
-}
+}// -- End admin
 
 
 /*
@@ -235,12 +235,26 @@ if (moduleLower) {
         mix.less('app.less')
 
             .styles([
-                moduleConfig.bowerDir + '/font-awesome/css/font-awesome.css'
-            ], null, './')
+                adminConfig.assetsDir + 'css/added.css'
+            ], adminConfig.cssOutput + '/added.css', './')
 
+            .styles([
+                //adminConfig.cssOutput + '/app.css',
+                adminConfig.bowerDir + '/bootstrapxl/BootstrapXL.css',
+                adminConfig.bowerDir + '/font-awesome/css/font-awesome.css',
+                adminConfig.assetsDir + 'vendor/css/dataTables.bootstrap.css',
+                adminConfig.assetsDir + 'vendor/css/datatables.responsive.css',
+                adminConfig.bowerDir + '/metisMenu/dist/metisMenu.min.css',
+                adminConfig.bowerDir + '/select2/select2.css',
+                adminConfig.bowerDir + '/select2-bootstrap-css/select2-bootstrap.css',
+                adminConfig.bowerDir + '/fancybox/source/jquery.fancybox.css',
+                adminConfig.bowerDir + '/jquery-ui/themes/base/jquery-ui.min.css',
+                adminConfig.bowerDir + '/Jcrop/css/jquery.Jcrop.css',
+            ], null, './')
     });
 
-}
+}// -- End module
+
 
 elixir(function (mix) {
     mix.gulper();

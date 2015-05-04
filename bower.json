@@ -30,6 +30,7 @@
     "jquery-ui": "~1.11.4",
     "underscore": "~1.8.2",
     "mjolnic-bootstrap-colorpicker": "~2.1.1",
-    "Jcrop": "~0.9.12"
+    "Jcrop": "~0.9.12",
+    "bootstrapxl": "~1.0.3"
   }
 }

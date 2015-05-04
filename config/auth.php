@@ -28,7 +28,9 @@ return [
 	|
 	*/
 
-	'model' => 'App\User',
+//	'model' => 'App\User',
+	'model' => 'App\modules\User\Models\User',
+
 
 	/*
 	|--------------------------------------------------------------------------

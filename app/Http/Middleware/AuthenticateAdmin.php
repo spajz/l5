@@ -44,9 +44,9 @@ class AuthenticateAdmin
         if ($this->auth->admin()) {
             return $next($request);
         } else {
-            return redirect()->guest('/');
+            msg('Unauthorized.', 'info');
+            return redirect()->guest(route('admin.get.login'));
         }
-
     }
 
 }

@@ -6,7 +6,7 @@
 <div class="container">
 
     <div class="row top20">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-xl-4 col-xl-offset-4 col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <p class="text-center top5">

@@ -1,5 +1,6 @@
 {
     "name": "front",
+    "class": "Front",
     "enabled": true,
     "order": 133,
     "title": "Front"
