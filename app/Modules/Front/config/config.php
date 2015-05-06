@@ -7,9 +7,17 @@ return array(
 
     'under-maintenance' => false,
 
+    'language' => 'sr',
+
+    'languages' => [
+        'sr',
+        'en',
+        'de',
+    ],
+
     'module' => array(
         'layout' => $moduleLower . '::layouts.master',
-        'assetsDirModule' => 'assets/' . $moduleLower,
+        'assetsDirFront' => 'assets/' . $moduleLower,
         'moduleLower' => $moduleLower,
         'moduleUpper' => $moduleUpper,
     ),

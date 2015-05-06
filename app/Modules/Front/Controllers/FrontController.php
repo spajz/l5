@@ -3,13 +3,47 @@
 use App\Http\Requests;
 use App\Http\Controllers\BaseController;
 
-
 class FrontController extends BaseController
 {
+    protected $layout;
+    protected $assetsDirFront;
+    protected $assetsDirModule;
+    protected $moduleLower;
+    protected $moduleUpper;
+    protected $moduleTitle;
+    protected $config;
+    protected $language;
+
+    public function __construct()
+    {
+        $this->setConfig(__FILE__);
+        $this->language = config('admin.language');
+    }
+
+    protected function setConfig($module, $path = true)
+    {
+        if ($path) {
+            if (get_dirname($module, 1) == 'Admin') {
+                $module = strtolower(get_dirname($module, 3));
+            } else {
+                $module = strtolower(get_dirname($module, 2));
+            }
+        }
+
+        $this->config = config($module);
+        view()->share('config', $this->config);
+        $moduleConfig = config($module . '.module');
+        if ($moduleConfig) {
+            foreach ($moduleConfig as $key => $value) {
+                $this->$key = $value;
+                view()->share($key, $value);
+            }
+        }
+    }
+
     public function index()
     {
-        echo 'front controller';
-        exit;
+        return view("{$this->moduleLower}::home");
     }
 
 }

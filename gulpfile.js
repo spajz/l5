@@ -4,6 +4,8 @@ var elixir = require('laravel-elixir');
 var util = require('./node_modules/laravel-elixir/node_modules/gulp-util');
 var runSequence = require('./node_modules/laravel-elixir/node_modules/run-sequence');
 var inProduction = elixir.config.production;
+require('laravel-elixir-css-url-adjuster');
+require('laravel-elixir-rename');
 
 
 // gulp --module module_name
@@ -232,29 +234,33 @@ if (moduleLower) {
 
     // Main admin mix
     elixir(function (mix) {
+
+        mix.urlAdjuster(moduleConfig.assetsDir + 'fonts/stylesheet.css', {
+            prepend: '../fonts/'
+            //append: '?version=1'
+        }, moduleConfig.assetsDir + 'css', 'code-pro.css')
+
         mix.less('app.less')
 
             .styles([
-                adminConfig.assetsDir + 'css/added.css'
-            ], adminConfig.cssOutput + '/added.css', './')
+                moduleConfig.assetsDir + 'css/added.css'
+            ], moduleConfig.cssOutput + '/added.css', './')
 
             .styles([
                 //adminConfig.cssOutput + '/app.css',
-                adminConfig.bowerDir + '/bootstrapxl/BootstrapXL.css',
-                adminConfig.bowerDir + '/font-awesome/css/font-awesome.css',
-                adminConfig.assetsDir + 'vendor/css/dataTables.bootstrap.css',
-                adminConfig.assetsDir + 'vendor/css/datatables.responsive.css',
-                adminConfig.bowerDir + '/metisMenu/dist/metisMenu.min.css',
-                adminConfig.bowerDir + '/select2/select2.css',
-                adminConfig.bowerDir + '/select2-bootstrap-css/select2-bootstrap.css',
-                adminConfig.bowerDir + '/fancybox/source/jquery.fancybox.css',
-                adminConfig.bowerDir + '/jquery-ui/themes/base/jquery-ui.min.css',
-                adminConfig.bowerDir + '/Jcrop/css/jquery.Jcrop.css',
+                moduleConfig.bowerDir + '/bootstrapxl/BootstrapXL.css',
+                moduleConfig.bowerDir + '/font-awesome/css/font-awesome.css',
+                moduleConfig.assetsDir + 'css/code-pro.css'
             ], null, './')
+
+        gulpCopy(
+            [moduleConfig.assetsDir + '/fonts/*.{eot,ttf,woff,woff2,svg}'],
+            [moduleBuildDir + '/fonts/', moduleDir + '/fonts/']
+        );
+
     });
 
 }// -- End module
-
 
 elixir(function (mix) {
     mix.gulper();
