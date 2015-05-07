@@ -1,7 +1,7 @@
 <?php
 /**
  * An helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.0.28 on 2015-05-05.
+ * Generated for Laravel 5.0.28 on 2015-05-07.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -12453,7 +12453,7 @@ namespace {
          *
          * @param string $name
          * @param string $value
-         * @return string 
+         * @return mixed 
          * @static 
          */
         public static function getValueAttribute($name, $value = null){
@@ -12464,7 +12464,7 @@ namespace {
          * Get a value from the session's old input.
          *
          * @param string $name
-         * @return string 
+         * @return mixed 
          * @static 
          */
         public static function old($name){
@@ -12590,6 +12590,19 @@ namespace {
          */
         public static function image($url, $alt = null, $attributes = array(), $secure = null){
             return \Collective\Html\HtmlBuilder::image($url, $alt, $attributes, $secure);
+        }
+        
+        /**
+         * Generate a link to a Favicon file.
+         *
+         * @param string $url
+         * @param array $attributes
+         * @param bool $secure
+         * @return string 
+         * @static 
+         */
+        public static function favicon($url, $attributes = array(), $secure = null){
+            return \Collective\Html\HtmlBuilder::favicon($url, $attributes, $secure);
         }
         
         /**

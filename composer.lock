@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "hash": "461f49e10639a456313b3fdbe102a941",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/formers/former.git",
-                "reference": "4a03cdd08f1bdd975bd2521bed74ab38bf590388"
+                "reference": "e37cb69d12d4436282e6754800903d94788528f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/formers/former/zipball/4a03cdd08f1bdd975bd2521bed74ab38bf590388",
-                "reference": "4a03cdd08f1bdd975bd2521bed74ab38bf590388",
+                "url": "https://api.github.com/repos/formers/former/zipball/e37cb69d12d4436282e6754800903d94788528f3",
+                "reference": "e37cb69d12d4436282e6754800903d94788528f3",
                 "shasum": ""
             },
             "require": {
@@ -63,7 +63,7 @@
                 "foundation",
                 "laravel"
             ],
-            "time": "2015-04-20 13:53:18"
+            "time": "2015-05-06 00:01:16"
         },
         {
             "name": "anahkiasen/html-object",
@@ -954,16 +954,16 @@
         },
         {
             "name": "laravelcollective/html",
-            "version": "v5.0.2",
+            "version": "v5.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/LaravelCollective/html.git",
-                "reference": "9af203053815cb12c9b8307e8367153c84fdd4b7"
+                "reference": "c55fda58b1a9a1b58bd04f97e0fb9ebc238a0a94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LaravelCollective/html/zipball/9af203053815cb12c9b8307e8367153c84fdd4b7",
-                "reference": "9af203053815cb12c9b8307e8367153c84fdd4b7",
+                "url": "https://api.github.com/repos/LaravelCollective/html/zipball/c55fda58b1a9a1b58bd04f97e0fb9ebc238a0a94",
+                "reference": "c55fda58b1a9a1b58bd04f97e0fb9ebc238a0a94",
                 "shasum": ""
             },
             "require": {
@@ -1000,7 +1000,7 @@
                     "email": "adam@laravelcollective.com"
                 }
             ],
-            "time": "2015-03-10 15:59:48"
+            "time": "2015-05-06 14:23:37"
         },
         {
             "name": "league/flysystem",
@@ -2523,16 +2523,16 @@
         },
         {
             "name": "yajra/laravel-datatables-oracle",
-            "version": "v4.3.1",
+            "version": "v4.3.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/yajra/laravel-datatables-oracle.git",
-                "reference": "b8fb32be17369bb5aa6268ddec0dd7d5ded5669c"
+                "url": "https://github.com/yajra/laravel-datatables.git",
+                "reference": "9097ea916847374c3a61f69dd2b9fce9e86f8ec8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables-oracle/zipball/b8fb32be17369bb5aa6268ddec0dd7d5ded5669c",
-                "reference": "b8fb32be17369bb5aa6268ddec0dd7d5ded5669c",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/9097ea916847374c3a61f69dd2b9fce9e86f8ec8",
+                "reference": "9097ea916847374c3a61f69dd2b9fce9e86f8ec8",
                 "shasum": ""
             },
             "require": {
@@ -2572,7 +2572,7 @@
                 "laravel4",
                 "laravel5"
             ],
-            "time": "2015-04-30 00:36:17"
+            "time": "2015-05-06 00:07:49"
         }
     ],
     "packages-dev": [

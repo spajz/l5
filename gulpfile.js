@@ -235,10 +235,15 @@ if (moduleLower) {
     // Main admin mix
     elixir(function (mix) {
 
-        mix.urlAdjuster(moduleConfig.assetsDir + 'fonts/stylesheet.css', {
+        mix.urlAdjuster(moduleConfig.assetsDir + 'fonts/Code-Pro-Bold-LC.css', {
             prepend: '../fonts/'
             //append: '?version=1'
-        }, moduleConfig.assetsDir + 'css', 'code-pro.css')
+        }, moduleConfig.assetsDir + 'css', 'code-pro-bold-lc.css');
+
+        mix.urlAdjuster(moduleConfig.assetsDir + 'fonts/Code-Pro-LC.css', {
+            prepend: '../fonts/'
+            //append: '?version=1'
+        }, moduleConfig.assetsDir + 'css', 'code-pro-lc.css');
 
         mix.less('app.less')
 
@@ -250,12 +255,18 @@ if (moduleLower) {
                 //adminConfig.cssOutput + '/app.css',
                 moduleConfig.bowerDir + '/bootstrapxl/BootstrapXL.css',
                 moduleConfig.bowerDir + '/font-awesome/css/font-awesome.css',
-                moduleConfig.assetsDir + 'css/code-pro.css'
+                moduleConfig.assetsDir + 'css/code-pro-bold-lc.css',
+                moduleConfig.assetsDir + 'css/code-pro-lc.css'
             ], null, './')
 
         gulpCopy(
             [moduleConfig.assetsDir + '/fonts/*.{eot,ttf,woff,woff2,svg}'],
             [moduleBuildDir + '/fonts/', moduleDir + '/fonts/']
+        );
+
+        gulpCopy(
+            [moduleConfig.assetsDir + 'images/**/*'],
+            [moduleBuildDir + '/images/', moduleDir + '/images/']
         );
 
     });

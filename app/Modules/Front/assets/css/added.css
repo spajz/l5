@@ -1,0 +1,64 @@
+body {
+    padding-top: 100px;
+}
+
+/*Common*/
+.h0 {
+    height: 0;
+}
+
+.border0 {
+    border: none !important;
+}
+
+b, strong, .bold {
+    font-family: Code-Pro-Bold-LC;
+}
+
+h1, h2{
+    font-family: Code-Pro-Bold-LC;
+}
+
+/*Colors*/
+.red {
+    color: #ff0000;
+}
+
+/*Navbar*/
+.nav > li {
+    padding: 35px 18px;
+}
+
+.navbar-brand {
+    padding: 35px 15px;
+}
+
+.nav > li > a {
+    padding: 0;
+    font-size: 15px;
+}
+
+.nav > li > a:hover,
+.nav > li > a:focus,
+.nav > li.active > a {
+    border-bottom: 1px solid #c5c5c5;
+}
+
+.social-but {
+    position: relative;
+    top: -8px;
+}
+
+/*Links*/
+.read-more {
+    display: inline-block;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #000000;
+}
+
+.read-more-red {
+    display: inline-block;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ff0000;
+}
+
