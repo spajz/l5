@@ -3,56 +3,6 @@
 @section('content')
 
 
-    <nav class="sidebar-nav">
-        <ul id="menu2">
-            <li class="active">
-                <a href="#">Menu 0 <span class="fa arrow"></span></a>
-                <ul>
-                    <li><a href="#">item 0.1</a></li>
-                    <li><a href="#">item 0.2</a></li>
-                    <li><a href="http://onokumus.com">onokumus</a></li>
-                    <li><a href="#">item 0.4</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">Menu 1 <span class="glyphicon arrow"></span></a>
-                <ul>
-                    <li><a href="#">item 1.1</a></li>
-                    <li><a href="#">item 1.2</a></li>
-                    <li>
-                        <a href="#">Menu 1.3 <span class="fa plus-times"></span></a>
-                        <ul>
-                            <li><a href="#">item 1.3.1</a></li>
-                            <li><a href="#">item 1.3.2</a></li>
-                            <li><a href="#">item 1.3.3</a></li>
-                            <li><a href="#">item 1.3.4</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">item 1.4</a></li>
-                    <li>
-                        <a href="#">Menu 1.5 <span class="fa plus-minus"></span></a>
-                        <ul>
-                            <li><a href="#">item 1.5.1</a></li>
-                            <li><a href="#">item 1.5.2</a></li>
-                            <li><a href="#">item 1.5.3</a></li>
-                            <li><a href="#">item 1.5.4</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">Menu 2 <span class="glyphicon arrow"></span></a>
-                <ul>
-                    <li><a href="#">item 2.1</a></li>
-                    <li><a href="#">item 2.2</a></li>
-                    <li><a href="#">item 2.3</a></li>
-                    <li><a href="#">item 2.4</a></li>
-                </ul>
-            </li>
-        </ul>
-    </nav>
-
-
 
 
     <!-- Fixed navbar -->
@@ -72,7 +22,7 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Demo</a></li>
                     <li><a href="#">Who we are</a></li>
                     <li class="active"><a href="#">Our work</a></li>
                     <li><a href="#">Clients</a></li>
@@ -93,7 +43,54 @@
 
 
         <div class="row clearfix">
-            <div class="col-xs-12">
+
+            <div class="col-md-3 col-xs-12">
+                <div class="no-padding">
+                    <span class="title">CATEGORIES</span>
+                </div>
+
+                <nav id="sidebar-nav">
+                    <ul class="nav">
+                        <li>
+                            <a href="#">Link 1</a>
+                        </li>
+                        <li>
+                            <a href="#" data-toggle="collapse" data-target="#submenu1">
+                                Link 2 (toggle)
+                            </a>
+                            <ul class="nav collapse" id="submenu1" role="menu">
+                                <li><a href="#">Link 2.1</a></li>
+                                <li><a href="#">Link 2.2</a></li>
+                                <li>
+                                    <a href="#" data-toggle="collapse" data-target="#submenu3">Link 2.3 ++</a>
+
+                                    <ul class="nav collapse" id="submenu3" role="menu">
+                                        <li><a href="#">Link 3.1</a></li>
+                                        <li>
+                                            <a href="#" data-toggle="collapse" data-target="#submenu4">Link 4444 ++</a>
+
+                                            <ul class="nav collapse" id="submenu4" role="menu">
+                                                <li><a href="#">Link 4.1</a></li>
+                                                <li>
+                                                    <a href="#">Link 4.2</a
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+
+                                </li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Link 3</a></li>
+                        <li><a href="#">Link 4</a></li>
+                    </ul>
+                </nav>
+
+
+            </div>
+
+
+            <div class="col-md-9 col-xs-12">
                 <div class="owl-carousel">
                     <div>
                         <img src="{{ asset('media/slider/slider1.jpg') }}">
@@ -160,6 +157,16 @@
     <script type="text/javascript">
         $(document).ready(function(){
             $('.owl-carousel').owlCarousel();
+        });
+
+        $('#menu2').metisMenu({
+            toggle: false
+        });
+
+        $('#sidebar-nav ul').each(function() {
+            var depth = $(this).parents('ul').length;
+            $(this).addClass('level-' + depth);
+            $(' > li > a', $(this)).css('padding-left',  depth + 'em');
         });
     </script>
 @stop

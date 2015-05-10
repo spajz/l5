@@ -20,6 +20,8 @@ return array(
         'assetsDirFront' => 'assets/' . $moduleLower,
         'moduleLower' => $moduleLower,
         'moduleUpper' => $moduleUpper,
+        'buildPath' => '/modules/' . $moduleLower,
+        'theme' => env('THEME', null),
     ),
 
 );

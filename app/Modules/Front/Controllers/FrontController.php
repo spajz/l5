@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\BaseController;
+use View;
 
 class FrontController extends BaseController
 {
@@ -13,6 +14,7 @@ class FrontController extends BaseController
     protected $moduleTitle;
     protected $config;
     protected $language;
+    protected $theme;
 
     public function __construct()
     {
@@ -43,7 +45,8 @@ class FrontController extends BaseController
 
     public function index()
     {
-        return view("{$this->moduleLower}::home");
+        return view_theme("{$this->moduleLower}::home");
     }
+
 
 }

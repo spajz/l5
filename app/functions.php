@@ -219,7 +219,83 @@ if (!function_exists('link_to_image')) {
         );
         $out .= '</a>';
 
-        return  $out;
+        return $out;
+    }
+}
+
+if (!function_exists('elixir2')) {
+    /**
+     * Get the path to a versioned Elixir file.
+     *
+     * @param  string $file
+     * @return string
+     */
+    function elixir2($file, $build_path = null)
+    {
+        static $manifest = null;
+
+        if (is_null($manifest)) {
+            if ($build_path) {
+                $manifest = json_decode(file_get_contents(public_path() . $build_path . '/build/rev-manifest.json'), true);
+            } else {
+                $manifest = json_decode(file_get_contents(public_path() . '/build/rev-manifest.json'), true);
+            }
+        }
+
+        if (isset($manifest[$file])) {
+            if ($build_path) {
+                return $build_path . '/build/' . $manifest[$file];
+            } else {
+                return '/build/' . $manifest[$file];
+            }
+        }
+
+        throw new InvalidArgumentException("File {$file} not defined in asset manifest.");
+    }
+
+    if (!function_exists('theme')) {
+        function theme($view)
+        {
+            $shared = view()->getShared();
+            if (!isset($shared['theme'])) return false;
+
+            $viewPath = view()->getFinder()->find($view);
+
+            if (!$viewPath) return false;
+
+            $path = pathinfo($viewPath);
+            $themeFile = $path['dirname'] . '/themes/' . $shared['theme'] . '/' . $path['basename'];
+
+            if (is_file($themeFile)) {
+                $template = explode('::', $view);
+                $view = $template[0] . '::' . 'themes.' . $shared['theme'] . '.' . $template[1];
+            }
+
+            return $view;
+        }
+    }
+
+    if ( ! function_exists('viewTheme'))
+    {
+        /**
+         * Get the evaluated view contents for the given view.
+         *
+         * @param  string  $view
+         * @param  array   $data
+         * @param  array   $mergeData
+         * @return \Illuminate\View\View
+         */
+        function view_theme($view = null, $data = array(), $mergeData = array())
+        {
+            $factory = app('Illuminate\Contracts\View\Factory');
+
+            if (func_num_args() === 0)
+            {
+                return $factory;
+            }
+
+            return $factory->make(theme($view), $data, $mergeData);
+        }
     }
 }
 

@@ -159,6 +159,7 @@ return [
         'App\Modules\ModulesServiceProvider',
         'App\Providers\AuthServiceProvider',
         'Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider',
+        'GrahamCampbell\HTMLMin\HTMLMinServiceProvider',
 
 	],
 
@@ -220,6 +221,7 @@ return [
         'Html'            => 'Collective\Html\HtmlFacade',
         'LaravelLocalization' => 'Mcamara\LaravelLocalization\Facades\LaravelLocalization',
         'Sanitize'            => 'App\Library\Sanitize',
+        'HTMLMin'             => 'GrahamCampbell\HTMLMin\Facades\HTMLMin',
 
 	],
 

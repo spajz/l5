@@ -16,8 +16,8 @@
         <link rel="stylesheet" href="{{ asset($assetsDirFront . '/css/all.css') }}" />
         <link rel="stylesheet" href="{{ asset($assetsDirFront . '/css/added.css') }}" />
     @else
-        <link rel="stylesheet" href="{{ elixir($assetsDirFront . '/css/all.css') }}">
-        <link rel="stylesheet" href="{{ elixir($assetsDirFront . '/css/added.css') }}">
+        <link rel="stylesheet" href="{{ elixir2($assetsDirFront . '/css/all.css', $buildPath) }}">
+        <link rel="stylesheet" href="{{ elixir2($assetsDirFront . '/css/added.css', $buildPath) }}">
     @endif
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -39,8 +39,8 @@
     <script src="{{ asset("{$assetsDirFront}/js/all.js") }}"></script>
     <script src="{{ asset("{$assetsDirFront}/js/added.js") }}"></script>
 @else
-    <script src="{{ elixir("{$assetsDirFront}/js/all.js") }}"></script>
-    <script src="{{ elixir("{$assetsDirFront}/js/added.js") }}"></script>
+    <script src="{{ elixir2("{$assetsDirFront}/js/all.js", $buildPath) }}"></script>
+    <script src="{{ elixir2("{$assetsDirFront}/js/added.js", $buildPath) }}"></script>
 @endif
 
 @section('scripts_bottom')

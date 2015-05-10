@@ -111,7 +111,9 @@ if (!moduleLower) {
     elixir.config = objMerge(elixir.config, adminConfig);
 
     var adminDir = 'public/assets/admin';
-    var adminBuildDir = 'public/build/assets/admin';
+    var adminBuildBase = 'public/modules/admin';
+    //var adminBuildDir = 'public/build/assets/admin';
+    var adminBuildDir = adminBuildBase + '/build/assets/admin';
 
     // Main admin mix
     elixir(function (mix) {
@@ -160,7 +162,7 @@ if (!moduleLower) {
                 adminConfig.jsOutput + '/all.js',
                 adminConfig.cssOutput + '/added.css',
                 adminConfig.jsOutput + '/added.js',
-            ]);
+            ], adminBuildBase);
     });
 
     multiCopy(
@@ -230,7 +232,9 @@ if (moduleLower) {
     elixir.config = objMerge(elixir.config, moduleConfig);
 
     var moduleDir = 'public/assets/' + moduleLower;
-    var moduleBuildDir = 'public/build/assets/' + moduleLower;
+    var moduleBuildBase = 'public/modules/' + moduleLower;
+    //var moduleBuildDir = 'public/build/assets/' + moduleLower;
+    var moduleBuildDir = moduleBuildBase + '/build/assets/' + moduleLower;
 
     // Main admin mix
     elixir(function (mix) {
@@ -256,8 +260,28 @@ if (moduleLower) {
                 moduleConfig.bowerDir + '/bootstrapxl/BootstrapXL.css',
                 moduleConfig.bowerDir + '/font-awesome/css/font-awesome.css',
                 moduleConfig.assetsDir + 'css/code-pro-bold-lc.css',
-                moduleConfig.assetsDir + 'css/code-pro-lc.css'
+                moduleConfig.assetsDir + 'css/code-pro-lc.css',
+                moduleConfig.bowerDir + '/owl.carousel/dist/assets/owl.carousel.min.css',
+                moduleConfig.bowerDir + '/metisMenu/dist/metisMenu.min.css',
             ], null, './')
+
+            .scripts([
+                moduleConfig.assetsDir + 'js/added.js'
+            ], moduleConfig.jsOutput + '/added.js', './')
+
+            .scripts([
+                moduleConfig.bowerDir + '/jquery-legacy/dist/jquery.min.js',
+                moduleConfig.bowerDir + '/bootstrap/dist/js/bootstrap.min.js',
+                moduleConfig.bowerDir + '/owl.carousel/dist/owl.carousel.min.js',
+                moduleConfig.bowerDir + '/metisMenu/dist/metisMenu.min.js',
+            ], null, './')
+
+            .version([
+                moduleConfig.cssOutput + '/all.css',
+                moduleConfig.jsOutput + '/all.js',
+                moduleConfig.cssOutput + '/added.css',
+                moduleConfig.jsOutput + '/added.js',
+            ], moduleBuildBase);
 
         gulpCopy(
             [moduleConfig.assetsDir + '/fonts/*.{eot,ttf,woff,woff2,svg}'],

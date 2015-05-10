@@ -16,8 +16,8 @@
         <link rel="stylesheet" href="{{ asset($assetsDirAdmin . '/css/all.css') }}" />
         <link rel="stylesheet" href="{{ asset($assetsDirAdmin . '/css/added.css') }}" />
     @else
-        <link rel="stylesheet" href="{{ elixir($assetsDirAdmin . '/css/all.css') }}">
-        <link rel="stylesheet" href="{{ elixir($assetsDirAdmin . '/css/added.css') }}">
+        <link rel="stylesheet" href="{{ elixir2($assetsDirAdmin . '/css/all.css', $buildPath) }}">
+        <link rel="stylesheet" href="{{ elixir2($assetsDirAdmin . '/css/added.css', $buildPath) }}">
     @endif
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -74,8 +74,8 @@
     <script src="{{ asset("{$assetsDirAdmin}/js/all.js") }}"></script>
     <script src="{{ asset("{$assetsDirAdmin}/js/added.js") }}"></script>
 @else
-    <script src="{{ elixir("{$assetsDirAdmin}/js/all.js") }}"></script>
-    <script src="{{ elixir("{$assetsDirAdmin}/js/added.js") }}"></script>
+    <script src="{{ elixir2("{$assetsDirAdmin}/js/all.js", $buildPath) }}"></script>
+    <script src="{{ elixir2("{$assetsDirAdmin}/js/added.js", $buildPath) }}"></script>
 @endif
 
 <script src="{{ asset("{$assetsDirAdmin}/vendor/ckeditor/ckeditor.js") }}"></script>
