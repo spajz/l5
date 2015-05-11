@@ -155,9 +155,17 @@ h1, h2 {
 }
 
 /*Sidebar navigation*/
-#sidebar-nav ul > li {
+#sidebar-nav > ul > li {
     border: solid #ccc;
     border-width: 1px 1px 0;
+}
+
+#sidebar-nav > ul > li li {
+    border-bottom: 1px solid #ccc;
+}
+
+#sidebar-nav > ul > li li:last-child {
+    border: none;
 }
 
 /*#sidebar-nav ul > li > ul > li a {*/

@@ -45,46 +45,68 @@
         <div class="row clearfix">
 
             <div class="col-md-3 col-xs-12">
-                <div class="no-padding">
-                    <span class="title">CATEGORIES</span>
-                </div>
 
-                <nav id="sidebar-nav">
-                    <ul class="nav">
-                        <li>
-                            <a href="#">Link 1</a>
-                        </li>
-                        <li>
-                            <a href="#" data-toggle="collapse" data-target="#submenu1">
-                                Link 2 (toggle)
-                            </a>
-                            <ul class="nav collapse" id="submenu1" role="menu">
-                                <li><a href="#">Link 2.1</a></li>
-                                <li><a href="#">Link 2.2</a></li>
+
+
+
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">CATEGORIES</div>
+                    <div class="panel-body">
+                        <nav id="sidebar-nav">
+                            <ul class="nav">
                                 <li>
-                                    <a href="#" data-toggle="collapse" data-target="#submenu3">Link 2.3 ++</a>
-
-                                    <ul class="nav collapse" id="submenu3" role="menu">
-                                        <li><a href="#">Link 3.1</a></li>
+                                    <a href="#">Link 1</a>
+                                </li>
+                                <li>
+                                    <a href="#" data-toggle="collapse" data-target="#submenu1">
+                                        Link 2 (toggle)
+                                    </a>
+                                    <ul class="nav collapse" id="submenu1" role="menu">
+                                        <li><a href="#">Link 2.1</a></li>
+                                        <li><a href="#">Link 2.2</a></li>
                                         <li>
-                                            <a href="#" data-toggle="collapse" data-target="#submenu4">Link 4444 ++</a>
+                                            <a href="#" data-toggle="collapse" data-target="#submenu3">Link 2.3 ++</a>
 
-                                            <ul class="nav collapse" id="submenu4" role="menu">
-                                                <li><a href="#">Link 4.1</a></li>
+                                            <ul class="nav collapse" id="submenu3" role="menu">
+                                                <li><a href="#">Link 3.1</a></li>
                                                 <li>
-                                                    <a href="#">Link 4.2</a
+                                                    <a href="#" data-toggle="collapse" data-target="#submenu4">Link 4444 ++</a>
+
+                                                    <ul class="nav collapse" id="submenu4" role="menu">
+                                                        <li><a href="#">Link 4.1</a></li>
+                                                        <li>
+                                                            <a href="#">Link 4.2</a
+                                                        </li>
+                                                    </ul>
                                                 </li>
                                             </ul>
+
                                         </li>
                                     </ul>
-
                                 </li>
+                                <li><a href="#">Link 3</a></li>
+                                <li><a href="#">Link 4</a></li>
                             </ul>
-                        </li>
-                        <li><a href="#">Link 3</a></li>
-                        <li><a href="#">Link 4</a></li>
-                    </ul>
-                </nav>
+                        </nav>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+             
 
 
             </div>
@@ -122,16 +144,6 @@
         </div>
 
 
-
-
-
-
-        <div class="row clearfix">
-            <div class="col-xs-12">
-                <img src="{{ asset($assetsDirFront . '/images/slider.jpg') }}">
-            </div>
-        </div>
-
         <div class="row clearfix">
             <div class="col-xs-12">
                 <h1 class="text-center red">Who We Are</h1>
@@ -157,10 +169,6 @@
     <script type="text/javascript">
         $(document).ready(function(){
             $('.owl-carousel').owlCarousel();
-        });
-
-        $('#menu2').metisMenu({
-            toggle: false
         });
 
         $('#sidebar-nav ul').each(function() {
