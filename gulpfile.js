@@ -257,7 +257,7 @@ if (moduleLower) {
 
             .styles([
                 //adminConfig.cssOutput + '/app.css',
-                moduleConfig.bowerDir + '/bootstrapxl/BootstrapXL.css',
+                //moduleConfig.bowerDir + '/bootstrapxl/BootstrapXL.css',
                 moduleConfig.bowerDir + '/font-awesome/css/font-awesome.css',
                 moduleConfig.assetsDir + 'css/code-pro-bold-lc.css',
                 moduleConfig.assetsDir + 'css/code-pro-lc.css',
@@ -273,7 +273,7 @@ if (moduleLower) {
                 moduleConfig.bowerDir + '/jquery-legacy/dist/jquery.min.js',
                 moduleConfig.bowerDir + '/bootstrap/dist/js/bootstrap.min.js',
                 moduleConfig.bowerDir + '/owl.carousel/dist/owl.carousel.min.js',
-                moduleConfig.bowerDir + '/metisMenu/dist/metisMenu.min.js',
+                moduleConfig.bowerDir + '/matchHeight/jquery.matchHeight-min.js',
             ], null, './')
 
             .version([
