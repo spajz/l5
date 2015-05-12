@@ -1,36 +1,102 @@
 @import "./bower_components/bootstrap/less/bootstrap.less";
+
 //Bootswatch theme
-@import "./bower_components/bootswatch/paper/variables.less";
-@import './bower_components/bootswatch/paper/bootswatch.less';
+//@import "./bower_components/bootswatch/paper/variables.less";
+//@import './bower_components/bootswatch/paper/bootswatch.less';
+
+//Variables
+@color-purple: #792474;
+@color-red: #ff0000;
+@color-black: #000;
 
 //Common
 @font-family-sans-serif: Code-Pro-LC, Arial, sans-serif;
 @font-size-base: 16px;
-@text-color: #000000;
+@text-color: @color-black;
 
 @grid-gutter-width: 60px;
 
 @font-size-h1: 50px;
 @font-size-h2: 30px;
-@font-size-h3: 20px;
+@font-size-h3: 25px;
+
+//Type
+@headings-color: @color-black;
 
 //Navbar
+@navbar-default-bg: transparent;
+
 @navbar-padding-vertical: 5px;
 @navbar-padding-vertical: 5px;
 
 @nav-link-padding: 5px;
 
-@navbar-default-color: #000000;
-@navbar-default-link-color: #000000;
+@navbar-default-color: @color-black;
+@navbar-default-link-color: @color-black;
 
 @navbar-default-link-hover-bg: transparent;
 @navbar-default-link-active-bg: transparent;
 @navbar-default-link-disabled-bg: transparent;
 
-@navbar-default-link-hover-color: #792474;
-@navbar-default-link-active-color: #792474;
-@navbar-default-link-disabled-color: #792474;
+@navbar-default-link-hover-color: @color-purple;
+@navbar-default-link-active-color: @color-purple;
+@navbar-default-link-disabled-color: @color-purple;
 
 //@link-color:
-@link-hover-color: #792474;
+@link-hover-color: @color-purple;
 @link-hover-decoration: none;
+
+//Scaffolding
+@link-color: @color-black;
+@link-hover-color: @color-purple;
+@link-hover-decoration: none;
+
+.mar-top {
+  margin-top: @line-height-computed;
+}
+
+.mar-top-x2 {
+  margin-top: (@line-height-computed * 2);
+}
+
+.mar-bot {
+  margin-bottom: @line-height-computed;
+}
+
+.mar-bot-x2 {
+  margin-bottom: (@line-height-computed * 2);
+}
+
+h1, .h1,
+h2, .h2,
+h3, .h3 {
+  margin-top: (@line-height-computed * 2);
+  margin-bottom: @line-height-computed;
+
+  small,
+  .small {
+    font-size: 65%;
+  }
+}
+
+.read-more {
+  display: inline-block;
+  padding-bottom: @line-height-computed;
+  border-bottom: 1px solid @color-black;
+  margin-top: @line-height-computed;
+  margin-bottom: @line-height-computed;
+}
+
+.read-more:hover, .read-more:focus {
+  border-bottom-color: @color-purple;
+}
+
+.read-more.red {
+  color: @color-red;
+  border-bottom-color: @color-red;
+}
+
+.read-more.red:hover, .read-more.red:focus {
+  color: @color-purple;
+  border-bottom-color: @color-purple;
+}

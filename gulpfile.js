@@ -284,7 +284,7 @@ if (moduleLower) {
             ], moduleBuildBase);
 
         gulpCopy(
-            [moduleConfig.assetsDir + '/fonts/*.{eot,ttf,woff,woff2,svg}'],
+            [moduleConfig.assetsDir + '/fonts/*.{eot,ttf,woff,woff2,svg,otf}'],
             [moduleBuildDir + '/fonts/', moduleDir + '/fonts/']
         );
 
