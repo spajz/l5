@@ -1,6 +1,6 @@
 {
-  "assets/front/css/all.css": "assets/front/css/all-560b1290.css",
-  "assets/front/js/all.js": "assets/front/js/all-3c00c221.js",
-  "assets/front/css/added.css": "assets/front/css/added-80ef40c5.css",
-  "assets/front/js/added.js": "assets/front/js/added-41183ce4.js"
+  "assets/front/css/all.demo.css": "assets/front/css/all.demo-9430f8d0.css",
+  "assets/front/js/all.demo.js": "assets/front/js/all.demo-e8812c3f.js",
+  "assets/front/css/added.demo.css": "assets/front/css/added.demo-44e32e2d.css",
+  "assets/front/js/added.demo.js": "assets/front/js/added.demo-9417bed0.js"
 }

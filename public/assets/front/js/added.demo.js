@@ -13,5 +13,18 @@ $(document).ready(function () {
     }
 
     height100($('#where-we-are'));
+
+    function checkLogo(){
+        if ($('.logo').is( ':in-viewport(30)' ) ) {
+            $('.navbar-brand').fadeOut('fast');
+        } else {
+            $('.navbar-brand').fadeIn('fast');
+        }
+    }
+
+    $(window).scroll(function(){
+        checkLogo();
+    })
+
 })
-//# sourceMappingURL=added.js.map
+//# sourceMappingURL=added.demo.js.map

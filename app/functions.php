@@ -275,7 +275,7 @@ if (!function_exists('elixir2')) {
         }
     }
 
-    if ( ! function_exists('viewTheme'))
+    if ( ! function_exists('view_theme'))
     {
         /**
          * Get the evaluated view contents for the given view.

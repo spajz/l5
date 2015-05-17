@@ -33,7 +33,8 @@
     "Jcrop": "~0.9.12",
     "bootstrapxl": "~1.0.3",
     "owl.carousel": "*",
-    "matchHeight": "~0.6.0"
+    "matchHeight": "~0.6.0",
+    "isInViewport": "~2.2.4"
   },
   "resolutions": {
     "jquery": ">= 2.1.4"

@@ -41,6 +41,9 @@ class FrontController extends BaseController
                 view()->share($key, $value);
             }
         }
+
+        $this->layout = theme($this->moduleLower . '::layouts.master');
+        view()->share('layout', $this->layout);
     }
 
     public function index()

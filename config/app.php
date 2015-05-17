@@ -160,6 +160,7 @@ return [
         'App\Providers\AuthServiceProvider',
         'Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider',
         'GrahamCampbell\HTMLMin\HTMLMinServiceProvider',
+        'Baum\Providers\BaumServiceProvider',
 
 	],
 

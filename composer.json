@@ -16,7 +16,8 @@
         "edvinaskrucas/notification": "5.*",
         "laravelcollective/html": "~5.0",
         "mcamara/laravel-localization": "1.0.*",
-        "graham-campbell/htmlmin": "~3.0"
+        "graham-campbell/htmlmin": "~3.0",
+        "baum/baum": "~1.1"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "~4.0",

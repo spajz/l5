@@ -8,6 +8,14 @@ body {
 }
 
 /*Common*/
+.no-padding {
+    padding: 0 !important;
+}
+
+.no-margin {
+    margin: 0 !important;
+}
+
 .h0 {
     height: 0;
 }
