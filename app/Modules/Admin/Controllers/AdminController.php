@@ -1,6 +1,5 @@
 <?php namespace App\Modules\Admin\Controllers;
 
-use App\Http\Requests;
 use App\Http\Controllers\BaseController;
 use App\Library\ImageApi;
 use Input;

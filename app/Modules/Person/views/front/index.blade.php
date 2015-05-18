@@ -178,14 +178,52 @@
 
         <div class="container-full child-high">
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2830.0099517632366!2d20.463819200000007!3d44.8213619!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x475a7ab5b3e3ddeb%3A0xd966ef19af20bf4d!2s42+Cara+Du%C5%A1ana%2C+Beograd+11000!5e0!3m2!1sen!2srs!4v1431430649436"
-                    width="100%" height="100%" frameborder="0" style="border:0" id="google-map">
-
-            </iframe>
+                    width="100%" height="100%" frameborder="0" style="border:0" id="google-map"></iframe>
         </div>
+
+        <div class="container child-low">
+            <div class="row clearfix">
+                <div class="col-xs-12 text-center">
+                    <a href="#" class="read-more red">Back to top</a>
+                </div>
+                <div class="col-xs-3">
+                    <p class="big"><b>Cara Dušana 42,</b><br>
+                        11000 Belgrade,<br>
+                        Serbia
+                    </p>
+                </div>
+                <div class="col-xs-3">
+                    <p class="big"><b>Kontakt:</b><br>
+                        T +381 11 3284 620<br>
+                        office&#64;fcbafirma.rs
+                    </p>
+                </div>
+                <div class="col-xs-3">
+                    &nbsp;
+                </div>
+                <div class="col-xs-3 text-right">
+                    <p class="big"><b>Feeling social?</b><br>
+                        <a href="#" title="Facebook">
+                            <img src="{{ asset($assetsDirFront . '/images/facebook.png') }}" alt="Facebook">
+                        </a>
+
+                        <a href="#" title="Twitter">
+                            <img src="{{ asset($assetsDirFront . '/images/twitter.png') }}" alt="Twitter">
+                        </a>
+
+                        <a href="#" title="Instagram">
+                            <img src="{{ asset($assetsDirFront . '/images/instagram.png') }}" alt="Instagram">
+                        </a>
+
+                    </p>
+                </div>
+            </div>
+        </div>
+
     </section>
-
-    @include('front::_partials.contact')
-
+    <div class="fcb-line">
+        <img src="{{ asset($assetsDirFront . '/images/fcb-line.jpg') }}" width="100%">
+    </div>
 @stop
 
 @section('scripts_bottom')

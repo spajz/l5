@@ -1,8 +1,6 @@
 <?php namespace App\Modules\Front\Controllers;
 
-use App\Http\Requests;
 use App\Http\Controllers\BaseController;
-use View;
 
 class FrontController extends BaseController
 {
@@ -19,13 +17,13 @@ class FrontController extends BaseController
     public function __construct()
     {
         $this->setConfig(__FILE__);
-        $this->language = config('admin.language');
+        $this->language = config('front.language');
     }
 
     protected function setConfig($module, $path = true)
     {
         if ($path) {
-            if (get_dirname($module, 1) == 'Admin') {
+            if (get_dirname($module, 1) == 'Front') {
                 $module = strtolower(get_dirname($module, 3));
             } else {
                 $module = strtolower(get_dirname($module, 2));
@@ -42,7 +40,7 @@ class FrontController extends BaseController
             }
         }
 
-        $this->layout = theme($this->moduleLower . '::layouts.master');
+        $this->layout = theme('front::layouts.master');
         view()->share('layout', $this->layout);
     }
 

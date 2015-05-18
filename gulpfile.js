@@ -145,7 +145,7 @@ if (!moduleLower) {
                 adminConfig.bowerDir + '/select2-bootstrap-css/select2-bootstrap.css',
                 adminConfig.bowerDir + '/fancybox/source/jquery.fancybox.css',
                 adminConfig.bowerDir + '/jquery-ui/themes/base/jquery-ui.min.css',
-                adminConfig.bowerDir + '/Jcrop/css/jquery.Jcrop.css',
+                adminConfig.bowerDir + '/Jcrop/css/Jcrop.min.css',
             ], null, './')
 
             .scripts([
@@ -165,7 +165,7 @@ if (!moduleLower) {
                 adminConfig.bowerDir + '/fancybox/source/jquery.fancybox.pack.js',
                 adminConfig.bowerDir + '/jquery-ui/jquery-ui.min.js',
                 adminConfig.bowerDir + '/underscore/underscore-min.js',
-                adminConfig.bowerDir + '/Jcrop/js/jquery.Jcrop.min.js',
+                adminConfig.bowerDir + '/Jcrop/js/Jcrop.min.js',
             ], null, './')
 
             .version([

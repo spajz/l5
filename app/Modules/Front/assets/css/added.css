@@ -7,13 +7,25 @@ body {
     height: 100%;
 }
 
-/*Common*/
+/*** Common ***/
 .no-padding {
     padding: 0 !important;
 }
 
 .no-margin {
     margin: 0 !important;
+}
+
+.no-border {
+    border: none !important;
+}
+
+.no-height {
+    height: 0 !important;
+}
+
+.no-width {
+    width: 0 !important;
 }
 
 .h0 {
@@ -132,12 +144,12 @@ h1, h2, h3, .h1, .h2, .h3 {
     background-color: #ffd00a;
 }
 
-/*Colors*/
+/*** Colors ***/
 .red {
     color: #ff0000;
 }
 
-/*Navbar*/
+/*** Navbar ***/
 .navbar-fixed-top {
     background: url("../images/bgw-95.png") repeat;
 }
@@ -171,23 +183,9 @@ h1, h2, h3, .h1, .h2, .h3 {
     text-decoration: none;
 }
 
-/*Sidebar navigation*/
-#sidebar-nav > ul > li {
-    border: solid #ccc;
-    border-width: 1px 1px 0;
-}
-
-#sidebar-nav > ul > li li {
-    border-bottom: 1px solid #ccc;
-}
-
-#sidebar-nav > ul > li li:last-child {
-    border: none;
-}
-
 /*************** Sections ***************/
 
-/*Contact*/
+/*** Contact ***/
 #google-map {
     min-height: 300px;
 }
