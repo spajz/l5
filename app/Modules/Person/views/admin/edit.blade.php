@@ -40,7 +40,7 @@
 
                                 {!! Former::text('job_title') !!}
 
-                                {!! Former::textarea('description')->id('ckeditor') !!}
+                                {!! Former::textarea('description')->addClass('ckeditor') !!}
 
                                 {!! Former::text('lang')->value('sr') !!}
 

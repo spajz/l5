@@ -288,12 +288,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cviebrock/eloquent-sluggable.git",
-                "reference": "c5e96e71122e9f2bc5e8247ac1629e8413b0233d"
+                "reference": "8aaf4c4909eb2f571ba72dd7bf1ba4eca87d0f96"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cviebrock/eloquent-sluggable/zipball/c5e96e71122e9f2bc5e8247ac1629e8413b0233d",
-                "reference": "c5e96e71122e9f2bc5e8247ac1629e8413b0233d",
+                "url": "https://api.github.com/repos/cviebrock/eloquent-sluggable/zipball/8aaf4c4909eb2f571ba72dd7bf1ba4eca87d0f96",
+                "reference": "8aaf4c4909eb2f571ba72dd7bf1ba4eca87d0f96",
                 "shasum": ""
             },
             "require": {
@@ -330,7 +330,7 @@
                 "laravel",
                 "slug"
             ],
-            "time": "2015-05-11 02:32:55"
+            "time": "2015-05-18 21:14:15"
         },
         {
             "name": "danielstjules/stringy",

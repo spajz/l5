@@ -212,6 +212,12 @@ class AdminController extends BaseController
         return redirect()->back();
     }
 
+    /**
+     * Crop image
+     *
+     * @param \App\Library\ImageApi $imageApi
+     * @return array $out
+     */
     public function imageCrop(ImageApi $imageApi)
     {
         if ($imageApi->imageCrop()) {
@@ -219,6 +225,19 @@ class AdminController extends BaseController
         } else {
             msg('An error occurred. Please try again.', 'danger');
         }
+    }
+
+    /**
+     * Add element to model content
+     *
+     * @param string @element
+     * @return \Illuminate\View\View
+     */
+    public function addElement()
+    {
+        $element = Input::get('element');
+
+        return view("model_content.textarea");
     }
 
 }

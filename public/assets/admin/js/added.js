@@ -207,7 +207,7 @@ $(document).ready(function () {
         var roxyFileman = baseUrl + '/assets/admin/fileman/index.html';
 
         CKEDITOR.disableAutoInline = true;
-        $('#ckeditor').ckeditor(
+        $('.ckeditor').ckeditor(
             {
                 filebrowserBrowseUrl: roxyFileman,
                 filebrowserImageBrowseUrl: roxyFileman + '?type=image',

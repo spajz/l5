@@ -49,5 +49,4 @@ class FrontController extends BaseController
         return view_theme("{$this->moduleLower}::home");
     }
 
-
 }

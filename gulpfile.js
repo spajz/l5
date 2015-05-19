@@ -347,7 +347,6 @@ if (moduleLower) {
                 [moduleConfig.assetsDir + 'images/**/*'],
                 [moduleBuildDir + '/images/', moduleDir + '/images/']
             );
-
         });
     }
 

@@ -42,6 +42,4 @@ class Person extends BaseModel
 //        });
     }
 
-
-
 }

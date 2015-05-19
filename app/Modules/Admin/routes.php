@@ -14,6 +14,8 @@ Route::group(['prefix' => ADMIN], function () {
 
     Route::post("api/image/{id}/crop", ['as' => 'api.admin.image.crop', "uses" => 'App\Modules\Admin\Controllers\AdminController@imageCrop']);
 
+    Route::get('api/add-element',['as' => 'api.admin.add.element', 'uses' => 'App\Modules\Admin\Controllers\AdminController@addElement']);
+
 });
 
 Route::get('admin/login', ['as' => 'admin.get.login', 'uses' => 'App\Modules\Admin\Controllers\AuthController@getLogin']);

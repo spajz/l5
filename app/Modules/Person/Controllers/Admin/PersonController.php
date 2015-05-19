@@ -1,6 +1,7 @@
 <?php namespace App\Modules\Person\Controllers\Admin;
 
 use App\Library\ImageApi;
+use App\Library\ModelContentApi;
 use App\Modules\Admin\Controllers\AdminController;
 use App\Modules\Person\Models\Person as Model;
 
@@ -39,7 +40,7 @@ class PersonController extends AdminController
 
     public function getDatatable(DatatablesFront $dtFront)
     {
-        if(isset($this->dtChangeStatus) && !$this->dtChangeStatus){
+        if (isset($this->dtChangeStatus) && !$this->dtChangeStatus) {
             view()->share('changeStatusDisabled', true);
         }
 
@@ -243,6 +244,20 @@ class PersonController extends AdminController
         $model = $this->modelName;
         $items = $model::all();
         return view("{$this->moduleLower}::admin.order", compact('model', 'items'));
+    }
+
+    public function content($lang = null)
+    {
+        $modelContentApi = new ModelContentApi;
+        if (is_null($lang)) $lang = $this->language;
+
+        $elements = [
+            'textarea' => 'Text area',
+            'rte' => 'Rich text editor',
+            'text' => 'Text',
+        ];
+
+        return view("{$this->moduleLower}::admin.content", compact('lang', 'elements'));
     }
 
 }
