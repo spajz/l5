@@ -542,12 +542,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "1dc7404280b32ee661ea65606efcf792be6fc4ca"
+                "reference": "b7371e68d295c83aafbe30fc17de0c52f6cdfe0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/1dc7404280b32ee661ea65606efcf792be6fc4ca",
-                "reference": "1dc7404280b32ee661ea65606efcf792be6fc4ca",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/b7371e68d295c83aafbe30fc17de0c52f6cdfe0b",
+                "reference": "b7371e68d295c83aafbe30fc17de0c52f6cdfe0b",
                 "shasum": ""
             },
             "require": {
@@ -586,7 +586,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2015-04-27 20:30:06"
+            "time": "2015-05-20 07:11:46"
         },
         {
             "name": "graham-campbell/htmlmin",

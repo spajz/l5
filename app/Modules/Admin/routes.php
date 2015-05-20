@@ -16,6 +16,8 @@ Route::group(['prefix' => ADMIN], function () {
 
     Route::get('api/add-element',['as' => 'api.admin.add.element', 'uses' => 'App\Modules\Admin\Controllers\AdminController@addElement']);
 
+    Route::get("model-content/{id}/destroy", ["as" => "admin.model-content.destroy", "uses" => 'App\Modules\Admin\Controllers\AdminController@modelContentDestroy']);
+
 });
 
 Route::get('admin/login', ['as' => 'admin.get.login', 'uses' => 'App\Modules\Admin\Controllers\AuthController@getLogin']);

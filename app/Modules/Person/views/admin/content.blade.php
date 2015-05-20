@@ -17,59 +17,23 @@
 
         <div class="row">
             <div class="col-xs-12">
-                Add element:
                 {!! Form::open() !!}
-                {!! Form::select('elements', $elements, null, array('class' => 'select2 add-element')) !!}
-                {!! Form::submit('Add', array('class' => 'btn btn-primary')) !!}
+                    <div class="form-group">
+                        <label for="elements">Add element:</label>
+                        {!! Form::select('elements', $elements, null, array('class' => 'select2 add-element')) !!}
+                        {!! Form::submit('Add', array('class' => 'btn btn-primary add-element-btn')) !!}
+                    </div>
                 {!! Form::close() !!}
             </div>
         </div>
 
-        {!! Former::open_for_files()->route("admin.{$moduleLower}.store")->method('post')->id('ggg') !!}
-
-
-
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Basic Information
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-xs-12">
-
-                                {!! Former::hidden('id') !!}
-
-                                {!! Former::text('first_name') !!}
-
-                                {!! Former::text('last_name') !!}
-
-                                {!! Former::text('job_title') !!}
-
-                                {!! Former::textarea('description')->addClass('ckeditor') !!}
-
-                                {!! Former::text('lang')->value('sr') !!}
-
-                                {!! Former::checkbox('status')->value(1) !!}
-
-                                {!! $formButtons or '' !!}
-
-                            </div>
-                            <!-- /.col-xs-12 -->
-                        </div>
-                        <!-- /.row -->
-                    </div>
-                    <!-- /.panel-body -->
-                </div>
-                <!-- /.panel -->
-            </div>
-            <!-- /.col-xs-12 -->
-        </div>
-
-
-
-
+        {!!
+            Former::open_for_files()->route("admin.{$moduleLower}.store")
+            ->method('post')
+            ->id('module-content-form')
+            ->addClass('content-sortable')
+            ->data_model('\App\Models\ModelContent')
+        !!}
 
         {!! Former::close() !!}
 
@@ -79,27 +43,62 @@
 
 @section('scripts_bottom')
     @parent
-    <script type="text/javascript">
-        $(document).ready(function () {
 
-            $('body').on('change', '.add-element', function (e) {
-                e.preventDefault();
-                var thisObj = $(this);
+
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+
+            $('.content-sortable').sortable({
+                axis: 'y',
+                items: 'div.sortable-row',
+                handle: '.btn-sort',
+                forcePlaceholderSize: true,
+                cancel: '',
+                placeholder: 'sortable-placeholder',
+                helper: function (e, ui) {
+                    ui.children().each(function () {
+                        $(this).width($(this).width());
+                        $(this).height($(this).height());
+                    });
+                    return ui;
+                },
+                start: function (e, ui) {
+                    $('.sortable-placeholder').height(ui.item.height());
+                },
+                stop: function (e, ui) {
+                    colorSuccess(items);
+                    colorSuccess(ui.item);
+                }
+
+            }).bind('sortupdate', function (e, ui) {
+                var sort = [];
+                $('table.sortable tbody tr').each(function (index) {
+                    sort[index + 1] = $(this).data('id');
+                });
+                sortRows($('.content-sortable').data('model'), sort, ui.item);
+            });
+
+
+            function sortRows(model, sortData, item) {
                 $.ajax({
-                    url: baseUrlAdmin + '/api/add-element',
-                    type: 'get',
+                    url: baseUrlAdmin + '/api/sort-rows',
+                    type: 'post',
                     data: {
-                        "element": thisObj.data('element')
+                        "model": model,
+                        "data": sortData
                     },
                     success: function (data, textStatus, jqXHR) {
-                        $('#ggg').append(data);
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         alert('Server error.');
                     }
                 });
-            })
+            }
+
 
         })
+
     </script>
+
 @stop

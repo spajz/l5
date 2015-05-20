@@ -412,5 +412,27 @@ $(document).ready(function () {
         resetForm($(this).closest('form'));
     })
 
+    // Add model content element
+    $('body').on('click', '.add-element-btn', function (e) {
+        e.preventDefault();
+        var select = $('.add-element');
+        $.ajax({
+            url: baseUrlAdmin + '/api/add-element',
+            type: 'get',
+            data: {
+                "element": select.select2('val')
+            },
+            success: function (data, textStatus, jqXHR) {
+                var html = $.parseHTML(data);
+                html = $(html).html();
+                $('#module-content-form').append(html);
+                initCkeditor();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Server error.');
+            }
+        });
+    })
+
 })
 //# sourceMappingURL=added.js.map

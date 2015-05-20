@@ -311,6 +311,14 @@ $(document).ready(function () {
         });
     };
 
+    bbFunction.action = function (thisObj) {
+        bootbox.confirm("Are you sure?", function (result) {
+            if (result) {
+                $.pjax({url: thisObj.attr('href'), container: '#pjax-container'})
+            }
+        });
+    };
+
     // File button
     $('body').on('fileselect', '.btn-file :file', function (event, numFiles, label) {
         var input = $(this).parents('.input-group').find(':text');
@@ -410,6 +418,28 @@ $(document).ready(function () {
     $('body').on('click', '.reset-form', function (e) {
         e.preventDefault();
         resetForm($(this).closest('form'));
+    })
+
+    // Add model content element
+    $('body').on('click', '.add-element-btn', function (e) {
+        e.preventDefault();
+        var select = $('.add-element');
+        $.ajax({
+            url: baseUrlAdmin + '/api/add-element',
+            type: 'get',
+            data: {
+                "element": select.select2('val')
+            },
+            success: function (data, textStatus, jqXHR) {
+                var html = $.parseHTML(data);
+                html = $(html).html();
+                $('#module-content-form').append(html);
+                initCkeditor();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Server error.');
+            }
+        });
     })
 
 })

@@ -373,5 +373,9 @@ div.dataTables_processing {
     background-color: #64c664 !important;
 }
 
+/*Pane buttons*/
+.panel-heading .btn-group .btn {
+    margin-left: 10px;
+}
 
 /*# sourceMappingURL=added.css.map */

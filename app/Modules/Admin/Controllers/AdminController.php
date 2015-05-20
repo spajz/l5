@@ -237,7 +237,12 @@ class AdminController extends BaseController
     {
         $element = Input::get('element');
 
-        return view("model_content.textarea");
+        return view("admin::_partials.model_content." . $element);
+    }
+
+    public function modelContentDestroy()
+    {
+        return redirect()->back();
     }
 
 }

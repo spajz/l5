@@ -1,7 +1,6 @@
 <?php namespace App\Modules\Person\Controllers\Admin;
 
 use App\Library\ImageApi;
-use App\Library\ModelContentApi;
 use App\Modules\Admin\Controllers\AdminController;
 use App\Modules\Person\Models\Person as Model;
 
@@ -248,7 +247,6 @@ class PersonController extends AdminController
 
     public function content($lang = null)
     {
-        $modelContentApi = new ModelContentApi;
         if (is_null($lang)) $lang = $this->language;
 
         $elements = [
