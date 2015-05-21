@@ -11,6 +11,7 @@ class HomeController extends FrontController
 
     public function index()
     {
+        echo csrf_token();
         return view_theme("{$this->moduleLower}::home");
     }
 

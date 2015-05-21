@@ -6,6 +6,7 @@ use Input;
 use DatatablesFront;
 use Redirect;
 use DB;
+use App\Models\ModelContent;
 
 class AdminController extends BaseController
 {
@@ -240,8 +241,12 @@ class AdminController extends BaseController
         return view("admin::_partials.model_content." . $element);
     }
 
-    public function modelContentDestroy()
+    public function modelContentDestroy($id = null)
     {
+        if (is_numeric($id)) {
+            $model = ModelContent::find($id);
+            if ($model) $model->delete();
+        }
         return redirect()->back();
     }
 

@@ -258,4 +258,11 @@ class PersonController extends AdminController
         return view("{$this->moduleLower}::admin.content", compact('lang', 'elements'));
     }
 
+    public function contentStore($lang = null)
+    {
+        dd(Input::all());
+
+        return redirect()->back();
+    }
+
 }

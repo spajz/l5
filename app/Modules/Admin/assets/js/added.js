@@ -311,10 +311,10 @@ $(document).ready(function () {
         });
     };
 
-    bbFunction.action = function (thisObj) {
+    bbFunction.remove = function (thisObj) {
         bootbox.confirm("Are you sure?", function (result) {
-            if (result) {
-                $.pjax({url: thisObj.attr('href'), container: '#pjax-container'})
+            if (result) {  alert(42)
+                thisObj.closest('.remove-this').remove();
             }
         });
     };

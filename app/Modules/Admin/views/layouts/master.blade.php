@@ -9,7 +9,7 @@
 
     <meta name="description" content="CMS">
     <meta name="author" content="">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{{ Session::token() }}}">
 
     @if ( Config::get('app.debug') )
         <link rel="stylesheet" href="{{ asset($assetsDirAdmin . '/css/app.css') }}" />

@@ -11,6 +11,8 @@
                 <h1 class="page-header">
                     <i class="fa {{ modules()[$moduleLower]['icon'] }} fa-fw"></i> {{ $moduleTitle or $moduleUpper }}
                     Content
+
+                    <?php echo csrf_token(); ?>
                 </h1>
             </div>
         </div>
@@ -23,12 +25,15 @@
                         {!! Form::select('elements', $elements, null, array('class' => 'select2 add-element')) !!}
                         {!! Form::submit('Add', array('class' => 'btn btn-primary add-element-btn')) !!}
                     </div>
+
+                {!! Former::submit('Submit') !!}
+
                 {!! Form::close() !!}
             </div>
         </div>
 
         {!!
-            Former::open_for_files()->route("admin.{$moduleLower}.store")
+            Former::open_for_files()->route("admin.{$moduleLower}.content.store")
             ->method('post')
             ->id('module-content-form')
             ->addClass('content-sortable')
@@ -73,10 +78,10 @@
 
             }).bind('sortupdate', function (e, ui) {
                 var sort = [];
-                $('table.sortable tbody tr').each(function (index) {
+                $('div.sortable-row').each(function (index) {
                     sort[index + 1] = $(this).data('id');
                 });
-                sortRows($('.content-sortable').data('model'), sort, ui.item);
+//                sortRows($('.content-sortable').data('model'), sort, ui.item);
             });
 
 

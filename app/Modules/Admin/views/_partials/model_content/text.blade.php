@@ -1,6 +1,6 @@
 {!! Former::open_for_files()->class('added-form') !!}
 
-<div class="row sortable-row">
+<div class="row sortable-row remove-this" data-id="">
     <div class="col-xs-12">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -9,7 +9,7 @@
                     <button type="button" class="btn btn-info btn-xs btn-sort">
                         <i class="fa fa-arrows-v w20"></i>
                     </button>
-                    <a href="{{ route("admin.model-content.destroy", 1)}}" class="btn btn-danger btn-xs" data-bb="confirm"><i class="fa fa-trash-o"></i> Delete</a>
+                    <a href="{{ route("admin.model-content.destroy", null)}}" class="btn btn-danger btn-xs" data-bb="remove"><i class="fa fa-trash-o"></i> Delete</a>
                 </div>
                 <div class="clearfix"></div>
             </div>

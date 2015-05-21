@@ -311,6 +311,28 @@ $(document).ready(function () {
         });
     };
 
+    bbFunction.remove = function (thisObj) {
+        bootbox.confirm("Are you sure?", function (result) {
+            if (result) {
+                $.ajax({
+                    url: thisObj.attr('href'),
+                    type: 'get',
+                    data: {
+                        "model": thisObj.data('model'),
+                        "id": thisObj.data('id')
+                    },
+                    success: function (data, textStatus, jqXHR) {
+                        thisObj.replaceWith(data);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('Server error.');
+                    }
+                });
+                thisObj.closest('.remove-this').remove();
+            }
+        });
+    };
+
     // File button
     $('body').on('fileselect', '.btn-file :file', function (event, numFiles, label) {
         var input = $(this).parents('.input-group').find(':text');
