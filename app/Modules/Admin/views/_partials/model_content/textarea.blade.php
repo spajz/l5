@@ -17,6 +17,10 @@
                 <div class="row">
                     <div class="col-xs-12">
 
+                        {!! Former::hidden('id')->name('id[]') !!}
+
+                        {!! Former::hidden('type')->name('type[]')->value('textarea') !!}
+
                         {!! Former::text('title')->addClass('input-sm')->name('title[]')->label('Title') !!}
 
                         {!! Former::textarea('value')->name('value[]')->label('Value') !!}

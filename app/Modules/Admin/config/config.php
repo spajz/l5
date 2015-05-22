@@ -10,9 +10,9 @@ return array(
     'language' => 'sr',
 
     'languages' => [
-        'sr',
-        'en',
-        'de',
+        'sr' => 'sr',
+        'en' => 'en',
+        'de' => 'de',
     ],
 
     'baseUrl' => 'admin',

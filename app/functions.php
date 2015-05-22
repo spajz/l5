@@ -275,26 +275,34 @@ if (!function_exists('elixir2')) {
         }
     }
 
-    if ( ! function_exists('view_theme'))
-    {
+    if (!function_exists('view_theme')) {
         /**
          * Get the evaluated view contents for the given view.
          *
-         * @param  string  $view
-         * @param  array   $data
-         * @param  array   $mergeData
+         * @param  string $view
+         * @param  array $data
+         * @param  array $mergeData
          * @return \Illuminate\View\View
          */
         function view_theme($view = null, $data = array(), $mergeData = array())
         {
             $factory = app('Illuminate\Contracts\View\Factory');
 
-            if (func_num_args() === 0)
-            {
+            if (func_num_args() === 0) {
                 return $factory;
             }
 
             return $factory->make(theme($view), $data, $mergeData);
+        }
+    }
+
+    if (!function_exists('get_object')) {
+        function get_object($obj, $property)
+        {
+            if (is_object($obj)) {
+                return $obj->$property;
+            }
+            return false;
         }
     }
 }

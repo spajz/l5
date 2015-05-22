@@ -4,9 +4,18 @@ use App\BaseModel;
 
 class ModelContent extends BaseModel {
 
+    protected $fillable = array(
+        'title',
+        'model_type',
+        'type',
+        'lang',
+        'order',
+        'status'
+    );
+
     public function values()
     {
-        return $this->hasMany('App\Models\ModelContentValue', 'content_id');
+        return $this->hasMany('App\Models\ModelContentValue', 'model_content_id');
     }
 
     public static function boot()

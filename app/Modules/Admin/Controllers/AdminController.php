@@ -2,11 +2,13 @@
 
 use App\Http\Controllers\BaseController;
 use App\Library\ImageApi;
+use Illuminate\Support\Facades\Request;
 use Input;
 use DatatablesFront;
 use Redirect;
 use DB;
 use App\Models\ModelContent;
+use Session;
 
 class AdminController extends BaseController
 {
@@ -25,6 +27,10 @@ class AdminController extends BaseController
 
         $this->setConfig(__FILE__);
         $this->language = config('admin.language');
+
+        if (!Session::get('settings.language')) {
+            Session::put('settings.language', $this->language);
+        }
     }
 
     protected function setConfig($module, $path = true)
@@ -247,7 +253,18 @@ class AdminController extends BaseController
             $model = ModelContent::find($id);
             if ($model) $model->delete();
         }
+
         return redirect()->back();
+    }
+
+    public function adminLanguage($lang)
+    {
+        $languages = config('admin.languages');
+        if (isset($languages[$lang])) {
+            session(['settings.language' => $lang]);
+        }
+
+        return session('settings.language');
     }
 
 }

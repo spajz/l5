@@ -9,6 +9,8 @@ use DatatablesFront;
 use Former;
 use Input;
 use Illuminate\Http\Request as HttpRequest;
+use App\Models\ModelContent;
+use App\Models\ModelContentValue;
 
 class PersonController extends AdminController
 {
@@ -97,7 +99,8 @@ class PersonController extends AdminController
         $model = $this->modelName;
         $transButtons = '';
 
-        if (is_null($lang)) $lang = $this->language;
+        $lang = $this->adminLanguage($lang);
+
         if (is_numeric($trans_id)) {
 
             $trans = $model::hasTrans($trans_id, $lang)->first();
@@ -247,7 +250,11 @@ class PersonController extends AdminController
 
     public function content($lang = null)
     {
-        if (is_null($lang)) $lang = $this->language;
+        $lang = $this->adminLanguage($lang);
+
+        $languages = config('admin.languages');
+
+        $buttonSize = 'btn-xs';
 
         $elements = [
             'textarea' => 'Text area',
@@ -255,13 +262,59 @@ class PersonController extends AdminController
             'text' => 'Text',
         ];
 
-        return view("{$this->moduleLower}::admin.content", compact('lang', 'elements'));
+        $contents = ModelContent::where('model_type', $this->modelName)->get();
+
+        return view("{$this->moduleLower}::admin.content", compact('lang', 'elements', 'languages', 'buttonSize', 'contents'));
     }
 
     public function contentStore($lang = null)
     {
-        dd(Input::all());
+        $fillableContent = new ModelContent;
+        $fillableContentValues = new ModelContentValue;
+        $fillableContent = $fillableContent->getFillable();
+        $fillableContentValues = $fillableContentValues->getFillable();
 
+        $ids = Input::get('id');
+
+        // Loop through ids and fillable to create array for saving
+        if ($ids && $fillableContent) {
+
+            foreach ($ids as $k => $id) {
+
+                $attributesContent = [];
+                $attributesContent = [
+                    'model_type' => Input::get('model_type'),
+                    'lang' => Input::get('lang')
+                ];
+
+                $attributesValues = [];
+
+                $modelContent = ModelContent::firstOrCreate(['id' => $id]);
+
+                foreach ($fillableContent as $column) {
+
+                    if (!is_null(Input::get($column . '.' . $k, null))) {
+                        $attributesContent[$column] = Input::get($column . '.' . $k);
+                    }
+                }
+
+                foreach ($fillableContentValues as $column) {
+
+                    if (!is_null(Input::get($column . '.' . $k, null))) {
+                        $attributesValues[$column] = Input::get($column . '.' . $k);
+                    }
+                }
+
+                $modelContent->fill($attributesContent);
+
+                $values = new ModelContentValue($attributesValues);
+
+                $modelContent->save();
+
+                $modelContent->values()->save($values);
+
+            }
+        }
         return redirect()->back();
     }
 
