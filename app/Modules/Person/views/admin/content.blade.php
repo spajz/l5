@@ -54,15 +54,19 @@
 
             {!! Former::hidden('lang')->value(session('settings.language')) !!}
 
-            @if($contents)
+            <div class="content-form-box">
 
-                @foreach($contents as $item)
+                @if($contents)
 
-                    @include("admin::_partials.model_content." . $item->type, compact('item'))
+                    @foreach($contents as $item)
 
-                @endforeach
+                        @include("admin::_partials.model_content." . $item->type, compact('item'))
 
-            @endif
+                    @endforeach
+
+                @endif
+
+            </div>
 
             {!! Former::submit('Submit') !!}
 

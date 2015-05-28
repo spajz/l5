@@ -305,6 +305,16 @@ if (!function_exists('elixir2')) {
             return false;
         }
     }
+
+    if (function_exists('is_ajax')) {
+        function is_ajax()
+        {
+            if (Request::ajax()) return true;
+
+            return false;
+        }
+    }
+
 }
 
 

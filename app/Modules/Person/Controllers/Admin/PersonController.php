@@ -262,7 +262,9 @@ class PersonController extends AdminController
             'text' => 'Text',
         ];
 
-        $contents = ModelContent::where('model_type', $this->modelName)->get();
+        $contents = ModelContent::where('model_type', $this->modelName)
+            ->where('lang', $lang)
+            ->get();
 
         return view("{$this->moduleLower}::admin.content", compact('lang', 'elements', 'languages', 'buttonSize', 'contents'));
     }
@@ -281,7 +283,6 @@ class PersonController extends AdminController
 
             foreach ($ids as $k => $id) {
 
-                $attributesContent = [];
                 $attributesContent = [
                     'model_type' => Input::get('model_type'),
                     'lang' => Input::get('lang')

@@ -254,6 +254,10 @@ class AdminController extends BaseController
             if ($model) $model->delete();
         }
 
+        if(is_ajax()){
+
+        }
+
         return redirect()->back();
     }
 

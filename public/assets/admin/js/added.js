@@ -314,20 +314,17 @@ $(document).ready(function () {
     bbFunction.remove = function (thisObj) {
         bootbox.confirm("Are you sure?", function (result) {
             if (result) {
-                $.ajax({
-                    url: thisObj.attr('href'),
-                    type: 'get',
-                    data: {
-                        "model": thisObj.data('model'),
-                        "id": thisObj.data('id')
-                    },
-                    success: function (data, textStatus, jqXHR) {
-                        thisObj.replaceWith(data);
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        alert('Server error.');
-                    }
-                });
+                if(thisObj.attr('href')){
+                    $.ajax({
+                        url: thisObj.attr('href'),
+                        type: 'get',
+                        success: function (data, textStatus, jqXHR) {
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert('Server error.');
+                        }
+                    });
+                }
                 thisObj.closest('.remove-this').remove();
             }
         });
@@ -447,7 +444,7 @@ $(document).ready(function () {
             success: function (data, textStatus, jqXHR) {
                 var html = $.parseHTML(data);
                 html = $(html).html();
-                $('#module-content-form').append(html);
+                $('#module-content-form .content-form-box').append(html);
                 initCkeditor();
             },
             error: function (jqXHR, textStatus, errorThrown) {
