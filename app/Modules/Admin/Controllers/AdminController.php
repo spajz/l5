@@ -255,7 +255,10 @@ class AdminController extends BaseController
         }
 
         if(is_ajax()){
-
+            return response()->json([
+                'type' => 'success',
+                'msg' => ''
+            ]);
         }
 
         return redirect()->back();

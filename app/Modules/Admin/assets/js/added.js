@@ -70,7 +70,7 @@ function getModel(model, column, type, extra) {
             "model": model,
             "column": column,
             "type": type,
-            "extra": extra,
+            "extra": extra
         },
         success: function (data, textStatus, jqXHR) {
             out = data;
