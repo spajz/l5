@@ -1,9 +1,18 @@
 {
   "devDependencies": {
-    "gulp": "^3.8.8",
+    "gulp": "^3.8.11",
+    "gulp-concat": "^2.5.2",
+    "gulp-css-url-adjuster": "^0.2.3",
+    "gulp-less": "^3.0.2",
+    "gulp-minify-css": "^1.0.0",
+    "gulp-minify-html": "^1.0.2",
     "gulp-rename": "^1.2.2",
-    "laravel-elixir": "*",
-    "laravel-elixir-rename": "^0.1.2",
-    "laravel-elixir-css-url-adjuster": "https://github.com/spajz/laravel-elixir-css-url-adjuster.git"
+    "gulp-rev": "^3.0.1",
+    "gulp-rev-outdated": "0.0.8",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-uglify": "^1.2.0",
+    "gulp-util": "^3.0.5",
+    "rev-del": "^1.0.4",
+    "run-sequence": "^1.0.2"
   }
 }

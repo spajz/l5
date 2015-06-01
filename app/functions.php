@@ -306,12 +306,35 @@ if (!function_exists('elixir2')) {
         }
     }
 
-    if (function_exists('is_ajax')) {
+    if (!function_exists('is_ajax')) {
         function is_ajax()
         {
             if (Request::ajax()) return true;
 
             return false;
+        }
+    }
+
+    if (!function_exists('elixir3')) {
+        /**
+         * Get the path to a versioned Elixir file.
+         *
+         * @param  string $file
+         * @return string
+         */
+        function elixir3($file)
+        {
+            static $manifest = null;
+
+            if (is_null($manifest)) {
+                $manifest = json_decode(file_get_contents(public_path() . '/rev-manifest.json'), true);
+            }
+
+            if (isset($manifest[$file])) {
+                return $manifest[$file];
+            }
+
+            throw new InvalidArgumentException("File {$file} not defined in asset manifest.");
         }
     }
 

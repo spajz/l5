@@ -5,6 +5,7 @@ use App\Library\ImageApi;
 use Illuminate\Support\Facades\Request;
 use Input;
 use DatatablesFront;
+use Notification;
 use Redirect;
 use DB;
 use App\Models\ModelContent;
@@ -249,16 +250,34 @@ class AdminController extends BaseController
 
     public function modelContentDestroy($id = null)
     {
+        $success = false;
         if (is_numeric($id)) {
             $model = ModelContent::find($id);
-            if ($model) $model->delete();
+            if ($model) {
+                $success = true;
+                $model->delete();
+            }
         }
 
-        if(is_ajax()){
-            return response()->json([
-                'type' => 'success',
-                'msg' => ''
-            ]);
+        if (is_ajax()) {
+            if ($success) {
+                ob_start(); //Start output buffer
+                echo Notification::successInstant('The item successfully deleted.');
+                $output = ob_get_contents(); //Grab output
+                ob_end_clean(); //Discard output buffer
+                $return = [
+                    'type' => 'success',
+//                    'msg' => 'The item successfully deleted.'
+                    'msg' => $output
+                ];
+            } else {
+                $return = [
+                    'type' => 'danger',
+                    'msg' => 'An error occurred. The item does not exist or has been deleted.'
+                ];
+            }
+
+            return response()->json($return);
         }
 
         return redirect()->back();

@@ -70,7 +70,7 @@ function getModel(model, column, type, extra) {
             "model": model,
             "column": column,
             "type": type,
-            "extra": extra,
+            "extra": extra
         },
         success: function (data, textStatus, jqXHR) {
             out = data;
@@ -314,11 +314,15 @@ $(document).ready(function () {
     bbFunction.remove = function (thisObj) {
         bootbox.confirm("Are you sure?", function (result) {
             if (result) {
-                if(thisObj.attr('href')){
+                if (thisObj.attr('href')) {
                     $.ajax({
                         url: thisObj.attr('href'),
                         type: 'get',
                         success: function (data, textStatus, jqXHR) {
+                            if(data.rere){ alert(5773453995)
+                                setInfoBox(data);
+                            }
+
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             alert('Server error.');
@@ -452,6 +456,11 @@ $(document).ready(function () {
             }
         });
     })
+
+    // Info box
+    function setInfoBox(data) {
+        $('#info-box').html(data).show('fast');
+    }
 
 })
 //# sourceMappingURL=added.js.map

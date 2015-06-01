@@ -1,7 +1,7 @@
 <?php
 /**
  * An helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.0.31 on 2015-05-29.
+ * Generated for Laravel 5.0.32 on 2015-06-01.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -1463,7 +1463,7 @@ namespace {
         }
         
         /**
-         * Return the currently cached user of the application.
+         * Return the currently cached user.
          *
          * @return \App\modules\User\Models\User|null 
          * @static 
@@ -1474,7 +1474,7 @@ namespace {
         }
         
         /**
-         * Set the current user of the application.
+         * Set the current user.
          *
          * @param \Illuminate\Contracts\Auth\Authenticatable $user
          * @return void 
@@ -1847,7 +1847,7 @@ namespace {
         }
         
         /**
-         * Register command to handler mappings.
+         * Register command-to-handler mappings.
          *
          * @param array $commands
          * @return void 
@@ -1882,7 +1882,7 @@ namespace {
         }
         
         /**
-         * Set the pipes commands should be piped through before dispatching.
+         * Set the pipes through which commands should be piped before dispatching.
          *
          * @param array $pipes
          * @return $this 
@@ -7514,6 +7514,7 @@ namespace {
          * @param mixed $data
          * @param string $queue
          * @return mixed 
+         * @throws \Exception
          * @static 
          */
         public static function push($job, $data = '', $queue = null){

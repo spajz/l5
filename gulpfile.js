@@ -1,14 +1,24 @@
+// Require
 var gulp = require('gulp');
-var elixir = require('laravel-elixir');
-// gulp-util from elixir
-var util = require('./node_modules/laravel-elixir/node_modules/gulp-util');
-var runSequence = require('./node_modules/laravel-elixir/node_modules/run-sequence');
-var inProduction = elixir.config.production;
-require('laravel-elixir-css-url-adjuster');
-require('laravel-elixir-rename');
+var rev = require('gulp-rev');
+var minifyCSS = require('gulp-minify-css');
+var concat = require('gulp-concat');
+var uglify = require('gulp-uglify');
+var revDel = require('rev-del');
+//var minifyHTML = require('gulp-minify-html');
+var rename = require('gulp-rename');
+var runSequence = require('run-sequence');
+var less = require('gulp-less');
+var sourcemaps = require('gulp-sourcemaps');
+var urlAdjuster = require('gulp-css-url-adjuster');
+var util = require('gulp-util');
 
+// Gulp copy vars
+var copyNo = 1;
+var copyTasks = [];
 
-// gulp --module module_name
+// Gulp console parameters --module module_name
+var production = false;
 var moduleUpper = '';
 var moduleLower = '';
 var theme = 'default';
@@ -32,31 +42,17 @@ if (typeof util.env.theme !== 'undefined') {
     }
 }
 
+if (typeof util.env.production !== 'undefined') {
+    production = util.env.production;
+}
 
-var copyNo = 1;
-var copyTasks = [];
-
-/*
- |--------------------------------------------------------------------------
- | Functions
- |--------------------------------------------------------------------------
- */
-
-/**
- * Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
- * @param obj1
- * @param obj2
- * @returns obj3 a new object based on obj1 and obj2
- */
-function objMerge(obj1, obj2) {
-    var obj3 = {};
-    for (var attrname in obj1) {
-        obj3[attrname] = obj1[attrname];
+// Functions
+function setConfig() {
+    if (moduleUpper && moduleUpper != 'Admin') {
+        return moduleConfig;
+    } else {
+        return adminConfig;
     }
-    for (var attrname in obj2) {
-        obj3[attrname] = obj2[attrname];
-    }
-    return obj3;
 }
 
 // Gulp copy
@@ -76,31 +72,35 @@ function gulpCopy(src, output) {
     })
 }
 
-// Multiple copy
-function multiCopy(src, output) {
-    src = typeof src == 'string' ? [src] : src;
-    output = typeof output == 'string' ? [output] : output;
-    elixir(function (mix) {
-        src.forEach(function (srcItem) {
-            output.forEach(function (outputItem) {
-                mix.copy(srcItem, outputItem);
-            });
-        });
-    });
+var adminConfig = {
+    assetsDir: 'app/Modules/Admin/assets/',
+    baseOutput: 'public/assets/admin/',
+    cssOutput: 'public/assets/admin/css/',
+    jsOutput: 'public/assets/admin/js/',
+    bowerDir: 'bower_components/'
 }
 
-// Gulper
-elixir.extend('gulper', function () {
+var moduleConfig = {
+    assetsDir: 'app/Modules/' + moduleUpper + '/assets/',
+    baseOutput: 'public/assets/' + moduleLower + '/',
+    cssOutput: 'public/assets/' + moduleLower + '/css/',
+    jsOutput: 'public/assets/' + moduleLower + '/js/',
+    bowerDir: 'bower_components/'
+}
 
-    gulp.task('gulper', function (callback) {
-        if (copyTasks.length > 0) {
-            runSequence(copyTasks,
-                callback);
-        }
-    });
+var config = setConfig();
 
-    return this.queueTask('gulper');
+gulp.task('gulpCopyProcess', function (callback) {
+    if (typeof copyTasks !== 'undefined' && copyTasks.length > 0) {
+        runSequence(copyTasks,
+            callback);
+    }
 });
+
+gulpCopy(
+    ['./bower_components/magnific-popup/dist/jquery.magnific-popup.min.js'],
+    ['./js/vendor/',]
+);
 
 
 /*
@@ -110,252 +110,189 @@ elixir.extend('gulper', function () {
  */
 
 if (!moduleLower) {
-    var adminConfig = {
-        srcDir: 'app',
-        //assetsDir: 'resources/admin/',
-        assetsDir: 'app/Modules/Admin/assets/',
-        cssOutput: 'public/assets/admin/css',
-        jsOutput: 'public/assets/admin/js',
-        bowerDir: 'bower_components'
-    }
 
-    elixir.config = objMerge(elixir.config, adminConfig);
+    var cssArray = [
+        //config.cssOutput + 'app.css',
+        config.bowerDir + 'bootstrapxl/BootstrapXL.css',
+        config.bowerDir + 'font-awesome/css/font-awesome.css',
+        config.assetsDir + 'vendor/css/dataTables.bootstrap.css',
+        config.assetsDir + 'vendor/css/datatables.responsive.css',
+        config.bowerDir + 'metisMenu/dist/metisMenu.min.css',
+        config.bowerDir + 'select2/select2.css',
+        config.bowerDir + 'select2-bootstrap-css/select2-bootstrap.css',
+        config.bowerDir + 'fancybox/source/jquery.fancybox.css',
+        config.bowerDir + 'jquery-ui/themes/base/jquery-ui.min.css',
+        config.bowerDir + 'Jcrop/css/Jcrop.min.css',
 
-    var adminDir = 'public/assets/admin';
-    var adminBuildBase = 'public/modules/admin';
-    //var adminBuildDir = 'public/build/assets/admin';
-    var adminBuildDir = adminBuildBase + '/build/assets/admin';
+        config.assetsDir + 'css/added.css',
+    ];
 
-    // Main admin mix
-    elixir(function (mix) {
-        mix.less('app.less')
+    var scriptsArray = [
+        config.bowerDir + 'jquery-legacy/dist/jquery.min.js',
+        config.bowerDir + 'bootstrap/dist/js/bootstrap.min.js',
+        config.bowerDir + 'datatables/media/js/jquery.dataTables.min.js',
+        config.assetsDir + 'vendor/js/dataTables.bootstrap.js',
+        config.assetsDir + 'vendor/js/datatables.responsive.js',
+        config.bowerDir + 'metisMenu/dist/metisMenu.min.js',
+        config.bowerDir + 'jquery-pjax/jquery.pjax.js',
+        config.bowerDir + 'bootbox/bootbox.js',
+        config.bowerDir + 'select2/select2.js',
+        config.bowerDir + 'fancybox/source/jquery.fancybox.pack.js',
+        config.bowerDir + 'jquery-ui/jquery-ui.min.js',
+        config.bowerDir + 'underscore/underscore-min.js',
+        config.bowerDir + 'Jcrop/js/Jcrop.min.js',
 
-            .styles([
-                adminConfig.assetsDir + 'css/added.css'
-            ], adminConfig.cssOutput + '/added.css', './')
+        config.assetsDir + 'js/added.js',
+    ];
 
-            .styles([
-                //adminConfig.cssOutput + '/app.css',
-                adminConfig.bowerDir + '/bootstrapxl/BootstrapXL.css',
-                adminConfig.bowerDir + '/font-awesome/css/font-awesome.css',
-                adminConfig.assetsDir + 'vendor/css/dataTables.bootstrap.css',
-                adminConfig.assetsDir + 'vendor/css/datatables.responsive.css',
-                adminConfig.bowerDir + '/metisMenu/dist/metisMenu.min.css',
-                adminConfig.bowerDir + '/select2/select2.css',
-                adminConfig.bowerDir + '/select2-bootstrap-css/select2-bootstrap.css',
-                adminConfig.bowerDir + '/fancybox/source/jquery.fancybox.css',
-                adminConfig.bowerDir + '/jquery-ui/themes/base/jquery-ui.min.css',
-                adminConfig.bowerDir + '/Jcrop/css/Jcrop.min.css',
-            ], null, './')
+    var lessSource = config.assetsDir + 'less/app.less';
 
-            .scripts([
-                adminConfig.assetsDir + 'js/added.js'
-            ], adminConfig.jsOutput + '/added.js', './')
-
-            .scripts([
-                adminConfig.bowerDir + '/jquery-legacy/dist/jquery.min.js',
-                adminConfig.bowerDir + '/bootstrap/dist/js/bootstrap.min.js',
-                adminConfig.bowerDir + '/datatables/media/js/jquery.dataTables.min.js',
-                adminConfig.assetsDir + 'vendor/js/dataTables.bootstrap.js',
-                adminConfig.assetsDir + 'vendor/js/datatables.responsive.js',
-                adminConfig.bowerDir + '/metisMenu/dist/metisMenu.min.js',
-                adminConfig.bowerDir + '/jquery-pjax/jquery.pjax.js',
-                adminConfig.bowerDir + '/bootbox/bootbox.js',
-                adminConfig.bowerDir + '/select2/select2.js',
-                adminConfig.bowerDir + '/fancybox/source/jquery.fancybox.pack.js',
-                adminConfig.bowerDir + '/jquery-ui/jquery-ui.min.js',
-                adminConfig.bowerDir + '/underscore/underscore-min.js',
-                adminConfig.bowerDir + '/Jcrop/js/Jcrop.min.js',
-            ], null, './')
-
-            .version([
-                adminConfig.cssOutput + '/all.css',
-                adminConfig.jsOutput + '/all.js',
-                adminConfig.cssOutput + '/added.css',
-                adminConfig.jsOutput + '/added.js',
-            ], adminBuildBase);
+    gulp.task('run', function (callback) {
+        runSequence(
+            //'less',
+            'css',
+            'scripts',
+          //  'gulpCopyProcess',
+            callback);
     });
 
-    multiCopy(
-        [
-            adminConfig.bowerDir + '/font-awesome/fonts',
-            adminConfig.bowerDir + '/bootstrap/fonts',
-        ],
-        [adminBuildDir + '/fonts/', adminDir + '/fonts/']
-    );
-
+    //// Main admin mix
+    //elixir(function (mix) {
+    //    mix.less('app.less')
+    //
+    //        .scripts([
+    //            adminConfig.assetsDir + 'js/added.js'
+    //        ], adminConfig.jsOutput + '/added.js', './')
+    //
+    //        .scripts([
+    //            adminConfig.bowerDir + '/jquery-legacy/dist/jquery.min.js',
+    //            adminConfig.bowerDir + '/bootstrap/dist/js/bootstrap.min.js',
+    //            adminConfig.bowerDir + '/datatables/media/js/jquery.dataTables.min.js',
+    //            adminConfig.assetsDir + 'vendor/js/dataTables.bootstrap.js',
+    //            adminConfig.assetsDir + 'vendor/js/datatables.responsive.js',
+    //            adminConfig.bowerDir + '/metisMenu/dist/metisMenu.min.js',
+    //            adminConfig.bowerDir + '/jquery-pjax/jquery.pjax.js',
+    //            adminConfig.bowerDir + '/bootbox/bootbox.js',
+    //            adminConfig.bowerDir + '/select2/select2.js',
+    //            adminConfig.bowerDir + '/fancybox/source/jquery.fancybox.pack.js',
+    //            adminConfig.bowerDir + '/jquery-ui/jquery-ui.min.js',
+    //            adminConfig.bowerDir + '/underscore/underscore-min.js',
+    //            adminConfig.bowerDir + '/Jcrop/js/Jcrop.min.js',
+    //        ], null, './')
+    //
+    //        .styles([
+    //            adminConfig.assetsDir + 'css/added.css'
+    //        ], adminConfig.cssOutput + '/added.css', './')
+    //
+    //        .styles([
+    //            //adminConfig.cssOutput + '/app.css',
+    //            adminConfig.bowerDir + '/bootstrapxl/BootstrapXL.css',
+    //            adminConfig.bowerDir + '/font-awesome/css/font-awesome.css',
+    //            adminConfig.assetsDir + 'vendor/css/dataTables.bootstrap.css',
+    //            adminConfig.assetsDir + 'vendor/css/datatables.responsive.css',
+    //            adminConfig.bowerDir + '/metisMenu/dist/metisMenu.min.css',
+    //            adminConfig.bowerDir + '/select2/select2.css',
+    //            adminConfig.bowerDir + '/select2-bootstrap-css/select2-bootstrap.css',
+    //            adminConfig.bowerDir + '/fancybox/source/jquery.fancybox.css',
+    //            adminConfig.bowerDir + '/jquery-ui/themes/base/jquery-ui.min.css',
+    //            adminConfig.bowerDir + '/Jcrop/css/Jcrop.min.css',
+    //        ], null, './')
+    //
+    //        .version([
+    //            adminConfig.cssOutput + '/all.css',
+    //            adminConfig.cssOutput + '/added.css',
+    //            adminConfig.jsOutput + '/added.js',
+    //            adminConfig.jsOutput + '/all.js',
+    //        ], adminBuildBase);
+    //});
+    //
     gulpCopy(
         [
-            adminConfig.bowerDir + '/select2/select2.png',
-            adminConfig.bowerDir + '/select2/select2x2.png',
-            adminConfig.bowerDir + '/select2/select2-spinner.gif',
+            config.bowerDir + 'font-awesome/fonts/**/*',
+            config.bowerDir + 'bootstrap/fonts/**/*',
         ],
-        [adminBuildDir + '/css/', adminDir + '/css/']
-    );
-
-    gulpCopy(
-        [adminConfig.bowerDir + '/fancybox/source/*.{gif,png}'],
-        [adminBuildDir + '/css/', adminDir + '/css/']
-    );
-
-    gulpCopy(
-        [adminConfig.assetsDir + 'images/**/*'],
-        [adminBuildDir + '/images/', adminDir + '/images/']
-    );
-
-    gulpCopy(
-        [adminConfig.bowerDir + '/jquery-ui/themes/base/images/**/*'],
-        [adminBuildDir + '/images/', adminDir + '/images/']
+        [config.baseOutput + 'fonts/']
     );
 
     gulpCopy(
         [
-            adminConfig.bowerDir + '/ckeditor/**/*',
-            '!' + adminConfig.bowerDir + '/ckeditor/samples{,/**}',
+            config.bowerDir + 'select2/select2.png',
+            config.bowerDir + 'select2/select2x2.png',
+            config.bowerDir + 'select2/select2-spinner.gif',
         ],
-        [adminDir + '/vendor/ckeditor']
+        [config.baseOutput + 'css/']
     );
 
     gulpCopy(
-        [adminConfig.bowerDir + '/Jcrop/css/Jcrop.gif'],
-        [adminBuildDir + '/css/', adminDir + '/css/']
+        [config.bowerDir + 'fancybox/source/*.{gif,png}'],
+        [config.baseOutput + 'css/']
+    );
+
+    gulpCopy(
+        [config.assetsDir + 'images/**/*'],
+        [config.baseOutput + 'images/']
+    );
+
+    gulpCopy(
+        [config.bowerDir + 'jquery-ui/themes/base/images/**/*'],
+        [config.baseOutput + 'images/']
+    );
+
+    gulpCopy(
+        [
+            config.bowerDir + 'ckeditor/**/*',
+            '!' + config.bowerDir + 'ckeditor/samples{,/**}',
+        ],
+        [config.baseOutput + 'vendor/ckeditor']
+    );
+
+    gulpCopy(
+        [config.bowerDir + 'Jcrop/css/Jcrop.gif'],
+        [config.baseOutput + 'css/']
     );
 }// -- End admin
 
 
-/*
- |--------------------------------------------------------------------------
- | Module
- |--------------------------------------------------------------------------
- */
+gulp.task('scripts', function () {
+    var out = gulp.src(scriptsArray)
+        .pipe(concat('assets/admin/js/all.js'));
 
-if (moduleLower) {
+    if (production) out = out.pipe(uglify());
 
-    var moduleConfig = {
-        srcDir: 'app',
-        //assetsDir: 'resources/admin/',
-        assetsDir: 'app/Modules/' + moduleUpper + '/assets/',
-        cssOutput: 'public/assets/' + moduleLower + '/css',
-        jsOutput: 'public/assets/' + moduleLower + '/js',
-        bowerDir: 'bower_components'
-    }
+    out.pipe(rev())
+        .pipe(gulp.dest('public'))
 
-    elixir.config = objMerge(elixir.config, moduleConfig);
+        .pipe(rev.manifest('public/rev/rev-manifest.json', {merge: true}))
 
-    var moduleDir = 'public/assets/' + moduleLower;
-    var moduleBuildBase = 'public/modules/' + moduleLower;
-    //var moduleBuildDir = 'public/build/assets/' + moduleLower;
-    var moduleBuildDir = moduleBuildBase + '/build/assets/' + moduleLower;
+        .pipe(revDel({dest: ''}))
+        .pipe(gulp.dest(''));
 
-    if(theme == 'default'){
-        elixir(function (mix) {
-
-            mix.urlAdjuster(moduleConfig.assetsDir + 'fonts/Code-Pro-Bold-LC.css', {
-                prepend: '../fonts/'
-                //append: '?version=1'
-            }, moduleConfig.assetsDir + 'css', 'code-pro-bold-lc.css');
-
-            mix.urlAdjuster(moduleConfig.assetsDir + 'fonts/Code-Pro-LC.css', {
-                prepend: '../fonts/'
-                //append: '?version=1'
-            }, moduleConfig.assetsDir + 'css', 'code-pro-lc.css');
-
-            mix.less('app.less')
-
-                .styles([
-                    moduleConfig.assetsDir + 'css/added.css'
-                ], moduleConfig.cssOutput + '/added.css', './')
-
-                .styles([
-                    //adminConfig.cssOutput + '/app.css',
-                    //moduleConfig.bowerDir + '/bootstrapxl/BootstrapXL.css',
-                    moduleConfig.bowerDir + '/font-awesome/css/font-awesome.css',
-                    moduleConfig.assetsDir + 'css/code-pro-bold-lc.css',
-                    moduleConfig.assetsDir + 'css/code-pro-lc.css',
-                    moduleConfig.bowerDir + '/owl.carousel/dist/assets/owl.carousel.min.css',
-                    moduleConfig.bowerDir + '/metisMenu/dist/metisMenu.min.css',
-                ], null, './')
-
-                .scripts([
-                    moduleConfig.assetsDir + 'js/added.js'
-                ], moduleConfig.jsOutput + '/added.js', './')
-
-                .scripts([
-                    moduleConfig.bowerDir + '/jquery-legacy/dist/jquery.min.js',
-                    moduleConfig.bowerDir + '/bootstrap/dist/js/bootstrap.min.js',
-                    moduleConfig.bowerDir + '/owl.carousel/dist/owl.carousel.min.js',
-                    moduleConfig.bowerDir + '/matchHeight/jquery.matchHeight-min.js',
-                ], null, './')
-
-                .version([
-                    moduleConfig.cssOutput + '/all.css',
-                    moduleConfig.jsOutput + '/all.js',
-                    moduleConfig.cssOutput + '/added.css',
-                    moduleConfig.jsOutput + '/added.js',
-                ], moduleBuildBase);
-
-            gulpCopy(
-                [moduleConfig.assetsDir + '/fonts/*.{eot,ttf,woff,woff2,svg,otf}'],
-                [moduleBuildDir + '/fonts/', moduleDir + '/fonts/']
-            );
-
-            gulpCopy(
-                [moduleConfig.assetsDir + 'images/**/*'],
-                [moduleBuildDir + '/images/', moduleDir + '/images/']
-            );
-
-        });
-    }
-
-    if(theme == 'demo'){
-        elixir(function (mix) {
-
-            mix.less('app.demo.less')
-
-                .styles([
-                    moduleConfig.assetsDir + 'css/added.demo.css'
-                ], moduleConfig.cssOutput + '/added.demo.css', './')
-
-                .styles([
-                    //adminConfig.cssOutput + '/app.demo.css',
-                    moduleConfig.bowerDir + '/bootstrapxl/BootstrapXL.css',
-                    moduleConfig.bowerDir + '/font-awesome/css/font-awesome.css',
-                    moduleConfig.bowerDir + '/owl.carousel/dist/assets/owl.carousel.min.css',
-                    moduleConfig.bowerDir + '/metisMenu/dist/metisMenu.min.css',
-                ], moduleConfig.cssOutput + '/all.demo.css', './')
-
-                .scripts([
-                    moduleConfig.assetsDir + 'js/added.demo.js'
-                ], moduleConfig.jsOutput + '/added.demo.js', './')
-
-                .scripts([
-                    moduleConfig.bowerDir + '/jquery-legacy/dist/jquery.min.js',
-                    moduleConfig.bowerDir + '/bootstrap/dist/js/bootstrap.min.js',
-                    moduleConfig.bowerDir + '/owl.carousel/dist/owl.carousel.min.js',
-                    moduleConfig.bowerDir + '/matchHeight/jquery.matchHeight-min.js',
-                    moduleConfig.bowerDir + '/isInViewport/lib/isInViewport.min.js',
-                ], moduleConfig.jsOutput + '/all.demo.js', './')
-
-                .version([
-                    moduleConfig.cssOutput + '/all.demo.css',
-                    moduleConfig.jsOutput + '/all.demo.js',
-                    moduleConfig.cssOutput + '/added.demo.css',
-                    moduleConfig.jsOutput + '/added.demo.js',
-                ], moduleBuildBase);
-
-            gulpCopy(
-                [moduleConfig.assetsDir + 'images/**/*'],
-                [moduleBuildDir + '/images/', moduleDir + '/images/']
-            );
-        });
-    }
-
-
-}// -- End module
-
-elixir(function (mix) {
-    mix.gulper();
+    return out;
 });
 
+gulp.task('css', function () {
+    var out = gulp.src(cssArray)
+        .pipe(concat('assets/admin/css/all.css'));
 
+    if (production) out = out.pipe(minifyCSS());
 
+    out.pipe(rev())
+        .pipe(gulp.dest('public'))
+
+        .pipe(rev.manifest('public/rev/rev-manifest.json', {merge: true}))
+
+        .pipe(revDel({dest: ''}))
+        .pipe(gulp.dest(''));
+
+    return out;
+});
+
+gulp.task('less', function () {
+    var out = gulp.src(lessSource)
+        .pipe(sourcemaps.init())
+        .pipe(less())
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest(config.cssOutput));
+
+    return out;
+});
