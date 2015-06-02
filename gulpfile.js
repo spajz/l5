@@ -12,6 +12,8 @@ var less = require('gulp-less');
 var sourcemaps = require('gulp-sourcemaps');
 var urlAdjuster = require('gulp-css-url-adjuster');
 var util = require('gulp-util');
+var buffer = require('gulp-buffer');
+var watch = require('gulp-watch');
 
 // Gulp copy vars
 var copyNo = 1;
@@ -24,6 +26,13 @@ var moduleLower = '';
 var theme = 'default';
 var allowedModules = ['Front'];
 var allowedThemes = ['default', 'demo'];
+
+// Data vars
+var cssArray = [];
+var cssArrayLocal = [];
+var scriptsArray = [];
+var scriptsArrayLocal = [];
+var lessArray = [];
 
 if (typeof util.env.module !== 'undefined') {
     if (allowedModules.indexOf(util.env.module) >= 0) {
@@ -46,7 +55,12 @@ if (typeof util.env.production !== 'undefined') {
     production = util.env.production;
 }
 
-// Functions
+/*
+ |--------------------------------------------------------------------------
+ | Functions
+ |--------------------------------------------------------------------------
+ */
+
 function setConfig() {
     if (moduleUpper && moduleUpper != 'Admin') {
         return moduleConfig;
@@ -72,9 +86,16 @@ function gulpCopy(src, output) {
     })
 }
 
+/*
+ |--------------------------------------------------------------------------
+ | Config
+ |--------------------------------------------------------------------------
+ */
+
 var adminConfig = {
     assetsDir: 'app/Modules/Admin/assets/',
     baseOutput: 'public/assets/admin/',
+    baseOutputUrl: 'assets/admin/',
     cssOutput: 'public/assets/admin/css/',
     jsOutput: 'public/assets/admin/js/',
     bowerDir: 'bower_components/'
@@ -83,25 +104,13 @@ var adminConfig = {
 var moduleConfig = {
     assetsDir: 'app/Modules/' + moduleUpper + '/assets/',
     baseOutput: 'public/assets/' + moduleLower + '/',
+    baseOutputUrl: 'assets/' + moduleLower + '/',
     cssOutput: 'public/assets/' + moduleLower + '/css/',
     jsOutput: 'public/assets/' + moduleLower + '/js/',
     bowerDir: 'bower_components/'
 }
 
 var config = setConfig();
-
-gulp.task('gulpCopyProcess', function (callback) {
-    if (typeof copyTasks !== 'undefined' && copyTasks.length > 0) {
-        runSequence(copyTasks,
-            callback);
-    }
-});
-
-gulpCopy(
-    ['./bower_components/magnific-popup/dist/jquery.magnific-popup.min.js'],
-    ['./js/vendor/',]
-);
-
 
 /*
  |--------------------------------------------------------------------------
@@ -111,8 +120,10 @@ gulpCopy(
 
 if (!moduleLower) {
 
-    var cssArray = [
-        //config.cssOutput + 'app.css',
+    lessArray = [config.assetsDir + 'less/app.less'];
+
+    cssArray = [
+        config.cssOutput + 'app.css',
         config.bowerDir + 'bootstrapxl/BootstrapXL.css',
         config.bowerDir + 'font-awesome/css/font-awesome.css',
         config.assetsDir + 'vendor/css/dataTables.bootstrap.css',
@@ -123,11 +134,14 @@ if (!moduleLower) {
         config.bowerDir + 'fancybox/source/jquery.fancybox.css',
         config.bowerDir + 'jquery-ui/themes/base/jquery-ui.min.css',
         config.bowerDir + 'Jcrop/css/Jcrop.min.css',
+        //config.assetsDir + 'css/added.css',
+    ]
 
-        config.assetsDir + 'css/added.css',
-    ];
+    if (production) cssArray.push(config.assetsDir + 'css/added.css');
 
-    var scriptsArray = [
+    cssArrayLocal = [config.assetsDir + 'css/added.css'];
+
+    scriptsArray = [
         config.bowerDir + 'jquery-legacy/dist/jquery.min.js',
         config.bowerDir + 'bootstrap/dist/js/bootstrap.min.js',
         config.bowerDir + 'datatables/media/js/jquery.dataTables.min.js',
@@ -141,71 +155,13 @@ if (!moduleLower) {
         config.bowerDir + 'jquery-ui/jquery-ui.min.js',
         config.bowerDir + 'underscore/underscore-min.js',
         config.bowerDir + 'Jcrop/js/Jcrop.min.js',
-
-        config.assetsDir + 'js/added.js',
+        //config.assetsDir + 'js/added.js',
     ];
 
-    var lessSource = config.assetsDir + 'less/app.less';
+    if (production) scriptsArray.push(config.assetsDir + 'js/added.js');
 
-    gulp.task('run', function (callback) {
-        runSequence(
-            //'less',
-            'css',
-            'scripts',
-          //  'gulpCopyProcess',
-            callback);
-    });
+    scriptsArrayLocal = [config.assetsDir + 'js/added.js'];
 
-    //// Main admin mix
-    //elixir(function (mix) {
-    //    mix.less('app.less')
-    //
-    //        .scripts([
-    //            adminConfig.assetsDir + 'js/added.js'
-    //        ], adminConfig.jsOutput + '/added.js', './')
-    //
-    //        .scripts([
-    //            adminConfig.bowerDir + '/jquery-legacy/dist/jquery.min.js',
-    //            adminConfig.bowerDir + '/bootstrap/dist/js/bootstrap.min.js',
-    //            adminConfig.bowerDir + '/datatables/media/js/jquery.dataTables.min.js',
-    //            adminConfig.assetsDir + 'vendor/js/dataTables.bootstrap.js',
-    //            adminConfig.assetsDir + 'vendor/js/datatables.responsive.js',
-    //            adminConfig.bowerDir + '/metisMenu/dist/metisMenu.min.js',
-    //            adminConfig.bowerDir + '/jquery-pjax/jquery.pjax.js',
-    //            adminConfig.bowerDir + '/bootbox/bootbox.js',
-    //            adminConfig.bowerDir + '/select2/select2.js',
-    //            adminConfig.bowerDir + '/fancybox/source/jquery.fancybox.pack.js',
-    //            adminConfig.bowerDir + '/jquery-ui/jquery-ui.min.js',
-    //            adminConfig.bowerDir + '/underscore/underscore-min.js',
-    //            adminConfig.bowerDir + '/Jcrop/js/Jcrop.min.js',
-    //        ], null, './')
-    //
-    //        .styles([
-    //            adminConfig.assetsDir + 'css/added.css'
-    //        ], adminConfig.cssOutput + '/added.css', './')
-    //
-    //        .styles([
-    //            //adminConfig.cssOutput + '/app.css',
-    //            adminConfig.bowerDir + '/bootstrapxl/BootstrapXL.css',
-    //            adminConfig.bowerDir + '/font-awesome/css/font-awesome.css',
-    //            adminConfig.assetsDir + 'vendor/css/dataTables.bootstrap.css',
-    //            adminConfig.assetsDir + 'vendor/css/datatables.responsive.css',
-    //            adminConfig.bowerDir + '/metisMenu/dist/metisMenu.min.css',
-    //            adminConfig.bowerDir + '/select2/select2.css',
-    //            adminConfig.bowerDir + '/select2-bootstrap-css/select2-bootstrap.css',
-    //            adminConfig.bowerDir + '/fancybox/source/jquery.fancybox.css',
-    //            adminConfig.bowerDir + '/jquery-ui/themes/base/jquery-ui.min.css',
-    //            adminConfig.bowerDir + '/Jcrop/css/Jcrop.min.css',
-    //        ], null, './')
-    //
-    //        .version([
-    //            adminConfig.cssOutput + '/all.css',
-    //            adminConfig.cssOutput + '/added.css',
-    //            adminConfig.jsOutput + '/added.js',
-    //            adminConfig.jsOutput + '/all.js',
-    //        ], adminBuildBase);
-    //});
-    //
     gulpCopy(
         [
             config.bowerDir + 'font-awesome/fonts/**/*',
@@ -233,6 +189,7 @@ if (!moduleLower) {
         [config.baseOutput + 'images/']
     );
 
+
     gulpCopy(
         [config.bowerDir + 'jquery-ui/themes/base/images/**/*'],
         [config.baseOutput + 'images/']
@@ -253,46 +210,134 @@ if (!moduleLower) {
 }// -- End admin
 
 
+/*
+ |--------------------------------------------------------------------------
+ | Module
+ |--------------------------------------------------------------------------
+ */
+
+if (moduleLower) {
+
+}// -- End module
+
+/*
+ |--------------------------------------------------------------------------
+ | Tasks
+ |--------------------------------------------------------------------------
+ */
+
+gulp.task('gulpCopyProcess', function (callback) {
+    if (typeof copyTasks !== 'undefined' && copyTasks.length > 0) {
+        runSequence(copyTasks,
+            callback);
+    }
+});
+
 gulp.task('scripts', function () {
     var out = gulp.src(scriptsArray)
-        .pipe(concat('assets/admin/js/all.js'));
-
+        .pipe(concat(config.baseOutputUrl + 'js/all.js'));
     if (production) out = out.pipe(uglify());
-
-    out.pipe(rev())
+    out
+        //.pipe(buffer())
+        .pipe(rev())
         .pipe(gulp.dest('public'))
-
-        .pipe(rev.manifest('public/rev/rev-manifest.json', {merge: true}))
-
-        .pipe(revDel({dest: ''}))
+        .pipe(rev.manifest(config.baseOutput + 'rev-manifest.json', {merge: true}))
+        .pipe(revDel({
+            oldManifest: config.baseOutput + 'rev-manifest.json',
+            dest: 'public'
+        }))
         .pipe(gulp.dest(''));
+    return out;
+});
 
+gulp.task('scriptsLocal', function () {
+    var out = gulp.src(scriptsArrayLocal)
+        .pipe(concat(config.baseOutputUrl + 'js/added.js'))
+        //.pipe(buffer())
+        .pipe(rev())
+        .pipe(gulp.dest('public'))
+        .pipe(rev.manifest(config.baseOutput + 'rev-manifest.json', {merge: true}))
+        .pipe(revDel({
+            oldManifest: config.baseOutput + 'rev-manifest.json',
+            dest: 'public'
+        }))
+        .pipe(gulp.dest(''));
     return out;
 });
 
 gulp.task('css', function () {
     var out = gulp.src(cssArray)
-        .pipe(concat('assets/admin/css/all.css'));
-
+        .pipe(concat(config.baseOutputUrl + 'css/all.css'));
     if (production) out = out.pipe(minifyCSS());
-
-    out.pipe(rev())
+    out
+        //.pipe(buffer())
+        .pipe(rev())
         .pipe(gulp.dest('public'))
-
-        .pipe(rev.manifest('public/rev/rev-manifest.json', {merge: true}))
-
-        .pipe(revDel({dest: ''}))
+        .pipe(rev.manifest(config.baseOutput + 'rev-manifest.json', {merge: true}))
+        .pipe(revDel({
+            oldManifest: config.baseOutput + 'rev-manifest.json',
+            dest: 'public'
+        }))
         .pipe(gulp.dest(''));
+    return out;
+});
 
+gulp.task('cssLocal', function () {
+    var out = gulp.src(cssArrayLocal)
+        .pipe(concat(config.baseOutputUrl + 'css/added.css'))
+        //.pipe(buffer())
+        .pipe(rev())
+        .pipe(gulp.dest('public'))
+        .pipe(rev.manifest(config.baseOutput + 'rev-manifest.json', {merge: true}))
+        .pipe(revDel({
+            oldManifest: config.baseOutput + 'rev-manifest.json',
+            dest: 'public'
+        }))
+        .pipe(gulp.dest(''));
     return out;
 });
 
 gulp.task('less', function () {
-    var out = gulp.src(lessSource)
+    var out = gulp.src(lessArray)
         .pipe(sourcemaps.init())
         .pipe(less())
+        .pipe(concat({path: config.baseOutputUrl + 'css/app.css', cwd: ''}))
         .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest(config.cssOutput));
 
+        .pipe(rev())
+        .pipe(gulp.dest('public'))
+        .pipe(rev.manifest(config.baseOutput + 'rev-manifest.json', {
+            merge: true
+        }))
+        .pipe(revDel({
+            oldManifest: config.baseOutput + 'rev-manifest.json',
+            dest: 'public'
+        }))
+        .pipe(gulp.dest(''));
     return out;
+});
+
+gulp.task('styles', function (callback) {
+    runSequence(
+        'less',
+        'css',
+        callback);
+});
+
+gulp.task('watch', function () {
+    gulp.watch(cssArrayLocal, ['cssLocal']);
+    gulp.watch(scriptsArrayLocal, ['scriptsLocal']);
+});
+
+gulp.task('run2', ['styles', 'scripts', 'scriptsLocal', 'cssLocal', 'gulpCopyProcess']);
+//gulp.task('run', ['less', 'scripts', 'cssLocal', 'css', 'gulpCopyProcess']);
+
+gulp.task('run', function (callback) {
+    runSequence(
+        'styles',
+        'scripts',
+        'scriptsLocal',
+        'cssLocal',
+        'gulpCopyProcess',
+        callback);
 });
