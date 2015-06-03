@@ -10,12 +10,11 @@
     <title>Laravel CMS</title>
 
     @if ( Config::get('app.debug') )
-        <link rel="stylesheet" href="{{ asset($assetsDirAdmin . '/css/app.css') }}" />
-        <link rel="stylesheet" href="{{ asset($assetsDirAdmin . '/css/all.css') }}" />
-        <link rel="stylesheet" href="{{ asset($assetsDirAdmin . '/css/added.css') }}" />
+        <link rel="stylesheet" href="{{ elixir3($assetsDirAdmin . '/css/app.css', $buildPath) }}" />
+        <link rel="stylesheet" href="{{ elixir3($assetsDirAdmin . '/css/all.css', $buildPath) }}" />
+        <link rel="stylesheet" href="{{ elixir3($assetsDirAdmin . '/css/added.css', $buildPath) }}" />
     @else
-        <link rel="stylesheet" href="{{ elixir($assetsDirAdmin . '/css/all.css') }}">
-        <link rel="stylesheet" href="{{ elixir($assetsDirAdmin . '/css/added.css') }}">
+        <link rel="stylesheet" href="{{ elixir3($assetsDirAdmin . '/css/all.css', $buildPath) }}">
     @endif
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -44,15 +43,12 @@
 <!-- /#wrapper -->
 
 @if ( Config::get('app.debug') )
-    <script src="{{ asset("{$assetsDirAdmin}/js/all.js") }}"></script>
-    <script src="{{ asset("{$assetsDirAdmin}/js/added.js") }}"></script>
+    <script src="{{ elixir3("{$assetsDirAdmin}/js/all.js", $buildPath) }}"></script>
+    <script src="{{ elixir3("{$assetsDirAdmin}/js/added.js", $buildPath) }}"></script>
 @else
-    <script src="{{ elixir("{$assetsDirAdmin}/js/all.js") }}"></script>
-    <script src="{{ elixir("{$assetsDirAdmin}/js/added.js") }}"></script>
+    <script src="{{ elixir3("{$assetsDirAdmin}/js/all.js", $buildPath) }}"></script>
 @endif
 
-<script src="{{ asset("{$assetsDirAdmin}/vendor/ckeditor/ckeditor.js") }}"></script>
-<script src="{{ asset("{$assetsDirAdmin}/vendor/ckeditor/adapters/jquery.js") }}"></script>
 
 @section('scripts_bottom')
 @show

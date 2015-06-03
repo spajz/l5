@@ -1,0 +1,8 @@
+
+@font-face {
+  font-family: 'Code-Pro-Bold-LC';
+  src: url('Code-Pro-Bold-LC.eot?#iefix') format('embedded-opentype'),  url('Code-Pro-Bold-LC.otf')  format('opentype'),
+	     url('Code-Pro-Bold-LC.woff') format('woff'), url('Code-Pro-Bold-LC.ttf')  format('truetype'), url('Code-Pro-Bold-LC.svg#Code-Pro-Bold-LC') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}

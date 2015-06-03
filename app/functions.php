@@ -264,7 +264,7 @@ if (!function_exists('elixir2')) {
             if (!$viewPath) return false;
 
             $path = pathinfo($viewPath);
-            $themeFile = $path['dirname'] . '/themes/' . $shared['theme'] . '/' . $path['basename'];
+            $themeFile = $path['dirname'] . '/_themes/' . $shared['theme'] . '/' . $path['basename'];
 
             if (is_file($themeFile)) {
                 $template = explode('::', $view);
@@ -322,16 +322,20 @@ if (!function_exists('elixir2')) {
          * @param  string $file
          * @return string
          */
-        function elixir3($file)
+        function elixir3($file, $manifest_path = null)
         {
             static $manifest = null;
 
             if (is_null($manifest)) {
-                $manifest = json_decode(file_get_contents(public_path() . '/rev-manifest.json'), true);
+                if ($manifest_path) {
+                    $manifest = json_decode(file_get_contents(public_path() . $manifest_path . '/rev-manifest.json'), true);
+                } else {
+                    $manifest = json_decode(file_get_contents(public_path() . '/rev-manifest.json'), true);
+                }
             }
 
             if (isset($manifest[$file])) {
-                return $manifest[$file];
+                return asset($manifest[$file]);
             }
 
             throw new InvalidArgumentException("File {$file} not defined in asset manifest.");

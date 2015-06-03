@@ -12,25 +12,24 @@
     <meta name="csrf-token" content="{{{ Session::token() }}}">
 
     @if ( Config::get('app.debug') )
-        <link rel="stylesheet" href="{{ asset($assetsDirAdmin . '/css/app.css') }}" />
-        <link rel="stylesheet" href="{{ asset($assetsDirAdmin . '/css/all.css') }}" />
-        <link rel="stylesheet" href="{{ asset($assetsDirAdmin . '/css/added.css') }}" />
+        <link rel="stylesheet" href="{{ elixir3($assetsDirAdmin . '/css/app.css', $buildPath) }}"/>
+        <link rel="stylesheet" href="{{ elixir3($assetsDirAdmin . '/css/all.css', $buildPath) }}"/>
+        <link rel="stylesheet" href="{{ elixir3($assetsDirAdmin . '/css/added.css', $buildPath) }}"/>
     @else
-        <link rel="stylesheet" href="{{ elixir2($assetsDirAdmin . '/css/all.css', $buildPath) }}">
-        <link rel="stylesheet" href="{{ elixir2($assetsDirAdmin . '/css/added.css', $buildPath) }}">
-    @endif
+        <link rel="stylesheet" href="{{ elixir3($assetsDirAdmin . '/css/all.pro.css', $buildPath) }}">
+        @endif
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+                <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
 
-    <script type="text/javascript">
-        var baseUrl = "{{ url('/') }}";
-        var baseUrlAdmin = "{{ url(ADMIN) }}";
-    </script>
+        <script type="text/javascript">
+            var baseUrl = "{{ url('/') }}";
+            var baseUrlAdmin = "{{ url(ADMIN) }}";
+        </script>
 
     @section('scripts_top')
     @show
@@ -71,11 +70,10 @@
 <!-- /#wrapper -->
 
 @if ( Config::get('app.debug') )
-    <script src="{{ asset("{$assetsDirAdmin}/js/all.js") }}"></script>
-    <script src="{{ asset("{$assetsDirAdmin}/js/added.js") }}"></script>
+    <script src="{{ elixir3("{$assetsDirAdmin}/js/all.js", $buildPath) }}"></script>
+    <script src="{{ elixir3("{$assetsDirAdmin}/js/added.js", $buildPath) }}"></script>
 @else
-    <script src="{{ elixir2("{$assetsDirAdmin}/js/all.js", $buildPath) }}"></script>
-    <script src="{{ elixir2("{$assetsDirAdmin}/js/added.js", $buildPath) }}"></script>
+    <script src="{{ elixir3("{$assetsDirAdmin}/js/all.pro.js", $buildPath) }}"></script>
 @endif
 
 <script src="{{ asset("{$assetsDirAdmin}/vendor/ckeditor/ckeditor.js") }}"></script>
@@ -83,11 +81,7 @@
 
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
 <script>
-    $(document).ready(function() {
-        $('#dataTables-example').DataTable({
-            responsive: true
-        });
-
+    $(document).ready(function () {
         $('#side-menu').metisMenu();
     });
 </script>

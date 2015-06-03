@@ -19,8 +19,7 @@ var copyNo = 1;
 var copyTasks = [];
 var customTasksBefore = [];
 var customTasksAfter = [];
-var themeUrl = '';
-var manifest = 'rev-manifest.json';
+var themeSufix = '';
 
 // Gulp console parameters --module module_name
 var production = false;
@@ -50,7 +49,6 @@ if (typeof util.env.module !== 'undefined') {
 if (typeof util.env.theme !== 'undefined') {
     if (allowedThemes.indexOf(util.env.theme) >= 0) {
         theme = util.env.theme;
-        if (theme != 'default')  themeUrl = '/_themes/' + theme;
     } else {
         throw 'The theme does not exist.';
     }
@@ -108,11 +106,11 @@ var adminConfig = {
 }
 
 var moduleConfig = {
-    assetsDir: 'app/Modules/' + moduleUpper + '/assets' + themeUrl + '/',
-    baseOutput: 'public/assets/' + moduleLower + themeUrl + '/',
-    baseOutputUrl: 'assets/' + moduleLower + themeUrl + '/',
-    cssOutput: 'public/assets/' + moduleLower + themeUrl + '/css/',
-    jsOutput: 'public/assets/' + moduleLower + themeUrl + '/js/',
+    assetsDir: 'app/Modules/' + moduleUpper + '/assets/',
+    baseOutput: 'public/assets/' + moduleLower + '/',
+    baseOutputUrl: 'assets/' + moduleLower + '/',
+    cssOutput: 'public/assets/' + moduleLower + '/css/',
+    jsOutput: 'public/assets/' + moduleLower + '/js/',
     bowerDir: 'bower_components/'
 }
 
@@ -271,7 +269,7 @@ if (moduleLower) {
         scriptsArrayLocal = [config.assetsDir + 'js/added.js'];
 
         gulpCopy(
-            [config.assetsDir + 'fonts/*.{eot,ttf,woff,woff2,svg,otf}'],
+            [config.assetsDir + '/fonts/*.{eot,ttf,woff,woff2,svg,otf}'],
             [config.baseOutput + 'fonts/']
         );
 
@@ -283,7 +281,9 @@ if (moduleLower) {
 
     if (theme == 'demo') {
 
-        lessArray = [config.assetsDir + 'less/app.less'];
+        themeSufix = '.demo';
+
+        lessArray = [config.assetsDir + 'less/app.demo.less'];
 
         cssArray = [
             //config.cssOutput + 'app.demo.css',
@@ -293,9 +293,9 @@ if (moduleLower) {
             config.bowerDir + 'metisMenu/dist/metisMenu.min.css',
         ]
 
-        if (production) cssArray.push(config.assetsDir + 'css/added.css');
+        if (production) cssArray.push(config.assetsDir + 'css/added.demo.css');
 
-        cssArrayLocal = [config.assetsDir + 'css/added.css'];
+        cssArrayLocal = [config.assetsDir + 'css/added.demo.css'];
 
         scriptsArray = [
             config.bowerDir + 'jquery-legacy/dist/jquery.min.js',
@@ -305,9 +305,9 @@ if (moduleLower) {
             config.bowerDir + 'isInViewport/lib/isInViewport.min.js',
         ];
 
-        if (production) scriptsArray.push(config.assetsDir + 'js/added.js');
+        if (production) scriptsArray.push(config.assetsDir + 'js/added.demo.js');
 
-        scriptsArrayLocal = [config.assetsDir + 'js/added.js'];
+        scriptsArrayLocal = [config.assetsDir + 'js/added.demo.js'];
 
         gulpCopy(
             [config.assetsDir + 'fonts/*.{eot,ttf,woff,woff2,svg,otf}'],
@@ -318,7 +318,10 @@ if (moduleLower) {
             [config.assetsDir + 'images/**/*'],
             [config.baseOutput + 'images/']
         );
+
     }
+
+
 }// -- End module
 
 /*
@@ -356,14 +359,14 @@ gulp.task('customTasksAfter', function (callback) {
 
 gulp.task('scripts', function () {
     var out = gulp.src(scriptsArray)
-        .pipe(concat(config.baseOutputUrl + 'js/all' + productionSufix + '.js'));
+        .pipe(concat(config.baseOutputUrl + 'js/all' + themeSufix + productionSufix + '.js'));
     if (production) out = out.pipe(uglify());
     out
         .pipe(rev())
         .pipe(gulp.dest('public'))
-        .pipe(rev.manifest(config.baseOutput + manifest, {merge: true}))
+        .pipe(rev.manifest(config.baseOutput + 'rev-manifest.json', {merge: true}))
         .pipe(revDel({
-            oldManifest: config.baseOutput + manifest,
+            oldManifest: config.baseOutput + 'rev-manifest.json',
             dest: 'public'
         }))
         .pipe(gulp.dest(''));
@@ -372,12 +375,12 @@ gulp.task('scripts', function () {
 
 gulp.task('scriptsLocal', function () {
     var out = gulp.src(scriptsArrayLocal)
-        .pipe(concat(config.baseOutputUrl + 'js/added.js'))
+        .pipe(concat(config.baseOutputUrl + 'js/added' + themeSufix + '.js'))
         .pipe(rev())
         .pipe(gulp.dest('public'))
-        .pipe(rev.manifest(config.baseOutput + manifest, {merge: true}))
+        .pipe(rev.manifest(config.baseOutput + 'rev-manifest.json', {merge: true}))
         .pipe(revDel({
-            oldManifest: config.baseOutput + manifest,
+            oldManifest: config.baseOutput + 'rev-manifest.json',
             dest: 'public'
         }))
         .pipe(gulp.dest(''));
@@ -386,14 +389,14 @@ gulp.task('scriptsLocal', function () {
 
 gulp.task('css', function () {
     var out = gulp.src(cssArray)
-        .pipe(concat(config.baseOutputUrl + 'css/all' + productionSufix + '.css'));
+        .pipe(concat(config.baseOutputUrl + 'css/all' + themeSufix + productionSufix + '.css'));
     if (production) out = out.pipe(minifyCSS());
     out
         .pipe(rev())
         .pipe(gulp.dest('public'))
-        .pipe(rev.manifest(config.baseOutput + manifest, {merge: true}))
+        .pipe(rev.manifest(config.baseOutput + 'rev-manifest.json', {merge: true}))
         .pipe(revDel({
-            oldManifest: config.baseOutput + manifest,
+            oldManifest: config.baseOutput + 'rev-manifest.json',
             dest: 'public'
         }))
         .pipe(gulp.dest(''));
@@ -402,12 +405,12 @@ gulp.task('css', function () {
 
 gulp.task('cssLocal', function () {
     var out = gulp.src(cssArrayLocal)
-        .pipe(concat(config.baseOutputUrl + 'css/added.css'))
+        .pipe(concat(config.baseOutputUrl + 'css/added' + themeSufix + '.css'))
         .pipe(rev())
         .pipe(gulp.dest('public'))
-        .pipe(rev.manifest(config.baseOutput + manifest, {merge: true}))
+        .pipe(rev.manifest(config.baseOutput + 'rev-manifest.json', {merge: true}))
         .pipe(revDel({
-            oldManifest: config.baseOutput + manifest,
+            oldManifest: config.baseOutput + 'rev-manifest.json',
             dest: 'public'
         }))
         .pipe(gulp.dest(''));
@@ -418,15 +421,16 @@ gulp.task('less', function () {
     var out = gulp.src(lessArray)
         .pipe(sourcemaps.init())
         .pipe(less())
-        .pipe(concat({path: config.baseOutputUrl + 'css/app.css', cwd: ''}))
+        .pipe(concat({path: config.baseOutputUrl + 'css/app' + themeSufix + '.css', cwd: ''}))
+        .pipe(sourcemaps.write('.', {includeContent:false, sourceRoot:''}))
+
         .pipe(rev())
-        .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('public'))
-        .pipe(rev.manifest(config.baseOutput + manifest, {
+        .pipe(rev.manifest(config.baseOutput + 'rev-manifest.json', {
             merge: true
         }))
         .pipe(revDel({
-            oldManifest: config.baseOutput + manifest,
+            oldManifest: config.baseOutput + 'rev-manifest.json',
             dest: 'public'
         }))
         .pipe(gulp.dest(''));

@@ -10,6 +10,7 @@ return array(
         'assetsDirAdmin' => 'assets/' . $moduleLower,
         'moduleLower' => $moduleLower,
         'moduleUpper' => $moduleUpper,
+        'buildPath' => '/assets/admin',
     ),
 
 );

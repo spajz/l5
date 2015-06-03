@@ -1,7 +1,6 @@
 {
   "devDependencies": {
     "gulp": "^3.8.11",
-    "gulp-buffer": "0.0.2",
     "gulp-concat": "^2.5.2",
     "gulp-css-url-adjuster": "^0.2.3",
     "gulp-less": "^3.0.2",
