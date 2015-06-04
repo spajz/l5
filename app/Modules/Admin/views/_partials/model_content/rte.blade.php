@@ -1,40 +1,29 @@
-{!! Former::open_for_files()->class('added-form') !!}
+@if (is_ajax())
+    {!! Former::open_for_files()->class('added-form') !!}
+@endif
 
-<div class="row sortable-row remove-this" data-id="">
-    <div class="col-xs-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                RTE
-                <div class="btn-group pull-right">
-                    <button type="button" class="btn btn-info btn-xs btn-sort">
-                        <i class="fa fa-arrows-v w20"></i>
-                    </button>
-                    <a href="{{ route("admin.model-content.destroy", null)}}" class="btn btn-danger btn-xs" data-bb="remove"><i class="fa fa-trash-o"></i> Delete</a>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-xs-12">
+@if(isset($item))
 
-                        {!! Former::hidden('id')->name('id[]') !!}
+    {!! Former::hidden('id')->name('id[]') !!}
 
-                        {!! Former::hidden('type')->name('type[]')->value('rte') !!}
+    {!! Former::hidden('type')->name('type[]')->value('rte') !!}
 
-                        {!! Former::text('title')->addClass('input-sm')->name('title[]')->label('Title') !!}
+    {!! Former::text('title')->addClass('input-sm')->name('title[]')->label('Title')->value($item->title) !!}
 
-                        {!! Former::textarea('value')->addClass('ckeditor')->name('value[]')->label('Value') !!}
+    {!! Former::textarea('value')->addClass('ckeditor')->name('value[]')->label('Value')->value($item->values[0]->value) !!}
 
-                    </div>
-                    <!-- /.col-xs-12 -->
-                </div>
-                <!-- /.row -->
-            </div>
-            <!-- /.panel-body -->
-        </div>
-        <!-- /.panel -->
-    </div>
-    <!-- /.col-xs-12 -->
-</div>
+@else
 
-{!! Former::close() !!}
+    {!! Former::hidden('id')->name('id[]') !!}
+
+    {!! Former::hidden('type')->name('type[]')->value('rte') !!}
+
+    {!! Former::text('title')->addClass('input-sm')->name('title[]')->label('Title') !!}
+
+    {!! Former::textarea('value')->addClass('ckeditor')->name('value[]')->label('Value') !!}
+
+@endif
+
+@if (is_ajax())
+    {!! Former::close() !!}
+@endif

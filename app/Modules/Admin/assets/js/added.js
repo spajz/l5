@@ -449,7 +449,9 @@ $(document).ready(function () {
             },
             success: function (data, textStatus, jqXHR) {
                 var html = $.parseHTML(data);
-                html = $(html).html();
+                html = $(html);
+                var formData = html.find('.added-form').html();
+                html.find('.added-form').replaceWith(formData);
                 $('#module-content-form .content-form-box').append(html);
                 initCkeditor();
             },

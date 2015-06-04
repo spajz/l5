@@ -60,7 +60,7 @@
 
                     @foreach($contents as $item)
 
-                        @include("admin::_partials.model_content." . $item->type, compact('item'))
+                        @include("admin::_partials.model_content.template", ['item' => $item, 'type' => $item->type])
 
                     @endforeach
 
@@ -78,7 +78,6 @@
 
 @section('scripts_bottom')
     @parent
-
 
     <script type="text/javascript">
 
@@ -114,7 +113,6 @@
 //                sortRows($('.content-sortable').data('model'), sort, ui.item);
             });
 
-
             function sortRows(model, sortData, item) {
                 $.ajax({
                     url: baseUrlAdmin + '/api/sort-rows',
@@ -130,8 +128,6 @@
                     }
                 });
             }
-
-
         })
 
     </script>

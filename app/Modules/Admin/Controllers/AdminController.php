@@ -245,7 +245,7 @@ class AdminController extends BaseController
     {
         $element = Input::get('element');
 
-        return view("admin::_partials.model_content." . $element);
+        return view("admin::_partials.model_content.template", ['type' => $element]);
     }
 
     public function modelContentDestroy($id = null)

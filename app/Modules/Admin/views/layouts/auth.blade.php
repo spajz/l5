@@ -49,7 +49,6 @@
     <script src="{{ elixir3("{$assetsDirAdmin}/js/all.js", $buildPath) }}"></script>
 @endif
 
-
 @section('scripts_bottom')
 @show
 
