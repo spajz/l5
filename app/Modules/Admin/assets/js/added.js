@@ -204,7 +204,7 @@ $(document).ready(function () {
 
     // CKEditor
     function initCkeditor() {
-        if(typeof CKEDITOR !== 'undefined'){
+        if (typeof CKEDITOR !== 'undefined') {
             var roxyFileman = baseUrl + '/assets/admin/fileman/index.html';
 
             CKEDITOR.disableAutoInline = true;
@@ -321,7 +321,8 @@ $(document).ready(function () {
                         url: thisObj.attr('href'),
                         type: 'get',
                         success: function (data, textStatus, jqXHR) {
-                            if(data.rere){ alert(5773453995)
+                            if (data.rere) {
+                                alert(5773453995)
                                 setInfoBox(data);
                             }
 
@@ -441,24 +442,26 @@ $(document).ready(function () {
     $('body').on('click', '.add-element-btn', function (e) {
         e.preventDefault();
         var select = $('.add-element');
-        $.ajax({
-            url: baseUrlAdmin + '/api/add-element',
-            type: 'get',
-            data: {
-                "element": select.select2('val')
-            },
-            success: function (data, textStatus, jqXHR) {
-                var html = $.parseHTML(data);
-                html = $(html);
-                var formData = html.find('.added-form').html();
-                html.find('.added-form').replaceWith(formData);
-                $('#module-content-form .content-form-box').append(html);
-                initCkeditor();
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                alert('Server error.');
-            }
-        });
+        if (select.select2('val')) {
+            $.ajax({
+                url: baseUrlAdmin + '/api/add-element',
+                type: 'get',
+                data: {
+                    "element": select.select2('val')
+                },
+                success: function (data, textStatus, jqXHR) {
+                    var html = $.parseHTML(data);
+                    html = $(html);
+                    var formData = html.find('.added-form').html();
+                    html.find('.added-form').replaceWith(formData);
+                    $('#module-content-form .content-form-box').append(html);
+                    initCkeditor();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Server error.');
+                }
+            });
+        }
     })
 
     // Info box

@@ -4,9 +4,9 @@
 
 @if(isset($item))
 
-    {!! Former::hidden('id')->name('id[]') !!}
+    {!! Former::hidden('id')->name("id[{$item->id}]") !!}
 
-    {!! Former::hidden('type')->name('type[]')->value('rte') !!}
+    {!! Former::hidden('type')->name("type[{$item->id}]")->value('rte') !!}
 
     {!! Former::text('title')->addClass('input-sm')->name('title[]')->label('Title')->value($item->title) !!}
 

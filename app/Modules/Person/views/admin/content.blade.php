@@ -35,9 +35,8 @@
             <div class="col-xs-12">
                 {!! Form::open() !!}
                     <div class="form-group">
-                        <label for="elements">Add element:</label>
                         {!! Form::select('elements', $elements, null, array('class' => 'select2 add-element')) !!}
-                        {!! Form::submit('Add', array('class' => 'btn btn-primary add-element-btn')) !!}
+                        {!! Form::submit('Add', array('class' => 'btn btn-primary  add-element-btn')) !!}
                     </div>
                 {!! Form::close() !!}
             </div>

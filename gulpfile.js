@@ -438,9 +438,6 @@ gulp.task('watch', function () {
     gulp.watch(scriptsArrayLocal, ['scriptsLocal']);
 });
 
-gulp.task('run2', ['styles', 'scripts', 'scriptsLocal', 'cssLocal', 'gulpCopyProcess']);
-//gulp.task('run', ['less', 'scripts', 'cssLocal', 'css', 'gulpCopyProcess']);
-
 gulp.task('run', function (callback) {
     runSequence(
         'customTasksBefore',

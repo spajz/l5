@@ -257,10 +257,13 @@ class PersonController extends AdminController
         $buttonSize = 'btn-xs';
 
         $elements = [
+            '' => '* Add element',
             'textarea' => 'Text area',
             'rte' => 'Rich text editor',
             'text' => 'Text',
         ];
+
+        asort($elements);
 
         $contents = ModelContent::where('model_type', $this->modelName)
             ->where('lang', $lang)
@@ -276,33 +279,89 @@ class PersonController extends AdminController
         $fillableContent = $fillableContent->getFillable();
         $fillableContentValues = $fillableContentValues->getFillable();
 
-        $ids = Input::get('id');
+        $fillableContentNew = array_map(function ($item) {
+            return $item . '_new';
+        }, $fillableContent);
+        $fillableContentValuesNew = array_map(function ($item) {
+            return $item . '_new';
+        }, $fillableContentValues);
 
-        // Loop through ids and fillable to create array for saving
+
+        $ids = Input::get('id');
+        $idsNew = Input::get('id_new');
+
+        $attributesContent = [
+            'model_type' => Input::get('model_type'),
+            'lang' => Input::get('lang')
+        ];
+
+        // Loop through existing ids and update
         if ($ids && $fillableContent) {
 
             foreach ($ids as $k => $id) {
 
-                $attributesContent = [
-                    'model_type' => Input::get('model_type'),
-                    'lang' => Input::get('lang')
-                ];
+                $attributesValues = [];
+
+                $modelContent = ModelContent::find($k);
+
+                if ($modelContent) {
+
+                    foreach ($fillableContent as $column) {
+
+                        if (!is_null(Input::get($column . '.' . $k, null))) {
+                            $attributesContent[$column] = Input::get($column . '.' . $k);
+                        }
+                    }
+
+                    foreach ($fillableContentValues as $column) {
+
+                        if (!is_null(Input::get($column . '.' . $k, null))) {
+                            $attributesValues[$column] = Input::get($column . '.' . $k);
+                        }
+                    }
+
+
+//                    $account = Account::find(10);
+//
+//                    $user->account()->associate($account);
+//
+//                    $user->save();
+
+                    $value = ModelContentValue::find();
+
+                    $modelContent->fill($attributesContent);
+
+//                    $values = new ModelContentValue($attributesValues);
+                    $values = $modelContent->values();
+
+                    $modelContent->save();
+
+                    $modelContent->values()->save($values);
+                }
+            }
+        }
+
+        // Create new items
+        if ($idsNew && $fillableContent) {
+            foreach ($ids as $k => $null) {
+
+                $suffix = '_new';
 
                 $attributesValues = [];
 
-                $modelContent = ModelContent::firstOrCreate(['id' => $id]);
+                $modelContent = new ModelContent;
 
                 foreach ($fillableContent as $column) {
 
-                    if (!is_null(Input::get($column . '.' . $k, null))) {
-                        $attributesContent[$column] = Input::get($column . '.' . $k);
+                    if (!is_null(Input::get($column . $suffix . '.' . $k, null))) {
+                        $attributesContent[$column] = Input::get($column . $suffix . '.' . $k);
                     }
                 }
 
                 foreach ($fillableContentValues as $column) {
 
-                    if (!is_null(Input::get($column . '.' . $k, null))) {
-                        $attributesValues[$column] = Input::get($column . '.' . $k);
+                    if (!is_null(Input::get($column . $suffix . '.' . $k, null))) {
+                        $attributesValues[$column] = Input::get($column . $suffix . '.' . $k);
                     }
                 }
 
@@ -313,7 +372,6 @@ class PersonController extends AdminController
                 $modelContent->save();
 
                 $modelContent->values()->save($values);
-
             }
         }
         return redirect()->back();

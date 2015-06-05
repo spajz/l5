@@ -261,19 +261,22 @@ class AdminController extends BaseController
 
         if (is_ajax()) {
             if ($success) {
-                ob_start(); //Start output buffer
+                ob_start();
                 echo Notification::successInstant('The item successfully deleted.');
-                $output = ob_get_contents(); //Grab output
-                ob_end_clean(); //Discard output buffer
+                $output = ob_get_contents();
+                ob_end_clean();
                 $return = [
                     'type' => 'success',
-//                    'msg' => 'The item successfully deleted.'
                     'msg' => $output
                 ];
             } else {
+                ob_start();
+                echo Notification::dangerInstant('An error occurred. The item does not exist or has been deleted.');
+                $output = ob_get_contents();
+                ob_end_clean();
                 $return = [
                     'type' => 'danger',
-                    'msg' => 'An error occurred. The item does not exist or has been deleted.'
+                    'msg' => $output
                 ];
             }
 

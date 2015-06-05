@@ -1,6 +1,6 @@
 @if(isset($item))
 
-    <div class="row sortable-row remove-this" data-id="">
+    <div class="row sortable-row remove-this" data-id="{{ $item->id }}">
         <div class="col-xs-12">
             <div class="panel panel-default">
                 <div class="panel-heading">

@@ -18,6 +18,7 @@ class CreateModelContentsTable extends Migration {
 
 			$table->increments('id');
             $table->string('title')->nullable();
+            $table->text('content')->nullable();
             $table->string('model_type');
             $table->string('type')->nullable();
             $table->string('lang', 20);
