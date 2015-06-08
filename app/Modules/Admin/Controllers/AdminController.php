@@ -256,6 +256,9 @@ class AdminController extends BaseController
             if ($model) {
                 $success = true;
                 $model->delete();
+                $model->reorder([
+                    'model_type' => $model->model_type,
+                ]);
             }
         }
 

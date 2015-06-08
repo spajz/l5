@@ -261,12 +261,14 @@ class PersonController extends AdminController
             'textarea' => 'Text area',
             'rte' => 'Rich text editor',
             'text' => 'Text',
+            'image' => 'Image',
         ];
 
         asort($elements);
 
         $contents = ModelContent::where('model_type', $this->modelName)
             ->where('lang', $lang)
+            ->orderBy('order')
             ->get();
 
         return view("{$this->moduleLower}::admin.content", compact('lang', 'elements', 'languages', 'buttonSize', 'contents'));
@@ -277,15 +279,14 @@ class PersonController extends AdminController
         $fillableContent = new ModelContent;
         $fillableContentValues = new ModelContentValue;
         $fillableContent = $fillableContent->getFillable();
-        $fillableContentValues = $fillableContentValues->getFillable();
+//        $fillableContentValues = $fillableContentValues->getFillable();
 
-        $fillableContentNew = array_map(function ($item) {
-            return $item . '_new';
-        }, $fillableContent);
-        $fillableContentValuesNew = array_map(function ($item) {
-            return $item . '_new';
-        }, $fillableContentValues);
-
+//        $fillableContentNew = array_map(function ($item) {
+//            return $item . '_new';
+//        }, $fillableContent);
+//        $fillableContentValuesNew = array_map(function ($item) {
+//            return $item . '_new';
+//        }, $fillableContentValues);
 
         $ids = Input::get('id');
         $idsNew = Input::get('id_new');
@@ -300,7 +301,7 @@ class PersonController extends AdminController
 
             foreach ($ids as $k => $id) {
 
-                $attributesValues = [];
+//                $attributesValues = [];
 
                 $modelContent = ModelContent::find($k);
 
@@ -313,41 +314,37 @@ class PersonController extends AdminController
                         }
                     }
 
-                    foreach ($fillableContentValues as $column) {
-
-                        if (!is_null(Input::get($column . '.' . $k, null))) {
-                            $attributesValues[$column] = Input::get($column . '.' . $k);
-                        }
-                    }
-
+//                    foreach ($fillableContentValues as $column) {
+//
+//                        if (!is_null(Input::get($column . '.' . $k, null))) {
+//                            $attributesValues[$column] = Input::get($column . '.' . $k);
+//                        }
+//                    }
 
 //                    $account = Account::find(10);
-//
 //                    $user->account()->associate($account);
-//
 //                    $user->save();
+//                    $value = ModelContentValue::find();
+//
+//                    $values = new ModelContentValue($attributesValues);
 
-                    $value = ModelContentValue::find();
+//                    $values = $modelContent->values();
 
                     $modelContent->fill($attributesContent);
-
-//                    $values = new ModelContentValue($attributesValues);
-                    $values = $modelContent->values();
-
                     $modelContent->save();
 
-                    $modelContent->values()->save($values);
+//                    $modelContent->values()->save($values);
                 }
             }
         }
 
         // Create new items
         if ($idsNew && $fillableContent) {
-            foreach ($ids as $k => $null) {
+            foreach ($idsNew as $k => $null) {
 
                 $suffix = '_new';
 
-                $attributesValues = [];
+//                $attributesValues = [];
 
                 $modelContent = new ModelContent;
 
@@ -358,20 +355,18 @@ class PersonController extends AdminController
                     }
                 }
 
-                foreach ($fillableContentValues as $column) {
-
-                    if (!is_null(Input::get($column . $suffix . '.' . $k, null))) {
-                        $attributesValues[$column] = Input::get($column . $suffix . '.' . $k);
-                    }
-                }
+//                foreach ($fillableContentValues as $column) {
+//
+//                    if (!is_null(Input::get($column . $suffix . '.' . $k, null))) {
+//                        $attributesValues[$column] = Input::get($column . $suffix . '.' . $k);
+//                    }
+//                }
+//                $values = new ModelContentValue($attributesValues);
 
                 $modelContent->fill($attributesContent);
-
-                $values = new ModelContentValue($attributesValues);
-
                 $modelContent->save();
 
-                $modelContent->values()->save($values);
+//                $modelContent->values()->save($values);
             }
         }
         return redirect()->back();

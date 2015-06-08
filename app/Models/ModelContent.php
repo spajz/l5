@@ -6,6 +6,7 @@ class ModelContent extends BaseModel {
 
     protected $fillable = array(
         'title',
+        'content',
         'model_type',
         'type',
         'lang',
@@ -27,5 +28,12 @@ class ModelContent extends BaseModel {
                 $value->delete();
             }
         });
+    }
+
+    protected function images()
+    {
+        return $this->morphMany('App\Models\Image', 'model')
+            ->orderBy('order')
+            ->orderBy('id', 'desc');
     }
 }

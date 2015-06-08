@@ -456,6 +456,7 @@ $(document).ready(function () {
                     html.find('.added-form').replaceWith(formData);
                     $('#module-content-form .content-form-box').append(html);
                     initCkeditor();
+                    addOrderId();
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     alert('Server error.');
@@ -463,6 +464,47 @@ $(document).ready(function () {
             });
         }
     })
+
+    // Add order id after adding the element
+    function addOrderId() {
+        $('div.sortable-row').each(function (index) {
+            $(this).find('.order-id').first().val(index + 1);
+        });
+    }
+
+    function initSortableContent() {
+        $('.content-sortable').sortable({
+            axis: 'y',
+            items: 'div.sortable-row',
+            handle: '.btn-sort',
+            forcePlaceholderSize: true,
+            cancel: '',
+            placeholder: 'sortable-placeholder',
+            helper: function (e, ui) {
+                ui.children().each(function () {
+                    $(this).width($(this).width());
+                    $(this).height($(this).height());
+                });
+                return ui;
+            },
+            start: function (e, ui) {
+                $('.sortable-placeholder').height(ui.item.height());
+            },
+            stop: function (e, ui) {
+                colorSuccess(items);
+                colorSuccess(ui.item);
+            }
+
+        }).bind('sortupdate', function (e, ui) {
+            var sort = [];
+            $('div.sortable-row').each(function (index) {
+                sort[index + 1] = $(this).data('id');
+                $(this).find('.order-id').first().val(index + 1);
+            });
+        });
+    }
+
+    initSortableContent();
 
     // Info box
     function setInfoBox(data) {

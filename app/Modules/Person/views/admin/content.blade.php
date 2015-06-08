@@ -82,51 +82,6 @@
 
         $(document).ready(function(){
 
-            $('.content-sortable').sortable({
-                axis: 'y',
-                items: 'div.sortable-row',
-                handle: '.btn-sort',
-                forcePlaceholderSize: true,
-                cancel: '',
-                placeholder: 'sortable-placeholder',
-                helper: function (e, ui) {
-                    ui.children().each(function () {
-                        $(this).width($(this).width());
-                        $(this).height($(this).height());
-                    });
-                    return ui;
-                },
-                start: function (e, ui) {
-                    $('.sortable-placeholder').height(ui.item.height());
-                },
-                stop: function (e, ui) {
-                    colorSuccess(items);
-                    colorSuccess(ui.item);
-                }
-
-            }).bind('sortupdate', function (e, ui) {
-                var sort = [];
-                $('div.sortable-row').each(function (index) {
-                    sort[index + 1] = $(this).data('id');
-                });
-//                sortRows($('.content-sortable').data('model'), sort, ui.item);
-            });
-
-            function sortRows(model, sortData, item) {
-                $.ajax({
-                    url: baseUrlAdmin + '/api/sort-rows',
-                    type: 'post',
-                    data: {
-                        "model": model,
-                        "data": sortData
-                    },
-                    success: function (data, textStatus, jqXHR) {
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        alert('Server error.');
-                    }
-                });
-            }
         })
 
     </script>

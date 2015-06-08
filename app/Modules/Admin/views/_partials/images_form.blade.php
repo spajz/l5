@@ -10,7 +10,7 @@
                     <div class="col-xs-12">
 
                         <table
-                            @if(count($item->images))
+                            @if(isset($item) && count($item->images))
                                 class="table table-bordered table-striped table-hover sortable" data-model="{{  get_class($item->images[0]) }}"
                             @else
                                 class="table table-bordered table-striped table-hover"
@@ -31,7 +31,7 @@
                             </thead>
 
                             <tbody>
-                            @if(count($item->images))
+                            @if(isset($item) && count($item->images))
                                 @foreach($item->images as $image)
                                     @if(is_file(array_get($config, 'image.path') . 'original/' . $image->image))
                                         <?php $size = getimagesize(array_get($config, 'image.path') . 'original/' . $image->image); ?>
@@ -113,7 +113,7 @@
 
                         </table>
 
-                        @if(array_get($config, 'image.multiple') || (!array_get($config, 'image.multiple') && count($item->images) < 1))
+                        @if(array_get($config, 'image.multiple') || (!array_get($config, 'image.multiple') && isset($item) && count($item->images) < 1))
 
                             <div class="form-group">
                                 <label class="col-xs-3 col-lg-2 control-label">New image upload</label>
