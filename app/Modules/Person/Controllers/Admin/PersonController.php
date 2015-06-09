@@ -261,6 +261,7 @@ class PersonController extends AdminController
             'textarea' => 'Text area',
             'rte' => 'Rich text editor',
             'text' => 'Text',
+            'text2' => 'Text 2',
             'image' => 'Image',
         ];
 
@@ -279,14 +280,14 @@ class PersonController extends AdminController
         $fillableContent = new ModelContent;
         $fillableContentValues = new ModelContentValue;
         $fillableContent = $fillableContent->getFillable();
-//        $fillableContentValues = $fillableContentValues->getFillable();
+        $fillableContentValues = $fillableContentValues->getFillable();
 
-//        $fillableContentNew = array_map(function ($item) {
-//            return $item . '_new';
-//        }, $fillableContent);
-//        $fillableContentValuesNew = array_map(function ($item) {
-//            return $item . '_new';
-//        }, $fillableContentValues);
+        $fillableContentNew = array_map(function ($item) {
+            return $item . '_new';
+        }, $fillableContent);
+        $fillableContentValuesNew = array_map(function ($item) {
+            return $item . '_new';
+        }, $fillableContentValues);
 
         $ids = Input::get('id');
         $idsNew = Input::get('id_new');
@@ -301,7 +302,7 @@ class PersonController extends AdminController
 
             foreach ($ids as $k => $id) {
 
-//                $attributesValues = [];
+                $attributesValues = [];
 
                 $modelContent = ModelContent::find($k);
 
@@ -314,21 +315,21 @@ class PersonController extends AdminController
                         }
                     }
 
-//                    foreach ($fillableContentValues as $column) {
-//
-//                        if (!is_null(Input::get($column . '.' . $k, null))) {
-//                            $attributesValues[$column] = Input::get($column . '.' . $k);
-//                        }
-//                    }
+                    foreach ($fillableContentValues as $column) {
 
-//                    $account = Account::find(10);
-//                    $user->account()->associate($account);
-//                    $user->save();
-//                    $value = ModelContentValue::find();
-//
-//                    $values = new ModelContentValue($attributesValues);
+                        if (!is_null(Input::get($column . '.' . $k, null))) {
+                            $attributesValues[$column] = Input::get($column . '.' . $k);
+                        }
+                    }
 
-//                    $values = $modelContent->values();
+                    $account = Account::find(10);
+                    $user->account()->associate($account);
+                    $user->save();
+                    $value = ModelContentValue::find();
+
+                    $values = new ModelContentValue($attributesValues);
+
+                    $values = $modelContent->values();
 
                     $modelContent->fill($attributesContent);
                     $modelContent->save();

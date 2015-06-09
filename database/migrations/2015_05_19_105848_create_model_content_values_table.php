@@ -18,6 +18,7 @@ class CreateModelContentValuesTable extends Migration {
 
             $table->increments('id');
             $table->integer('model_content_id');
+            $table->string('value_type')->nullable();
             $table->text('value')->nullable();
             $table->integer('order')->default(0);
             $table->tinyInteger('status')->default(0);

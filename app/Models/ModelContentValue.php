@@ -9,6 +9,7 @@ class ModelContentValue extends BaseModel {
     protected $fillable = array(
         'model_content_id',
         'value',
+        'value_type',
         'order',
         'status'
     );

@@ -342,6 +342,16 @@ if (!function_exists('elixir2')) {
         }
     }
 
+    if (!function_exists('get_related_item')) {
+        function get_related_item($item, $relation, $key = 0, $column = 'id')
+        {
+            if (isset($item->$relation[$key])) {
+                return $item->$relation[$key]->$column;
+            }
+            return false;
+        }
+    }
+
 }
 
 
