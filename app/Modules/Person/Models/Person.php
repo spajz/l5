@@ -42,4 +42,11 @@ class Person extends BaseModel
 //        });
     }
 
+    public function modelContentMorph()
+    {
+        return $this->morphMany('App\Models\ModelContent', 'model')
+            ->orderBy('order')
+            ->orderBy('id', 'desc');
+    }
+
 }

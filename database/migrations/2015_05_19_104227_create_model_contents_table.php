@@ -20,6 +20,7 @@ class CreateModelContentsTable extends Migration {
             $table->string('title')->nullable();
             $table->text('content')->nullable();
             $table->string('model_type');
+            $table->integer('model_id')->nullable();
             $table->string('type')->nullable();
             $table->string('lang', 20);
             $table->integer('order')->default(0);

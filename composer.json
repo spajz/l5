@@ -4,26 +4,35 @@
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
 	"type": "project",
+    "repositories":
+    [
+      {
+        "type": "vcs",
+        "url": "https://github.com/spajz/pjax"
+      }
+    ],
 	"require": {
-		"laravel/framework": "5.0.*",
-		"barryvdh/laravel-ide-helper": "~2.0",
-		"intervention/image": "~2.1",
+        "php": ">=5.5.9",
+        "laravel/framework": "5.1.*",
+        "mcamara/laravel-localization": "dev-master",
+        "barryvdh/laravel-ide-helper": "~2.0",
+        "intervention/image": "~2.1",
         "cviebrock/eloquent-sluggable": "dev-master",
-        "jacobbennett/pjax": "0.*",
-		"anahkiasen/former": "4.0.*@dev",
+        "jacobbennett/pjax": "dev-master",
+        "anahkiasen/former": "4.0.*@dev",
         "yajra/laravel-datatables-oracle": "~4.0",
-        "fzaninotto/faker": "1.5.*@dev",
+        "fzaninotto/faker": "~1.5",
         "edvinaskrucas/notification": "5.*",
         "laravelcollective/html": "~5.0",
-        "mcamara/laravel-localization": "1.0.*",
         "graham-campbell/htmlmin": "~3.0",
         "baum/baum": "~1.1"
 	},
-	"require-dev": {
-		"phpunit/phpunit": "~4.0",
-		"phpspec/phpspec": "~2.1",
-		"laracasts/generators": "~1.1"
-	},
+    "require-dev": {
+        "fzaninotto/faker": "~1.5",
+        "mockery/mockery": "0.9.*",
+        "phpunit/phpunit": "~4.0",
+        "phpspec/phpspec": "~2.1"
+    },
 	"autoload": {
 		"classmap": [
 			"database"
@@ -47,15 +56,18 @@
 		],
 		"post-update-cmd": [
 			"php artisan clear-compiled",
-            "php artisan ide-helper:generate",
 			"php artisan optimize"
 		],
-		"post-create-project-cmd": [
-			"php -r \"copy('.env.example', '.env');\"",
-			"php artisan key:generate"
-		]
+        "post-root-package-install": [
+            "php -r \"copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "php artisan key:generate"
+        ]
 	},
-	"config": {
-		"preferred-install": "dist"
-	}
+    "config": {
+        "preferred-install": "dist"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

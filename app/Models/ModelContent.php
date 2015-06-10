@@ -30,7 +30,7 @@ class ModelContent extends BaseModel {
         });
     }
 
-    protected function images()
+    public function images()
     {
         return $this->morphMany('App\Models\Image', 'model')
             ->orderBy('order')

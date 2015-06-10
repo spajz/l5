@@ -189,7 +189,7 @@ class AdminController extends BaseController
 
         switch ($type) {
             case 'list':
-                $out = $items->get()->lists($column, $key);
+                $out = $items->get()->lists($column, $key)->all();
                 break;
 
             case 'option':

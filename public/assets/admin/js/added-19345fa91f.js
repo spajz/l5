@@ -245,6 +245,7 @@ $(document).ready(function () {
     }
 
     $('body').on('submit', 'form[data-pjax]', function (e) {
+        e.preventDefault();
         var btn = $(":input[type=submit]:focus");
         if (btn.data('pjax')) {
             addSubmitButtons(btn);

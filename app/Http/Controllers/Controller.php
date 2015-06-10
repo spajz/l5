@@ -3,9 +3,8 @@
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Validation\Validator;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 
 abstract class Controller extends BaseController
 {

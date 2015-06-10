@@ -76,7 +76,7 @@ class UserController extends AdminController
      */
     public function create()
     {
-        $groups = Group::orderBy('name')->get()->lists('name');
+        $groups = Group::orderBy('name')->get()->lists('name')->all();
         if(!count($groups)){
             msg('Groups are not defined, please define them.', 'danger');
             return redirect()->route("admin.{$this->moduleLower}.index");
@@ -135,7 +135,7 @@ class UserController extends AdminController
 
         Former::populate($item);
 
-        $groups = Group::orderBy('name')->get()->lists('name');
+        $groups = Group::orderBy('name')->get()->lists('name')->all();
         if(!count($groups)){
             msg('Groups are not defined, please define them.', 'danger');
             return redirect()->route("admin.{$this->moduleLower}.index");
