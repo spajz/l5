@@ -1,9 +1,0 @@
-{
-  "devDependencies": {
-    "gulp": "^3.8.8",
-    "gulp-rename": "^1.2.2",
-    "laravel-elixir": "*",
-    "laravel-elixir-rename": "^0.1.2",
-    "laravel-elixir-css-url-adjuster": "https://github.com/spajz/laravel-elixir-css-url-adjuster.git"
-  }
-}

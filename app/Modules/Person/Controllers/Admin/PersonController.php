@@ -277,6 +277,7 @@ class PersonController extends AdminController
 
     public function contentStore($lang = null)
     {
+//        dd(Input::all());
         $fillableContent = new ModelContent;
         $fillableContentValues = new ModelContentValue;
         $fillableContent = $fillableContent->getFillable();
@@ -322,19 +323,20 @@ class PersonController extends AdminController
                         }
                     }
 
-                    $account = Account::find(10);
-                    $user->account()->associate($account);
-                    $user->save();
-                    $value = ModelContentValue::find();
-
-                    $values = new ModelContentValue($attributesValues);
-
-                    $values = $modelContent->values();
+                    // Value create or update
+                    $value_id = Input::get('value_id' . '.' . $k);
+                    if (is_numeric($value_id)) {
+                        $modelContentValue = ModelContentValue::find($value_id);
+                    } else {
+                        $modelContentValue = new ModelContentValue;
+                    }
 
                     $modelContent->fill($attributesContent);
                     $modelContent->save();
-
-//                    $modelContent->values()->save($values);
+                    $modelContentValue->fill($attributesValues);
+                    if ($modelContentValue->value != '') {
+                        $modelContent->values()->save($modelContentValue);
+                    }
                 }
             }
         }
@@ -345,7 +347,7 @@ class PersonController extends AdminController
 
                 $suffix = '_new';
 
-//                $attributesValues = [];
+                $attributesValues = [];
 
                 $modelContent = new ModelContent;
 
@@ -356,18 +358,35 @@ class PersonController extends AdminController
                     }
                 }
 
-//                foreach ($fillableContentValues as $column) {
-//
-//                    if (!is_null(Input::get($column . $suffix . '.' . $k, null))) {
-//                        $attributesValues[$column] = Input::get($column . $suffix . '.' . $k);
-//                    }
-//                }
-//                $values = new ModelContentValue($attributesValues);
+
+                if (!is_null(Input::get('value' . $suffix, null))) {
+
+                    foreach (Input::get('value' . $suffix, null) as $k1 => $array) {
+
+                        foreach ($array as $k2 => $value) {
+
+                            foreach ($fillableContentValues as $column) {
+
+                                $attributesValuesTmp[$column] = Input::get($column . $suffix . '.' . $k1 . '.' . $k2);
+                            }
+                        }
+
+                       // $attributesValues[] = new ModelContentValue($attributesValuesTmp);
+                    }
+
+                }
+
+
+//                $modelContentValue = new ModelContentValue($attributesValues);
 
                 $modelContent->fill($attributesContent);
-                $modelContent->save();
+               $modelContent->save();
 
-//                $modelContent->values()->save($values);
+                //$modelContent->values()->saveMany($attributesValues);
+
+//                if ($modelContentValue->value != '') {
+//                    $modelContent->values()->save($modelContentValue);
+//                }
             }
         }
         return redirect()->back();

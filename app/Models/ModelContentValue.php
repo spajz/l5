@@ -19,4 +19,9 @@ class ModelContentValue extends BaseModel {
         return $this->belongsTo('App\Models\ModelContentValue', 'model_content_id');
     }
 
+    public function scopeOfType($query, $type)
+    {
+        return $query->where('value_type', $type);
+    }
+
 }
