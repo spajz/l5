@@ -2,16 +2,20 @@
 
 use App\BaseModel;
 
-class ModelContentValue extends BaseModel {
+class ModelContentValue extends BaseModel
+{
 
     public $timestamps = false;
+
+    protected $attributes = array(
+        'order' => 0,
+    );
 
     protected $fillable = array(
         'model_content_id',
         'value',
         'value_type',
         'order',
-        'status'
     );
 
     public function user()

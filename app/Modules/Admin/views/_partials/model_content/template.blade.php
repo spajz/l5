@@ -47,7 +47,7 @@
                     <div class="row">
                         <div class="col-xs-12">
 
-                            @include("admin::_partials.model_content." . $type)
+                            @include("admin::_partials.model_content." . $type, ['uniqid' => uniqid()])
 
                         </div>
                     </div>

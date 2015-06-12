@@ -277,18 +277,14 @@ class PersonController extends AdminController
 
     public function contentStore($lang = null)
     {
-//        dd(Input::all());
+        dd(Input::all());
+        $suffix = '_new';
+        $prefix = 'val_';
+
         $fillableContent = new ModelContent;
         $fillableContentValues = new ModelContentValue;
         $fillableContent = $fillableContent->getFillable();
         $fillableContentValues = $fillableContentValues->getFillable();
-
-        $fillableContentNew = array_map(function ($item) {
-            return $item . '_new';
-        }, $fillableContent);
-        $fillableContentValuesNew = array_map(function ($item) {
-            return $item . '_new';
-        }, $fillableContentValues);
 
         $ids = Input::get('id');
         $idsNew = Input::get('id_new');
@@ -303,8 +299,6 @@ class PersonController extends AdminController
 
             foreach ($ids as $k => $id) {
 
-                $attributesValues = [];
-
                 $modelContent = ModelContent::find($k);
 
                 if ($modelContent) {
@@ -316,77 +310,82 @@ class PersonController extends AdminController
                         }
                     }
 
-                    foreach ($fillableContentValues as $column) {
+                    // Update content values. Check id fields
+                    $array = Input::get($prefix . 'id' . '.' . $k, null);
 
-                        if (!is_null(Input::get($column . '.' . $k, null))) {
-                            $attributesValues[$column] = Input::get($column . '.' . $k);
-                        }
-                    }
+                    if (!is_null($array)) {
 
-                    // Value create or update
-                    $value_id = Input::get('value_id' . '.' . $k);
-                    if (is_numeric($value_id)) {
-                        $modelContentValue = ModelContentValue::find($value_id);
-                    } else {
-                        $modelContentValue = new ModelContentValue;
-                    }
+                        foreach ($array as $k1 => $value) {
 
-                    $modelContent->fill($attributesContent);
-                    $modelContent->save();
-                    $modelContentValue->fill($attributesValues);
-                    if ($modelContentValue->value != '') {
-                        $modelContent->values()->save($modelContentValue);
-                    }
-                }
-            }
-        }
+                            $modelContentValue = ModelContentValue::find($k1);
 
-        // Create new items
-        if ($idsNew && $fillableContent) {
-            foreach ($idsNew as $k => $null) {
+                            if ($modelContentValue) {
 
-                $suffix = '_new';
+                                $attributesValuesTmp = [];
 
-                $attributesValues = [];
+                                foreach ($fillableContentValues as $column) {
 
-                $modelContent = new ModelContent;
+                                    // Do not update some columns
+                                    if (in_array($column, ['model_content_id', 'order'])) continue;
 
-                foreach ($fillableContent as $column) {
+                                    $input = $prefix . $column . '.' . $k;
 
-                    if (!is_null(Input::get($column . $suffix . '.' . $k, null))) {
-                        $attributesContent[$column] = Input::get($column . $suffix . '.' . $k);
-                    }
-                }
+                                    $attributesValuesTmp[$column] = Input::get($input . '.' . $k1);
+                                }
 
-
-                if (!is_null(Input::get('value' . $suffix, null))) {
-
-                    foreach (Input::get('value' . $suffix, null) as $k1 => $array) {
-
-                        foreach ($array as $k2 => $value) {
-
-                            foreach ($fillableContentValues as $column) {
-
-                                $attributesValuesTmp[$column] = Input::get($column . $suffix . '.' . $k1 . '.' . $k2);
+                                if ($attributesValuesTmp)
+                                    $modelContentValue->update($attributesValuesTmp);
                             }
                         }
 
-                       // $attributesValues[] = new ModelContentValue($attributesValuesTmp);
+                        $modelContent->fill($attributesContent);
+                        $modelContent->save();
+
+                    }
+                }
+            }
+
+            // Create new items
+            if ($idsNew && $fillableContent) {
+                foreach ($idsNew as $k => $null) {
+
+                    $attributesValues = [];
+
+                    $modelContent = new ModelContent;
+
+                    foreach ($fillableContent as $column) {
+
+                        if (!is_null(Input::get($column . $suffix . '.' . $k, null))) {
+                            $attributesContent[$column] = Input::get($column . $suffix . '.' . $k);
+                        }
                     }
 
+                    $array = Input::get($prefix . 'value' . $suffix, null);
+
+                    if (!is_null($array)) {
+
+                        foreach ($array as $k1 => $array2) {
+
+                            $attributesValuesTmp = [];
+
+                            foreach ($array2 as $k2 => $value) {
+
+                                foreach ($fillableContentValues as $column) {
+
+                                    $attributesValuesTmp[$column] = Input::get($prefix . $column . $suffix . '.' . $k1 . '.' . $k2);
+                                }
+                            }
+
+                            if ($attributesValuesTmp)
+                                $attributesValues[] = new ModelContentValue($attributesValuesTmp);
+                        }
+                    }
                 }
 
-
-//                $modelContentValue = new ModelContentValue($attributesValues);
-
                 $modelContent->fill($attributesContent);
-               $modelContent->save();
-
-                //$modelContent->values()->saveMany($attributesValues);
-
-//                if ($modelContentValue->value != '') {
-//                    $modelContent->values()->save($modelContentValue);
-//                }
+                $modelContent->save();
+                if ($attributesValues)
+                    $modelContent->values()->saveMany($attributesValues);
             }
         }
         return redirect()->back();
