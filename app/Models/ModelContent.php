@@ -4,6 +4,10 @@ use App\BaseModel;
 
 class ModelContent extends BaseModel {
 
+    protected $attributes = array(
+        'status' => 1,
+    );
+
     protected $fillable = array(
         'title',
         'content',

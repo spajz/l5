@@ -223,6 +223,7 @@ class ImageApi
 
         $this->uploadFiles();
 
+
         if (!$this->checkRequired()) {
             return false;
         }
@@ -237,6 +238,7 @@ class ImageApi
         if ($this->hasErrors()) {
             return false;
         }
+
 
         // Process upload
         $this->processUpload();
@@ -368,6 +370,7 @@ class ImageApi
      */
     protected function validateFiles($types = ['new', 'update'])
     {
+
         foreach ($types as $type) {
 //            if (!count($files)) {
 //                $this->errors[] = 'There is no files.';

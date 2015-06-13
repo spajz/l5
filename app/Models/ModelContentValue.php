@@ -4,7 +4,6 @@ use App\BaseModel;
 
 class ModelContentValue extends BaseModel
 {
-
     public $timestamps = false;
 
     protected $attributes = array(

@@ -272,12 +272,19 @@ class PersonController extends AdminController
             ->orderBy('order')
             ->get();
 
+        $thisObj = $this;
+
+        $statusButton = function ($item) use ($thisObj) {
+            return $thisObj->renderStatusButtons($item);
+        };
+
+        view()->share('statusButton', $statusButton);
+
         return view("{$this->moduleLower}::admin.content", compact('lang', 'elements', 'languages', 'buttonSize', 'contents'));
     }
 
     public function contentStore($lang = null)
     {
-        dd(Input::all());
         $suffix = '_new';
         $prefix = 'val_';
 
@@ -345,50 +352,79 @@ class PersonController extends AdminController
                 }
             }
 
-            // Create new items
-            if ($idsNew && $fillableContent) {
-                foreach ($idsNew as $k => $null) {
+        }
 
-                    $attributesValues = [];
+        // Create new items
+        if ($idsNew && $fillableContent) {
 
-                    $modelContent = new ModelContent;
+            foreach ($idsNew as $k => $null) {
 
-                    foreach ($fillableContent as $column) {
+                $attributesValues = [];
 
-                        if (!is_null(Input::get($column . $suffix . '.' . $k, null))) {
-                            $attributesContent[$column] = Input::get($column . $suffix . '.' . $k);
-                        }
+                $modelContent = new ModelContent;
+
+                foreach ($fillableContent as $column) {
+
+                    if (!is_null(Input::get($column . $suffix . '.' . $k, null))) {
+                        $attributesContent[$column] = Input::get($column . $suffix . '.' . $k);
                     }
+                }
 
-                    $array = Input::get($prefix . 'value' . $suffix, null);
 
-                    if (!is_null($array)) {
+                $array = Input::get($prefix . 'value' . $suffix . '.' . $k, null);
 
-                        foreach ($array as $k1 => $array2) {
+                if (!is_null($array)) {
 
-                            $attributesValuesTmp = [];
+//                    foreach ($array as $k1 => $array2) {
 
-                            foreach ($array2 as $k2 => $value) {
+                    $attributesValuesTmp = [];
 
-                                foreach ($fillableContentValues as $column) {
+                    foreach ($array as $k1 => $value) {
 
-                                    $attributesValuesTmp[$column] = Input::get($prefix . $column . $suffix . '.' . $k1 . '.' . $k2);
-                                }
+                        foreach ($fillableContentValues as $column) {
+
+                            $input = $prefix . $column . $suffix . '.' . $k . '.' . $k1;
+                            if (!is_null(Input::get($input, null))) {
+                                $attributesValuesTmp[$column] = Input::get($input);
                             }
-
-                            if ($attributesValuesTmp)
-                                $attributesValues[] = new ModelContentValue($attributesValuesTmp);
                         }
+
+                        if ($attributesValuesTmp)
+                            $attributesValues[] = new ModelContentValue($attributesValuesTmp);
                     }
+//                    }
                 }
 
                 $modelContent->fill($attributesContent);
                 $modelContent->save();
+
                 if ($attributesValues)
                     $modelContent->values()->saveMany($attributesValues);
+
+                             // Save images
+                $imageApi = new ImageApi;
+//                $imageApi->setConfig("{$this->moduleLower}.image");
+                $imageApi->setConfig("person.slider.image");
+                $imageApi->setInputFields('files_new', $k . '_files_new');
+                $imageApi->setInputFields('alt_new', $k . '_alt_new');
+                $imageApi->setModelId($modelContent->id);
+                $imageApi->setModelType(get_class($modelContent));
+                $imageApi->setBaseName('ajde_');
+
+                if (!$imageApi->process()) {
+                    msg($imageApi->getErrorsAll(), 'danger');
+                }
+
             }
+
+
+
+
+
         }
+
         return redirect()->back();
     }
+
 
 }

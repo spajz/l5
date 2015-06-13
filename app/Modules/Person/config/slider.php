@@ -34,7 +34,7 @@ return array(
                 'quality' => 95,
                 'folder' => 'large/', // relative path from main image folder with trailing slash
                 'actions' => array(
-                    'resize' => array(800, 800, function ($image) {
+                    'resize' => array(630, 580, function ($image) {
                         $image->aspectRatio();
                         $image->upsize();
                     }),

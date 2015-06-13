@@ -458,6 +458,7 @@ $(document).ready(function () {
                     $('#module-content-form .content-form-box').append(html);
                     initCkeditor();
                     addOrderId();
+                    initColspan();
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     alert('Server error.');

@@ -47,11 +47,11 @@
                     </td>
                     <td class="w200">
                         <div class="input-group">
-                    <span class="input-group-btn">
-                        <span class="btn btn-default btn-file">
-                            Browse&hellip;  <input type="file"  name="files_update[{{$image->id}}]">
-                        </span>
-                    </span>
+                            <span class="input-group-btn">
+                                <span class="btn btn-default btn-file">
+                                    Browse&hellip;  <input type="file"  name="files_update[{{$image->id}}]">
+                                </span>
+                            </span>
                             <input type="text" class="form-control" readonly>
                         </div>
                     </td>
@@ -109,7 +109,7 @@
         <div class="col-xs-9 col-lg-10">
             <div class="row bottom15">
                 <div class="col-md-12">
-                    <input type="text" class="form-control" value="" name="alt_new[{{$uniqid}}][]"
+                    <input type="text" class="form-control" value="" name="{{$uniqid}}_alt_new[]"
                            placeholder="Enter alt text."/>
                 </div>
             </div>
@@ -118,7 +118,7 @@
                     <div class="input-group">
                     <span class="input-group-btn">
                         <span class="btn btn-default btn-file">
-                            Browse&hellip; <input type="file" multiple name="files_new[{{$uniqid}}][]">
+                            Browse&hellip; <input type="file" multiple name="{{$uniqid}}_files_new[]">
                         </span>
                     </span>
                         <input type="text" class="form-control" readonly>

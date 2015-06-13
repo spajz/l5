@@ -36,6 +36,8 @@
 
     @endif
 
+    @include("admin::_partials.model_content.image2", ['uniqid' => $uniqid, 'item' => $item, 'uniqid' => $uniqid])
+
 @else
 
     {!! Former::hidden('order')->name("order_new[{$uniqid}]")->addClass('order-id') !!}
