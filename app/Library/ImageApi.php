@@ -223,7 +223,6 @@ class ImageApi
 
         $this->uploadFiles();
 
-
         if (!$this->checkRequired()) {
             return false;
         }
@@ -238,7 +237,6 @@ class ImageApi
         if ($this->hasErrors()) {
             return false;
         }
-
 
         // Process upload
         $this->processUpload();

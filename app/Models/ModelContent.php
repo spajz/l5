@@ -2,7 +2,8 @@
 
 use App\BaseModel;
 
-class ModelContent extends BaseModel {
+class ModelContent extends BaseModel
+{
 
     protected $attributes = array(
         'status' => 1,
@@ -30,6 +31,12 @@ class ModelContent extends BaseModel {
         static::deleted(function ($model) {
             foreach ($model->values as $value) {
                 $value->delete();
+            }
+        });
+
+        static::deleted(function ($model) {
+            foreach ($model->images as $image) {
+                $image->delete();
             }
         });
     }

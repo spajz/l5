@@ -20,6 +20,7 @@
 
     <tbody>
     @if(isset($item) && count($item->images))
+
         @foreach($item->images as $image)
             @if(is_file(array_get($config, 'image.path') . 'original/' . $image->image))
                 <?php $size = getimagesize(array_get($config, 'image.path') . 'original/' . $image->image); ?>
@@ -101,7 +102,34 @@
 
 </table>
 
-@if(1)
+@if(isset($item))
+
+    <div class="form-group">
+        <label class="col-xs-3 col-lg-2 control-label">New image upload</label>
+
+        <div class="col-xs-9 col-lg-10">
+            <div class="row bottom15">
+                <div class="col-md-12">
+                    <input type="text" class="form-control" value="" name="{{$item->id}}_alt_new[]"
+                           placeholder="Enter alt text."/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="input-group">
+                    <span class="input-group-btn">
+                        <span class="btn btn-default btn-file">
+                            Browse&hellip; <input type="file" multiple name="{{$item->id}}_files_new[]">
+                        </span>
+                    </span>
+                        <input type="text" class="form-control" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@else
 
     <div class="form-group">
         <label class="col-xs-3 col-lg-2 control-label">New image upload</label>

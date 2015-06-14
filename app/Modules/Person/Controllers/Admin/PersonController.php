@@ -348,10 +348,22 @@ class PersonController extends AdminController
                         $modelContent->fill($attributesContent);
                         $modelContent->save();
 
+                        // Save images
+                        $imageApi = new ImageApi;
+                        $imageApi->setConfig("person.slider.image");
+                        $imageApi->setInputFields('files_new', $k . '_files_new');
+                        $imageApi->setInputFields('alt_new', $k . '_alt_new');
+                        $imageApi->setModelId($modelContent->id);
+                        $imageApi->setModelType(get_class($modelContent));
+                        $imageApi->setBaseName('ajdeupdate_');
+
+                        if (!$imageApi->process()) {
+                            msg($imageApi->getErrorsAll(), 'danger');
+                        }
+
                     }
                 }
             }
-
         }
 
         // Create new items
@@ -375,8 +387,6 @@ class PersonController extends AdminController
 
                 if (!is_null($array)) {
 
-//                    foreach ($array as $k1 => $array2) {
-
                     $attributesValuesTmp = [];
 
                     foreach ($array as $k1 => $value) {
@@ -392,7 +402,6 @@ class PersonController extends AdminController
                         if ($attributesValuesTmp)
                             $attributesValues[] = new ModelContentValue($attributesValuesTmp);
                     }
-//                    }
                 }
 
                 $modelContent->fill($attributesContent);
@@ -401,26 +410,22 @@ class PersonController extends AdminController
                 if ($attributesValues)
                     $modelContent->values()->saveMany($attributesValues);
 
-                             // Save images
-                $imageApi = new ImageApi;
-//                $imageApi->setConfig("{$this->moduleLower}.image");
-                $imageApi->setConfig("person.slider.image");
-                $imageApi->setInputFields('files_new', $k . '_files_new');
-                $imageApi->setInputFields('alt_new', $k . '_alt_new');
-                $imageApi->setModelId($modelContent->id);
-                $imageApi->setModelType(get_class($modelContent));
-                $imageApi->setBaseName('ajde_');
+                // Save images
+                if (Input::file($k . '_files_new')) {
+                    $imageApi = new ImageApi;
+                    $imageApi->setConfig("person.slider.image");
+                    $imageApi->setInputFields('files_new', $k . '_files_new');
+                    $imageApi->setInputFields('alt_new', $k . '_alt_new');
+                    $imageApi->setModelId($modelContent->id);
+                    $imageApi->setModelType(get_class($modelContent));
+                    $imageApi->setBaseName('ajde_');
 
-                if (!$imageApi->process()) {
-                    msg($imageApi->getErrorsAll(), 'danger');
+                    if (!$imageApi->process()) {
+                        msg($imageApi->getErrorsAll(), 'danger');
+                    }
+
                 }
-
             }
-
-
-
-
-
         }
 
         return redirect()->back();

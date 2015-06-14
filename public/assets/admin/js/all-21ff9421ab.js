@@ -6533,9 +6533,1697 @@ this.tablist=this._getList().addClass("ui-tabs-nav ui-helper-reset ui-helper-cle
 //     Underscore may be freely distributed under the MIT license.
 (function(){function n(n){function t(t,r,e,u,i,o){for(;i>=0&&o>i;i+=n){var a=u?u[i]:i;e=r(e,t[a],a,t)}return e}return function(r,e,u,i){e=b(e,i,4);var o=!k(r)&&m.keys(r),a=(o||r).length,c=n>0?0:a-1;return arguments.length<3&&(u=r[o?o[c]:c],c+=n),t(r,e,u,o,c,a)}}function t(n){return function(t,r,e){r=x(r,e);for(var u=O(t),i=n>0?0:u-1;i>=0&&u>i;i+=n)if(r(t[i],i,t))return i;return-1}}function r(n,t,r){return function(e,u,i){var o=0,a=O(e);if("number"==typeof i)n>0?o=i>=0?i:Math.max(i+a,o):a=i>=0?Math.min(i+1,a):i+a+1;else if(r&&i&&a)return i=r(e,u),e[i]===u?i:-1;if(u!==u)return i=t(l.call(e,o,a),m.isNaN),i>=0?i+o:-1;for(i=n>0?o:a-1;i>=0&&a>i;i+=n)if(e[i]===u)return i;return-1}}function e(n,t){var r=I.length,e=n.constructor,u=m.isFunction(e)&&e.prototype||a,i="constructor";for(m.has(n,i)&&!m.contains(t,i)&&t.push(i);r--;)i=I[r],i in n&&n[i]!==u[i]&&!m.contains(t,i)&&t.push(i)}var u=this,i=u._,o=Array.prototype,a=Object.prototype,c=Function.prototype,f=o.push,l=o.slice,s=a.toString,p=a.hasOwnProperty,h=Array.isArray,v=Object.keys,g=c.bind,y=Object.create,d=function(){},m=function(n){return n instanceof m?n:this instanceof m?void(this._wrapped=n):new m(n)};"undefined"!=typeof exports?("undefined"!=typeof module&&module.exports&&(exports=module.exports=m),exports._=m):u._=m,m.VERSION="1.8.3";var b=function(n,t,r){if(t===void 0)return n;switch(null==r?3:r){case 1:return function(r){return n.call(t,r)};case 2:return function(r,e){return n.call(t,r,e)};case 3:return function(r,e,u){return n.call(t,r,e,u)};case 4:return function(r,e,u,i){return n.call(t,r,e,u,i)}}return function(){return n.apply(t,arguments)}},x=function(n,t,r){return null==n?m.identity:m.isFunction(n)?b(n,t,r):m.isObject(n)?m.matcher(n):m.property(n)};m.iteratee=function(n,t){return x(n,t,1/0)};var _=function(n,t){return function(r){var e=arguments.length;if(2>e||null==r)return r;for(var u=1;e>u;u++)for(var i=arguments[u],o=n(i),a=o.length,c=0;a>c;c++){var f=o[c];t&&r[f]!==void 0||(r[f]=i[f])}return r}},j=function(n){if(!m.isObject(n))return{};if(y)return y(n);d.prototype=n;var t=new d;return d.prototype=null,t},w=function(n){return function(t){return null==t?void 0:t[n]}},A=Math.pow(2,53)-1,O=w("length"),k=function(n){var t=O(n);return"number"==typeof t&&t>=0&&A>=t};m.each=m.forEach=function(n,t,r){t=b(t,r);var e,u;if(k(n))for(e=0,u=n.length;u>e;e++)t(n[e],e,n);else{var i=m.keys(n);for(e=0,u=i.length;u>e;e++)t(n[i[e]],i[e],n)}return n},m.map=m.collect=function(n,t,r){t=x(t,r);for(var e=!k(n)&&m.keys(n),u=(e||n).length,i=Array(u),o=0;u>o;o++){var a=e?e[o]:o;i[o]=t(n[a],a,n)}return i},m.reduce=m.foldl=m.inject=n(1),m.reduceRight=m.foldr=n(-1),m.find=m.detect=function(n,t,r){var e;return e=k(n)?m.findIndex(n,t,r):m.findKey(n,t,r),e!==void 0&&e!==-1?n[e]:void 0},m.filter=m.select=function(n,t,r){var e=[];return t=x(t,r),m.each(n,function(n,r,u){t(n,r,u)&&e.push(n)}),e},m.reject=function(n,t,r){return m.filter(n,m.negate(x(t)),r)},m.every=m.all=function(n,t,r){t=x(t,r);for(var e=!k(n)&&m.keys(n),u=(e||n).length,i=0;u>i;i++){var o=e?e[i]:i;if(!t(n[o],o,n))return!1}return!0},m.some=m.any=function(n,t,r){t=x(t,r);for(var e=!k(n)&&m.keys(n),u=(e||n).length,i=0;u>i;i++){var o=e?e[i]:i;if(t(n[o],o,n))return!0}return!1},m.contains=m.includes=m.include=function(n,t,r,e){return k(n)||(n=m.values(n)),("number"!=typeof r||e)&&(r=0),m.indexOf(n,t,r)>=0},m.invoke=function(n,t){var r=l.call(arguments,2),e=m.isFunction(t);return m.map(n,function(n){var u=e?t:n[t];return null==u?u:u.apply(n,r)})},m.pluck=function(n,t){return m.map(n,m.property(t))},m.where=function(n,t){return m.filter(n,m.matcher(t))},m.findWhere=function(n,t){return m.find(n,m.matcher(t))},m.max=function(n,t,r){var e,u,i=-1/0,o=-1/0;if(null==t&&null!=n){n=k(n)?n:m.values(n);for(var a=0,c=n.length;c>a;a++)e=n[a],e>i&&(i=e)}else t=x(t,r),m.each(n,function(n,r,e){u=t(n,r,e),(u>o||u===-1/0&&i===-1/0)&&(i=n,o=u)});return i},m.min=function(n,t,r){var e,u,i=1/0,o=1/0;if(null==t&&null!=n){n=k(n)?n:m.values(n);for(var a=0,c=n.length;c>a;a++)e=n[a],i>e&&(i=e)}else t=x(t,r),m.each(n,function(n,r,e){u=t(n,r,e),(o>u||1/0===u&&1/0===i)&&(i=n,o=u)});return i},m.shuffle=function(n){for(var t,r=k(n)?n:m.values(n),e=r.length,u=Array(e),i=0;e>i;i++)t=m.random(0,i),t!==i&&(u[i]=u[t]),u[t]=r[i];return u},m.sample=function(n,t,r){return null==t||r?(k(n)||(n=m.values(n)),n[m.random(n.length-1)]):m.shuffle(n).slice(0,Math.max(0,t))},m.sortBy=function(n,t,r){return t=x(t,r),m.pluck(m.map(n,function(n,r,e){return{value:n,index:r,criteria:t(n,r,e)}}).sort(function(n,t){var r=n.criteria,e=t.criteria;if(r!==e){if(r>e||r===void 0)return 1;if(e>r||e===void 0)return-1}return n.index-t.index}),"value")};var F=function(n){return function(t,r,e){var u={};return r=x(r,e),m.each(t,function(e,i){var o=r(e,i,t);n(u,e,o)}),u}};m.groupBy=F(function(n,t,r){m.has(n,r)?n[r].push(t):n[r]=[t]}),m.indexBy=F(function(n,t,r){n[r]=t}),m.countBy=F(function(n,t,r){m.has(n,r)?n[r]++:n[r]=1}),m.toArray=function(n){return n?m.isArray(n)?l.call(n):k(n)?m.map(n,m.identity):m.values(n):[]},m.size=function(n){return null==n?0:k(n)?n.length:m.keys(n).length},m.partition=function(n,t,r){t=x(t,r);var e=[],u=[];return m.each(n,function(n,r,i){(t(n,r,i)?e:u).push(n)}),[e,u]},m.first=m.head=m.take=function(n,t,r){return null==n?void 0:null==t||r?n[0]:m.initial(n,n.length-t)},m.initial=function(n,t,r){return l.call(n,0,Math.max(0,n.length-(null==t||r?1:t)))},m.last=function(n,t,r){return null==n?void 0:null==t||r?n[n.length-1]:m.rest(n,Math.max(0,n.length-t))},m.rest=m.tail=m.drop=function(n,t,r){return l.call(n,null==t||r?1:t)},m.compact=function(n){return m.filter(n,m.identity)};var S=function(n,t,r,e){for(var u=[],i=0,o=e||0,a=O(n);a>o;o++){var c=n[o];if(k(c)&&(m.isArray(c)||m.isArguments(c))){t||(c=S(c,t,r));var f=0,l=c.length;for(u.length+=l;l>f;)u[i++]=c[f++]}else r||(u[i++]=c)}return u};m.flatten=function(n,t){return S(n,t,!1)},m.without=function(n){return m.difference(n,l.call(arguments,1))},m.uniq=m.unique=function(n,t,r,e){m.isBoolean(t)||(e=r,r=t,t=!1),null!=r&&(r=x(r,e));for(var u=[],i=[],o=0,a=O(n);a>o;o++){var c=n[o],f=r?r(c,o,n):c;t?(o&&i===f||u.push(c),i=f):r?m.contains(i,f)||(i.push(f),u.push(c)):m.contains(u,c)||u.push(c)}return u},m.union=function(){return m.uniq(S(arguments,!0,!0))},m.intersection=function(n){for(var t=[],r=arguments.length,e=0,u=O(n);u>e;e++){var i=n[e];if(!m.contains(t,i)){for(var o=1;r>o&&m.contains(arguments[o],i);o++);o===r&&t.push(i)}}return t},m.difference=function(n){var t=S(arguments,!0,!0,1);return m.filter(n,function(n){return!m.contains(t,n)})},m.zip=function(){return m.unzip(arguments)},m.unzip=function(n){for(var t=n&&m.max(n,O).length||0,r=Array(t),e=0;t>e;e++)r[e]=m.pluck(n,e);return r},m.object=function(n,t){for(var r={},e=0,u=O(n);u>e;e++)t?r[n[e]]=t[e]:r[n[e][0]]=n[e][1];return r},m.findIndex=t(1),m.findLastIndex=t(-1),m.sortedIndex=function(n,t,r,e){r=x(r,e,1);for(var u=r(t),i=0,o=O(n);o>i;){var a=Math.floor((i+o)/2);r(n[a])<u?i=a+1:o=a}return i},m.indexOf=r(1,m.findIndex,m.sortedIndex),m.lastIndexOf=r(-1,m.findLastIndex),m.range=function(n,t,r){null==t&&(t=n||0,n=0),r=r||1;for(var e=Math.max(Math.ceil((t-n)/r),0),u=Array(e),i=0;e>i;i++,n+=r)u[i]=n;return u};var E=function(n,t,r,e,u){if(!(e instanceof t))return n.apply(r,u);var i=j(n.prototype),o=n.apply(i,u);return m.isObject(o)?o:i};m.bind=function(n,t){if(g&&n.bind===g)return g.apply(n,l.call(arguments,1));if(!m.isFunction(n))throw new TypeError("Bind must be called on a function");var r=l.call(arguments,2),e=function(){return E(n,e,t,this,r.concat(l.call(arguments)))};return e},m.partial=function(n){var t=l.call(arguments,1),r=function(){for(var e=0,u=t.length,i=Array(u),o=0;u>o;o++)i[o]=t[o]===m?arguments[e++]:t[o];for(;e<arguments.length;)i.push(arguments[e++]);return E(n,r,this,this,i)};return r},m.bindAll=function(n){var t,r,e=arguments.length;if(1>=e)throw new Error("bindAll must be passed function names");for(t=1;e>t;t++)r=arguments[t],n[r]=m.bind(n[r],n);return n},m.memoize=function(n,t){var r=function(e){var u=r.cache,i=""+(t?t.apply(this,arguments):e);return m.has(u,i)||(u[i]=n.apply(this,arguments)),u[i]};return r.cache={},r},m.delay=function(n,t){var r=l.call(arguments,2);return setTimeout(function(){return n.apply(null,r)},t)},m.defer=m.partial(m.delay,m,1),m.throttle=function(n,t,r){var e,u,i,o=null,a=0;r||(r={});var c=function(){a=r.leading===!1?0:m.now(),o=null,i=n.apply(e,u),o||(e=u=null)};return function(){var f=m.now();a||r.leading!==!1||(a=f);var l=t-(f-a);return e=this,u=arguments,0>=l||l>t?(o&&(clearTimeout(o),o=null),a=f,i=n.apply(e,u),o||(e=u=null)):o||r.trailing===!1||(o=setTimeout(c,l)),i}},m.debounce=function(n,t,r){var e,u,i,o,a,c=function(){var f=m.now()-o;t>f&&f>=0?e=setTimeout(c,t-f):(e=null,r||(a=n.apply(i,u),e||(i=u=null)))};return function(){i=this,u=arguments,o=m.now();var f=r&&!e;return e||(e=setTimeout(c,t)),f&&(a=n.apply(i,u),i=u=null),a}},m.wrap=function(n,t){return m.partial(t,n)},m.negate=function(n){return function(){return!n.apply(this,arguments)}},m.compose=function(){var n=arguments,t=n.length-1;return function(){for(var r=t,e=n[t].apply(this,arguments);r--;)e=n[r].call(this,e);return e}},m.after=function(n,t){return function(){return--n<1?t.apply(this,arguments):void 0}},m.before=function(n,t){var r;return function(){return--n>0&&(r=t.apply(this,arguments)),1>=n&&(t=null),r}},m.once=m.partial(m.before,2);var M=!{toString:null}.propertyIsEnumerable("toString"),I=["valueOf","isPrototypeOf","toString","propertyIsEnumerable","hasOwnProperty","toLocaleString"];m.keys=function(n){if(!m.isObject(n))return[];if(v)return v(n);var t=[];for(var r in n)m.has(n,r)&&t.push(r);return M&&e(n,t),t},m.allKeys=function(n){if(!m.isObject(n))return[];var t=[];for(var r in n)t.push(r);return M&&e(n,t),t},m.values=function(n){for(var t=m.keys(n),r=t.length,e=Array(r),u=0;r>u;u++)e[u]=n[t[u]];return e},m.mapObject=function(n,t,r){t=x(t,r);for(var e,u=m.keys(n),i=u.length,o={},a=0;i>a;a++)e=u[a],o[e]=t(n[e],e,n);return o},m.pairs=function(n){for(var t=m.keys(n),r=t.length,e=Array(r),u=0;r>u;u++)e[u]=[t[u],n[t[u]]];return e},m.invert=function(n){for(var t={},r=m.keys(n),e=0,u=r.length;u>e;e++)t[n[r[e]]]=r[e];return t},m.functions=m.methods=function(n){var t=[];for(var r in n)m.isFunction(n[r])&&t.push(r);return t.sort()},m.extend=_(m.allKeys),m.extendOwn=m.assign=_(m.keys),m.findKey=function(n,t,r){t=x(t,r);for(var e,u=m.keys(n),i=0,o=u.length;o>i;i++)if(e=u[i],t(n[e],e,n))return e},m.pick=function(n,t,r){var e,u,i={},o=n;if(null==o)return i;m.isFunction(t)?(u=m.allKeys(o),e=b(t,r)):(u=S(arguments,!1,!1,1),e=function(n,t,r){return t in r},o=Object(o));for(var a=0,c=u.length;c>a;a++){var f=u[a],l=o[f];e(l,f,o)&&(i[f]=l)}return i},m.omit=function(n,t,r){if(m.isFunction(t))t=m.negate(t);else{var e=m.map(S(arguments,!1,!1,1),String);t=function(n,t){return!m.contains(e,t)}}return m.pick(n,t,r)},m.defaults=_(m.allKeys,!0),m.create=function(n,t){var r=j(n);return t&&m.extendOwn(r,t),r},m.clone=function(n){return m.isObject(n)?m.isArray(n)?n.slice():m.extend({},n):n},m.tap=function(n,t){return t(n),n},m.isMatch=function(n,t){var r=m.keys(t),e=r.length;if(null==n)return!e;for(var u=Object(n),i=0;e>i;i++){var o=r[i];if(t[o]!==u[o]||!(o in u))return!1}return!0};var N=function(n,t,r,e){if(n===t)return 0!==n||1/n===1/t;if(null==n||null==t)return n===t;n instanceof m&&(n=n._wrapped),t instanceof m&&(t=t._wrapped);var u=s.call(n);if(u!==s.call(t))return!1;switch(u){case"[object RegExp]":case"[object String]":return""+n==""+t;case"[object Number]":return+n!==+n?+t!==+t:0===+n?1/+n===1/t:+n===+t;case"[object Date]":case"[object Boolean]":return+n===+t}var i="[object Array]"===u;if(!i){if("object"!=typeof n||"object"!=typeof t)return!1;var o=n.constructor,a=t.constructor;if(o!==a&&!(m.isFunction(o)&&o instanceof o&&m.isFunction(a)&&a instanceof a)&&"constructor"in n&&"constructor"in t)return!1}r=r||[],e=e||[];for(var c=r.length;c--;)if(r[c]===n)return e[c]===t;if(r.push(n),e.push(t),i){if(c=n.length,c!==t.length)return!1;for(;c--;)if(!N(n[c],t[c],r,e))return!1}else{var f,l=m.keys(n);if(c=l.length,m.keys(t).length!==c)return!1;for(;c--;)if(f=l[c],!m.has(t,f)||!N(n[f],t[f],r,e))return!1}return r.pop(),e.pop(),!0};m.isEqual=function(n,t){return N(n,t)},m.isEmpty=function(n){return null==n?!0:k(n)&&(m.isArray(n)||m.isString(n)||m.isArguments(n))?0===n.length:0===m.keys(n).length},m.isElement=function(n){return!(!n||1!==n.nodeType)},m.isArray=h||function(n){return"[object Array]"===s.call(n)},m.isObject=function(n){var t=typeof n;return"function"===t||"object"===t&&!!n},m.each(["Arguments","Function","String","Number","Date","RegExp","Error"],function(n){m["is"+n]=function(t){return s.call(t)==="[object "+n+"]"}}),m.isArguments(arguments)||(m.isArguments=function(n){return m.has(n,"callee")}),"function"!=typeof/./&&"object"!=typeof Int8Array&&(m.isFunction=function(n){return"function"==typeof n||!1}),m.isFinite=function(n){return isFinite(n)&&!isNaN(parseFloat(n))},m.isNaN=function(n){return m.isNumber(n)&&n!==+n},m.isBoolean=function(n){return n===!0||n===!1||"[object Boolean]"===s.call(n)},m.isNull=function(n){return null===n},m.isUndefined=function(n){return n===void 0},m.has=function(n,t){return null!=n&&p.call(n,t)},m.noConflict=function(){return u._=i,this},m.identity=function(n){return n},m.constant=function(n){return function(){return n}},m.noop=function(){},m.property=w,m.propertyOf=function(n){return null==n?function(){}:function(t){return n[t]}},m.matcher=m.matches=function(n){return n=m.extendOwn({},n),function(t){return m.isMatch(t,n)}},m.times=function(n,t,r){var e=Array(Math.max(0,n));t=b(t,r,1);for(var u=0;n>u;u++)e[u]=t(u);return e},m.random=function(n,t){return null==t&&(t=n,n=0),n+Math.floor(Math.random()*(t-n+1))},m.now=Date.now||function(){return(new Date).getTime()};var B={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#x27;","`":"&#x60;"},T=m.invert(B),R=function(n){var t=function(t){return n[t]},r="(?:"+m.keys(n).join("|")+")",e=RegExp(r),u=RegExp(r,"g");return function(n){return n=null==n?"":""+n,e.test(n)?n.replace(u,t):n}};m.escape=R(B),m.unescape=R(T),m.result=function(n,t,r){var e=null==n?void 0:n[t];return e===void 0&&(e=r),m.isFunction(e)?e.call(n):e};var q=0;m.uniqueId=function(n){var t=++q+"";return n?n+t:t},m.templateSettings={evaluate:/<%([\s\S]+?)%>/g,interpolate:/<%=([\s\S]+?)%>/g,escape:/<%-([\s\S]+?)%>/g};var K=/(.)^/,z={"'":"'","\\":"\\","\r":"r","\n":"n","\u2028":"u2028","\u2029":"u2029"},D=/\\|'|\r|\n|\u2028|\u2029/g,L=function(n){return"\\"+z[n]};m.template=function(n,t,r){!t&&r&&(t=r),t=m.defaults({},t,m.templateSettings);var e=RegExp([(t.escape||K).source,(t.interpolate||K).source,(t.evaluate||K).source].join("|")+"|$","g"),u=0,i="__p+='";n.replace(e,function(t,r,e,o,a){return i+=n.slice(u,a).replace(D,L),u=a+t.length,r?i+="'+\n((__t=("+r+"))==null?'':_.escape(__t))+\n'":e?i+="'+\n((__t=("+e+"))==null?'':__t)+\n'":o&&(i+="';\n"+o+"\n__p+='"),t}),i+="';\n",t.variable||(i="with(obj||{}){\n"+i+"}\n"),i="var __t,__p='',__j=Array.prototype.join,"+"print=function(){__p+=__j.call(arguments,'');};\n"+i+"return __p;\n";try{var o=new Function(t.variable||"obj","_",i)}catch(a){throw a.source=i,a}var c=function(n){return o.call(this,n,m)},f=t.variable||"obj";return c.source="function("+f+"){\n"+i+"}",c},m.chain=function(n){var t=m(n);return t._chain=!0,t};var P=function(n,t){return n._chain?m(t).chain():t};m.mixin=function(n){m.each(m.functions(n),function(t){var r=m[t]=n[t];m.prototype[t]=function(){var n=[this._wrapped];return f.apply(n,arguments),P(this,r.apply(m,n))}})},m.mixin(m),m.each(["pop","push","reverse","shift","sort","splice","unshift"],function(n){var t=o[n];m.prototype[n]=function(){var r=this._wrapped;return t.apply(r,arguments),"shift"!==n&&"splice"!==n||0!==r.length||delete r[0],P(this,r)}}),m.each(["concat","join","slice"],function(n){var t=o[n];m.prototype[n]=function(){return P(this,t.apply(this._wrapped,arguments))}}),m.prototype.value=function(){return this._wrapped},m.prototype.valueOf=m.prototype.toJSON=m.prototype.value,m.prototype.toString=function(){return""+this._wrapped},"function"==typeof define&&define.amd&&define("underscore",[],function(){return m})}).call(this);
 //# sourceMappingURL=underscore-min.map
-/*! Jcrop.min.js v2.0.0 - build: 20141025
- *  Copyright 2008-2014 Tapmodo Interactive LLC
- *  Free software under MIT License
- **/
-!function(a){"use strict";var b=function(c,d){var e=navigator.userAgent.toLowerCase();this.opt=a.extend({},b.defaults,d||{}),this.container=a(c),this.opt.is_msie=/msie/.test(e),this.opt.is_ie_lt9=/msie [1-8]\./.test(e),this.container.addClass(this.opt.css_container),this.ui={},this.state=null,this.ui.multi=[],this.ui.selection=null,this.filter={},this.init(),this.setOptions(d),this.applySizeConstraints(),this.container.trigger("cropinit",this),this.opt.is_ie_lt9&&(this.opt.dragEventTarget=document.body)};a.extend(b,{component:{},filter:{},stage:{},registerComponent:function(a,c){b.component[a]=c},registerFilter:function(a,c){b.filter[a]=c},registerStageType:function(a,c){b.stage[a]=c},attach:function(b,c){var d=new a.Jcrop(b,c);return d},imgCopy:function(a){var b=new Image;return b.src=a.src,b},imageClone:function(c){return a.Jcrop.supportsCanvas?b.canvasClone(c):b.imgCopy(c)},canvasClone:function(b){var c=document.createElement("canvas"),d=c.getContext("2d");return a(c).width(b.width).height(b.height),c.width=b.naturalWidth,c.height=b.naturalHeight,d.drawImage(b,0,0,b.naturalWidth,b.naturalHeight),c},propagate:function(a,b,c){for(var d=0,e=a.length;e>d;d++)b.hasOwnProperty(a[d])&&(c[a[d]]=b[a[d]])},getLargestBox:function(a,b,c){return b/c>a?[c*a,c]:[b,b/a]},stageConstructor:function(c,d,e){var f=[];a.each(b.stage,function(a,b){f.push(b)}),f.sort(function(a,b){return a.priority-b.priority});for(var g=0,h=f.length;h>g;g++)if(f[g].isSupported(c,d)){f[g].create(c,d,function(a,b){"function"==typeof e&&e(a,b)});break}},supportsColorFade:function(){return a.fx.step.hasOwnProperty("backgroundColor")},wrapFromXywh:function(a){var b={x:a[0],y:a[1],w:a[2],h:a[3]};return b.x2=b.x+b.w,b.y2=b.y+b.h,b}});var c=function(){};a.extend(c,{isSupported:function(){return!0},priority:100,create:function(a,b,d){var e=new c;e.element=a,d.call(this,e,b)},prototype:{attach:function(a){this.init(a),a.ui.stage=this},triggerEvent:function(b){return a(this.element).trigger(b),this},getElement:function(){return this.element}}}),b.registerStageType("Block",c);var d=function(){};d.prototype=new c,a.extend(d,{isSupported:function(a){return"IMG"==a.tagName?!0:void 0},priority:90,create:function(b,c,e){a.Jcrop.component.ImageLoader.attach(b,function(f,g){var h=new d;h.element=a(b).wrap("<div />").parent(),h.element.width(f).height(g),h.imgsrc=b,"function"==typeof e&&e.call(this,h,c)})}}),b.registerStageType("Image",d);var e=function(){this.angle=0,this.scale=1,this.scaleMin=.2,this.scaleMax=1.25,this.offset=[0,0]};e.prototype=new d,a.extend(e,{isSupported:function(b){return a.Jcrop.supportsCanvas&&"IMG"==b.tagName?!0:void 0},priority:60,create:function(b,c,d){var f=a(b),g=a.extend({},c);a.Jcrop.component.ImageLoader.attach(b,function(a,c){var h=new e;f.hide(),h.createCanvas(b,a,c),f.before(h.element),h.imgsrc=b,g.imgsrc=b,"function"==typeof d&&(d(h,g),h.redraw())})}}),a.extend(e.prototype,{init:function(a){this.core=a},setOffset:function(a,b){return this.offset=[a,b],this},setAngle:function(a){return this.angle=a,this},setScale:function(a){return this.scale=this.boundScale(a),this},boundScale:function(a){return a<this.scaleMin?a=this.scaleMin:a>this.scaleMax&&(a=this.scaleMax),a},createCanvas:function(b,c,d){this.width=c,this.height=d,this.canvas=document.createElement("canvas"),this.canvas.width=c,this.canvas.height=d,this.$canvas=a(this.canvas).width(c).height(d),this.context=this.canvas.getContext("2d"),this.fillstyle="rgb(0,0,0)",this.element=this.$canvas.wrap("<div />").parent().width(c).height(d)},triggerEvent:function(a){return this.$canvas.trigger(a),this},clear:function(){return this.context.fillStyle=this.fillstyle,this.context.fillRect(0,0,this.canvas.width,this.canvas.height),this},redraw:function(){return this.context.save(),this.clear(),this.context.translate(parseInt(.5*this.width),parseInt(.5*this.height)),this.context.translate(this.offset[0]/this.core.opt.xscale,this.offset[1]/this.core.opt.yscale),this.context.rotate(this.angle*(Math.PI/180)),this.context.scale(this.scale,this.scale),this.context.translate(-parseInt(.5*this.width),-parseInt(.5*this.height)),this.context.drawImage(this.imgsrc,0,0,this.width,this.height),this.context.restore(),this.$canvas.trigger("cropredraw"),this},setFillStyle:function(a){return this.fillstyle=a,this}}),b.registerStageType("Canvas",e);var f=function(){this.minw=40,this.minh=40,this.maxw=0,this.maxh=0,this.core=null};a.extend(f.prototype,{tag:"backoff",priority:22,filter:function(a){var b=this.bound;return a.x<b.minx&&(a.x=b.minx,a.x2=a.w+a.x),a.y<b.miny&&(a.y=b.miny,a.y2=a.h+a.y),a.x2>b.maxx&&(a.x2=b.maxx,a.x=a.x2-a.w),a.y2>b.maxy&&(a.y2=b.maxy,a.y=a.y2-a.h),a},refresh:function(a){this.elw=a.core.container.width(),this.elh=a.core.container.height(),this.bound={minx:0+a.edge.w,miny:0+a.edge.n,maxx:this.elw+a.edge.e,maxy:this.elh+a.edge.s}}}),b.registerFilter("backoff",f);var g=function(){this.core=null};a.extend(g.prototype,{tag:"constrain",priority:5,filter:function(a,b){return"move"==b?(a.x<this.minx&&(a.x=this.minx,a.x2=a.w+a.x),a.y<this.miny&&(a.y=this.miny,a.y2=a.h+a.y),a.x2>this.maxx&&(a.x2=this.maxx,a.x=a.x2-a.w),a.y2>this.maxy&&(a.y2=this.maxy,a.y=a.y2-a.h)):(a.x<this.minx&&(a.x=this.minx),a.y<this.miny&&(a.y=this.miny),a.x2>this.maxx&&(a.x2=this.maxx),a.y2>this.maxy&&(a.y2=this.maxy)),a.w=a.x2-a.x,a.h=a.y2-a.y,a},refresh:function(a){this.elw=a.core.container.width(),this.elh=a.core.container.height(),this.minx=0+a.edge.w,this.miny=0+a.edge.n,this.maxx=this.elw+a.edge.e,this.maxy=this.elh+a.edge.s}}),b.registerFilter("constrain",g);var h=function(){this.core=null};a.extend(h.prototype,{tag:"extent",priority:12,offsetFromCorner:function(a,b,c){var d=b[0],e=b[1];switch(a){case"bl":return[c.x2-d,c.y,d,e];case"tl":return[c.x2-d,c.y2-e,d,e];case"br":return[c.x,c.y,d,e];case"tr":return[c.x,c.y2-e,d,e]}},getQuadrant:function(a){var b=a.opposite[0]-a.offsetx,c=a.opposite[1]-a.offsety;return 0>b&&0>c?"br":b>=0&&c>=0?"tl":0>b&&c>=0?"tr":"bl"},filter:function(a,c,d){if("move"==c)return a;var e=a.w,f=a.h,g=d.state,h=this.limits,i=g?this.getQuadrant(g):"br";return h.minw&&e<h.minw&&(e=h.minw),h.minh&&f<h.minh&&(f=h.minh),h.maxw&&e>h.maxw&&(e=h.maxw),h.maxh&&f>h.maxh&&(f=h.maxh),e==a.w&&f==a.h?a:b.wrapFromXywh(this.offsetFromCorner(i,[e,f],a))},refresh:function(a){this.elw=a.core.container.width(),this.elh=a.core.container.height(),this.limits={minw:a.minSize[0],minh:a.minSize[1],maxw:a.maxSize[0],maxh:a.maxSize[1]}}}),b.registerFilter("extent",h);var i=function(){this.stepx=1,this.stepy=1,this.core=null};a.extend(i.prototype,{tag:"grid",priority:19,filter:function(a){var b={x:Math.round(a.x/this.stepx)*this.stepx,y:Math.round(a.y/this.stepy)*this.stepy,x2:Math.round(a.x2/this.stepx)*this.stepx,y2:Math.round(a.y2/this.stepy)*this.stepy};return b.w=b.x2-b.x,b.h=b.y2-b.y,b}}),b.registerFilter("grid",i);var j=function(){this.ratio=0,this.core=null};a.extend(j.prototype,{tag:"ratio",priority:15,offsetFromCorner:function(a,b,c){var d=b[0],e=b[1];switch(a){case"bl":return[c.x2-d,c.y,d,e];case"tl":return[c.x2-d,c.y2-e,d,e];case"br":return[c.x,c.y,d,e];case"tr":return[c.x,c.y2-e,d,e]}},getBoundRatio:function(a,c){var d=b.getLargestBox(this.ratio,a.w,a.h);return b.wrapFromXywh(this.offsetFromCorner(c,d,a))},getQuadrant:function(a){var b=a.opposite[0]-a.offsetx,c=a.opposite[1]-a.offsety;return 0>b&&0>c?"br":b>=0&&c>=0?"tl":0>b&&c>=0?"tr":"bl"},filter:function(a,b,c){if(!this.ratio)return a;var d=(a.w/a.h,c.state),e=d?this.getQuadrant(d):"br";if(b=b||"se","move"==b)return a;switch(b){case"n":a.x2=this.elw,a.w=a.x2-a.x,e="tr";break;case"s":a.x2=this.elw,a.w=a.x2-a.x,e="br";break;case"e":a.y2=this.elh,a.h=a.y2-a.y,e="br";break;case"w":a.y2=this.elh,a.h=a.y2-a.y,e="bl"}return this.getBoundRatio(a,e)},refresh:function(a){this.ratio=a.aspectRatio,this.elw=a.core.container.width(),this.elh=a.core.container.height()}}),b.registerFilter("ratio",j);var k=function(){this.core=null};a.extend(k.prototype,{tag:"round",priority:90,filter:function(a){var b={x:Math.round(a.x),y:Math.round(a.y),x2:Math.round(a.x2),y2:Math.round(a.y2)};return b.w=b.x2-b.x,b.h=b.y2-b.y,b}}),b.registerFilter("round",k);var l=function(a,b){this.color=b||"black",this.opacity=a||.5,this.core=null,this.shades={}};a.extend(l.prototype,{tag:"shader",fade:!0,fadeEasing:"swing",fadeSpeed:320,priority:95,init:function(){var b=this;b.attached||(b.visible=!1,b.container=a("<div />").addClass(b.core.opt.css_shades).prependTo(this.core.container).hide(),b.elh=this.core.container.height(),b.elw=this.core.container.width(),b.shades={top:b.createShade(),right:b.createShade(),left:b.createShade(),bottom:b.createShade()},b.attached=!0)},destroy:function(){this.container.remove()},setColor:function(c,d){var e=this;if(c==e.color)return e;this.color=c;var f=b.supportsColorFade();return a.each(e.shades,function(a,b){e.fade&&!d&&f?b.animate({backgroundColor:c},{queue:!1,duration:e.fadeSpeed,easing:e.fadeEasing}):b.css("backgroundColor",c)}),e},setOpacity:function(b,c){var d=this;return b==d.opacity?d:(d.opacity=b,a.each(d.shades,function(a,e){!d.fade||c?e.css({opacity:b}):e.animate({opacity:b},{queue:!1,duration:d.fadeSpeed,easing:d.fadeEasing})}),d)},createShade:function(){return a("<div />").css({position:"absolute",backgroundColor:this.color,opacity:this.opacity}).appendTo(this.container)},refresh:function(a){var b=this.core,c=this.shades;this.setColor(a.bgColor?a.bgColor:this.core.opt.bgColor),this.setOpacity(a.bgOpacity?a.bgOpacity:this.core.opt.bgOpacity),this.elh=b.container.height(),this.elw=b.container.width(),c.right.css("height",this.elh+"px"),c.left.css("height",this.elh+"px")},filter:function(a,b,c){if(!c.active)return a;var d=this,e=d.shades;return e.top.css({left:Math.round(a.x)+"px",width:Math.round(a.w)+"px",height:Math.round(a.y)+"px"}),e.bottom.css({top:Math.round(a.y2)+"px",left:Math.round(a.x)+"px",width:Math.round(a.w)+"px",height:d.elh-Math.round(a.y2)+"px"}),e.right.css({left:Math.round(a.x2)+"px",width:d.elw-Math.round(a.x2)+"px"}),e.left.css({width:Math.round(a.x)+"px"}),d.visible||(d.container.show(),d.visible=!0),a}}),b.registerFilter("shader",l);var m=function(a){this.stage=a,this.core=a.core,this.cloneStagePosition()};m.prototype={cloneStagePosition:function(){var a=this.stage;this.angle=a.angle,this.scale=a.scale,this.offset=a.offset},getElement:function(){var b=this.stage;return a("<div />").css({position:"absolute",top:b.offset[0]+"px",left:b.offset[1]+"px",width:b.angle+"px",height:b.scale+"px"})},animate:function(a){var b=this;this.scale=this.stage.boundScale(this.scale),b.stage.triggerEvent("croprotstart"),b.getElement().animate({top:b.offset[0]+"px",left:b.offset[1]+"px",width:b.angle+"px",height:b.scale+"px"},{easing:b.core.opt.animEasing,duration:b.core.opt.animDuration,complete:function(){b.stage.triggerEvent("croprotend"),"function"==typeof a&&a.call(this)},progress:function(a){var c,d={},e=a.tweens;for(c=0;c<e.length;c++)d[e[c].prop]=e[c].now;b.stage.setAngle(d.width).setScale(d.height).setOffset(d.top,d.left).redraw()}})}},b.stage.Canvas.prototype.getAnimator=function(){return new m(this)},b.registerComponent("CanvasAnimator",m);var o=function(a){this.selection=a,this.core=a.core};o.prototype={getElement:function(){var b=this.selection.get();return a("<div />").css({position:"absolute",top:b.y+"px",left:b.x+"px",width:b.w+"px",height:b.h+"px"})},animate:function(a,b,c,d,e){var f=this;f.selection.allowResize(!1),f.getElement().animate({top:b+"px",left:a+"px",width:c+"px",height:d+"px"},{easing:f.core.opt.animEasing,duration:f.core.opt.animDuration,complete:function(){f.selection.allowResize(!0),e&&e.call(this)},progress:function(a){var b,c={},d=a.tweens;for(b=0;b<d.length;b++)c[d[b].prop]=d[b].now;var e={x:parseInt(c.left),y:parseInt(c.top),w:parseInt(c.width),h:parseInt(c.height)};e.x2=e.x+e.w,e.y2=e.y+e.h,f.selection.updateRaw(e,"se")}})}},b.registerComponent("Animator",o);var p=function(a,b,c){var d=this;d.x=a.pageX,d.y=a.pageY,d.selection=b,d.eventTarget=b.core.opt.dragEventTarget,d.orig=b.get(),b.callFilterFunction("refresh");var e=b.core.container.position();d.elx=e.left,d.ely=e.top,d.offsetx=0,d.offsety=0,d.ord=c,d.opposite=d.getOppositeCornerOffset(),d.initEvents(a)};p.prototype={getOppositeCornerOffset:function(){var a=this.orig,b=this.x-this.elx-a.x,c=this.y-this.ely-a.y;switch(this.ord){case"nw":case"w":return[a.w-b,a.h-c];case"sw":return[a.w-b,-c];case"se":case"s":case"e":return[-b,-c];case"ne":case"n":return[-b,a.h-c]}return[null,null]},initEvents:function(){a(this.eventTarget).on("mousemove.jcrop",this.createDragHandler()).on("mouseup.jcrop",this.createStopHandler())},dragEvent:function(a){this.offsetx=a.pageX-this.x,this.offsety=a.pageY-this.y,this.selection.updateRaw(this.getBox(),this.ord)},endDragEvent:function(){var a=this.selection;a.core.container.removeClass("jcrop-dragging"),a.element.trigger("cropend",[a,a.core.unscale(a.get())]),a.focus()},createStopHandler:function(){var b=this;return function(c){return a(b.eventTarget).off(".jcrop"),b.endDragEvent(c),!1}},createDragHandler:function(){var a=this;return function(b){return a.dragEvent(b),!1}},update:function(a,b){var c=this;c.offsetx=a-c.x,c.offsety=b-c.y},resultWrap:function(a){var b={x:Math.min(a[0],a[2]),y:Math.min(a[1],a[3]),x2:Math.max(a[0],a[2]),y2:Math.max(a[1],a[3])};return b.w=b.x2-b.x,b.h=b.y2-b.y,b},getBox:function(){var a=this,b=a.orig,c={x2:b.x+b.w,y2:b.y+b.h};switch(a.ord){case"n":return a.resultWrap([b.x,a.offsety+b.y,c.x2,c.y2]);case"s":return a.resultWrap([b.x,b.y,c.x2,a.offsety+c.y2]);case"e":return a.resultWrap([b.x,b.y,a.offsetx+c.x2,c.y2]);case"w":return a.resultWrap([b.x+a.offsetx,b.y,c.x2,c.y2]);case"sw":return a.resultWrap([a.offsetx+b.x,b.y,c.x2,a.offsety+c.y2]);case"se":return a.resultWrap([b.x,b.y,a.offsetx+c.x2,a.offsety+c.y2]);case"ne":return a.resultWrap([b.x,a.offsety+b.y,a.offsetx+c.x2,c.y2]);case"nw":return a.resultWrap([a.offsetx+b.x,a.offsety+b.y,c.x2,c.y2]);case"move":return c.nx=b.x+a.offsetx,c.ny=b.y+a.offsety,a.resultWrap([c.nx,c.ny,c.nx+b.w,c.ny+b.h])}}},b.registerComponent("DragState",p);var q=function(a){this.core=a};q.prototype={on:function(b,c){a(this).on(b,c)},off:function(b){a(this).off(b)},trigger:function(b){a(this).trigger(b)}},b.registerComponent("EventManager",q);var r=function(a,b,c){this.src=a,b||(b=new Image),this.element=b,this.callback=c,this.load()};a.extend(r,{attach:function(a,b){return new r(a.src,a,b)},prototype:{getDimensions:function(){var a=this.element;return a.naturalWidth?[a.naturalWidth,a.naturalHeight]:a.width?[a.width,a.height]:null},fireCallback:function(){this.element.onload=null,"function"==typeof this.callback&&this.callback.apply(this,this.getDimensions())},isLoaded:function(){return this.element.complete},load:function(){var a=this,b=a.element;b.src=a.src,a.isLoaded()?a.fireCallback():a.element.onload=function(){a.fireCallback()}}}}),b.registerComponent("ImageLoader",r);var s=function(a){this.core=a,this.init()};a.extend(s,{support:function(){return"ontouchstart"in window||window.DocumentTouch&&document instanceof DocumentTouch?!0:void 0},prototype:{init:function(){var b=this,c=a.Jcrop.component.DragState.prototype;c.touch||(b.initEvents(),b.shimDragState(),b.shimStageDrag(),c.touch=!0)},shimDragState:function(){var b=this;a.Jcrop.component.DragState.prototype.initEvents=function(c){"touch"==c.type.substr(0,5)?a(this.eventTarget).on("touchmove.jcrop.jcrop-touch",b.dragWrap(this.createDragHandler())).on("touchend.jcrop.jcrop-touch",this.createStopHandler()):a(this.eventTarget).on("mousemove.jcrop",this.createDragHandler()).on("mouseup.jcrop",this.createStopHandler())}},shimStageDrag:function(){this.core.container.addClass("jcrop-touch").on("touchstart.jcrop.jcrop-stage",this.dragWrap(this.core.ui.manager.startDragHandler()))},dragWrap:function(a){return function(b){return b.preventDefault(),b.stopPropagation(),"touch"==b.type.substr(0,5)?(b.pageX=b.originalEvent.changedTouches[0].pageX,b.pageY=b.originalEvent.changedTouches[0].pageY,a(b)):!1}},initEvents:function(){var a=this,b=a.core;b.container.on("touchstart.jcrop.jcrop-touch","."+b.opt.css_drag,a.dragWrap(b.startDrag()))}}}),b.registerComponent("Touch",s);var t=function(a){this.core=a,this.init()};a.extend(t,{defaults:{eventName:"keydown.jcrop",passthru:[9],debug:!1},prototype:{init:function(){a.extend(this,t.defaults),this.enable()},disable:function(){this.core.container.off(this.eventName)},enable:function(){var b=this,c=b.core;c.container.on(b.eventName,function(d){var e=d.shiftKey?16:2;if(a.inArray(d.keyCode,b.passthru)>=0)return!0;switch(d.keyCode){case 37:c.nudge(-e,0);break;case 38:c.nudge(0,-e);break;case 39:c.nudge(e,0);break;case 40:c.nudge(0,e);break;case 46:case 8:return c.requestDelete(),!1;default:b.debug&&console.log("keycode: "+d.keyCode)}d.metaKey||d.ctrlKey||d.preventDefault()})}}}),b.registerComponent("Keyboard",t);var u=function(){};a.extend(u,{defaults:{minSize:[8,8],maxSize:[0,0],aspectRatio:0,edge:{n:0,s:0,e:0,w:0},bgColor:null,bgOpacity:null,last:null,state:null,active:!0,linked:!0,canDelete:!0,canDrag:!0,canResize:!0,canSelect:!0},prototype:{init:function(a){this.core=a,this.startup(),this.linked=this.core.opt.linked,this.attach(),this.setOptions(this.core.opt),a.container.trigger("cropcreate",[this])},attach:function(){},startup:function(){var b=this,c=b.core.opt;a.extend(b,u.defaults),b.filter=b.core.getDefaultFilters(),b.element=a("<div />").addClass(c.css_selection).data({selection:b}),b.frame=a("<button />").addClass(c.css_button).data("ord","move"),b.element.append(b.frame).appendTo(b.core.container),b.core.opt.is_msie&&b.frame.css({opacity:0,backgroundColor:"white"}),b.insertElements(),b.frame.on("focus.jcrop",function(){b.core.setSelection(b),b.element.trigger("cropfocus",b),b.element.addClass("jcrop-focus")}).on("blur.jcrop",function(){b.element.removeClass("jcrop-focus"),b.element.trigger("cropblur",b)})},propagate:["canDelete","canDrag","canResize","canSelect","minSize","maxSize","aspectRatio","edge"],setOptions:function(a){return b.propagate(this.propagate,a,this),this.refresh(),this},refresh:function(){this.allowResize(),this.allowDrag(),this.allowSelect(),this.callFilterFunction("refresh"),this.updateRaw(this.get(),"se")},callFilterFunction:function(a){for(var b=0;b<this.filter.length;b++)this.filter[b][a]&&this.filter[b][a](this);return this},addFilter:function(a){a.core=this.core,this.hasFilter(a)||(this.filter.push(a),this.sortFilters(),a.init&&a.init(),this.refresh())},hasFilter:function(a){var b,c=this.filter;for(b=0;b<c.length;b++)if(c[b]===a)return!0},sortFilters:function(){this.filter.sort(function(a,b){return a.priority-b.priority})},clearFilters:function(){for(var a,b=this.filter,a=0;a<b.length;a++)b[a].destroy&&b[a].destroy();this.filter=[]},removeFilter:function(a){for(var b,c=this.filter,d=[],b=0;b<c.length;b++)c[b].tag&&c[b].tag==a||a===c[b]?c[b].destroy&&c[b].destroy():d.push(c[b]);this.filter=d},runFilters:function(a,b){for(var c=0;c<this.filter.length;c++)a=this.filter[c].filter(a,b,this);return a},endDrag:function(){this.state&&(a(document.body).off(".jcrop"),this.focus(),this.state=null)},startDrag:function(c,d){{var e=this;e.core}return d=d||a(c.target).data("ord"),this.focus(),"move"==d&&e.element.hasClass(e.core.opt.css_nodrag)?!1:(this.state=new b.component.DragState(c,this,d),!1)},allowSelect:function(a){return void 0===a&&(a=this.canSelect),a&&this.canSelect?this.frame.attr("disabled",!1):this.frame.attr("disabled","disabled"),this},allowDrag:function(a){var b=this,c=b.core.opt;return void 0==a&&(a=b.canDrag),a&&b.canDrag?b.element.removeClass(c.css_nodrag):b.element.addClass(c.css_nodrag),this},allowResize:function(a){var b=this,c=b.core.opt;return void 0==a&&(a=b.canResize),a&&b.canResize?b.element.removeClass(c.css_noresize):b.element.addClass(c.css_noresize),this},remove:function(){this.element.trigger("cropremove",this),this.element.remove()},toBack:function(){this.active=!1,this.element.removeClass("jcrop-current jcrop-focus")},toFront:function(){this.active=!0,this.element.addClass("jcrop-current"),this.callFilterFunction("refresh"),this.refresh()},redraw:function(a){return this.moveTo(a.x,a.y),this.resize(a.w,a.h),this.last=a,this},update:function(a,b){return this.updateRaw(this.core.scale(a),b)},updateRaw:function(a,b){return a=this.runFilters(a,b),this.redraw(a),this.element.trigger("cropmove",[this,this.core.unscale(a)]),this},animateTo:function(a,c){var d=new b.component.Animator(this),e=this.core.scale(b.wrapFromXywh(a));d.animate(e.x,e.y,e.w,e.h,c)},center:function(a){var b=this.get(),c=this.core,d=c.container.width(),e=c.container.height(),f=[(d-b.w)/2,(e-b.h)/2,b.w,b.h];return this[a?"setSelect":"animateTo"](f)},createElement:function(b,c){return a("<div />").addClass(b+" ord-"+c).data("ord",c)},moveTo:function(a,b){this.element.css({top:b+"px",left:a+"px"})},blur:function(){return this.element.blur(),this},focus:function(){return this.core.setSelection(this),this.frame.focus(),this},resize:function(a,b){this.element.css({width:a+"px",height:b+"px"})},get:function(){var a=this.element,b=a.position(),c=a.width(),d=a.height(),e={x:b.left,y:b.top};return e.x2=e.x+c,e.y2=e.y+d,e.w=c,e.h=d,e},insertElements:function(){var a,b=this,c=(b.core,b.element),d=b.core.opt,e=d.borders,f=d.handles,g=d.dragbars;for(a=0;a<g.length;a++)c.append(b.createElement(d.css_dragbars,g[a]));for(a=0;a<f.length;a++)c.append(b.createElement(d.css_handles,f[a]));for(a=0;a<e.length;a++)c.append(b.createElement(d.css_borders,e[a]))}}}),b.registerComponent("Selection",u);var v=function(b,c){a.extend(this,v.defaults,c||{}),this.manager=b,this.core=b.core};v.defaults={offset:[-8,-8],active:!0,minsize:[20,20]},a.extend(v.prototype,{start:function(c){var d=this.core;if(d.opt.allowSelect){if(d.opt.multi&&d.opt.multiMax&&d.ui.multi.length>=d.opt.multiMax)return!1;var e=a(c.currentTarget).offset(),f=c.pageX-e.left+this.offset[0],g=c.pageY-e.top+this.offset[1],h=d.ui.multi;if(!d.opt.multi)if(d.opt.multiCleanup){for(var i=0;i<h.length;i++)h[i].remove();d.ui.multi=[]}else d.removeSelection(d.ui.selection);d.container.addClass("jcrop-dragging");var j=d.newSelection().updateRaw(b.wrapFromXywh([f,g,1,1]));return j.element.trigger("cropstart",[j,this.core.unscale(j.get())]),j.startDrag(c,"se")}},end:function(a,b){this.drag(a,b);var c=this.sel.get();this.core.container.removeClass("jcrop-dragging"),c.w<this.minsize[0]||c.h<this.minsize[1]?this.core.requestDelete():this.sel.focus()}}),b.registerComponent("StageDrag",v);var w=function(a){this.core=a,this.ui=a.ui,this.init()};a.extend(w.prototype,{init:function(){this.setupEvents(),this.dragger=new v(this)},tellConfigUpdate:function(a){for(var b=0,c=this.ui.multi,d=c.length;d>b;b++)c[b].setOptions&&(c[b].linked||this.core.opt.linkCurrent&&c[b]==this.ui.selection)&&c[b].setOptions(a)},startDragHandler:function(){var a=this;return function(b){return!b.button||a.core.opt.is_ie_lt9?a.dragger.start(b):void 0}},removeEvents:function(){this.core.event.off(".jcrop-stage"),this.core.container.off(".jcrop-stage")},shimLegacyHandlers:function(b){var c,d=this.core;a.each(d.opt.legacyHandlers,function(a,e){a in b&&(c=b[a],d.container.off(".jcrop-"+a).on(e+".jcrop.jcrop-"+a,function(a,b,e){c.call(d,e)}),delete b[a])})},setupEvents:function(){var a=this,b=a.core;b.event.on("configupdate.jcrop-stage",function(){a.shimLegacyHandlers(b.opt),a.tellConfigUpdate(b.opt),b.container.trigger("cropconfig",[b,b.opt])}),this.core.container.on("mousedown.jcrop.jcrop-stage",this.startDragHandler())}}),b.registerComponent("StageManager",w);var x=function(){};a.extend(x,{defaults:{selection:null,fading:!0,fadeDelay:1e3,fadeDuration:1e3,autoHide:!1,width:80,height:80,_hiding:null},prototype:{recopyCanvas:function(){var a=this.core.ui.stage,b=a.context;this.context.putImageData(b.getImageData(0,0,a.canvas.width,a.canvas.height),0,0)},init:function(b,c){var d=this;this.core=b,a.extend(this,x.defaults,c),d.initEvents(),d.refresh(),d.insertElements(),d.selection?(d.renderSelection(d.selection),d.selectionTarget=d.selection.element[0]):d.core.ui.selection&&d.renderSelection(d.core.ui.selection),d.core.ui.stage.canvas&&(d.context=d.preview[0].getContext("2d"),d.core.container.on("cropredraw",function(){d.recopyCanvas(),d.refresh()}))},updateImage:function(b){return this.preview.remove(),this.preview=a(a.Jcrop.imageClone(b)),this.element.append(this.preview),this.refresh(),this},insertElements:function(){this.preview=a(a.Jcrop.imageClone(this.core.ui.stage.imgsrc)),this.element=a("<div />").addClass("jcrop-thumb").width(this.width).height(this.height).append(this.preview).appendTo(this.core.container)},resize:function(a,b){this.width=a,this.height=b,this.element.width(a).height(b),this.renderCoords(this.last)},refresh:function(){this.cw=this.core.opt.xscale*this.core.container.width(),this.ch=this.core.opt.yscale*this.core.container.height(),this.last&&this.renderCoords(this.last)},renderCoords:function(a){var b=this.width/a.w,c=this.height/a.h;return this.preview.css({width:Math.round(b*this.cw)+"px",height:Math.round(c*this.ch)+"px",marginLeft:"-"+Math.round(b*a.x)+"px",marginTop:"-"+Math.round(c*a.y)+"px"}),this.last=a,this},renderSelection:function(a){return this.renderCoords(a.core.unscale(a.get()))},selectionStart:function(a){this.renderSelection(a)},show:function(){this._hiding&&clearTimeout(this._hiding),this.fading?this.element.stop().animate({opacity:1},{duration:80,queue:!1}):this.element.stop().css({opacity:1})},hide:function(){var a=this;a.fading?a._hiding=setTimeout(function(){a._hiding=null,a.element.stop().animate({opacity:0},{duration:a.fadeDuration,queue:!1})},a.fadeDelay):a.element.hide()},initEvents:function(){var a=this;a.core.container.on("croprotstart croprotend cropimage cropstart cropmove cropend",function(b,c,d){if(a.selectionTarget&&a.selectionTarget!==b.target)return!1;switch(b.type){case"cropimage":a.updateImage(d);break;case"cropstart":a.selectionStart(c);case"croprotstart":a.show();break;case"cropend":a.renderCoords(d);case"croprotend":a.autoHide&&a.hide();break;case"cropmove":a.renderCoords(d)}})}}}),b.registerComponent("Thumbnailer",x);var y=function(){};y.prototype={init:function(b,c,d){c||(c=b.container),this.$btn=a(c),this.$targ=a(c),this.core=b,this.$btn.addClass("dialdrag").on("mousedown.dialdrag",this.mousedown()).data("dialdrag",this),a.isFunction(d)||(d=function(){}),this.callback=d,this.ondone=d},remove:function(){return this.$btn.removeClass("dialdrag").off(".dialdrag").data("dialdrag",null),this},setTarget:function(b){return this.$targ=a(b),this},getOffset:function(){var a=this.$targ,b=a.offset();return[b.left+a.width()/2,b.top+a.height()/2]},relMouse:function(a){var b=a.pageX-this.offset[0],c=a.pageY-this.offset[1],d=Math.atan2(c,b)*(180/Math.PI),e=Math.sqrt(Math.pow(b,2)+Math.pow(c,2));return[b,c,d,e]},mousedown:function(){function b(b){a(window).off(".dialdrag"),d.ondone.call(d,d.relMouse(b)),d.core.container.trigger("croprotend")}function c(a){d.callback.call(d,d.relMouse(a))}var d=this;return function(e){d.offset=d.getOffset();var f=d.relMouse(e);return d.angleOffset=-d.core.ui.stage.angle+f[2],d.distOffset=f[3],d.dragOffset=[f[0],f[1]],d.core.container.trigger("croprotstart"),a(window).on("mousemove.dialdrag",c).on("mouseup.dialdrag",b),d.callback.call(d,d.relMouse(e)),!1}}},b.registerComponent("DialDrag",y),b.defaults={edge:{n:0,s:0,e:0,w:0},setSelect:null,linked:!0,linkCurrent:!0,canDelete:!0,canSelect:!0,canDrag:!0,canResize:!0,eventManagerComponent:b.component.EventManager,keyboardComponent:b.component.Keyboard,dragstateComponent:b.component.DragState,stagemanagerComponent:b.component.StageManager,animatorComponent:b.component.Animator,selectionComponent:b.component.Selection,stageConstructor:b.stageConstructor,allowSelect:!0,multi:!1,multiMax:!1,multiCleanup:!0,animation:!0,animEasing:"swing",animDuration:400,fading:!0,fadeDuration:300,fadeEasing:"swing",bgColor:"black",bgOpacity:.5,applyFilters:["constrain","extent","backoff","ratio","shader","round"],borders:["e","w","s","n"],handles:["n","s","e","w","sw","ne","nw","se"],dragbars:["n","e","w","s"],dragEventTarget:window,xscale:1,yscale:1,boxWidth:null,boxHeight:null,css_nodrag:"jcrop-nodrag",css_drag:"jcrop-drag",css_container:"jcrop-active",css_shades:"jcrop-shades",css_selection:"jcrop-selection",css_borders:"jcrop-border",css_handles:"jcrop-handle jcrop-drag",css_button:"jcrop-box jcrop-drag",css_noresize:"jcrop-noresize",css_dragbars:"jcrop-dragbar jcrop-drag",legacyHandlers:{onChange:"cropmove",onSelect:"cropend"}},a.extend(b.prototype,{init:function(){this.event=new this.opt.eventManagerComponent(this),this.ui.keyboard=new this.opt.keyboardComponent(this),this.ui.manager=new this.opt.stagemanagerComponent(this),this.applyFilters(),a.Jcrop.supportsTouch&&new a.Jcrop.component.Touch(this),this.initEvents()},applySizeConstraints:function(){var c=this.opt,d=this.opt.imgsrc;if(d){var e=d.naturalWidth||d.width,f=d.naturalHeight||d.height,g=c.boxWidth||e,h=c.boxHeight||f;if(d&&(e>g||f>h)){var i=b.getLargestBox(e/f,g,h);a(d).width(i[0]).height(i[1]),this.resizeContainer(i[0],i[1]),this.opt.xscale=e/i[0],this.opt.yscale=f/i[1]}}if(this.opt.trueSize){var j=this.opt.trueSize[0],k=this.opt.trueSize[1],l=this.getContainerSize();this.opt.xscale=j/l[0],this.opt.yscale=k/l[1]}},initComponent:function(a){if(b.component[a]){var c=Array.prototype.slice.call(arguments),d=new b.component[a];return c.shift(),c.unshift(this),d.init.apply(d,c),d}},setOptions:function(c){return a.isPlainObject(c)||(c={}),a.extend(this.opt,c),this.opt.setSelect&&(this.ui.multi.length||this.newSelection(),this.ui.multi[0].update(b.wrapFromXywh(this.opt.setSelect)),this.opt.setSelect=null),this.event.trigger("configupdate"),this},destroy:function(){this.opt.imgsrc?(this.container.before(this.opt.imgsrc),this.container.remove(),a(this.opt.imgsrc).removeData("Jcrop")):this.container.remove()},applyFilters:function(){for(var b,c=0,d=this.opt.applyFilters,e=d.length;e>c;c++)a.Jcrop.filter[d[c]]&&(b=new a.Jcrop.filter[d[c]]),b.core=this,b.init&&b.init(),this.filter[d[c]]=b},getDefaultFilters:function(){for(var a=[],b=0,c=this.opt.applyFilters,d=c.length;d>b;b++)this.filter.hasOwnProperty(c[b])&&a.push(this.filter[c[b]]);return a.sort(function(a,b){return a.priority-b.priority}),a},setSelection:function(a){for(var b=this.ui.multi,c=[],d=0;d<b.length;d++)b[d]!==a&&c.push(b[d]),b[d].toBack();return c.unshift(a),this.ui.multi=c,this.ui.selection=a,a.toFront(),a},getSelection:function(){var a=this.ui.selection.get();return a},newSelection:function(a){return a||(a=new this.opt.selectionComponent),a.init(this),this.setSelection(a),a},hasSelection:function(a){for(var b=0;b<this.ui.multi;b++)if(a===this.ui.multi[b])return!0},removeSelection:function(a){for(var b,c=[],d=this.ui.multi,b=0;b<d.length;b++)a!==d[b]?c.push(d[b]):d[b].remove();return this.ui.multi=c},addFilter:function(a){for(var b=0,c=this.ui.multi,d=c.length;d>b;b++)c[b].addFilter(a);return this},removeFilter:function(a){for(var b=0,c=this.ui.multi,d=c.length;d>b;b++)c[b].removeFilter(a);return this},blur:function(){return this.ui.selection.blur(),this},focus:function(){return this.ui.selection.focus(),this},initEvents:function(){var a=this;a.container.on("selectstart",function(){return!1}).on("mousedown","."+a.opt.css_drag,a.startDrag())},maxSelect:function(){this.setSelect([0,0,this.elw,this.elh])},nudge:function(a,b){var c=this.ui.selection,d=c.get();d.x+=a,d.x2+=a,d.y+=b,d.y2+=b,d.x<0?(d.x2=d.w,d.x=0):d.x2>this.elw&&(d.x2=this.elw,d.x=d.x2-d.w),d.y<0?(d.y2=d.h,d.y=0):d.y2>this.elh&&(d.y2=this.elh,d.y=d.y2-d.h),c.element.trigger("cropstart",[c,this.unscale(d)]),c.updateRaw(d,"move"),c.element.trigger("cropend",[c,this.unscale(d)])},refresh:function(){for(var a=0,b=this.ui.multi,c=b.length;c>a;a++)b[a].refresh()},blurAll:function(){for(var a=this.ui.multi,b=0;b<a.length;b++)a[b]!==sel&&n.push(a[b]),a[b].toBack()},scale:function(a){var b=this.opt.xscale,c=this.opt.yscale;return{x:a.x/b,y:a.y/c,x2:a.x2/b,y2:a.y2/c,w:a.w/b,h:a.h/c}},unscale:function(a){var b=this.opt.xscale,c=this.opt.yscale;
-return{x:a.x*b,y:a.y*c,x2:a.x2*b,y2:a.y2*c,w:a.w*b,h:a.h*c}},requestDelete:function(){return this.ui.multi.length>1&&this.ui.selection.canDelete?this.deleteSelection():void 0},deleteSelection:function(){this.ui.selection&&(this.removeSelection(this.ui.selection),this.ui.multi[0].focus(),this.ui.selection.refresh())},animateTo:function(a){return this.ui.selection&&this.ui.selection.animateTo(a),this},setSelect:function(a){return this.ui.selection&&this.ui.selection.update(b.wrapFromXywh(a)),this},startDrag:function(){var b=this;return function(c){var d=a(c.target),e=d.closest("."+b.opt.css_selection).data("selection"),f=d.data("ord");return b.container.trigger("cropstart",[e,b.unscale(e.get())]),e.startDrag(c,f),!1}},getContainerSize:function(){return[this.container.width(),this.container.height()]},resizeContainer:function(a,b){this.container.width(a).height(b),this.refresh()},setImage:function(b,c){var d=this,e=d.opt.imgsrc;return e?void new a.Jcrop.component.ImageLoader(b,null,function(f,g){d.resizeContainer(f,g),e.src=b,a(e).width(f).height(g),d.applySizeConstraints(),d.refresh(),d.container.trigger("cropimage",[d,e]),"function"==typeof c&&c.call(d,f,g)}):!1},update:function(a){this.ui.selection&&this.ui.selection.update(a)}}),a.fn.Jcrop=function(b,c){var d=this.eq(0).data("Jcrop"),e=Array.prototype.slice.call(arguments);return"api"==b?d:d&&"string"==typeof b?d[b]?(e.shift(),d[b].apply(d,e),d):!1:void this.each(function(){var d=a(this),e=d.data("Jcrop");return e?e.setOptions(b):(b.stageConstructor||(b.stageConstructor=a.Jcrop.stageConstructor),b.stageConstructor(this,b,function(b,e){var f=a.Jcrop.attach(b.element,e);"function"==typeof b.attach&&b.attach(f),d.data("Jcrop",f),"function"==typeof c&&c.call(f)})),this})};var z=function(a,b,c){function d(a){r.cssText=a}function e(a,b){return typeof a===b}function f(a,b){return!!~(""+a).indexOf(b)}function g(a,b){for(var d in a){var e=a[d];if(!f(e,"-")&&r[e]!==c)return"pfx"==b?e:!0}return!1}function h(a,b,d){for(var f in a){var g=b[a[f]];if(g!==c)return d===!1?a[f]:e(g,"function")?g.bind(d||b):g}return!1}function i(a,b,c){var d=a.charAt(0).toUpperCase()+a.slice(1),f=(a+" "+v.join(d+" ")+d).split(" ");return e(b,"string")||e(b,"undefined")?g(f,b):(f=(a+" "+w.join(d+" ")+d).split(" "),h(f,b,c))}var j,k,l,m="2.7.1",n={},o=b.documentElement,p="modernizr",q=b.createElement(p),r=q.style,s={}.toString,t=" -webkit- -moz- -o- -ms- ".split(" "),u="Webkit Moz O ms",v=u.split(" "),w=u.toLowerCase().split(" "),x={svg:"http://www.w3.org/2000/svg"},y={},z=[],A=z.slice,B=function(a,c,d,e){var f,g,h,i,j=b.createElement("div"),k=b.body,l=k||b.createElement("body");if(parseInt(d,10))for(;d--;)h=b.createElement("div"),h.id=e?e[d]:p+(d+1),j.appendChild(h);return f=["&#173;",'<style id="s',p,'">',a,"</style>"].join(""),j.id=p,(k?j:l).innerHTML+=f,l.appendChild(j),k||(l.style.background="",l.style.overflow="hidden",i=o.style.overflow,o.style.overflow="hidden",o.appendChild(l)),g=c(j,a),k?j.parentNode.removeChild(j):(l.parentNode.removeChild(l),o.style.overflow=i),!!g},C=function(){function a(a,f){f=f||b.createElement(d[a]||"div"),a="on"+a;var g=a in f;return g||(f.setAttribute||(f=b.createElement("div")),f.setAttribute&&f.removeAttribute&&(f.setAttribute(a,""),g=e(f[a],"function"),e(f[a],"undefined")||(f[a]=c),f.removeAttribute(a))),f=null,g}var d={select:"input",change:"input",submit:"form",reset:"form",error:"img",load:"img",abort:"img"};return a}(),D={}.hasOwnProperty;l=e(D,"undefined")||e(D.call,"undefined")?function(a,b){return b in a&&e(a.constructor.prototype[b],"undefined")}:function(a,b){return D.call(a,b)},Function.prototype.bind||(Function.prototype.bind=function(a){var b=this;if("function"!=typeof b)throw new TypeError;var c=A.call(arguments,1),d=function(){if(this instanceof d){var e=function(){};e.prototype=b.prototype;var f=new e,g=b.apply(f,c.concat(A.call(arguments)));return Object(g)===g?g:f}return b.apply(a,c.concat(A.call(arguments)))};return d}),y.canvas=function(){var a=b.createElement("canvas");return!(!a.getContext||!a.getContext("2d"))},y.canvastext=function(){return!(!n.canvas||!e(b.createElement("canvas").getContext("2d").fillText,"function"))},y.touch=function(){var c;return"ontouchstart"in a||a.DocumentTouch&&b instanceof DocumentTouch?c=!0:B(["@media (",t.join("touch-enabled),("),p,")","{#modernizr{top:9px;position:absolute}}"].join(""),function(a){c=9===a.offsetTop}),c},y.draganddrop=function(){var a=b.createElement("div");return"draggable"in a||"ondragstart"in a&&"ondrop"in a},y.csstransforms=function(){return!!i("transform")},y.svg=function(){return!!b.createElementNS&&!!b.createElementNS(x.svg,"svg").createSVGRect},y.inlinesvg=function(){var a=b.createElement("div");return a.innerHTML="<svg/>",(a.firstChild&&a.firstChild.namespaceURI)==x.svg},y.svgclippaths=function(){return!!b.createElementNS&&/SVGClipPath/.test(s.call(b.createElementNS(x.svg,"clipPath")))};for(var E in y)l(y,E)&&(k=E.toLowerCase(),n[k]=y[E](),z.push((n[k]?"":"no-")+k));return n.addTest=function(a,b){if("object"==typeof a)for(var d in a)l(a,d)&&n.addTest(d,a[d]);else{if(a=a.toLowerCase(),n[a]!==c)return n;b="function"==typeof b?b():b,"undefined"!=typeof enableClasses&&enableClasses&&(o.className+=" "+(b?"":"no-")+a),n[a]=b}return n},d(""),q=j=null,n._version=m,n._prefixes=t,n._domPrefixes=w,n._cssomPrefixes=v,n.hasEvent=C,n.testProp=function(a){return g([a])},n.testAllProps=i,n.testStyles=B,n}(window,window.document);!function(){var a=new Image;a.onerror=function(){z.addTest("datauri",function(){return!1})},a.onload=function(){z.addTest("datauri",function(){return 1==a.width&&1==a.height})},a.src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="}(),a.Jcrop=b,a.Jcrop.supportsCanvas=z.canvas,a.Jcrop.supportsCanvasText=z.canvastext,a.Jcrop.supportsDragAndDrop=z.draganddrop,a.Jcrop.supportsDataURI=z.datauri,a.Jcrop.supportsSVG=z.svg,a.Jcrop.supportsInlineSVG=z.inlinesvg,a.Jcrop.supportsSVGClipPaths=z.svgclippaths,a.Jcrop.supportsCSSTransforms=z.csstransforms,a.Jcrop.supportsTouch=z.touch}(jQuery);
+/**
+ * jquery.Jcrop.js v0.9.12
+ * jQuery Image Cropping Plugin - released under MIT License 
+ * Author: Kelly Hallman <khallman@gmail.com>
+ * http://github.com/tapmodo/Jcrop
+ * Copyright (c) 2008-2013 Tapmodo Interactive LLC {{{
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * }}}
+ */
+
+(function ($) {
+
+  $.Jcrop = function (obj, opt) {
+    var options = $.extend({}, $.Jcrop.defaults),
+        docOffset,
+        _ua = navigator.userAgent.toLowerCase(),
+        is_msie = /msie/.test(_ua),
+        ie6mode = /msie [1-6]\./.test(_ua);
+
+    // Internal Methods {{{
+    function px(n) {
+      return Math.round(n) + 'px';
+    }
+    function cssClass(cl) {
+      return options.baseClass + '-' + cl;
+    }
+    function supportsColorFade() {
+      return $.fx.step.hasOwnProperty('backgroundColor');
+    }
+    function getPos(obj) //{{{
+    {
+      var pos = $(obj).offset();
+      return [pos.left, pos.top];
+    }
+    //}}}
+    function mouseAbs(e) //{{{
+    {
+      return [(e.pageX - docOffset[0]), (e.pageY - docOffset[1])];
+    }
+    //}}}
+    function setOptions(opt) //{{{
+    {
+      if (typeof(opt) !== 'object') opt = {};
+      options = $.extend(options, opt);
+
+      $.each(['onChange','onSelect','onRelease','onDblClick'],function(i,e) {
+        if (typeof(options[e]) !== 'function') options[e] = function () {};
+      });
+    }
+    //}}}
+    function startDragMode(mode, pos, touch) //{{{
+    {
+      docOffset = getPos($img);
+      Tracker.setCursor(mode === 'move' ? mode : mode + '-resize');
+
+      if (mode === 'move') {
+        return Tracker.activateHandlers(createMover(pos), doneSelect, touch);
+      }
+
+      var fc = Coords.getFixed();
+      var opp = oppLockCorner(mode);
+      var opc = Coords.getCorner(oppLockCorner(opp));
+
+      Coords.setPressed(Coords.getCorner(opp));
+      Coords.setCurrent(opc);
+
+      Tracker.activateHandlers(dragmodeHandler(mode, fc), doneSelect, touch);
+    }
+    //}}}
+    function dragmodeHandler(mode, f) //{{{
+    {
+      return function (pos) {
+        if (!options.aspectRatio) {
+          switch (mode) {
+          case 'e':
+            pos[1] = f.y2;
+            break;
+          case 'w':
+            pos[1] = f.y2;
+            break;
+          case 'n':
+            pos[0] = f.x2;
+            break;
+          case 's':
+            pos[0] = f.x2;
+            break;
+          }
+        } else {
+          switch (mode) {
+          case 'e':
+            pos[1] = f.y + 1;
+            break;
+          case 'w':
+            pos[1] = f.y + 1;
+            break;
+          case 'n':
+            pos[0] = f.x + 1;
+            break;
+          case 's':
+            pos[0] = f.x + 1;
+            break;
+          }
+        }
+        Coords.setCurrent(pos);
+        Selection.update();
+      };
+    }
+    //}}}
+    function createMover(pos) //{{{
+    {
+      var lloc = pos;
+      KeyManager.watchKeys();
+
+      return function (pos) {
+        Coords.moveOffset([pos[0] - lloc[0], pos[1] - lloc[1]]);
+        lloc = pos;
+
+        Selection.update();
+      };
+    }
+    //}}}
+    function oppLockCorner(ord) //{{{
+    {
+      switch (ord) {
+      case 'n':
+        return 'sw';
+      case 's':
+        return 'nw';
+      case 'e':
+        return 'nw';
+      case 'w':
+        return 'ne';
+      case 'ne':
+        return 'sw';
+      case 'nw':
+        return 'se';
+      case 'se':
+        return 'nw';
+      case 'sw':
+        return 'ne';
+      }
+    }
+    //}}}
+    function createDragger(ord) //{{{
+    {
+      return function (e) {
+        if (options.disabled) {
+          return false;
+        }
+        if ((ord === 'move') && !options.allowMove) {
+          return false;
+        }
+        
+        // Fix position of crop area when dragged the very first time.
+        // Necessary when crop image is in a hidden element when page is loaded.
+        docOffset = getPos($img);
+
+        btndown = true;
+        startDragMode(ord, mouseAbs(e));
+        e.stopPropagation();
+        e.preventDefault();
+        return false;
+      };
+    }
+    //}}}
+    function presize($obj, w, h) //{{{
+    {
+      var nw = $obj.width(),
+          nh = $obj.height();
+      if ((nw > w) && w > 0) {
+        nw = w;
+        nh = (w / $obj.width()) * $obj.height();
+      }
+      if ((nh > h) && h > 0) {
+        nh = h;
+        nw = (h / $obj.height()) * $obj.width();
+      }
+      xscale = $obj.width() / nw;
+      yscale = $obj.height() / nh;
+      $obj.width(nw).height(nh);
+    }
+    //}}}
+    function unscale(c) //{{{
+    {
+      return {
+        x: c.x * xscale,
+        y: c.y * yscale,
+        x2: c.x2 * xscale,
+        y2: c.y2 * yscale,
+        w: c.w * xscale,
+        h: c.h * yscale
+      };
+    }
+    //}}}
+    function doneSelect(pos) //{{{
+    {
+      var c = Coords.getFixed();
+      if ((c.w > options.minSelect[0]) && (c.h > options.minSelect[1])) {
+        Selection.enableHandles();
+        Selection.done();
+      } else {
+        Selection.release();
+      }
+      Tracker.setCursor(options.allowSelect ? 'crosshair' : 'default');
+    }
+    //}}}
+    function newSelection(e) //{{{
+    {
+      if (options.disabled) {
+        return false;
+      }
+      if (!options.allowSelect) {
+        return false;
+      }
+      btndown = true;
+      docOffset = getPos($img);
+      Selection.disableHandles();
+      Tracker.setCursor('crosshair');
+      var pos = mouseAbs(e);
+      Coords.setPressed(pos);
+      Selection.update();
+      Tracker.activateHandlers(selectDrag, doneSelect, e.type.substring(0,5)==='touch');
+      KeyManager.watchKeys();
+
+      e.stopPropagation();
+      e.preventDefault();
+      return false;
+    }
+    //}}}
+    function selectDrag(pos) //{{{
+    {
+      Coords.setCurrent(pos);
+      Selection.update();
+    }
+    //}}}
+    function newTracker() //{{{
+    {
+      var trk = $('<div></div>').addClass(cssClass('tracker'));
+      if (is_msie) {
+        trk.css({
+          opacity: 0,
+          backgroundColor: 'white'
+        });
+      }
+      return trk;
+    }
+    //}}}
+
+    // }}}
+    // Initialization {{{
+    // Sanitize some options {{{
+    if (typeof(obj) !== 'object') {
+      obj = $(obj)[0];
+    }
+    if (typeof(opt) !== 'object') {
+      opt = {};
+    }
+    // }}}
+    setOptions(opt);
+    // Initialize some jQuery objects {{{
+    // The values are SET on the image(s) for the interface
+    // If the original image has any of these set, they will be reset
+    // However, if you destroy() the Jcrop instance the original image's
+    // character in the DOM will be as you left it.
+    var img_css = {
+      border: 'none',
+      visibility: 'visible',
+      margin: 0,
+      padding: 0,
+      position: 'absolute',
+      top: 0,
+      left: 0
+    };
+
+    var $origimg = $(obj),
+      img_mode = true;
+
+    if (obj.tagName == 'IMG') {
+      // Fix size of crop image.
+      // Necessary when crop image is within a hidden element when page is loaded.
+      if ($origimg[0].width != 0 && $origimg[0].height != 0) {
+        // Obtain dimensions from contained img element.
+        $origimg.width($origimg[0].width);
+        $origimg.height($origimg[0].height);
+      } else {
+        // Obtain dimensions from temporary image in case the original is not loaded yet (e.g. IE 7.0). 
+        var tempImage = new Image();
+        tempImage.src = $origimg[0].src;
+        $origimg.width(tempImage.width);
+        $origimg.height(tempImage.height);
+      } 
+
+      var $img = $origimg.clone().removeAttr('id').css(img_css).show();
+
+      $img.width($origimg.width());
+      $img.height($origimg.height());
+      $origimg.after($img).hide();
+
+    } else {
+      $img = $origimg.css(img_css).show();
+      img_mode = false;
+      if (options.shade === null) { options.shade = true; }
+    }
+
+    presize($img, options.boxWidth, options.boxHeight);
+
+    var boundx = $img.width(),
+        boundy = $img.height(),
+        
+        
+        $div = $('<div />').width(boundx).height(boundy).addClass(cssClass('holder')).css({
+        position: 'relative',
+        backgroundColor: options.bgColor
+      }).insertAfter($origimg).append($img);
+
+    if (options.addClass) {
+      $div.addClass(options.addClass);
+    }
+
+    var $img2 = $('<div />'),
+
+        $img_holder = $('<div />') 
+        .width('100%').height('100%').css({
+          zIndex: 310,
+          position: 'absolute',
+          overflow: 'hidden'
+        }),
+
+        $hdl_holder = $('<div />') 
+        .width('100%').height('100%').css('zIndex', 320), 
+
+        $sel = $('<div />') 
+        .css({
+          position: 'absolute',
+          zIndex: 600
+        }).dblclick(function(){
+          var c = Coords.getFixed();
+          options.onDblClick.call(api,c);
+        }).insertBefore($img).append($img_holder, $hdl_holder); 
+
+    if (img_mode) {
+
+      $img2 = $('<img />')
+          .attr('src', $img.attr('src')).css(img_css).width(boundx).height(boundy),
+
+      $img_holder.append($img2);
+
+    }
+
+    if (ie6mode) {
+      $sel.css({
+        overflowY: 'hidden'
+      });
+    }
+
+    var bound = options.boundary;
+    var $trk = newTracker().width(boundx + (bound * 2)).height(boundy + (bound * 2)).css({
+      position: 'absolute',
+      top: px(-bound),
+      left: px(-bound),
+      zIndex: 290
+    }).mousedown(newSelection);
+
+    /* }}} */
+    // Set more variables {{{
+    var bgcolor = options.bgColor,
+        bgopacity = options.bgOpacity,
+        xlimit, ylimit, xmin, ymin, xscale, yscale, enabled = true,
+        btndown, animating, shift_down;
+
+    docOffset = getPos($img);
+    // }}}
+    // }}}
+    // Internal Modules {{{
+    // Touch Module {{{ 
+    var Touch = (function () {
+      // Touch support detection function adapted (under MIT License)
+      // from code by Jeffrey Sambells - http://github.com/iamamused/
+      function hasTouchSupport() {
+        var support = {}, events = ['touchstart', 'touchmove', 'touchend'],
+            el = document.createElement('div'), i;
+
+        try {
+          for(i=0; i<events.length; i++) {
+            var eventName = events[i];
+            eventName = 'on' + eventName;
+            var isSupported = (eventName in el);
+            if (!isSupported) {
+              el.setAttribute(eventName, 'return;');
+              isSupported = typeof el[eventName] == 'function';
+            }
+            support[events[i]] = isSupported;
+          }
+          return support.touchstart && support.touchend && support.touchmove;
+        }
+        catch(err) {
+          return false;
+        }
+      }
+
+      function detectSupport() {
+        if ((options.touchSupport === true) || (options.touchSupport === false)) return options.touchSupport;
+          else return hasTouchSupport();
+      }
+      return {
+        createDragger: function (ord) {
+          return function (e) {
+            if (options.disabled) {
+              return false;
+            }
+            if ((ord === 'move') && !options.allowMove) {
+              return false;
+            }
+            docOffset = getPos($img);
+            btndown = true;
+            startDragMode(ord, mouseAbs(Touch.cfilter(e)), true);
+            e.stopPropagation();
+            e.preventDefault();
+            return false;
+          };
+        },
+        newSelection: function (e) {
+          return newSelection(Touch.cfilter(e));
+        },
+        cfilter: function (e){
+          e.pageX = e.originalEvent.changedTouches[0].pageX;
+          e.pageY = e.originalEvent.changedTouches[0].pageY;
+          return e;
+        },
+        isSupported: hasTouchSupport,
+        support: detectSupport()
+      };
+    }());
+    // }}}
+    // Coords Module {{{
+    var Coords = (function () {
+      var x1 = 0,
+          y1 = 0,
+          x2 = 0,
+          y2 = 0,
+          ox, oy;
+
+      function setPressed(pos) //{{{
+      {
+        pos = rebound(pos);
+        x2 = x1 = pos[0];
+        y2 = y1 = pos[1];
+      }
+      //}}}
+      function setCurrent(pos) //{{{
+      {
+        pos = rebound(pos);
+        ox = pos[0] - x2;
+        oy = pos[1] - y2;
+        x2 = pos[0];
+        y2 = pos[1];
+      }
+      //}}}
+      function getOffset() //{{{
+      {
+        return [ox, oy];
+      }
+      //}}}
+      function moveOffset(offset) //{{{
+      {
+        var ox = offset[0],
+            oy = offset[1];
+
+        if (0 > x1 + ox) {
+          ox -= ox + x1;
+        }
+        if (0 > y1 + oy) {
+          oy -= oy + y1;
+        }
+
+        if (boundy < y2 + oy) {
+          oy += boundy - (y2 + oy);
+        }
+        if (boundx < x2 + ox) {
+          ox += boundx - (x2 + ox);
+        }
+
+        x1 += ox;
+        x2 += ox;
+        y1 += oy;
+        y2 += oy;
+      }
+      //}}}
+      function getCorner(ord) //{{{
+      {
+        var c = getFixed();
+        switch (ord) {
+        case 'ne':
+          return [c.x2, c.y];
+        case 'nw':
+          return [c.x, c.y];
+        case 'se':
+          return [c.x2, c.y2];
+        case 'sw':
+          return [c.x, c.y2];
+        }
+      }
+      //}}}
+      function getFixed() //{{{
+      {
+        if (!options.aspectRatio) {
+          return getRect();
+        }
+        // This function could use some optimization I think...
+        var aspect = options.aspectRatio,
+            min_x = options.minSize[0] / xscale,
+            
+            
+            //min_y = options.minSize[1]/yscale,
+            max_x = options.maxSize[0] / xscale,
+            max_y = options.maxSize[1] / yscale,
+            rw = x2 - x1,
+            rh = y2 - y1,
+            rwa = Math.abs(rw),
+            rha = Math.abs(rh),
+            real_ratio = rwa / rha,
+            xx, yy, w, h;
+
+        if (max_x === 0) {
+          max_x = boundx * 10;
+        }
+        if (max_y === 0) {
+          max_y = boundy * 10;
+        }
+        if (real_ratio < aspect) {
+          yy = y2;
+          w = rha * aspect;
+          xx = rw < 0 ? x1 - w : w + x1;
+
+          if (xx < 0) {
+            xx = 0;
+            h = Math.abs((xx - x1) / aspect);
+            yy = rh < 0 ? y1 - h : h + y1;
+          } else if (xx > boundx) {
+            xx = boundx;
+            h = Math.abs((xx - x1) / aspect);
+            yy = rh < 0 ? y1 - h : h + y1;
+          }
+        } else {
+          xx = x2;
+          h = rwa / aspect;
+          yy = rh < 0 ? y1 - h : y1 + h;
+          if (yy < 0) {
+            yy = 0;
+            w = Math.abs((yy - y1) * aspect);
+            xx = rw < 0 ? x1 - w : w + x1;
+          } else if (yy > boundy) {
+            yy = boundy;
+            w = Math.abs(yy - y1) * aspect;
+            xx = rw < 0 ? x1 - w : w + x1;
+          }
+        }
+
+        // Magic %-)
+        if (xx > x1) { // right side
+          if (xx - x1 < min_x) {
+            xx = x1 + min_x;
+          } else if (xx - x1 > max_x) {
+            xx = x1 + max_x;
+          }
+          if (yy > y1) {
+            yy = y1 + (xx - x1) / aspect;
+          } else {
+            yy = y1 - (xx - x1) / aspect;
+          }
+        } else if (xx < x1) { // left side
+          if (x1 - xx < min_x) {
+            xx = x1 - min_x;
+          } else if (x1 - xx > max_x) {
+            xx = x1 - max_x;
+          }
+          if (yy > y1) {
+            yy = y1 + (x1 - xx) / aspect;
+          } else {
+            yy = y1 - (x1 - xx) / aspect;
+          }
+        }
+
+        if (xx < 0) {
+          x1 -= xx;
+          xx = 0;
+        } else if (xx > boundx) {
+          x1 -= xx - boundx;
+          xx = boundx;
+        }
+
+        if (yy < 0) {
+          y1 -= yy;
+          yy = 0;
+        } else if (yy > boundy) {
+          y1 -= yy - boundy;
+          yy = boundy;
+        }
+
+        return makeObj(flipCoords(x1, y1, xx, yy));
+      }
+      //}}}
+      function rebound(p) //{{{
+      {
+        if (p[0] < 0) p[0] = 0;
+        if (p[1] < 0) p[1] = 0;
+
+        if (p[0] > boundx) p[0] = boundx;
+        if (p[1] > boundy) p[1] = boundy;
+
+        return [Math.round(p[0]), Math.round(p[1])];
+      }
+      //}}}
+      function flipCoords(x1, y1, x2, y2) //{{{
+      {
+        var xa = x1,
+            xb = x2,
+            ya = y1,
+            yb = y2;
+        if (x2 < x1) {
+          xa = x2;
+          xb = x1;
+        }
+        if (y2 < y1) {
+          ya = y2;
+          yb = y1;
+        }
+        return [xa, ya, xb, yb];
+      }
+      //}}}
+      function getRect() //{{{
+      {
+        var xsize = x2 - x1,
+            ysize = y2 - y1,
+            delta;
+
+        if (xlimit && (Math.abs(xsize) > xlimit)) {
+          x2 = (xsize > 0) ? (x1 + xlimit) : (x1 - xlimit);
+        }
+        if (ylimit && (Math.abs(ysize) > ylimit)) {
+          y2 = (ysize > 0) ? (y1 + ylimit) : (y1 - ylimit);
+        }
+
+        if (ymin / yscale && (Math.abs(ysize) < ymin / yscale)) {
+          y2 = (ysize > 0) ? (y1 + ymin / yscale) : (y1 - ymin / yscale);
+        }
+        if (xmin / xscale && (Math.abs(xsize) < xmin / xscale)) {
+          x2 = (xsize > 0) ? (x1 + xmin / xscale) : (x1 - xmin / xscale);
+        }
+
+        if (x1 < 0) {
+          x2 -= x1;
+          x1 -= x1;
+        }
+        if (y1 < 0) {
+          y2 -= y1;
+          y1 -= y1;
+        }
+        if (x2 < 0) {
+          x1 -= x2;
+          x2 -= x2;
+        }
+        if (y2 < 0) {
+          y1 -= y2;
+          y2 -= y2;
+        }
+        if (x2 > boundx) {
+          delta = x2 - boundx;
+          x1 -= delta;
+          x2 -= delta;
+        }
+        if (y2 > boundy) {
+          delta = y2 - boundy;
+          y1 -= delta;
+          y2 -= delta;
+        }
+        if (x1 > boundx) {
+          delta = x1 - boundy;
+          y2 -= delta;
+          y1 -= delta;
+        }
+        if (y1 > boundy) {
+          delta = y1 - boundy;
+          y2 -= delta;
+          y1 -= delta;
+        }
+
+        return makeObj(flipCoords(x1, y1, x2, y2));
+      }
+      //}}}
+      function makeObj(a) //{{{
+      {
+        return {
+          x: a[0],
+          y: a[1],
+          x2: a[2],
+          y2: a[3],
+          w: a[2] - a[0],
+          h: a[3] - a[1]
+        };
+      }
+      //}}}
+
+      return {
+        flipCoords: flipCoords,
+        setPressed: setPressed,
+        setCurrent: setCurrent,
+        getOffset: getOffset,
+        moveOffset: moveOffset,
+        getCorner: getCorner,
+        getFixed: getFixed
+      };
+    }());
+
+    //}}}
+    // Shade Module {{{
+    var Shade = (function() {
+      var enabled = false,
+          holder = $('<div />').css({
+            position: 'absolute',
+            zIndex: 240,
+            opacity: 0
+          }),
+          shades = {
+            top: createShade(),
+            left: createShade().height(boundy),
+            right: createShade().height(boundy),
+            bottom: createShade()
+          };
+
+      function resizeShades(w,h) {
+        shades.left.css({ height: px(h) });
+        shades.right.css({ height: px(h) });
+      }
+      function updateAuto()
+      {
+        return updateShade(Coords.getFixed());
+      }
+      function updateShade(c)
+      {
+        shades.top.css({
+          left: px(c.x),
+          width: px(c.w),
+          height: px(c.y)
+        });
+        shades.bottom.css({
+          top: px(c.y2),
+          left: px(c.x),
+          width: px(c.w),
+          height: px(boundy-c.y2)
+        });
+        shades.right.css({
+          left: px(c.x2),
+          width: px(boundx-c.x2)
+        });
+        shades.left.css({
+          width: px(c.x)
+        });
+      }
+      function createShade() {
+        return $('<div />').css({
+          position: 'absolute',
+          backgroundColor: options.shadeColor||options.bgColor
+        }).appendTo(holder);
+      }
+      function enableShade() {
+        if (!enabled) {
+          enabled = true;
+          holder.insertBefore($img);
+          updateAuto();
+          Selection.setBgOpacity(1,0,1);
+          $img2.hide();
+
+          setBgColor(options.shadeColor||options.bgColor,1);
+          if (Selection.isAwake())
+          {
+            setOpacity(options.bgOpacity,1);
+          }
+            else setOpacity(1,1);
+        }
+      }
+      function setBgColor(color,now) {
+        colorChangeMacro(getShades(),color,now);
+      }
+      function disableShade() {
+        if (enabled) {
+          holder.remove();
+          $img2.show();
+          enabled = false;
+          if (Selection.isAwake()) {
+            Selection.setBgOpacity(options.bgOpacity,1,1);
+          } else {
+            Selection.setBgOpacity(1,1,1);
+            Selection.disableHandles();
+          }
+          colorChangeMacro($div,0,1);
+        }
+      }
+      function setOpacity(opacity,now) {
+        if (enabled) {
+          if (options.bgFade && !now) {
+            holder.animate({
+              opacity: 1-opacity
+            },{
+              queue: false,
+              duration: options.fadeTime
+            });
+          }
+          else holder.css({opacity:1-opacity});
+        }
+      }
+      function refreshAll() {
+        options.shade ? enableShade() : disableShade();
+        if (Selection.isAwake()) setOpacity(options.bgOpacity);
+      }
+      function getShades() {
+        return holder.children();
+      }
+
+      return {
+        update: updateAuto,
+        updateRaw: updateShade,
+        getShades: getShades,
+        setBgColor: setBgColor,
+        enable: enableShade,
+        disable: disableShade,
+        resize: resizeShades,
+        refresh: refreshAll,
+        opacity: setOpacity
+      };
+    }());
+    // }}}
+    // Selection Module {{{
+    var Selection = (function () {
+      var awake,
+          hdep = 370,
+          borders = {},
+          handle = {},
+          dragbar = {},
+          seehandles = false;
+
+      // Private Methods
+      function insertBorder(type) //{{{
+      {
+        var jq = $('<div />').css({
+          position: 'absolute',
+          opacity: options.borderOpacity
+        }).addClass(cssClass(type));
+        $img_holder.append(jq);
+        return jq;
+      }
+      //}}}
+      function dragDiv(ord, zi) //{{{
+      {
+        var jq = $('<div />').mousedown(createDragger(ord)).css({
+          cursor: ord + '-resize',
+          position: 'absolute',
+          zIndex: zi
+        }).addClass('ord-'+ord);
+
+        if (Touch.support) {
+          jq.bind('touchstart.jcrop', Touch.createDragger(ord));
+        }
+
+        $hdl_holder.append(jq);
+        return jq;
+      }
+      //}}}
+      function insertHandle(ord) //{{{
+      {
+        var hs = options.handleSize,
+
+          div = dragDiv(ord, hdep++).css({
+            opacity: options.handleOpacity
+          }).addClass(cssClass('handle'));
+
+        if (hs) { div.width(hs).height(hs); }
+
+        return div;
+      }
+      //}}}
+      function insertDragbar(ord) //{{{
+      {
+        return dragDiv(ord, hdep++).addClass('jcrop-dragbar');
+      }
+      //}}}
+      function createDragbars(li) //{{{
+      {
+        var i;
+        for (i = 0; i < li.length; i++) {
+          dragbar[li[i]] = insertDragbar(li[i]);
+        }
+      }
+      //}}}
+      function createBorders(li) //{{{
+      {
+        var cl,i;
+        for (i = 0; i < li.length; i++) {
+          switch(li[i]){
+            case'n': cl='hline'; break;
+            case's': cl='hline bottom'; break;
+            case'e': cl='vline right'; break;
+            case'w': cl='vline'; break;
+          }
+          borders[li[i]] = insertBorder(cl);
+        }
+      }
+      //}}}
+      function createHandles(li) //{{{
+      {
+        var i;
+        for (i = 0; i < li.length; i++) {
+          handle[li[i]] = insertHandle(li[i]);
+        }
+      }
+      //}}}
+      function moveto(x, y) //{{{
+      {
+        if (!options.shade) {
+          $img2.css({
+            top: px(-y),
+            left: px(-x)
+          });
+        }
+        $sel.css({
+          top: px(y),
+          left: px(x)
+        });
+      }
+      //}}}
+      function resize(w, h) //{{{
+      {
+        $sel.width(Math.round(w)).height(Math.round(h));
+      }
+      //}}}
+      function refresh() //{{{
+      {
+        var c = Coords.getFixed();
+
+        Coords.setPressed([c.x, c.y]);
+        Coords.setCurrent([c.x2, c.y2]);
+
+        updateVisible();
+      }
+      //}}}
+
+      // Internal Methods
+      function updateVisible(select) //{{{
+      {
+        if (awake) {
+          return update(select);
+        }
+      }
+      //}}}
+      function update(select) //{{{
+      {
+        var c = Coords.getFixed();
+
+        resize(c.w, c.h);
+        moveto(c.x, c.y);
+        if (options.shade) Shade.updateRaw(c);
+
+        awake || show();
+
+        if (select) {
+          options.onSelect.call(api, unscale(c));
+        } else {
+          options.onChange.call(api, unscale(c));
+        }
+      }
+      //}}}
+      function setBgOpacity(opacity,force,now) //{{{
+      {
+        if (!awake && !force) return;
+        if (options.bgFade && !now) {
+          $img.animate({
+            opacity: opacity
+          },{
+            queue: false,
+            duration: options.fadeTime
+          });
+        } else {
+          $img.css('opacity', opacity);
+        }
+      }
+      //}}}
+      function show() //{{{
+      {
+        $sel.show();
+
+        if (options.shade) Shade.opacity(bgopacity);
+          else setBgOpacity(bgopacity,true);
+
+        awake = true;
+      }
+      //}}}
+      function release() //{{{
+      {
+        disableHandles();
+        $sel.hide();
+
+        if (options.shade) Shade.opacity(1);
+          else setBgOpacity(1);
+
+        awake = false;
+        options.onRelease.call(api);
+      }
+      //}}}
+      function showHandles() //{{{
+      {
+        if (seehandles) {
+          $hdl_holder.show();
+        }
+      }
+      //}}}
+      function enableHandles() //{{{
+      {
+        seehandles = true;
+        if (options.allowResize) {
+          $hdl_holder.show();
+          return true;
+        }
+      }
+      //}}}
+      function disableHandles() //{{{
+      {
+        seehandles = false;
+        $hdl_holder.hide();
+      } 
+      //}}}
+      function animMode(v) //{{{
+      {
+        if (v) {
+          animating = true;
+          disableHandles();
+        } else {
+          animating = false;
+          enableHandles();
+        }
+      } 
+      //}}}
+      function done() //{{{
+      {
+        animMode(false);
+        refresh();
+      } 
+      //}}}
+      // Insert draggable elements {{{
+      // Insert border divs for outline
+
+      if (options.dragEdges && $.isArray(options.createDragbars))
+        createDragbars(options.createDragbars);
+
+      if ($.isArray(options.createHandles))
+        createHandles(options.createHandles);
+
+      if (options.drawBorders && $.isArray(options.createBorders))
+        createBorders(options.createBorders);
+
+      //}}}
+
+      // This is a hack for iOS5 to support drag/move touch functionality
+      $(document).bind('touchstart.jcrop-ios',function(e) {
+        if ($(e.currentTarget).hasClass('jcrop-tracker')) e.stopPropagation();
+      });
+
+      var $track = newTracker().mousedown(createDragger('move')).css({
+        cursor: 'move',
+        position: 'absolute',
+        zIndex: 360
+      });
+
+      if (Touch.support) {
+        $track.bind('touchstart.jcrop', Touch.createDragger('move'));
+      }
+
+      $img_holder.append($track);
+      disableHandles();
+
+      return {
+        updateVisible: updateVisible,
+        update: update,
+        release: release,
+        refresh: refresh,
+        isAwake: function () {
+          return awake;
+        },
+        setCursor: function (cursor) {
+          $track.css('cursor', cursor);
+        },
+        enableHandles: enableHandles,
+        enableOnly: function () {
+          seehandles = true;
+        },
+        showHandles: showHandles,
+        disableHandles: disableHandles,
+        animMode: animMode,
+        setBgOpacity: setBgOpacity,
+        done: done
+      };
+    }());
+    
+    //}}}
+    // Tracker Module {{{
+    var Tracker = (function () {
+      var onMove = function () {},
+          onDone = function () {},
+          trackDoc = options.trackDocument;
+
+      function toFront(touch) //{{{
+      {
+        $trk.css({
+          zIndex: 450
+        });
+
+        if (touch)
+          $(document)
+            .bind('touchmove.jcrop', trackTouchMove)
+            .bind('touchend.jcrop', trackTouchEnd);
+
+        else if (trackDoc)
+          $(document)
+            .bind('mousemove.jcrop',trackMove)
+            .bind('mouseup.jcrop',trackUp);
+      } 
+      //}}}
+      function toBack() //{{{
+      {
+        $trk.css({
+          zIndex: 290
+        });
+        $(document).unbind('.jcrop');
+      } 
+      //}}}
+      function trackMove(e) //{{{
+      {
+        onMove(mouseAbs(e));
+        return false;
+      } 
+      //}}}
+      function trackUp(e) //{{{
+      {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (btndown) {
+          btndown = false;
+
+          onDone(mouseAbs(e));
+
+          if (Selection.isAwake()) {
+            options.onSelect.call(api, unscale(Coords.getFixed()));
+          }
+
+          toBack();
+          onMove = function () {};
+          onDone = function () {};
+        }
+
+        return false;
+      }
+      //}}}
+      function activateHandlers(move, done, touch) //{{{
+      {
+        btndown = true;
+        onMove = move;
+        onDone = done;
+        toFront(touch);
+        return false;
+      }
+      //}}}
+      function trackTouchMove(e) //{{{
+      {
+        onMove(mouseAbs(Touch.cfilter(e)));
+        return false;
+      }
+      //}}}
+      function trackTouchEnd(e) //{{{
+      {
+        return trackUp(Touch.cfilter(e));
+      }
+      //}}}
+      function setCursor(t) //{{{
+      {
+        $trk.css('cursor', t);
+      }
+      //}}}
+
+      if (!trackDoc) {
+        $trk.mousemove(trackMove).mouseup(trackUp).mouseout(trackUp);
+      }
+
+      $img.before($trk);
+      return {
+        activateHandlers: activateHandlers,
+        setCursor: setCursor
+      };
+    }());
+    //}}}
+    // KeyManager Module {{{
+    var KeyManager = (function () {
+      var $keymgr = $('<input type="radio" />').css({
+        position: 'fixed',
+        left: '-120px',
+        width: '12px'
+      }).addClass('jcrop-keymgr'),
+
+        $keywrap = $('<div />').css({
+          position: 'absolute',
+          overflow: 'hidden'
+        }).append($keymgr);
+
+      function watchKeys() //{{{
+      {
+        if (options.keySupport) {
+          $keymgr.show();
+          $keymgr.focus();
+        }
+      }
+      //}}}
+      function onBlur(e) //{{{
+      {
+        $keymgr.hide();
+      }
+      //}}}
+      function doNudge(e, x, y) //{{{
+      {
+        if (options.allowMove) {
+          Coords.moveOffset([x, y]);
+          Selection.updateVisible(true);
+        }
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      //}}}
+      function parseKey(e) //{{{
+      {
+        if (e.ctrlKey || e.metaKey) {
+          return true;
+        }
+        shift_down = e.shiftKey ? true : false;
+        var nudge = shift_down ? 10 : 1;
+
+        switch (e.keyCode) {
+        case 37:
+          doNudge(e, -nudge, 0);
+          break;
+        case 39:
+          doNudge(e, nudge, 0);
+          break;
+        case 38:
+          doNudge(e, 0, -nudge);
+          break;
+        case 40:
+          doNudge(e, 0, nudge);
+          break;
+        case 27:
+          if (options.allowSelect) Selection.release();
+          break;
+        case 9:
+          return true;
+        }
+
+        return false;
+      }
+      //}}}
+
+      if (options.keySupport) {
+        $keymgr.keydown(parseKey).blur(onBlur);
+        if (ie6mode || !options.fixedSupport) {
+          $keymgr.css({
+            position: 'absolute',
+            left: '-20px'
+          });
+          $keywrap.append($keymgr).insertBefore($img);
+        } else {
+          $keymgr.insertBefore($img);
+        }
+      }
+
+
+      return {
+        watchKeys: watchKeys
+      };
+    }());
+    //}}}
+    // }}}
+    // API methods {{{
+    function setClass(cname) //{{{
+    {
+      $div.removeClass().addClass(cssClass('holder')).addClass(cname);
+    }
+    //}}}
+    function animateTo(a, callback) //{{{
+    {
+      var x1 = a[0] / xscale,
+          y1 = a[1] / yscale,
+          x2 = a[2] / xscale,
+          y2 = a[3] / yscale;
+
+      if (animating) {
+        return;
+      }
+
+      var animto = Coords.flipCoords(x1, y1, x2, y2),
+          c = Coords.getFixed(),
+          initcr = [c.x, c.y, c.x2, c.y2],
+          animat = initcr,
+          interv = options.animationDelay,
+          ix1 = animto[0] - initcr[0],
+          iy1 = animto[1] - initcr[1],
+          ix2 = animto[2] - initcr[2],
+          iy2 = animto[3] - initcr[3],
+          pcent = 0,
+          velocity = options.swingSpeed;
+
+      x1 = animat[0];
+      y1 = animat[1];
+      x2 = animat[2];
+      y2 = animat[3];
+
+      Selection.animMode(true);
+      var anim_timer;
+
+      function queueAnimator() {
+        window.setTimeout(animator, interv);
+      }
+      var animator = (function () {
+        return function () {
+          pcent += (100 - pcent) / velocity;
+
+          animat[0] = Math.round(x1 + ((pcent / 100) * ix1));
+          animat[1] = Math.round(y1 + ((pcent / 100) * iy1));
+          animat[2] = Math.round(x2 + ((pcent / 100) * ix2));
+          animat[3] = Math.round(y2 + ((pcent / 100) * iy2));
+
+          if (pcent >= 99.8) {
+            pcent = 100;
+          }
+          if (pcent < 100) {
+            setSelectRaw(animat);
+            queueAnimator();
+          } else {
+            Selection.done();
+            Selection.animMode(false);
+            if (typeof(callback) === 'function') {
+              callback.call(api);
+            }
+          }
+        };
+      }());
+      queueAnimator();
+    }
+    //}}}
+    function setSelect(rect) //{{{
+    {
+      setSelectRaw([rect[0] / xscale, rect[1] / yscale, rect[2] / xscale, rect[3] / yscale]);
+      options.onSelect.call(api, unscale(Coords.getFixed()));
+      Selection.enableHandles();
+    }
+    //}}}
+    function setSelectRaw(l) //{{{
+    {
+      Coords.setPressed([l[0], l[1]]);
+      Coords.setCurrent([l[2], l[3]]);
+      Selection.update();
+    }
+    //}}}
+    function tellSelect() //{{{
+    {
+      return unscale(Coords.getFixed());
+    }
+    //}}}
+    function tellScaled() //{{{
+    {
+      return Coords.getFixed();
+    }
+    //}}}
+    function setOptionsNew(opt) //{{{
+    {
+      setOptions(opt);
+      interfaceUpdate();
+    }
+    //}}}
+    function disableCrop() //{{{
+    {
+      options.disabled = true;
+      Selection.disableHandles();
+      Selection.setCursor('default');
+      Tracker.setCursor('default');
+    }
+    //}}}
+    function enableCrop() //{{{
+    {
+      options.disabled = false;
+      interfaceUpdate();
+    }
+    //}}}
+    function cancelCrop() //{{{
+    {
+      Selection.done();
+      Tracker.activateHandlers(null, null);
+    }
+    //}}}
+    function destroy() //{{{
+    {
+      $div.remove();
+      $origimg.show();
+      $origimg.css('visibility','visible');
+      $(obj).removeData('Jcrop');
+    }
+    //}}}
+    function setImage(src, callback) //{{{
+    {
+      Selection.release();
+      disableCrop();
+      var img = new Image();
+      img.onload = function () {
+        var iw = img.width;
+        var ih = img.height;
+        var bw = options.boxWidth;
+        var bh = options.boxHeight;
+        $img.width(iw).height(ih);
+        $img.attr('src', src);
+        $img2.attr('src', src);
+        presize($img, bw, bh);
+        boundx = $img.width();
+        boundy = $img.height();
+        $img2.width(boundx).height(boundy);
+        $trk.width(boundx + (bound * 2)).height(boundy + (bound * 2));
+        $div.width(boundx).height(boundy);
+        Shade.resize(boundx,boundy);
+        enableCrop();
+
+        if (typeof(callback) === 'function') {
+          callback.call(api);
+        }
+      };
+      img.src = src;
+    }
+    //}}}
+    function colorChangeMacro($obj,color,now) {
+      var mycolor = color || options.bgColor;
+      if (options.bgFade && supportsColorFade() && options.fadeTime && !now) {
+        $obj.animate({
+          backgroundColor: mycolor
+        }, {
+          queue: false,
+          duration: options.fadeTime
+        });
+      } else {
+        $obj.css('backgroundColor', mycolor);
+      }
+    }
+    function interfaceUpdate(alt) //{{{
+    // This method tweaks the interface based on options object.
+    // Called when options are changed and at end of initialization.
+    {
+      if (options.allowResize) {
+        if (alt) {
+          Selection.enableOnly();
+        } else {
+          Selection.enableHandles();
+        }
+      } else {
+        Selection.disableHandles();
+      }
+
+      Tracker.setCursor(options.allowSelect ? 'crosshair' : 'default');
+      Selection.setCursor(options.allowMove ? 'move' : 'default');
+
+      if (options.hasOwnProperty('trueSize')) {
+        xscale = options.trueSize[0] / boundx;
+        yscale = options.trueSize[1] / boundy;
+      }
+
+      if (options.hasOwnProperty('setSelect')) {
+        setSelect(options.setSelect);
+        Selection.done();
+        delete(options.setSelect);
+      }
+
+      Shade.refresh();
+
+      if (options.bgColor != bgcolor) {
+        colorChangeMacro(
+          options.shade? Shade.getShades(): $div,
+          options.shade?
+            (options.shadeColor || options.bgColor):
+            options.bgColor
+        );
+        bgcolor = options.bgColor;
+      }
+
+      if (bgopacity != options.bgOpacity) {
+        bgopacity = options.bgOpacity;
+        if (options.shade) Shade.refresh();
+          else Selection.setBgOpacity(bgopacity);
+      }
+
+      xlimit = options.maxSize[0] || 0;
+      ylimit = options.maxSize[1] || 0;
+      xmin = options.minSize[0] || 0;
+      ymin = options.minSize[1] || 0;
+
+      if (options.hasOwnProperty('outerImage')) {
+        $img.attr('src', options.outerImage);
+        delete(options.outerImage);
+      }
+
+      Selection.refresh();
+    }
+    //}}}
+    //}}}
+
+    if (Touch.support) $trk.bind('touchstart.jcrop', Touch.newSelection);
+
+    $hdl_holder.hide();
+    interfaceUpdate(true);
+
+    var api = {
+      setImage: setImage,
+      animateTo: animateTo,
+      setSelect: setSelect,
+      setOptions: setOptionsNew,
+      tellSelect: tellSelect,
+      tellScaled: tellScaled,
+      setClass: setClass,
+
+      disable: disableCrop,
+      enable: enableCrop,
+      cancel: cancelCrop,
+      release: Selection.release,
+      destroy: destroy,
+
+      focus: KeyManager.watchKeys,
+
+      getBounds: function () {
+        return [boundx * xscale, boundy * yscale];
+      },
+      getWidgetSize: function () {
+        return [boundx, boundy];
+      },
+      getScaleFactor: function () {
+        return [xscale, yscale];
+      },
+      getOptions: function() {
+        // careful: internal values are returned
+        return options;
+      },
+
+      ui: {
+        holder: $div,
+        selection: $sel
+      }
+    };
+
+    if (is_msie) $div.bind('selectstart', function () { return false; });
+
+    $origimg.data('Jcrop', api);
+    return api;
+  };
+  $.fn.Jcrop = function (options, callback) //{{{
+  {
+    var api;
+    // Iterate over each object, attach Jcrop
+    this.each(function () {
+      // If we've already attached to this object
+      if ($(this).data('Jcrop')) {
+        // The API can be requested this way (undocumented)
+        if (options === 'api') return $(this).data('Jcrop');
+        // Otherwise, we just reset the options...
+        else $(this).data('Jcrop').setOptions(options);
+      }
+      // If we haven't been attached, preload and attach
+      else {
+        if (this.tagName == 'IMG')
+          $.Jcrop.Loader(this,function(){
+            $(this).css({display:'block',visibility:'hidden'});
+            api = $.Jcrop(this, options);
+            if ($.isFunction(callback)) callback.call(api);
+          });
+        else {
+          $(this).css({display:'block',visibility:'hidden'});
+          api = $.Jcrop(this, options);
+          if ($.isFunction(callback)) callback.call(api);
+        }
+      }
+    });
+
+    // Return "this" so the object is chainable (jQuery-style)
+    return this;
+  };
+  //}}}
+  // $.Jcrop.Loader - basic image loader {{{
+
+  $.Jcrop.Loader = function(imgobj,success,error){
+    var $img = $(imgobj), img = $img[0];
+
+    function completeCheck(){
+      if (img.complete) {
+        $img.unbind('.jcloader');
+        if ($.isFunction(success)) success.call(img);
+      }
+      else window.setTimeout(completeCheck,50);
+    }
+
+    $img
+      .bind('load.jcloader',completeCheck)
+      .bind('error.jcloader',function(e){
+        $img.unbind('.jcloader');
+        if ($.isFunction(error)) error.call(img);
+      });
+
+    if (img.complete && $.isFunction(success)){
+      $img.unbind('.jcloader');
+      success.call(img);
+    }
+  };
+
+  //}}}
+  // Global Defaults {{{
+  $.Jcrop.defaults = {
+
+    // Basic Settings
+    allowSelect: true,
+    allowMove: true,
+    allowResize: true,
+
+    trackDocument: true,
+
+    // Styling Options
+    baseClass: 'jcrop',
+    addClass: null,
+    bgColor: 'black',
+    bgOpacity: 0.6,
+    bgFade: false,
+    borderOpacity: 0.4,
+    handleOpacity: 0.5,
+    handleSize: null,
+
+    aspectRatio: 0,
+    keySupport: true,
+    createHandles: ['n','s','e','w','nw','ne','se','sw'],
+    createDragbars: ['n','s','e','w'],
+    createBorders: ['n','s','e','w'],
+    drawBorders: true,
+    dragEdges: true,
+    fixedSupport: true,
+    touchSupport: null,
+
+    shade: null,
+
+    boxWidth: 0,
+    boxHeight: 0,
+    boundary: 2,
+    fadeTime: 400,
+    animationDelay: 20,
+    swingSpeed: 3,
+
+    minSelect: [0, 0],
+    maxSize: [0, 0],
+    minSize: [0, 0],
+
+    // Callbacks / Event Handlers
+    onChange: function () {},
+    onSelect: function () {},
+    onDblClick: function () {},
+    onRelease: function () {}
+  };
+
+  // }}}
+}(jQuery));

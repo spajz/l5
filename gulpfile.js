@@ -139,7 +139,7 @@ if (!moduleLower) {
         config.bowerDir + 'select2-bootstrap-css/select2-bootstrap.css',
         config.bowerDir + 'fancybox/source/jquery.fancybox.css',
         config.bowerDir + 'jquery-ui/themes/base/jquery-ui.min.css',
-        config.bowerDir + 'Jcrop/css/Jcrop.min.css',
+        config.bowerDir + 'Jcrop/css/jquery.Jcrop.css',
         //config.assetsDir + 'css/added.css',
     ]
 
@@ -160,7 +160,7 @@ if (!moduleLower) {
         config.bowerDir + 'fancybox/source/jquery.fancybox.pack.js',
         config.bowerDir + 'jquery-ui/jquery-ui.min.js',
         config.bowerDir + 'underscore/underscore-min.js',
-        config.bowerDir + 'Jcrop/js/Jcrop.min.js',
+        config.bowerDir + 'Jcrop/js/jquery.Jcrop.js',
         //config.assetsDir + 'js/added.js',
     ];
 

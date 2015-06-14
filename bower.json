@@ -34,7 +34,7 @@
     "owl.carousel": "*",
     "matchHeight": "~0.6.0",
     "isInViewport": "~2.2.4",
-    "Jcrop": "WIP-2.x"
+    "Jcrop": "~0.9.12"
   },
   "resolutions": {
     "jquery": ">= 2.1.4"
