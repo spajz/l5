@@ -17,7 +17,7 @@ class ModelContentValue extends BaseModel
         'order',
     );
 
-    public function user()
+    public function content()
     {
         return $this->belongsTo('App\Models\ModelContentValue', 'model_content_id');
     }

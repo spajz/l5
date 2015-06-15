@@ -16,9 +16,9 @@
         </div>
     </div>
 
-    <ul class="nav nav-tabs tab-selector">
-        <li class="active"><a href="#basic">Basic</a></li>
-        <li><a href="#content">Content</a></li>
+    <ul class="nav nav-tabs tab-selector bottom10">
+        <li class="active"><a href="#basic"><i class="fa fa-bars fa-fw"></i>Basic</a></li>
+        <li><a href="#content"><i class="fa fa-folder-open-o fa-fw"></i> Content</a></li>
     </ul>
 
     <div id="basic">
@@ -77,6 +77,52 @@
         @if(array_get($config, 'image.crop'))
             @include("admin::_partials.crop_form", ['item' => $item])
         @endif
+    </div>
+
+
+    <div id="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                {!! Form::open() !!}
+                <div class="form-group">
+                    {!! Form::select('elements', $elements, null, array('class' => 'select2 add-element')) !!}
+                    {!! Form::submit('Add', array('class' => 'btn btn-primary  add-element-btn')) !!}
+                </div>
+                {!! Form::close() !!}
+            </div>
+        </div>
+
+        {!!
+        Former::open_for_files()->route("admin.{$moduleLower}.item.content.update", $item->id)
+        ->method('post')
+        ->id('module-content-form')
+        ->addClass('content-sortable')
+        ->data_model('\App\Models\ModelContent')
+        !!}
+        {!! Former::hidden('model_type')->value($modelName) !!}
+
+        {!! Former::hidden('lang')->value(session('settings.language')) !!}
+
+        <div class="content-form-box">
+
+            @if($contents)
+
+                @foreach($contents as $item)
+
+                    @include("admin::_partials.model_content.template", ['item' => $item, 'type' => $item->type])
+
+                @endforeach
+
+            @endif
+
+        </div>
+
+        {!! Former::close() !!}
+
+        @section('crop_form')
+        @show
+
     </div>
 
 

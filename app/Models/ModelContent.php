@@ -47,4 +47,9 @@ class ModelContent extends BaseModel
             ->orderBy('order')
             ->orderBy('id', 'desc');
     }
+
+    public function model()
+    {
+        return $this->morphTo();
+    }
 }

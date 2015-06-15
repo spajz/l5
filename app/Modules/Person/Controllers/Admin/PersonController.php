@@ -183,7 +183,20 @@ class PersonController extends AdminController
         // Add validation from model to former
         $validationRules = $model::rulesMergeUpdate();
 
-        return view("{$this->moduleLower}::admin.edit", compact('item', 'formButtons', 'transButtons', 'statusButton', 'validationRules'));
+        $elements = [
+            '' => '* Add element',
+            'textarea' => 'Text area',
+            'rte' => 'Rich text editor',
+            'text' => 'Text',
+            'example' => 'Example',
+            'gallery' => 'Gallery',
+        ];
+
+        $contents = $item->contentable;
+
+
+        return view("{$this->moduleLower}::admin.edit", compact('item', 'formButtons', 'transButtons',
+            'statusButton', 'validationRules', 'elements', 'contents'));
     }
 
     /**
@@ -222,6 +235,102 @@ class PersonController extends AdminController
         }
 
         msg('Nothing changed.', 'info');
+        return $this->redirect($item);
+    }
+
+    public function updateContent($id)
+    {
+        $model = $this->modelName;
+        $item = $model::find($id);
+
+        if (!$item) {
+            msg('The requested item does not exist or has been deleted.', 'danger');
+            return redirect()->back();
+        }
+
+        $suffix = '_new';
+        $prefix = 'val_';
+
+        $fillableContent = new ModelContent;
+        $fillableContentValues = new ModelContentValue;
+        $fillableContent = $fillableContent->getFillable();
+        $fillableContentValues = $fillableContentValues->getFillable();
+
+        $ids = Input::get('id');
+        $idsNew = Input::get('id_new');
+
+        $attributesContent = [
+            'model_type' => Input::get('model_type'),
+            'lang' => Input::get('lang')
+        ];
+
+
+
+        if ($idsNew && $fillableContent) {
+
+            foreach ($idsNew as $k => $null) {
+
+                $attributesValues = [];
+
+                $modelContent = new ModelContent;
+
+                $modelContent->model_id = $id;
+                $modelContent->model_type = get_class($item);
+
+
+                foreach ($fillableContent as $column) {
+
+                    if (!is_null(Input::get($column . $suffix . '.' . $k, null))) {
+                        $attributesContent[$column] = Input::get($column . $suffix . '.' . $k);
+                    }
+                }
+
+                $array = Input::get($prefix . 'value' . $suffix . '.' . $k, null);
+
+                if (!is_null($array)) {
+
+                    $attributesValuesTmp = [];
+
+                    foreach ($array as $k1 => $value) {
+
+                        foreach ($fillableContentValues as $column) {
+
+                            $input = $prefix . $column . $suffix . '.' . $k . '.' . $k1;
+                            if (!is_null(Input::get($input, null))) {
+                                $attributesValuesTmp[$column] = Input::get($input);
+                            }
+                        }
+
+                        if ($attributesValuesTmp)
+                            $attributesValues[] = new ModelContentValue($attributesValuesTmp);
+                    }
+                }
+
+                $modelContent->fill($attributesContent);
+                $modelContent->save();
+
+                if ($attributesValues)
+                    $modelContent->values()->saveMany($attributesValues);
+
+                // Save images
+                if (Input::file($k . '_files_new')) {
+                    $imageApi = new ImageApi;
+                    $imageApi->setConfig($this->contentImageConfig());
+                    $imageApi->setInputFields('files_new', $k . '_files_new');
+                    $imageApi->setInputFields('alt_new', $k . '_alt_new');
+                    $imageApi->setModelId($modelContent->id);
+                    $imageApi->setModelType(get_class($modelContent));
+                    $imageApi->setBaseName("{$this->moduleLower}_{$attributesContent['type']}");
+
+                    if (!$imageApi->process()) {
+                        msg($imageApi->getErrorsAll(), 'danger');
+                    }
+                }
+            }
+        }
+
+
+
         return $this->redirect($item);
     }
 

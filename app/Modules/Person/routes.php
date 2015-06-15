@@ -29,6 +29,8 @@ Route::group(array("prefix" => ADMIN), function () use ($moduleUpper, $moduleLow
 
     Route::post("{$moduleLower}/content/{lang?}", array("as" => "admin.{$moduleLower}.content.store", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@contentStore"));
 
+    Route::post("{$moduleLower}/item/content/update/{id}", array("as" => "admin.{$moduleLower}.item.content.update", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@updateContent"));
+
 //    Route::get("{$moduleLower}/image/{id}/destroy", array("as" => "admin.{$moduleLower}.image.destroy", "uses" => $moduleUpper . '\Admin\Controllers\\' . "{$moduleUpper}Controller@destroyImage"));
 //    Route::get("api/{$moduleLower}/image/download/{id}", array("as" => "api.{$moduleLower}.image.download", "uses" => $moduleUpper . '\Admin\Controllers\\' . "{$moduleUpper}Controller@imageDownload"));
 
