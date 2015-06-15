@@ -1,3 +1,7 @@
+<?php
+$localConfigStr = "{$moduleLower}.model_content.element.{$contentType}";
+$localConfig = config($localConfigStr, []);
+?>
 <table
 @if(isset($item) && count($item->images))
     class="table table-bordered table-striped table-hover sortable" data-model="{{  get_class($item->images[0]) }}"
@@ -10,7 +14,7 @@
         <th>Image</th>
         <th>Alt</th>
         <th>Upload</th>
-        @if(array_get($config, 'image.order'))
+        @if(array_get($localConfig, 'image.order'))
             <th>Order</th>
         @endif
         <th>Status</th>
@@ -22,15 +26,15 @@
     @if(isset($item) && count($item->images))
 
         @foreach($item->images as $image)
-            @if(is_file(array_get($config, 'image.path') . 'original/' . $image->image))
-                <?php $size = getimagesize(array_get($config, 'image.path') . 'original/' . $image->image); ?>
+            @if(is_file(array_get($localConfig, 'image.path') . 'original/' . $image->image))
+                <?php $size = getimagesize(array_get($localConfig, 'image.path') . 'original/' . $image->image); ?>
                 <tr data-id="{{ $image->id }}">
                     <td>
 
                         {!!
                         link_to_image(
                         $image,
-                        $config,
+                        $localConfig,
                         [
                         'class' => 'img-thumbnail',
                         ],
@@ -56,7 +60,7 @@
                             <input type="text" class="form-control" readonly>
                         </div>
                     </td>
-                    @if(array_get($config, 'image.order'))
+                    @if(array_get($localConfig, 'image.order'))
                         <td class="text-center">
                             <button type="button" class="btn btn-info btn-xs btn-sort">
                                 <i class="fa fa-arrows-v w20"></i>
@@ -68,8 +72,8 @@
                     </td>
                     <td class="text-center">
 
-                        @if(array_get($config, 'image.crop'))
-                            <a href="{{ array_get($config, 'image.baseUrl') . 'original/' . $image->image }}" class="btn btn-info btn-xs fancybox-crop"
+                        @if(array_get($localConfig, 'image.crop'))
+                            <a href="{{ array_get($localConfig, 'image.baseUrl') . 'original/' . $image->image }}" class="btn btn-info btn-xs fancybox-crop"
                                data-w="{{ $size[0] }}"
                                data-h="{{ $size[1] }}"
                                data-image-id="{{ $image->id }}">
@@ -159,5 +163,10 @@
 @endif
 
 {!! $formButtons or '' !!}
+
+@section('crop_form')
+    @parent
+    @include("admin::_partials.crop_form", ['imageConfig' => $localConfigStr . '.image'])
+@stop
 
 

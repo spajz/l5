@@ -16,59 +16,68 @@
         </div>
     </div>
 
-    <div id="pjax-container">
+    <ul class="nav nav-tabs tab-selector">
+        <li class="active"><a href="#basic">Basic</a></li>
+        <li><a href="#content">Content</a></li>
+    </ul>
 
-        <div id="info-box">{!! Notification::showAll() !!}</div>
+    <div id="basic">
+        <div id="pjax-container">
 
-        {!! Former::open_for_files()->route("admin.{$moduleLower}.update", $item->id)->method('put')->data_pjax()->rules($validationRules) !!}
+            <div id="info-box">{!! Notification::showAll() !!}</div>
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Basic Information
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-xs-12">
+            {!! Former::open_for_files()->route("admin.{$moduleLower}.update", $item->id)->method('put')->data_pjax()->rules($validationRules) !!}
 
-                                {!! Former::hidden('id') !!}
-
-                                {!! Former::text('first_name') !!}
-
-                                {!! Former::text('last_name') !!}
-
-                                {!! Former::text('job_title') !!}
-
-                                {!! Former::textarea('description')->addClass('ckeditor') !!}
-
-                                {!! Former::text('lang')->value('sr') !!}
-
-                                {!! Former::checkbox('status')->value(1) !!}
-
-                                {!! $formButtons or '' !!}
-
-
-                            </div>
-                            <!-- /.col-xs-12 -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Basic Information
                         </div>
-                        <!-- /.row -->
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-xs-12">
+
+
+                                    {!! Former::hidden('id') !!}
+
+                                    {!! Former::text('first_name') !!}
+
+                                    {!! Former::text('last_name') !!}
+
+                                    {!! Former::text('job_title') !!}
+
+                                    {!! Former::textarea('description')->addClass('ckeditor') !!}
+
+                                    {!! Former::text('lang')->value('sr') !!}
+
+                                    {!! Former::checkbox('status')->value(1) !!}
+
+                                    {!! $formButtons or '' !!}
+
+
+                                </div>
+                                <!-- /.col-xs-12 -->
+                            </div>
+                            <!-- /.row -->
+                        </div>
+                        <!-- /.panel-body -->
                     </div>
-                    <!-- /.panel-body -->
+                    <!-- /.panel -->
                 </div>
-                <!-- /.panel -->
+                <!-- /.col-xs-12 -->
             </div>
-            <!-- /.col-xs-12 -->
+
+            @include("admin::_partials.images_form", ['item' => $item])
+
+            {!! Former::close() !!}
+
         </div>
 
-        @include("admin::_partials.images_form", ['item' => $item])
-
-        {!! Former::close() !!}
-
+        @if(array_get($config, 'image.crop'))
+            @include("admin::_partials.crop_form", ['item' => $item])
+        @endif
     </div>
 
-    @if(array_get($config, 'image.crop'))
-        @include("admin::_partials.crop_form", ['item' => $item])
-    @endif
 
 @stop

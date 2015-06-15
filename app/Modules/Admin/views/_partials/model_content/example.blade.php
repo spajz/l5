@@ -1,7 +1,4 @@
-@if (is_ajax())
-    {!! Former::open_for_files()->class('added-form') !!}
-@endif
-
+<?php $contentType = 'example' ?>
 @if(isset($item))
 
     {!! Former::hidden('order')->name("order[{$item->id}]")->addClass('order-id')->value($item->order) !!}
@@ -36,7 +33,7 @@
 
     @endif
 
-    @include("admin::_partials.model_content.image2", ['uniqid' => $uniqid, 'item' => $item, 'uniqid' => $uniqid])
+    @include("admin::_partials.model_content.image_template", compact('uniqid', 'item', 'uniqid', 'contentType'))
 
 @else
 
@@ -44,7 +41,7 @@
 
     {!! Former::hidden('id')->name("id_new[{$uniqid}]") !!}
 
-    {!! Former::hidden('type')->name("type_new[{$uniqid}]")->value('text2') !!}
+    {!! Former::hidden('type')->name("type_new[{$uniqid}]")->value($contentType) !!}
 
     {!! Former::text('title')->addClass('input-sm')->name("title_new[{$uniqid}]")->label('Title') !!}
 
@@ -59,10 +56,6 @@
     {!! Former::text('value')->name("val_value_new[{$uniqid}][]")->label('Value3')->value('3333') !!}
     {!! Former::hidden('value_type')->name("val_value_type_new[{$uniqid}][]")->value('neka vrednost33') !!}
 
-    @include("admin::_partials.model_content.image2", ['uniqid' => $uniqid])
+    @include("admin::_partials.model_content.image_template", compact('uniqid', 'contentType'))
 
-@endif
-
-@if (is_ajax())
-    {!! Former::close() !!}
 @endif

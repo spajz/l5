@@ -261,8 +261,8 @@ class PersonController extends AdminController
             'textarea' => 'Text area',
             'rte' => 'Rich text editor',
             'text' => 'Text',
-            'text2' => 'Text 2',
-            'image' => 'Image',
+            'example' => 'Example',
+            'gallery' => 'Gallery',
         ];
 
         asort($elements);
@@ -285,6 +285,7 @@ class PersonController extends AdminController
 
     public function contentStore($lang = null)
     {
+
         $suffix = '_new';
         $prefix = 'val_';
 
@@ -317,6 +318,23 @@ class PersonController extends AdminController
                         }
                     }
 
+                    // Update content
+                    $modelContent->fill($attributesContent);
+                    $modelContent->save();
+
+                    // Save images
+                    $imageApi = new ImageApi;
+                    $imageApi->setConfig($this->contentImageConfig());
+                    $imageApi->setInputFields('files_new', $k . '_files_new');
+                    $imageApi->setInputFields('alt_new', $k . '_alt_new');
+                    $imageApi->setModelId($modelContent->id);
+                    $imageApi->setModelType(get_class($modelContent));
+                    $imageApi->setBaseName("{$this->moduleLower}_{$attributesContent['type']}");
+
+                    if (!$imageApi->process()) {
+                        msg($imageApi->getErrorsAll(), 'danger');
+                    }
+
                     // Update content values. Check id fields
                     $array = Input::get($prefix . 'id' . '.' . $k, null);
 
@@ -344,23 +362,6 @@ class PersonController extends AdminController
                                     $modelContentValue->update($attributesValuesTmp);
                             }
                         }
-
-                        $modelContent->fill($attributesContent);
-                        $modelContent->save();
-
-                        // Save images
-                        $imageApi = new ImageApi;
-                        $imageApi->setConfig("person.slider.image");
-                        $imageApi->setInputFields('files_new', $k . '_files_new');
-                        $imageApi->setInputFields('alt_new', $k . '_alt_new');
-                        $imageApi->setModelId($modelContent->id);
-                        $imageApi->setModelType(get_class($modelContent));
-                        $imageApi->setBaseName('ajdeupdate_');
-
-                        if (!$imageApi->process()) {
-                            msg($imageApi->getErrorsAll(), 'danger');
-                        }
-
                     }
                 }
             }
@@ -381,7 +382,6 @@ class PersonController extends AdminController
                         $attributesContent[$column] = Input::get($column . $suffix . '.' . $k);
                     }
                 }
-
 
                 $array = Input::get($prefix . 'value' . $suffix . '.' . $k, null);
 
@@ -413,17 +413,16 @@ class PersonController extends AdminController
                 // Save images
                 if (Input::file($k . '_files_new')) {
                     $imageApi = new ImageApi;
-                    $imageApi->setConfig("person.slider.image");
+                    $imageApi->setConfig($this->contentImageConfig());
                     $imageApi->setInputFields('files_new', $k . '_files_new');
                     $imageApi->setInputFields('alt_new', $k . '_alt_new');
                     $imageApi->setModelId($modelContent->id);
                     $imageApi->setModelType(get_class($modelContent));
-                    $imageApi->setBaseName('ajde_');
+                    $imageApi->setBaseName("{$this->moduleLower}_{$attributesContent['type']}");
 
                     if (!$imageApi->process()) {
                         msg($imageApi->getErrorsAll(), 'danger');
                     }
-
                 }
             }
         }
@@ -431,5 +430,12 @@ class PersonController extends AdminController
         return redirect()->back();
     }
 
+    public function contentImageConfig($type = 'image2')
+    {
+        if (config("{$this->moduleLower}.model_content.element.{$type}.image")) {
+            return "{$this->moduleLower}.model_content.element.{$type}.image";
+        }
+        return "{$this->moduleLower}.image";
+    }
 
 }

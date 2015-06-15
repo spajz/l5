@@ -1,3 +1,9 @@
+@if (is_ajax())
+    <!--
+    {!! Former::open_for_files()->class('added-form') !!}
+    -->
+@endif
+
 @if(isset($item))
 
     <div class="row sortable-row remove-this" data-id="{{ $item->id }}">
@@ -24,6 +30,9 @@
                     </div>
                 </div>
             </div>
+
+            {!! Former::submit('Submit')->addClass('btn-success bottom10')->value('Save') !!}
+
         </div>
     </div>
 
@@ -53,11 +62,17 @@
                     </div>
                 </div>
             </div>
+
+            {!! Former::submit('Submit')->addClass('btn-success bottom10')->value('Save') !!}
+
         </div>
     </div>
 
 @endif
 
+
 @if (is_ajax())
+    <!--
     {!! Former::close() !!}
+    -->
 @endif

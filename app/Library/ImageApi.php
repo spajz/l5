@@ -693,15 +693,21 @@ class ImageApi
 
     public function imageCrop()
     {
+
         $imageId = Input::get('image_id');
         if (!is_numeric($imageId)) {
             return false;
         }
         $imageModel = ImageModel::find(Input::get('image_id'));
         $moduleLower = strtolower(class_basename($imageModel->model_type));
-        $this->setConfig("{$moduleLower}.image");
+        if(Input::get('image_config')){
+            $this->setConfig(Input::get('image_config'));
+        } else {
+            $this->setConfig("{$moduleLower}.image");
+        }
         $this->processConfig();
         $this->order = $imageModel->order;
+
 
         if ($imageModel) {
             $this->setModelId($imageModel->model_id);

@@ -67,23 +67,11 @@
 
             </div>
 
-            {!! Former::submit('Submit') !!}
-
         {!! Former::close() !!}
 
+        @section('crop_form')
+        @show
+
     </div>
-
-@stop
-
-@section('scripts_bottom')
-    @parent
-
-    <script type="text/javascript">
-
-        $(document).ready(function(){
-
-        })
-
-    </script>
 
 @stop

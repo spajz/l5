@@ -453,8 +453,8 @@ $(document).ready(function () {
                 success: function (data, textStatus, jqXHR) {
                     var html = $.parseHTML(data);
                     html = $(html);
-                    var formData = html.find('.added-form').html();
-                    html.find('.added-form').replaceWith(formData);
+                    //var formData = html.find('.added-form').html();
+                    //html.find('.added-form').replaceWith(formData);
                     $('#module-content-form .content-form-box').append(html);
                     initCkeditor();
                     addOrderId();
@@ -466,6 +466,10 @@ $(document).ready(function () {
             });
         }
     })
+
+    function addedFormFilter(){
+
+    }
 
     // Add order id after adding the element
     function addOrderId() {
@@ -493,8 +497,17 @@ $(document).ready(function () {
                 $('.sortable-placeholder').height(ui.item.height());
             },
             stop: function (e, ui) {
-                colorSuccess(items);
+                //colorSuccess(items);
                 colorSuccess(ui.item);
+
+
+                //var items = ui.item.find("tr");
+                //ui.item.after(items.show());
+                //colorSuccess(items);
+                //colorSuccess(ui.item);
+                //$('table.sortable input:checkbox').removeAttr('checked');
+
+
             }
 
         }).bind('sortupdate', function (e, ui) {
@@ -512,5 +525,16 @@ $(document).ready(function () {
     function setInfoBox(data) {
         $('#info-box').html(data).show('fast');
     }
+
+    $('.tab-selector a').on('click', function(e){
+        e.preventDefault();
+        $('.tab-selector a').each(function(){
+            $($(this).attr('href')).hide();
+        });
+        var id = $(this).attr('href');
+        $(this).parent('li').siblings().removeClass();
+        $(this).parent('li').addClass('active');
+        $(id).show();
+    })
 
 })

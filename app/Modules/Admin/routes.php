@@ -12,7 +12,7 @@ Route::group(['prefix' => ADMIN], function () {
 
     Route::get('api/image-destroy/{id}', ['as' => 'api.admin.image.destroy', 'uses' => 'App\Modules\Admin\Controllers\AdminController@imageDestroy']);
 
-    Route::post("api/image/{id}/crop", ['as' => 'api.admin.image.crop', "uses" => 'App\Modules\Admin\Controllers\AdminController@imageCrop']);
+    Route::post("api/image/crop", ['as' => 'api.admin.image.crop', "uses" => 'App\Modules\Admin\Controllers\AdminController@imageCrop']);
 
     Route::get('api/add-element',['as' => 'api.admin.add.element', 'uses' => 'App\Modules\Admin\Controllers\AdminController@addElement']);
 
