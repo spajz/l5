@@ -20,7 +20,7 @@ class Person extends BaseModel
         'status'
     );
 
-   protected $useTransParentImages = false;
+    protected $useTransParentImages = false;
 
     public function rulesAll()
     {
