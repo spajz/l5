@@ -7,7 +7,7 @@
 
     {!! Former::hidden('type')->name("type[{$item->id}]")->value($item->type) !!}
 
-    {!! Former::text('title')->addClass('input-sm')->name("title[{$item->id}]")->label('Title')->value($item->title) !!}
+    {!! Former::text('title')->name("title[{$item->id}]")->label('Title')->value($item->title) !!}
 
     {!! Former::text('content')->name("content[{$item->id}]")->label('Content')->value($item->content) !!}
 
@@ -22,7 +22,7 @@
 
     {!! Former::hidden('type')->name("type_new[{$uniqid}]")->value($contentType) !!}
 
-    {!! Former::text('title')->addClass('input-sm')->name("title_new[{$uniqid}]")->label('Title') !!}
+    {!! Former::text('title')->name("title_new[{$uniqid}]")->label('Title') !!}
 
     {!! Former::text('content')->name("content_new[{$uniqid}]")->label('Content') !!}
 

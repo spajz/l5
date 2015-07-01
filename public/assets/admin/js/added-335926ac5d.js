@@ -11,6 +11,10 @@ $.ajaxSetup({
     }
 });
 
+function explode(str, delimiter) {
+    return str.split(delimiter);
+}
+
 // Bootstrap file button
 $('body').on('change', '.btn-file :file', function () {
     var input = $(this),
@@ -223,6 +227,7 @@ $(document).ready(function () {
     // Pjax
     $.pjax.defaults.scrollTo = false;
     $.pjax.defaults.timeout = 5000;
+    var pjaxContainer = '#pjax-container';
 
     $('body').on('pjax:send', function () {
         loaderShow();
@@ -234,6 +239,7 @@ $(document).ready(function () {
         initSortable();
         initColspan();
         initFancyBoxCrop();
+        activeTab();
     })
 
     function addSubmitButtons(thisObj) {
@@ -245,16 +251,16 @@ $(document).ready(function () {
     }
 
     $('body').on('submit', 'form[data-pjax]', function (e) {
-        e.preventDefault();
+        //e.preventDefault();
         var btn = $(":input[type=submit]:focus");
         if (btn.data('pjax')) {
             addSubmitButtons(btn);
-            $.pjax.submit(e, {container: '#pjax-container'});
+            $.pjax.submit(e, {container: pjaxContainer});
         }
     })
 
     $('body').on('click', 'a[data-pjax]', function (e) {
-        $.pjax.click(e, {container: '#pjax-container'})
+        $.pjax.click(e, {container: pjaxContainer})
     })
 
     // Password generator
@@ -289,7 +295,7 @@ $(document).ready(function () {
     bbFunction.confirmPjax = function (thisObj) {
         bootbox.confirm("Are you sure?", function (result) {
             if (result) {
-                $.pjax({url: thisObj.attr('href'), container: '#pjax-container'})
+                $.pjax({url: thisObj.attr('href'), container: pjaxContainer})
             }
         });
     };
@@ -308,7 +314,7 @@ $(document).ready(function () {
             if (result) {
                 addSubmitButtons(thisObj);
                 thisObj.closest('form').on('submit', function (e) {
-                    $.pjax.submit(e, {container: '#pjax-container'});
+                    $.pjax.submit(e, {container: pjaxContainer});
                 }).submit()
             }
         });
@@ -323,10 +329,8 @@ $(document).ready(function () {
                         type: 'get',
                         success: function (data, textStatus, jqXHR) {
                             if (data.rere) {
-                                alert(5773453995)
                                 setInfoBox(data);
                             }
-
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             alert('Server error.');
@@ -443,9 +447,15 @@ $(document).ready(function () {
     $('body').on('click', '.add-element-btn', function (e) {
         e.preventDefault();
         var select = $('.add-element');
+        var module = $('select.add-element').data('module');
+        var url = baseUrlAdmin + '/api/add-element';
+        if (module) {
+            url = baseUrlAdmin + '/api/' + module + '/add-element';
+        }
+
         if (select.select2('val')) {
             $.ajax({
-                url: baseUrlAdmin + '/api/add-element',
+                url: url,
                 type: 'get',
                 data: {
                     "element": select.select2('val')
@@ -467,9 +477,6 @@ $(document).ready(function () {
         }
     })
 
-    function addedFormFilter(){
-
-    }
 
     // Add order id after adding the element
     function addOrderId() {
@@ -497,17 +504,7 @@ $(document).ready(function () {
                 $('.sortable-placeholder').height(ui.item.height());
             },
             stop: function (e, ui) {
-                //colorSuccess(items);
                 colorSuccess(ui.item);
-
-
-                //var items = ui.item.find("tr");
-                //ui.item.after(items.show());
-                //colorSuccess(items);
-                //colorSuccess(ui.item);
-                //$('table.sortable input:checkbox').removeAttr('checked');
-
-
             }
 
         }).bind('sortupdate', function (e, ui) {
@@ -526,15 +523,43 @@ $(document).ready(function () {
         $('#info-box').html(data).show('fast');
     }
 
-    $('.tab-selector a').on('click', function(e){
+    $('.tab-selector a').on('click', function (e) {
         e.preventDefault();
-        $('.tab-selector a').each(function(){
-            $($(this).attr('href')).hide();
-        });
         var id = $(this).attr('href');
         $(this).parent('li').siblings().removeClass();
         $(this).parent('li').addClass('active');
-        $(id).show();
+        activeTab();
+
+        var postData = {
+            session: {settings: {tab: id}}
+        }
+        setSession(postData);
     })
+
+    function activeTab() {
+        $('.tab-selector li').each(function () {
+            if (!$(this).hasClass('active')) {
+                $($('a', this).first().attr('href')).hide();
+            } else {
+                $($('a', this).first().attr('href')).show();
+            }
+        });
+    }
+
+    activeTab();
+
+    function setSession(postData) {
+        $.ajax(
+            {
+                url: baseUrlAdmin + '/api/set-session',
+                type: "post",
+                data: postData,
+                success: function (data, textStatus, jqXHR) {
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Server error.')
+                }
+            });
+    }
 
 })

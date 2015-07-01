@@ -7,6 +7,7 @@ use App\Modules\Person\Models\Person as Model;
 use Datatables;
 use DatatablesFront;
 use Former;
+use Illuminate\Support\Facades\Session;
 use Input;
 use Illuminate\Http\Request as HttpRequest;
 use App\Models\ModelContent;
@@ -101,6 +102,14 @@ class PersonController extends AdminController
 
         $lang = $this->adminLanguage($lang);
 
+        // Create first article only in default language
+        $defaultLang = config('admin.language');
+        if (is_null($trans_id) && $lang != $defaultLang) {
+            msg('The first article must be in the main language.', 'info');
+            $this->adminLanguage($defaultLang);
+            return redirect()->route("admin.{$this->moduleLower}.create");
+        }
+
         if (is_numeric($trans_id)) {
 
             $trans = $model::hasTrans($trans_id, $lang)->first();
@@ -111,7 +120,7 @@ class PersonController extends AdminController
 
             $item = $model::find($trans_id);
             if (!$item) {
-                msg('Item which you want to translate does not exist or has been deleted.', 'danger');
+                msg('The item which you want to translate does not exist or has been deleted.', 'danger');
                 return redirect()->route("admin.{$this->moduleLower}.index");
             }
             Former::populate($item);
@@ -137,11 +146,11 @@ class PersonController extends AdminController
         $this->validate($request, $model->rules());
 
         if ($item = $model->create(Input::all())) {
-            msg('Item successfully created.');
+            msg('The item successfully created.');
             return $this->redirect($item);
         }
 
-        msg('Item has not been created.', 'danger');
+        msg('The item has not been created.', 'danger');
         return redirect()->back();
     }
 
@@ -167,6 +176,8 @@ class PersonController extends AdminController
         $model = $this->modelName;
         $item = $model::find($id);
 
+        $lang = $this->adminLanguage($lang);
+
         if (!$item) {
             msg('The requested item does not exist or has been deleted.', 'danger');
             return redirect()->route("admin.{$this->moduleLower}.index");
@@ -190,13 +201,25 @@ class PersonController extends AdminController
             'text' => 'Text',
             'example' => 'Example',
             'gallery' => 'Gallery',
+            'video_duo' => 'Video duo',
+            'video' => 'Video',
         ];
+
+        asort($elements);
 
         $contents = $item->contentable;
 
-
-        return view("{$this->moduleLower}::admin.edit", compact('item', 'formButtons', 'transButtons',
-            'statusButton', 'validationRules', 'elements', 'contents'));
+        return view("{$this->moduleLower}::admin.edit",
+            compact(
+                'item',
+                'formButtons',
+                'transButtons',
+                'statusButton',
+                'validationRules',
+                'elements',
+                'contents',
+                'lang'
+            ));
     }
 
     /**
@@ -230,7 +253,7 @@ class PersonController extends AdminController
         }
 
         if ($item->update(Input::all())) {
-            msg('Item successfully updated.');
+            msg('The item successfully updated.');
             return $this->redirect($item);
         }
 
@@ -238,7 +261,29 @@ class PersonController extends AdminController
         return $this->redirect($item);
     }
 
-    public function updateContent($id)
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int $id
+     * @return Response
+     */
+    public function destroy($id)
+    {
+        $model = $this->modelName;
+        $item = $model::find($id);
+
+        if (!$item) {
+            msg('The requested item does not exist or has been deleted.', 'danger');
+            return redirect()->back();
+        }
+
+        $item->delete();
+        msg('The item successfully deleted.');
+        return redirect()->back();
+
+    }
+
+    public function updateItemContent($id)
     {
         $model = $this->modelName;
         $item = $model::find($id);
@@ -264,7 +309,59 @@ class PersonController extends AdminController
             'lang' => Input::get('lang')
         ];
 
+        // Loop through existing ids and update
+        if ($ids && $fillableContent) {
 
+            foreach ($ids as $k => $contentId) {
+
+                $modelContent = ModelContent::find($k);
+
+                if ($modelContent) {
+
+                    foreach ($fillableContent as $column) {
+
+                        if (is_array(Input::get($column . '.' . $k, null))) {
+                            $attributesContent[$column] = json_encode(Input::get($column . '.' . $k));
+                        } elseif (!is_null(Input::get($column . '.' . $k, null))) {
+                            $attributesContent[$column] = Input::get($column . '.' . $k);
+                        }
+                    }
+
+                    // Update content
+                    $modelContent->fill($attributesContent);
+                    $modelContent->save();
+
+                    // Update content values. Check id fields
+                    $array = Input::get($prefix . 'id' . '.' . $k, null);
+
+                    if (!is_null($array)) {
+
+                        foreach ($array as $k1 => $value) {
+
+                            $modelContentValue = ModelContentValue::find($k1);
+
+                            if ($modelContentValue) {
+
+                                $attributesValuesTmp = [];
+
+                                foreach ($fillableContentValues as $column) {
+
+                                    // Do not update some columns
+                                    if (in_array($column, ['model_content_id', 'order'])) continue;
+
+                                    $input = $prefix . $column . '.' . $k;
+
+                                    $attributesValuesTmp[$column] = Input::get($input . '.' . $k1);
+                                }
+
+                                if ($attributesValuesTmp)
+                                    $modelContentValue->update($attributesValuesTmp);
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         if ($idsNew && $fillableContent) {
 
@@ -277,10 +374,12 @@ class PersonController extends AdminController
                 $modelContent->model_id = $id;
                 $modelContent->model_type = get_class($item);
 
-
                 foreach ($fillableContent as $column) {
 
-                    if (!is_null(Input::get($column . $suffix . '.' . $k, null))) {
+                    if (is_array(Input::get($column . $suffix . '.' . $k, null))) {
+
+                        $attributesContent[$column] = json_encode(Input::get($column . $suffix . '.' . $k));
+                    } elseif (!is_null(Input::get($column . $suffix . '.' . $k, null))) {
                         $attributesContent[$column] = Input::get($column . $suffix . '.' . $k);
                     }
                 }
@@ -329,20 +428,9 @@ class PersonController extends AdminController
             }
         }
 
-
+        msg('The item successfully updated.');
 
         return $this->redirect($item);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 
     /**
@@ -372,12 +460,15 @@ class PersonController extends AdminController
             'text' => 'Text',
             'example' => 'Example',
             'gallery' => 'Gallery',
+            'video_duo' => 'Video duo',
+            'video' => 'Video',
         ];
 
         asort($elements);
 
         $contents = ModelContent::where('model_type', $this->modelName)
             ->where('lang', $lang)
+            ->where('model_id', 0)
             ->orderBy('order')
             ->get();
 
@@ -545,6 +636,16 @@ class PersonController extends AdminController
             return "{$this->moduleLower}.model_content.element.{$type}.image";
         }
         return "{$this->moduleLower}.image";
+    }
+
+    public function addElement()
+    {
+        $element = Input::get('element');
+
+        $formButtons = $this->formButtons($this->formButtons);
+        view()->share('formButtons', $formButtons);
+
+        return view("admin::_partials.model_content.template", ['type' => $element]);
     }
 
 }

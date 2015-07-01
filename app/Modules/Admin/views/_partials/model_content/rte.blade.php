@@ -1,12 +1,12 @@
 @if(isset($item))
 
-    {!! Former::hidden('order')->name("order[{$item->id}]")->addClass('order-id') !!}
+    {!! Former::hidden('order')->name("order[{$item->id}]")->addClass('order-id')->value($item->order) !!}
 
-    {!! Former::hidden('id')->name("id[{$item->id}]") !!}
+    {!! Former::hidden('id')->name("id[{$item->id}]")->value($item->id) !!}
 
-    {!! Former::hidden('type')->name("type[{$item->id}]")->value('rte') !!}
+    {!! Former::hidden('type')->name("type[{$item->id}]")->value($item->type) !!}
 
-    {!! Former::text('title')->addClass('input-sm')->name("title[{$item->id}]")->label('Title')->value($item->title) !!}
+    {!! Former::text('title')->name("title[{$item->id}]")->label('Title')->value($item->title) !!}
 
     {!! Former::textarea('content')->addClass('ckeditor')->name("content[{$item->id}]")->label('Content')->value($item->content) !!}
 
@@ -18,7 +18,7 @@
 
     {!! Former::hidden('type')->name('type_new[]')->value('rte') !!}
 
-    {!! Former::text('title')->addClass('input-sm')->name('title_new[]')->label('Title') !!}
+    {!! Former::text('title')->name('title_new[]')->label('Title') !!}
 
     {!! Former::textarea('content')->addClass('ckeditor')->name('content_new[]')->label('Content') !!}
 

@@ -3,6 +3,7 @@
 use App\BaseModel;
 use App\Traits\ValidationTrait;
 use App\Traits\TransTrait;
+use Input;
 
 class Person extends BaseModel
 {
@@ -11,11 +12,15 @@ class Person extends BaseModel
 
     protected $table = 'persons';
 
+    protected $appends = array('full_name');
+
     protected $fillable = array(
         'first_name',
         'last_name',
         'job_title',
         'description',
+        'lang',
+        'trans_id',
         'order',
         'status'
     );
@@ -31,22 +36,42 @@ class Person extends BaseModel
         ];
     }
 
-    public static function boot()
-    {
-        parent::boot();
-
-//        static::deleted(function ($model) {
-//            foreach ($model->images as $image) {
-//                $image->delete();
-//            }
-//        });
-    }
-
     public function contentable()
     {
         return $this->morphMany('App\Models\ModelContent', 'model')
             ->orderBy('order')
             ->orderBy('id', 'desc');
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->attributes['first_name'] . ' ' . $this->attributes['last_name'];
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleted(function ($model) {
+            // Delete images
+            foreach ($model->images as $image) {
+                $image->delete();
+            }
+
+            // Delete related
+            foreach ($model->contentable as $item) {
+                $item->delete();
+            }
+
+            // Delete trans childeren
+            $transChildren = $model->transChildren;
+
+            if (count($transChildren)) {
+                foreach ($transChildren as $item) {
+                    $item->delete();
+                }
+            }
+        });
     }
 
 }

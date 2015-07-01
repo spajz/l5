@@ -37,15 +37,19 @@
 
                                 {!! Former::hidden('id') !!}
 
+                                {!! Former::hidden('trans_id')->value($trans_id) !!}
+
+                                {!! Former::text('lang')->forceValue($lang)->disabled() !!}
+
+                                {!! Former::hidden('lang')->forceValue($lang) !!}
+
                                 {!! Former::text('first_name') !!}
 
                                 {!! Former::text('last_name') !!}
 
                                 {!! Former::text('job_title') !!}
 
-                                {!! Former::textarea('description') !!}
-
-                                {!! Former::text('lang')->forceValue($lang)->disabled() !!}
+                                {!! Former::textarea('description')->addClass('ckeditor') !!}
 
                                 {!! Former::checkbox('status')->value(1) !!}
 

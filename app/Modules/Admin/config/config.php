@@ -12,7 +12,6 @@ return array(
     'languages' => [
         'sr' => 'sr',
         'en' => 'en',
-        'de' => 'de',
     ],
 
     'baseUrl' => 'admin',

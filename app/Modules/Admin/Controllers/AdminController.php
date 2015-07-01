@@ -29,9 +29,13 @@ class AdminController extends BaseController
         $this->setConfig(__FILE__);
         $this->language = config('admin.language');
 
-        if (!Session::get('settings.language')) {
-            Session::put('settings.language', $this->language);
-        }
+        $this->defaultSession();
+
+    }
+
+    public function dashboard()
+    {
+        return view("admin::dashboard");
     }
 
     protected function setConfig($module, $path = true)
@@ -52,6 +56,17 @@ class AdminController extends BaseController
                 $this->$key = $value;
                 view()->share($key, $value);
             }
+        }
+    }
+
+    protected function defaultSession()
+    {
+        if (!Session::get('settings.language')) {
+            Session::put('settings.language', $this->language);
+        }
+
+        if (!Session::get('settings.tab')) {
+            Session::put('settings.tab', '#basic');
         }
     }
 
@@ -116,6 +131,7 @@ class AdminController extends BaseController
 
     protected function redirect($item, $input = null)
     {
+
         if (is_null($input)) {
             $input = Input::all();
         }
@@ -258,6 +274,7 @@ class AdminController extends BaseController
                 $model->delete();
                 $model->reorder([
                     'model_type' => $model->model_type,
+                    'model_id' => $model->model_id,
                 ]);
             }
         }
@@ -297,6 +314,13 @@ class AdminController extends BaseController
         }
 
         return session('settings.language');
+    }
+
+    public function setSession()
+    {
+        if (Input::get('session')) {
+            Session::put(Input::get('session'));
+        }
     }
 
 }

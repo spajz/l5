@@ -477,7 +477,7 @@ class ImageApi
                     }
 
                     if ($error) {
-                        $this->errors[$type][] = 'File "' . $upload->getClientOriginalName() . '": error during processing.';
+                        $this->errors[$type][] = 'The file "' . $upload->getClientOriginalName() . '": error during processing.';
                         // Delete already uploaded images
                         $this->delete($filename);
                     } else {
@@ -773,7 +773,7 @@ class ImageApi
             }
 
             if ($error) {
-                $this->errors['new'][] = 'File "' . $filename . '": error during processing.';
+                $this->errors['new'][] = 'The file "' . $filename . '": error during processing.';
                 $this->delete($filename);
             } else {
                 $this->dbSave('new', $filename);

@@ -140,6 +140,7 @@ if (!moduleLower) {
         config.bowerDir + 'fancybox/source/jquery.fancybox.css',
         config.bowerDir + 'jquery-ui/themes/base/jquery-ui.min.css',
         config.bowerDir + 'Jcrop/css/jquery.Jcrop.css',
+        config.bowerDir + 'video.js/dist/video-js/video-js.min.css',
         //config.assetsDir + 'css/added.css',
     ]
 
@@ -161,12 +162,27 @@ if (!moduleLower) {
         config.bowerDir + 'jquery-ui/jquery-ui.min.js',
         config.bowerDir + 'underscore/underscore-min.js',
         config.bowerDir + 'Jcrop/js/jquery.Jcrop.js',
+        config.bowerDir + 'video.js/dist/video-js/video.js',
         //config.assetsDir + 'js/added.js',
     ];
 
     if (production) scriptsArray.push(config.assetsDir + 'js/added.js');
 
     scriptsArrayLocal = [config.assetsDir + 'js/added.js'];
+
+    gulpCopy(
+        [
+            config.bowerDir + 'video.js/dist/video-js/video-js.swf',
+        ],
+        [config.baseOutput + 'js/']
+    );
+
+    gulpCopy(
+        [
+            config.bowerDir + 'video.js/dist/video-js/font/**/*',
+        ],
+        [config.baseOutput + 'css/font/']
+    );
 
     gulpCopy(
         [

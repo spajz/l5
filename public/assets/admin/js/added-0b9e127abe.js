@@ -227,7 +227,6 @@ $(document).ready(function () {
     // Pjax
     $.pjax.defaults.scrollTo = false;
     $.pjax.defaults.timeout = 5000;
-    var pjaxContainer = '#pjax-container';
 
     $('body').on('pjax:send', function () {
         loaderShow();
@@ -239,7 +238,7 @@ $(document).ready(function () {
         initSortable();
         initColspan();
         initFancyBoxCrop();
-        activeTab();
+        $('.flying-but .btn-form-group').stick_in_parent();
     })
 
     function addSubmitButtons(thisObj) {
@@ -255,12 +254,12 @@ $(document).ready(function () {
         var btn = $(":input[type=submit]:focus");
         if (btn.data('pjax')) {
             addSubmitButtons(btn);
-            $.pjax.submit(e, {container: pjaxContainer});
+            $.pjax.submit(e, {container: '#pjax-container'});
         }
     })
 
     $('body').on('click', 'a[data-pjax]', function (e) {
-        $.pjax.click(e, {container: pjaxContainer})
+        $.pjax.click(e, {container: '#pjax-container'})
     })
 
     // Password generator
@@ -295,7 +294,7 @@ $(document).ready(function () {
     bbFunction.confirmPjax = function (thisObj) {
         bootbox.confirm("Are you sure?", function (result) {
             if (result) {
-                $.pjax({url: thisObj.attr('href'), container: pjaxContainer})
+                $.pjax({url: thisObj.attr('href'), container: '#pjax-container'})
             }
         });
     };
@@ -314,7 +313,7 @@ $(document).ready(function () {
             if (result) {
                 addSubmitButtons(thisObj);
                 thisObj.closest('form').on('submit', function (e) {
-                    $.pjax.submit(e, {container: pjaxContainer});
+                    $.pjax.submit(e, {container: '#pjax-container'});
                 }).submit()
             }
         });
@@ -329,8 +328,10 @@ $(document).ready(function () {
                         type: 'get',
                         success: function (data, textStatus, jqXHR) {
                             if (data.rere) {
+                                alert(5773453995)
                                 setInfoBox(data);
                             }
+
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             alert('Server error.');
@@ -529,7 +530,6 @@ $(document).ready(function () {
         $(this).parent('li').siblings().removeClass();
         $(this).parent('li').addClass('active');
         activeTab();
-
         var postData = {
             session: {settings: {tab: id}}
         }

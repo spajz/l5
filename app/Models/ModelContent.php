@@ -14,9 +14,11 @@ class ModelContent extends BaseModel
         'content',
         'model_type',
         'type',
+        'sub_type',
         'lang',
         'order',
-        'status'
+        'status',
+        'encoded',
     );
 
     public function values()
@@ -39,6 +41,14 @@ class ModelContent extends BaseModel
                 $image->delete();
             }
         });
+    }
+
+    public function getContentAttribute($value)
+    {
+        if ($this->attributes['encoded'] == 1) {
+            return json_decode($value, true);
+        }
+        return $value;
     }
 
     public function images()

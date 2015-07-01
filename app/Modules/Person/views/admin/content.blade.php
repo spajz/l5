@@ -67,6 +67,11 @@
 
             </div>
 
+        {!!
+        $formButtons or
+        Former::submit('Submit')->addClass('btn-success bottom10')->value('Save')
+        !!}
+
         {!! Former::close() !!}
 
         @section('crop_form')

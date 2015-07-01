@@ -17,76 +17,76 @@
     </div>
 
     <ul class="nav nav-tabs tab-selector bottom10">
-        <li class="active"><a href="#basic"><i class="fa fa-bars fa-fw"></i>Basic</a></li>
-        <li><a href="#content"><i class="fa fa-folder-open-o fa-fw"></i> Content</a></li>
+        <li class="{{ Session::get('settings.tab') == '#basic' ? 'active' : '' }}"><a href="#basic"><i class="fa fa-bars fa-fw"></i>Basic</a></li>
+        <li class="{{ Session::get('settings.tab') == '#content' ? 'active' : '' }}"><a href="#content"><i class="fa fa-folder-open-o fa-fw"></i> Content</a></li>
     </ul>
 
+    <div id="pjax-container">
+
     <div id="basic">
-        <div id="pjax-container">
 
-            <div id="info-box">{!! Notification::showAll() !!}</div>
+        <div id="info-box">{!! Notification::showAll() !!}</div>
 
-            {!! Former::open_for_files()->route("admin.{$moduleLower}.update", $item->id)->method('put')->data_pjax()->rules($validationRules) !!}
+        {!! Former::open_for_files()->route("admin.{$moduleLower}.update", $item->id)->method('put')->data_pjax()->rules($validationRules) !!}
 
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Basic Information
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-xs-12">
-
-
-                                    {!! Former::hidden('id') !!}
-
-                                    {!! Former::text('first_name') !!}
-
-                                    {!! Former::text('last_name') !!}
-
-                                    {!! Former::text('job_title') !!}
-
-                                    {!! Former::textarea('description')->addClass('ckeditor') !!}
-
-                                    {!! Former::text('lang')->value('sr') !!}
-
-                                    {!! Former::checkbox('status')->value(1) !!}
-
-                                    {!! $formButtons or '' !!}
-
-
-                                </div>
-                                <!-- /.col-xs-12 -->
-                            </div>
-                            <!-- /.row -->
-                        </div>
-                        <!-- /.panel-body -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Basic Information
                     </div>
-                    <!-- /.panel -->
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+
+                                {!! Former::hidden('id') !!}
+
+                                {!! Former::hidden('updated_at') !!}
+
+                                {!! Former::text('lang')->disabled() !!}
+
+                                {!! Former::text('first_name') !!}
+
+                                {!! Former::text('last_name') !!}
+
+                                {!! Former::text('job_title') !!}
+
+                                {!! Former::textarea('description')->addClass('ckeditor') !!}
+
+                                {!! Former::checkbox('status')->value(1) !!}
+
+                                {!! $formButtons or '' !!}
+
+                            </div>
+                            <!-- /.col-xs-12 -->
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                    <!-- /.panel-body -->
                 </div>
-                <!-- /.col-xs-12 -->
+                <!-- /.panel -->
             </div>
-
-            @include("admin::_partials.images_form", ['item' => $item])
-
-            {!! Former::close() !!}
-
+            <!-- /.col-xs-12 -->
         </div>
+
+        @include("admin::_partials.images_form", ['item' => $item])
+
+        {!! Former::close() !!}
 
         @if(array_get($config, 'image.crop'))
             @include("admin::_partials.crop_form", ['item' => $item])
         @endif
     </div>
 
-
     <div id="content">
+
+        <div id="info-box">{!! Notification::showAll() !!}</div>
 
         <div class="row">
             <div class="col-xs-12">
                 {!! Form::open() !!}
                 <div class="form-group">
-                    {!! Form::select('elements', $elements, null, array('class' => 'select2 add-element')) !!}
+                    {!! Form::select('elements', $elements, null, array('class' => 'select2 add-element', 'data-module' => $moduleLower)) !!}
                     {!! Form::submit('Add', array('class' => 'btn btn-primary  add-element-btn')) !!}
                 </div>
                 {!! Form::close() !!}
@@ -95,10 +95,11 @@
 
         {!!
         Former::open_for_files()->route("admin.{$moduleLower}.item.content.update", $item->id)
-        ->method('post')
+        ->method('put')
         ->id('module-content-form')
         ->addClass('content-sortable')
         ->data_model('\App\Models\ModelContent')
+        ->data_pjax()
         !!}
         {!! Former::hidden('model_type')->value($modelName) !!}
 
@@ -118,6 +119,13 @@
 
         </div>
 
+        {!!
+        $formButtons or
+        Former::submit('Submit')->addClass('btn-success bottom10')->value('Save')
+        !!}
+
+        {!! Former::hidden('_token')->value(csrf_token()) !!}
+
         {!! Former::close() !!}
 
         @section('crop_form')
@@ -125,5 +133,22 @@
 
     </div>
 
+    </div>
+
+@stop
+
+@section('scripts_bottom')
+    @parent
+
+    <script type="text/javascript">
+        var dialog;
+        function openCustomRoxy2(id){
+            dialog = $('#' + id).dialog({modal:true, width:875,height:600});
+        }
+        function closeCustomRoxy2(){
+//            $('#roxyCustomPanel2').dialog('close');
+            dialog.dialog('close');
+        }
+    </script>
 
 @stop

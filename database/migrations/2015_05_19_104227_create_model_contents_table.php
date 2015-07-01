@@ -20,11 +20,13 @@ class CreateModelContentsTable extends Migration {
             $table->string('title')->nullable();
             $table->text('content')->nullable();
             $table->string('model_type');
-            $table->integer('model_id')->nullable();
+            $table->integer('model_id')->default(0);
             $table->string('type')->nullable();
+            $table->string('sub_type')->nullable();
             $table->string('lang', 20);
             $table->integer('order')->default(0);
             $table->tinyInteger('status')->default(0);
+            $table->tinyInteger('encoded')->default(0);
 			$table->timestamps();
 		});
 	}

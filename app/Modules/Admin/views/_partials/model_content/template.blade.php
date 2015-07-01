@@ -10,7 +10,7 @@
         <div class="col-xs-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Text
+                    Type: {{ $type }}
                     <div class="btn-group pull-right">
                         <button type="button" class="btn btn-info btn-xs btn-sort">
                             <i class="fa fa-arrows-v w20"></i>
@@ -30,9 +30,6 @@
                     </div>
                 </div>
             </div>
-
-            {!! Former::submit('Submit')->addClass('btn-success bottom10')->value('Save') !!}
-
         </div>
     </div>
 
@@ -42,7 +39,7 @@
         <div class="col-xs-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Text
+                    Type: {{ $type }}
                     <div class="btn-group pull-right">
                         <button type="button" class="btn btn-info btn-xs btn-sort">
                             <i class="fa fa-arrows-v w20"></i>
@@ -62,14 +59,10 @@
                     </div>
                 </div>
             </div>
-
-            {!! Former::submit('Submit')->addClass('btn-success bottom10')->value('Save') !!}
-
         </div>
     </div>
 
 @endif
-
 
 @if (is_ajax())
     <!--

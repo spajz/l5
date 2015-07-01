@@ -2,7 +2,7 @@
 
 Route::group(['prefix' => ADMIN], function () {
 
-    Route::get('/', ['as' => 'admin', 'uses' => 'App\Modules\Admin\Controllers\AdminController@index']);
+    Route::get('/', ['as' => 'admin', 'uses' => 'App\Modules\Admin\Controllers\AdminController@dashboard']);
 
     Route::get('api/change-status',['as' => 'api.admin.change.status', 'uses' => 'App\Modules\Admin\Controllers\AdminController@changeStatus']);
 
@@ -16,8 +16,9 @@ Route::group(['prefix' => ADMIN], function () {
 
     Route::get('api/add-element',['as' => 'api.admin.add.element', 'uses' => 'App\Modules\Admin\Controllers\AdminController@addElement']);
 
-    Route::get("api/model-content/destroy/{id?}", ["as" => "api.admin.model-content.destroy", "uses" => 'App\Modules\Admin\Controllers\AdminController@modelContentDestroy']);
+    Route::get('api/model-content/destroy/{id?}', ['as' => 'api.admin.model-content.destroy', 'uses' => 'App\Modules\Admin\Controllers\AdminController@modelContentDestroy']);
 
+    Route::post('api/set-session',['as' => 'api.admin.set.session', 'uses' => 'App\Modules\Admin\Controllers\AdminController@setSession']);
 });
 
 Route::get('admin/login', ['as' => 'admin.get.login', 'uses' => 'App\Modules\Admin\Controllers\AuthController@getLogin']);

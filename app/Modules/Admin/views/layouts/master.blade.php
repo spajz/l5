@@ -83,6 +83,7 @@
     $(document).ready(function () {
         $('#side-menu').metisMenu();
     });
+    videojs.options.flash.swf = "{{ asset("{$assetsDirAdmin}/js/video-js.swf") }}";
 </script>
 
 @section('scripts_bottom')
