@@ -1,0 +1,8 @@
+{
+    "name": "client",
+    "class": "Client",
+    "enabled": true,
+    "icon": "fa-coffee",
+    "order": 1431,
+    "title": "Client"
+}

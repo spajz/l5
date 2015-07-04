@@ -1,0 +1,8 @@
+{
+    "name": "work",
+    "class": "Work",
+    "enabled": true,
+    "icon": "fa-cubes",
+    "order": 1298,
+    "title": "Work"
+}

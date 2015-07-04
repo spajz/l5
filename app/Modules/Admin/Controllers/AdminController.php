@@ -84,33 +84,29 @@ class AdminController extends BaseController
         return $out;
     }
 
-    public function dtButtons($data, $model = null)
-    {
-        return view()->make('admin::datatables.but_status', array('data' => $data, 'model' => $model));
-    }
-
     public function changeStatus()
     {
         if (!Input::get('model') || !Input::get('id')) return false;
+
+        $column = 'status';
+        if (Input::get('column')) $column = Input::get('column');
 
         $model = urldecode2(Input::get('model'));
 
         $item = $model::find(Input::get('id'));
 
-        if ($item->status != 1) $item->status = 1;
-        else $item->status = 0;
+        if ($item->{$column} != 1) $item->{$column} = 1;
+        else $item->{$column} = 0;
 
         $item->save();
 
-        $dtFront = new DatatablesFront;
-
-        return $this->renderStatusButtons($item);
+        return $this->renderStatusButtons($item, $column);
     }
 
-    public function renderStatusButtons($item)
+    public function renderStatusButtons($item, $column = null)
     {
         $dtFront = new DatatablesFront;
-        return $dtFront->renderStatusButtons($item);
+        return $dtFront->renderStatusButtons($item, null, $column);
     }
 
     public function sortRows()
@@ -227,9 +223,10 @@ class AdminController extends BaseController
         return $out;
     }
 
-    public function imageDestroy($id, ImageApi $imageApi)
+    public function imageDestroy($id, $withImages = true, $force = false)
     {
-        if ($imageApi->destroy($id)) {
+        $imageApi = new ImageApi;
+        if ($imageApi->destroy($id, $withImages, $force)) {
             msg('The image successfully deleted.');
         }
 

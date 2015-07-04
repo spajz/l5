@@ -13,7 +13,7 @@ $localConfig = config($localConfigStr, []);
     <tr>
         <th>Image</th>
         <th>Alt</th>
-        <th>Upload</th>
+        <?php /* <th>Upload</th> */ ?>
         @if(array_get($localConfig, 'image.order'))
             <th>Order</th>
         @endif
@@ -50,6 +50,7 @@ $localConfig = config($localConfigStr, []);
                     <td>
                         {!! Former::text("alt_update[{$image->id}]")->label(null)->value($image->alt)->placeholder('Enter alt text.') !!}
                     </td>
+                    <?php /*
                     <td class="w200">
                         <div class="input-group">
                             <span class="input-group-btn">
@@ -60,6 +61,7 @@ $localConfig = config($localConfigStr, []);
                             <input type="text" class="form-control" readonly>
                         </div>
                     </td>
+                    */?>
                     @if(array_get($localConfig, 'image.order'))
                         <td class="text-center">
                             <button type="button" class="btn btn-info btn-xs btn-sort">
@@ -81,7 +83,7 @@ $localConfig = config($localConfigStr, []);
                             </a>
                         @endif
 
-                        <a href="{{ route('api.admin.image.destroy', $image->id) }}" class="btn btn-danger btn-xs" data-bb="confirmPjax">
+                        <a href="{{ route('api.admin.image.destroy', [$image->id, true, true]) }}" class="btn btn-danger btn-xs" data-bb="confirmPjax">
                             <i class="fa fa-trash-o"></i> Delete
                         </a>
                     </td>
@@ -162,11 +164,5 @@ $localConfig = config($localConfigStr, []);
 
 @endif
 
-{!! $formButtons or '' !!}
-
-@section('crop_form')
-    @parent
-    @include("admin::_partials.crop_form", ['imageConfig' => $localConfigStr . '.image'])
-@stop
 
 

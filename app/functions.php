@@ -30,7 +30,7 @@ if (!function_exists('modules_path')) {
 
     function modules_path($path = '')
     {
-        $path = $path ? 'Modules/' . $path : 'Modules';
+        $path = $path ? 'Modules/' . ucfirst($path) : 'Modules';
         return app_path($path);
     }
 }
@@ -359,6 +359,14 @@ if (!function_exists('elixir2')) {
                 return $item->{$relation}[$key]->$column;
             }
             return false;
+        }
+    }
+
+    if (!function_exists('sort_array')) {
+        function sort_array($array, $sort = 'asort')
+        {
+            eval($sort . '($array);');
+            return $array;
         }
     }
 

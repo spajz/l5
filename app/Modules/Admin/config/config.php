@@ -3,7 +3,7 @@
 $moduleUpper = get_dirname(__FILE__, 2);
 $moduleLower = strtolower($moduleUpper);
 
-return array(
+return [
 
     'under-maintenance' => false,
 
@@ -16,12 +16,12 @@ return array(
 
     'baseUrl' => 'admin',
 
-    'module' => array(
+    'module' => [
         'layout' => $moduleLower . '::layouts.master',
         'assetsDirAdmin' => 'assets/' . $moduleLower,
         'moduleLower' => $moduleLower,
         'moduleUpper' => $moduleUpper,
         'buildPath' => '/assets/' . $moduleLower,
-    ),
+    ],
 
-);
+];

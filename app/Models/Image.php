@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use App\BaseModel;
+use App\Library\ImageApi;
 
 class Image extends BaseModel
 {
@@ -14,27 +15,17 @@ class Image extends BaseModel
         'model_id',
         'model_type',
         'order',
-        'status'
+        'status',
     );
 
     public static function boot()
     {
         parent::boot();
 
-//        static::deleted(function ($model) {
-//            $imageApi = new ImageApi();
-//            $class = strtolower(class_basename($model->model_type));
-//            $module = explode('\\', $model->model_type);
-//            $module = strtolower($module[0]);
-//            if (Config::get($class . '::' . 'image')) {
-//                $imageApi->setConfig($class . '::' . 'image');
-//            } elseif (Config::get($class . '::' . $module . '.image')) {
-//                $imageApi->setConfig($class . '::' . $module . '.image');
-//            } else {
-//                $imageApi->setConfig($module . '::' . 'image');
-//            }
-//            $imageApi->delete($model->image);
-//        });
+        static::deleted(function ($model) {
+            $imageApi = new ImageApi();
+            $imageApi->forceDelete($model->image);
+        });
     }
 
     public function model()

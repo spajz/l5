@@ -253,9 +253,11 @@ class DatatablesFront
         return view($this->transButtons, compact('item', 'languages', 'transRelated', 'buttonSize'))->render();
     }
 
-    public function renderStatusButtons($data, $model = null)
+    public function renderStatusButtons($data, $model = null, $column = 'status')
     {
-        return view($this->statusButtons, array('data' => $data, 'model' => $model, 'buttonSize' => $this->buttonSize))->render();
+        return view($this->statusButtons,
+            ['data' => $data, 'model' => $model, 'buttonSize' => $this->buttonSize, 'column' => $column])
+            ->render();
     }
 
 }

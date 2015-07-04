@@ -4,7 +4,9 @@ Route::get('front2', array('as' => 'front', 'uses' => 'App\Modules\Front\Control
 
 Route::group(['prefix' => LaravelLocalization::setLocale()], function()
 {
-    Route::get('front', array('as' => 'front', 'uses' => 'App\Modules\Front\Controllers\HomeController@index'));
+    Route::get('/', array('as' => 'home', 'uses' => 'App\Modules\Front\Controllers\HomeController@index'));
+
+    Route::get('contact', array('as' => 'contact', 'uses' => 'App\Modules\Front\Controllers\HomeController@contact'));
 });
 
 

@@ -12,14 +12,14 @@
 
 @else
 
-    {!! Former::hidden('order')->name('order_new[]')->addClass('order-id') !!}
+    {!! Former::hidden('order')->name("order_new[{$uniqid}]")->addClass('order-id') !!}
 
-    {!! Former::hidden('id')->name('id_new[]') !!}
+    {!! Former::hidden('id')->name("id_new[{$uniqid}]") !!}
 
-    {!! Former::hidden('type')->name('type_new[]')->value('rte') !!}
+    {!! Former::hidden('type')->name("type_new[{$uniqid}]")->value('rte') !!}
 
-    {!! Former::text('title')->name('title_new[]')->label('Title') !!}
+    {!! Former::text('title')->name("title_new[{$uniqid}]")->label('Title') !!}
 
-    {!! Former::textarea('content')->addClass('ckeditor')->name('content_new[]')->label('Content') !!}
+    {!! Former::textarea('content')->addClass('ckeditor')->name("content_new[{$uniqid}]")->label('Content') !!}
 
 @endif

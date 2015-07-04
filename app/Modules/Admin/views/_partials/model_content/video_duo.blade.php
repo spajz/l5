@@ -6,8 +6,6 @@
 
     {!! Former::hidden('encoded')->name("encoded[{$item->id}]")->value(1) !!}
 
-    {!! Former::hidden('updated_at')->name("updated_at[{$item->id}]")->value($item->updated_at) !!}
-
     {!! Former::hidden('type')->name("type[{$item->id}]")->value($item->type) !!}
 
     {!! Former::text('title')->name("title[{$item->id}]")->label('Title')->value($item->title) !!}
@@ -75,7 +73,7 @@
     ->name("content_new[{$uniqid}][1]")
     ->label('Clip 1')
     ->id($uniqid_01)->onclick('openCustomRoxy2(\'' . $uniqid_01 . '_frame\')')
-    ->placholder('Click here to select a file')
+    ->placholder('Click here to select a file.')
     !!}
 
 
@@ -90,7 +88,7 @@
     ->label('Clip 2')
     ->value(isset($item->content[2]) ? $item->content[2] : '')
     ->id($uniqid_02)->onclick('openCustomRoxy2(\'' . $uniqid_02 . '_frame\')')
-    ->placholder('Click here to select a file')
+    ->placholder('Click here to select a file.')
     !!}
 
     <div id="{{ $uniqid_02 }}_frame" style="display: none;">

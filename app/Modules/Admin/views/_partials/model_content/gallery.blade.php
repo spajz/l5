@@ -1,4 +1,5 @@
 <?php $contentType = 'gallery' ?>
+
 @if(isset($item))
 
     {!! Former::hidden('order')->name("order[{$item->id}]")->addClass('order-id')->value($item->order) !!}
@@ -9,10 +10,12 @@
 
     {!! Former::text('title')->name("title[{$item->id}]")->label('Title')->value($item->title) !!}
 
-    {!! Former::text('content')->name("content[{$item->id}]")->label('Content')->value($item->content) !!}
+    {!! Former::select('sub_type')->name("sub_type[{$item->id}]")->options(['left' => 'Left', 'right' => 'Right'], $item->sub_type)->label('Position') !!}
+
+    {!! Former::textarea('content')->name("content[{$item->id}]")->label('Content')->value($item->content) !!}
 
 
-    @include("admin::_partials.model_content.image_template", compact('uniqid', 'item', 'uniqid', 'contentType'))
+    @include("admin::_partials.model_content.image_template", compact('uniqid', 'item', 'contentType'))
 
 @else
 
@@ -24,8 +27,9 @@
 
     {!! Former::text('title')->name("title_new[{$uniqid}]")->label('Title') !!}
 
-    {!! Former::text('content')->name("content_new[{$uniqid}]")->label('Content') !!}
+    {!! Former::select('sub_type')->name("sub_type_new[{$uniqid}]")->options(['left' => 'Left', 'right' => 'Right'])->label('Position') !!}
 
+    {!! Former::textarea('content')->name("content_new[{$uniqid}]")->label('Content') !!}
 
 
     @include("admin::_partials.model_content.image_template", compact('uniqid', 'contentType'))

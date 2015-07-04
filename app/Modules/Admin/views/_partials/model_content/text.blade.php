@@ -6,8 +6,6 @@
 
     {!! Former::hidden('encoded')->name("encoded[{$item->id}]")->value(1) !!}
 
-    {!! Former::hidden('updated_at')->name("updated_at[{$item->id}]")->value($item->updated_at) !!}
-
     {!! Former::hidden('type')->name("type[{$item->id}]")->value($item->type) !!}
 
     {!! Former::text('title')->name("title[{$item->id}]")->label('Title')->value($item->title) !!}
@@ -16,16 +14,16 @@
 
 @else
 
-    {!! Former::hidden('order')->name('order_new[]')->addClass('order-id') !!}
+    {!! Former::hidden('order')->name("order_new[{$uniqid}]")->addClass('order-id') !!}
 
-    {!! Former::hidden('id')->name('id_new[]') !!}
+    {!! Former::hidden('id')->name("id_new[{$uniqid}]") !!}
 
-    {!! Former::hidden('encoded')->name("encoded_new[]")->value(1) !!}
+    {!! Former::hidden('encoded')->name("encoded_new[{$uniqid}]")->value(1) !!}
 
-    {!! Former::hidden('type')->name('type_new[]')->value('text') !!}
+    {!! Former::hidden('type')->name("type_new[{$uniqid}]")->value('text') !!}
 
-    {!! Former::text('title')->name('title_new[]')->label('Title') !!}
+    {!! Former::text('title')->name("title_new[{$uniqid}]")->label('Title') !!}
 
-    {!! Former::text('content')->name('content_new[]')->label('Content') !!}
+    {!! Former::text('content')->name("content_new[{$uniqid}]")->label('Content') !!}
 
 @endif

@@ -267,8 +267,11 @@ if (moduleLower) {
             config.bowerDir + 'font-awesome/css/font-awesome.css',
             config.assetsDir + 'css/code-pro-bold-lc.css',
             config.assetsDir + 'css/code-pro-lc.css',
-            config.bowerDir + 'owl.carousel/dist/assets/owl.carousel.min.css',
-            config.bowerDir + 'metisMenu/dist/metisMenu.min.css',
+            //config.bowerDir + 'owl.carousel/dist/assets/owl.carousel.min.css',
+            //config.bowerDir + 'metisMenu/dist/metisMenu.min.css',
+            config.bowerDir + 'slippry/dist/slippry.css',
+            config.bowerDir + 'video.js/dist/video-js/video-js.min.css',
+
         ]
 
         if (production) cssArray.push(config.assetsDir + 'css/added.css');
@@ -278,8 +281,12 @@ if (moduleLower) {
         scriptsArray = [
             config.bowerDir + 'jquery-legacy/dist/jquery.min.js',
             config.bowerDir + 'bootstrap/dist/js/bootstrap.min.js',
-            config.bowerDir + 'owl.carousel/dist/owl.carousel.min.js',
+            //config.bowerDir + 'owl.carousel/dist/owl.carousel.min.js',
             config.bowerDir + 'matchHeight/jquery.matchHeight-min.js',
+            config.bowerDir + 'jquery.scrollTo/jquery.scrollTo.min.js',
+            config.bowerDir + 'slippry/dist/slippry.min.js',
+            config.bowerDir + 'video.js/dist/video-js/video.js',
+            config.bowerDir + 'jquery.lazyload/jquery.lazyload.js',
         ];
 
         if (production) scriptsArray.push(config.assetsDir + 'js/added.js');
@@ -294,6 +301,18 @@ if (moduleLower) {
         gulpCopy(
             [config.assetsDir + 'images/**/*'],
             [config.baseOutput + 'images/']
+        );
+
+        gulpCopy(
+            [config.bowerDir + 'slippry/images/**/*'],
+            [config.baseOutput + 'images/']
+        );
+
+        gulpCopy(
+            [
+                config.bowerDir + 'video.js/dist/video-js/video-js.swf',
+            ],
+            [config.baseOutput + 'js/']
         );
     }
 

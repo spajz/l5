@@ -22,22 +22,4 @@ class BaseModel extends Model
         }
     }
 
-    public static function boot()
-    {
-        parent::boot();
-
-        static::updating(function ($model) {
-            if (is_array(Input::get('updated_at'))) {
-                if (Input::get('updated_at.' . $model->id) != $model->updated_at) {
-                    msg('This article has been changed in the meantime. Please edit again.', 'danger');
-                    return false;
-                }
-            } elseif (!is_null(Input::get('updated_at'))) {
-                if (Input::get('updated_at') != $model->updated_at) {
-                    msg('This article has been changed in the meantime. Please edit again.', 'danger');
-                    return false;
-                }
-            }
-        });
-    }
 }

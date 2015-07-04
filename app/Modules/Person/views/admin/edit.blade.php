@@ -53,6 +53,7 @@
 
                                 {!! Former::textarea('description')->addClass('ckeditor') !!}
 
+                                {!! Former::hidden('status')->forceValue(0) !!}
                                 {!! Former::checkbox('status')->value(1) !!}
 
                                 {!! $formButtons or '' !!}

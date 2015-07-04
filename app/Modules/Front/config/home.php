@@ -3,16 +3,16 @@
 $moduleUpper = get_dirname(__FILE__, 2);
 $moduleLower = strtolower($moduleUpper);
 
-return array(
+return [
 
     'under-maintenance' => false,
 
-    'module' => array(
+    'module' => [
         'layout' => $moduleLower . '::layouts.master',
         'assetsDirModule' => 'assets/' . $moduleLower,
         'moduleLower' => $moduleLower,
         'moduleUpper' => $moduleUpper,
         'theme' => env('THEME', null),
-    ),
+    ],
 
-);
+];

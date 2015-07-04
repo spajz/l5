@@ -28,6 +28,8 @@ class CreateModelContentsTable extends Migration {
             $table->tinyInteger('status')->default(0);
             $table->tinyInteger('encoded')->default(0);
 			$table->timestamps();
+
+            $table->index(['model_type', 'model_id']);
 		});
 	}
 

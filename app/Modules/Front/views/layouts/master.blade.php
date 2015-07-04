@@ -12,12 +12,12 @@
     <meta name="author" content="">
 
     @if ( Config::get('app.debug') )
-        <link rel="stylesheet" href="{{ asset($assetsDirFront . '/css/app.css') }}" />
-        <link rel="stylesheet" href="{{ asset($assetsDirFront . '/css/all.css') }}" />
-        <link rel="stylesheet" href="{{ asset($assetsDirFront . '/css/added.css') }}" />
+        <link rel="stylesheet" href="{{ elixir3($assetsDirFront . '/css/app.css', $buildPath) }}" />
+        <link rel="stylesheet" href="{{ elixir3($assetsDirFront . '/css/all.css', $buildPath) }}" />
+        <link rel="stylesheet" href="{{ elixir3($assetsDirFront . '/css/added.css', $buildPath) }}" />
     @else
-        <link rel="stylesheet" href="{{ elixir2($assetsDirFront . '/css/all.css', $buildPath) }}">
-        <link rel="stylesheet" href="{{ elixir2($assetsDirFront . '/css/added.css', $buildPath) }}">
+        <link rel="stylesheet" href="{{ elixir3($assetsDirFront . '/css/all.css', $buildPath) }}">
+        <link rel="stylesheet" href="{{ elixir3($assetsDirFront . '/css/added.css', $buildPath) }}">
     @endif
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -36,15 +36,19 @@
 @yield('content')
 
 @if ( Config::get('app.debug') )
-    <script src="{{ asset("{$assetsDirFront}/js/all.js") }}"></script>
-    <script src="{{ asset("{$assetsDirFront}/js/added.js") }}"></script>
+    <script src="{{ elixir3("{$assetsDirFront}/js/all.js", $buildPath) }}"></script>
+    <script src="{{ elixir3("{$assetsDirFront}/js/added.js", $buildPath) }}"></script>
 @else
-    <script src="{{ elixir2("{$assetsDirFront}/js/all.js", $buildPath) }}"></script>
-    <script src="{{ elixir2("{$assetsDirFront}/js/added.js", $buildPath) }}"></script>
+    <script src="{{ elixir3("{$assetsDirFront}/js/all.js", $buildPath) }}"></script>
+    <script src="{{ elixir3("{$assetsDirFront}/js/added.js", $buildPath) }}"></script>
 @endif
 
 @section('scripts_bottom')
 @show
+
+<script>
+    videojs.options.flash.swf = "{{ asset("{$assetsDirFront}/js/video-js.swf") }}";
+</script>
 
 </body>
 </html>

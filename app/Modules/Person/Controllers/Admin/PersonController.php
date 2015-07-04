@@ -7,7 +7,6 @@ use App\Modules\Person\Models\Person as Model;
 use Datatables;
 use DatatablesFront;
 use Former;
-use Illuminate\Support\Facades\Session;
 use Input;
 use Illuminate\Http\Request as HttpRequest;
 use App\Models\ModelContent;
@@ -29,7 +28,7 @@ class PersonController extends AdminController
         ['name' => 'actions', 'className' => 'w120 text-center', 'actionColumn' => true],
     ];
 
-    protected $dtChangeStatus = false;
+    protected $dtChangeStatus = true;
 
     protected $formButtons = array('except' => array('approve', 'reject'));
 

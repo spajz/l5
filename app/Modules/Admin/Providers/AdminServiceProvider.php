@@ -32,10 +32,12 @@ class AdminServiceProvider extends ServiceProvider
     protected function menu()
     {
         $menus = '';
+
         foreach (modules() as $module) {
             $name = $module['name'];
             $modulesPath = modules_path($name . '/');
-            if (is_file($modulesPath . "/views/admin/menu.blade.php")) {
+//            ee($modulesPath . "views/admin/menu.blade.php");
+            if (is_file($modulesPath . "views/admin/menu.blade.php")) {
                 $menus .= view($name . '::admin.menu', array('module' => $module));
             }
         }

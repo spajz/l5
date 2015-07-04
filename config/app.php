@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'sr',
 
     /*
     |--------------------------------------------------------------------------
@@ -65,7 +65,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'sr',
 
     /*
     |--------------------------------------------------------------------------
@@ -206,6 +206,7 @@ return [
         Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider::class,
         GrahamCampbell\HTMLMin\HTMLMinServiceProvider::class,
         Baum\Providers\BaumServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
 
     ],
 
@@ -312,6 +313,7 @@ return [
         'LaravelLocalization' => Mcamara\LaravelLocalization\Facades\LaravelLocalization::class,
         'Sanitize'            => App\Library\Sanitize::class,
         'HTMLMin'             => GrahamCampbell\HTMLMin\Facades\HTMLMin::class,
+        'Debugbar'            => Barryvdh\Debugbar\Facade::class,
 
     ],
 

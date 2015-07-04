@@ -1,59 +1,63 @@
 <?php
 
-return array(
+$moduleUpper = get_dirname(__FILE__, 2);
+$moduleLower = strtolower($moduleUpper);
 
-    'under-maintenance' => false,
+return [
 
-    'module' => array(
-        'assetsDirModule' => 'assets/people',
-        'viewPathModule' => 'people.views',
-        'moduleLower' => 'page',
-        'moduleUpper' => 'Page',
-        'modelName' => 'App\Models\Page',
-    ),
+    'module' => [
+        'assetsDirModule' => 'assets/' . $moduleLower,
+        'moduleLower' => $moduleLower,
+        'moduleUpper' => $moduleUpper,
+        'modelName' => 'App\Modules\\' . $moduleUpper . '\Models\\' . $moduleUpper,
+    ],
 
-
-    'image' => array(
+    'image' => [
         'path' => public_path() . '/media/images/', // main path with trailing slash
         'baseUrl' => url('media/images') . '/',
-        'required' => true, // true or false
+        'required' => false, // true or false
         'multiple' => true,
+        'order' => true, // allow reordering
+        'crop' => true, // allow cropping
+        'baseName' => $moduleLower, // image base name
+        'filenameFormat' => '', // default: [:base_name]_[:uniqid]
         'quality' => 85,
         'allowedTypes' => 'jpeg,gif,png',
-        'max' => '2000', // max size in kilobytes (0 for no limit)
-        'sizes' => array(
-            'original' => array(
+        'max' => '4000', // max size in kilobytes (0 for no limit)
+        'mainSize' => 'original', //  required
+        'sizes' => [
+            'original' => [
                 'folder' => 'original/', // relative path from main image folder with trailing slash
-                'actions' => array(),
-            ),
-            'large' => array(
+                'actions' => [],
+            ],
+            'large' => [
                 'quality' => 95,
                 'folder' => 'large/', // relative path from main image folder with trailing slash
-                'actions' => array(
-                    'resize' => array(800, 800, function ($image) {
+                'actions' => [
+                    'resize' => [800, 800, function ($image) {
                         $image->aspectRatio();
                         $image->upsize();
-                    }),
-                ),
-            ),
-            'medium' => array(
+                    }],
+                ],
+            ],
+            'medium' => [
                 'folder' => 'medium/', // relative path from main image folder with trailing slash
-                'actions' => array(
-                    'resize' => array(250, null, function ($image) {
+                'actions' => [
+                    'resize' => [250, null, function ($image) {
                         $image->aspectRatio();
                         $image->upsize();
-                    }),
-                ),
-            ),
-            'thumb' => array(
+                    }],
+                ],
+            ],
+            'thumb' => [
                 'folder' => 'thumb/',
-                'actions' => array(
-                    'fit' => array(140, 110, function ($image) {
+                'actions' => [
+                    'fit' => [140, 110, function ($image) {
                         $image->aspectRatio();
                         $image->upsize();
-                    }),
-                ),
-            ),
-        ),
-    ),
-);
+                    }],
+                ],
+            ],
+        ],
+    ],
+];

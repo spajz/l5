@@ -29,7 +29,7 @@ return [
 	*/
 
 //	'model' => 'App\User',
-	'model' => App\modules\User\Models\User::class,
+	'model' => App\Modules\User\Models\User::class,
 
 
 	/*

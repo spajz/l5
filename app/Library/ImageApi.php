@@ -31,6 +31,7 @@ class ImageApi
     protected $errorsUpload = [];
     protected $uploadedFiles = [];
     protected $order;
+    protected $status = null;
 
     public function setConfig($config)
     {
@@ -193,6 +194,11 @@ class ImageApi
             isset($this->errors['new']) ? $this->errors['new'] : [],
             isset($this->errors['update']) ? $this->errors['update'] : []
         );
+    }
+
+    public function setStatus($status)
+    {
+        $this->status = $status;
     }
 
     protected function processConfig()
@@ -534,6 +540,9 @@ class ImageApi
             $image->model_id = $this->modelId;
             $image->model_type = $this->modelType;
             $image->image = $filename;
+            if (is_numeric($this->status)) {
+                $image->status = $this->status;
+            }
             $image->save();
 
             // Delete old image
@@ -577,6 +586,9 @@ class ImageApi
             $image->model_type = $this->modelType;
             $image->image = $filename;
             $image->order = $order;
+            if (is_numeric($this->status)) {
+                $image->status = $this->status;
+            }
             $image->save();
         }
     }
@@ -586,7 +598,7 @@ class ImageApi
      *
      * @return void
      */
-    protected function dbUpdate()
+    public function dbUpdate()
     {
         $inputAlt = Input::get($this->inputFields['alt_update']);
         $inputDescription = Input::get($this->inputFields['description_update']);
@@ -608,9 +620,10 @@ class ImageApi
      *
      * @param  mixed $ids
      * @param  bool $withImages
+     * @param  bool $force
      * @return array $return
      */
-    public function destroy($ids, $withImages = true)
+    public function destroy($ids, $withImages = true, $force = false)
     {
         $return = array();
 
@@ -624,24 +637,36 @@ class ImageApi
 
             if ($image) {
 
-                $moduleLower = strtolower(class_basename($image->model_type));
-                $config = (config($moduleLower));
-                $filename = $image->image;
+                if ($force) {
+                    $this->forceDelete($image->image);
+                    $image->delete();
+                } else {
+                    $moduleLower = strtolower(class_basename($image->model_type));
+                    $config = (config($moduleLower));
+                    $filename = $image->image;
 
-                // File exist
-                if(is_file(array_get($config, 'image.path') . 'original/' . $filename)){
-                    // Don't delete last image if is required
-                    if ((count($image->sameParent()) < 2) && $config['image']['required']) {
-                        msg('You can not delete last image.', 'danger');
-                        return $return;
+                    // File exist
+                    if (is_file(array_get($config, 'image.path') . 'original/' . $filename)) {
+                        // Don't delete last image if is required
+                        if ((count($image->sameParent()) < 2) && $config['image']['required']) {
+                            msg('You can not delete last image.', 'danger');
+                            return $return;
+                        }
+                    }
+
+                    if ($image->delete()) {
+                        if ($withImages && !$this->checkImageReusedByFilename($filename)) {
+                            $this->delete($filename);
+                        }
+                        $return[] = $id;
                     }
                 }
 
-                if ($image->delete()) {
-                    if ($withImages && !$this->checkImageReusedByFilename($filename)) {
-                        $this->delete($filename);
-                    }
-                    $return[] = $id;
+                // Reorder
+                if ($image->exists()) {
+                    $reorder = new ImageModel;
+                    $reorder->reorder(['model_type' => $image->model_type,
+                        'model_id' => $image->model_id]);
                 }
             }
         }
@@ -664,6 +689,20 @@ class ImageApi
                 $filename = $config['path'] . $size['folder'] . $image;
                 if (is_file($filename)) {
                     unlink($filename);
+                }
+            }
+        }
+    }
+
+    public function forceDelete($image)
+    {
+        $files = File::allFiles(public_path('media/images'));
+        if (count($files)) {
+            foreach ($files as $file) {
+                if ($file->getFilename() == $image) {
+                    if (is_file($file->getRealPath())) {
+                        unlink($file->getRealPath());
+                    }
                 }
             }
         }
@@ -700,7 +739,7 @@ class ImageApi
         }
         $imageModel = ImageModel::find(Input::get('image_id'));
         $moduleLower = strtolower(class_basename($imageModel->model_type));
-        if(Input::get('image_config')){
+        if (Input::get('image_config')) {
             $this->setConfig(Input::get('image_config'));
         } else {
             $this->setConfig("{$moduleLower}.image");

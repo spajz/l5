@@ -3,7 +3,6 @@
 use App\BaseModel;
 use App\Traits\ValidationTrait;
 use App\Traits\TransTrait;
-use Input;
 
 class Person extends BaseModel
 {

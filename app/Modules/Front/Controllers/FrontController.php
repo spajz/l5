@@ -1,6 +1,7 @@
 <?php namespace App\Modules\Front\Controllers;
 
 use App\Http\Controllers\BaseController;
+use App;
 
 class FrontController extends BaseController
 {
@@ -18,6 +19,7 @@ class FrontController extends BaseController
     {
         $this->setConfig(__FILE__);
         $this->language = config('front.language');
+        App::setLocale('sr');
     }
 
     protected function setConfig($module, $path = true)
@@ -40,7 +42,12 @@ class FrontController extends BaseController
             }
         }
 
-        $this->layout = theme('front::layouts.master');
+        if (theme('front::layouts.master')) {
+            $this->layout = theme('front::layouts.master');
+
+        } else {
+            $this->layout = 'front::layouts.master';
+        }
         view()->share('layout', $this->layout);
     }
 

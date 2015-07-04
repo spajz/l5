@@ -10,7 +10,7 @@ Route::group(['prefix' => ADMIN], function () {
 
     Route::post('api/get-model', ['as' => 'api.admin.get.model', 'uses' => 'App\Modules\Admin\Controllers\AdminController@getModel']);
 
-    Route::get('api/image-destroy/{id}', ['as' => 'api.admin.image.destroy', 'uses' => 'App\Modules\Admin\Controllers\AdminController@imageDestroy']);
+    Route::get('api/image-destroy/{id}/{withImages?}/{force?}', ['as' => 'api.admin.image.destroy', 'uses' => 'App\Modules\Admin\Controllers\AdminController@imageDestroy']);
 
     Route::post("api/image/crop", ['as' => 'api.admin.image.crop', "uses" => 'App\Modules\Admin\Controllers\AdminController@imageCrop']);
 
