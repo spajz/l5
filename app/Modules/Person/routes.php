@@ -15,7 +15,7 @@ Route::group(array("prefix" => ADMIN), function () use ($moduleUpper, $moduleLow
 
     Route::get("{$moduleLower}/order", array("as" => "admin.{$moduleLower}.order", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@order"));
 
-    Route::get("{$moduleLower}/{id}/edit", array("as" => "admin.{$moduleLower}.edit", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@edit"));
+    Route::get("{$moduleLower}/{id}/edit/{lang?}", array("as" => "admin.{$moduleLower}.edit", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@edit"));
 
     Route::get("{$moduleLower}/{id}/destroy", array("as" => "admin.{$moduleLower}.destroy", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@destroy"));
 
@@ -41,4 +41,8 @@ Route::group(array("prefix" => ADMIN), function () use ($moduleUpper, $moduleLow
 // Front
 $namespaceAdmin = 'App\Modules\\' . $moduleUpper . '\Controllers\\';
 
-Route::get($moduleLower, array("as" => "{$moduleLower}.index", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@index"));
+Route::group(['prefix' => LaravelLocalization::setLocale()], function() use($moduleLower, $namespaceAdmin, $moduleUpper)
+{
+    Route::get($moduleLower, array("as" => "{$moduleLower}.index", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@index"));
+});
+

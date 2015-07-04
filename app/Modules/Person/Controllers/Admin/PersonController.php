@@ -9,8 +9,6 @@ use DatatablesFront;
 use Former;
 use Input;
 use Illuminate\Http\Request as HttpRequest;
-use App\Models\ModelContent;
-use App\Models\ModelContentValue;
 
 class PersonController extends AdminController
 {
@@ -19,10 +17,7 @@ class PersonController extends AdminController
         ['name' => 'first_name', 'columnFilter' => 'text'],
         ['name' => 'last_name', 'columnFilter' => 'text'],
         ['name' => 'job_title'],
-        ['name' => 'created_at'],
         ['name' => 'order', 'className' => 'w40'],
-        ['name' => 'lang', 'className' => 'w40', 'columnFilter' => 'select', 'tfClass' => 'filter-count'],
-        ['name' => 'trans_id', 'className' => 'w40', 'title' => 'Parent'],
         ['name' => 'translate', 'className' => 'w120 text-center', 'actionColumn' => true],
         ['name' => 'status', 'className' => 'w40 text-center'],
         ['name' => 'actions', 'className' => 'w120 text-center', 'actionColumn' => true],
@@ -45,23 +40,20 @@ class PersonController extends AdminController
             view()->share('changeStatusDisabled', true);
         }
 
-        $model = $this->modelName;
-        $query = $model::select('*');
-//        $model = $model::select('persons.*', 'images.image')
-//            ->where('lang', 'sr');
-//            ->leftJoin('images', 'authors.id','=','articles.author_id');
+        foreach ($this->dtColumns as $columnItem) {
+            $columns[$columnItem['name']] = $columnItem['name'];
+            $columns = array_except($columns, ['translate', 'actions']);
+        }
 
-//            ->leftJoin('images', function ($join) use ($model) {
-//                $join->on('images.model_id', '=', 'persons.id')
-//                    ->where('images.model_type', '=', $model);
-//            });
+        $model = $this->modelName;
+        $query = $model::select($columns);
 
         return Datatables::of($query)
             ->addColumn('status', function ($data) use ($dtFront, $model) {
                 return $dtFront->renderStatusButtons($data, $model);
             })
             ->addColumn('translate', function ($data) use ($dtFront, $model) {
-                return $dtFront->renderTransButtons($data);
+                return $dtFront->renderTranslateButtons($data);
             })
             ->addColumn('actions', function ($data) use ($dtFront, $model) {
                 return $dtFront->renderActionButtons($data);
@@ -94,43 +86,30 @@ class PersonController extends AdminController
      * @param string $lang
      * @return Response
      */
-    public function create($trans_id = null, $lang = null)
+    public function create()
     {
         $model = $this->modelName;
-        $transButtons = '';
-
-        $lang = $this->adminLanguage($lang);
+        $lang = $this->adminLanguage();
 
         // Create first article only in default language
         $defaultLang = config('admin.language');
-        if (is_null($trans_id) && $lang != $defaultLang) {
+        if ($lang != $defaultLang) {
             msg('The first article must be in the main language.', 'info');
             $this->adminLanguage($defaultLang);
             return redirect()->route("admin.{$this->moduleLower}.create");
         }
 
-        if (is_numeric($trans_id)) {
-
-            $trans = $model::hasTrans($trans_id, $lang)->first();
-            if ($trans) {
-                msg('This item already exists in the requested language.', 'info');
-                return $this->redirect($trans, ['save' => ['edit' => 'Save']]);
-            }
-
-            $item = $model::find($trans_id);
-            if (!$item) {
-                msg('The item which you want to translate does not exist or has been deleted.', 'danger');
-                return redirect()->route("admin.{$this->moduleLower}.index");
-            }
-            Former::populate($item);
-            $transButtons = $this->renderTransButtons($item);
-        }
+        $formButtons = $this->formButtons($this->formButtons);
 
         // Add validation from model to former
         $validationRules = $model::rulesMergeStore();
 
-        $formButtons = $this->formButtons($this->formButtons);
-        return view("{$this->moduleLower}::admin.create", compact('formButtons', 'trans_id', 'lang', 'transButtons', 'validationRules'));
+        return view("{$this->moduleLower}::admin.create",
+            compact(
+                'lang',
+                'formButtons',
+                'validationRules'
+            ));
     }
 
     /**
@@ -154,17 +133,6 @@ class PersonController extends AdminController
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int $id
@@ -175,17 +143,22 @@ class PersonController extends AdminController
         $model = $this->modelName;
         $item = $model::find($id);
 
-        $lang = $this->adminLanguage($lang);
-
         if (!$item) {
             msg('The requested item does not exist or has been deleted.', 'danger');
             return redirect()->route("admin.{$this->moduleLower}.index");
         }
 
+        if (!is_null($lang)) {
+            $this->adminLanguage($lang);
+            return redirect()->route("admin.{$this->moduleLower}.edit", $id);
+        }
+
+        $lang = $this->adminLanguage();
+
         $thisObj = $this;
         Former::populate($item);
         $formButtons = $this->formButtons($this->formButtons);
-        $transButtons = $this->renderTransButtons($item);
+        $translateButtons = $this->renderTranslateButtons($item);
         $statusButton = function ($item) use ($thisObj) {
             return $thisObj->renderStatusButtons($item);
         };
@@ -193,31 +166,15 @@ class PersonController extends AdminController
         // Add validation from model to former
         $validationRules = $model::rulesMergeUpdate();
 
-        $elements = [
-            '' => '* Add element',
-            'textarea' => 'Text area',
-            'rte' => 'Rich text editor',
-            'text' => 'Text',
-            'example' => 'Example',
-            'gallery' => 'Gallery',
-            'video_duo' => 'Video duo',
-            'video' => 'Video',
-        ];
-
-        asort($elements);
-
-        $contents = $item->contentable;
-
         return view("{$this->moduleLower}::admin.edit",
             compact(
                 'item',
+                'lang',
                 'formButtons',
-                'transButtons',
+                'translateButtons',
                 'statusButton',
                 'validationRules',
-                'elements',
-                'contents',
-                'lang'
+                'contents'
             ));
     }
 
@@ -244,7 +201,8 @@ class PersonController extends AdminController
         $imageApi->setConfig("{$this->moduleLower}.image");
         $imageApi->setModelId($id);
         $imageApi->setModelType(get_class($item));
-//        $imageApi->setBaseName('novi fajl');
+        $imageApi->setStatus(1);
+        $imageApi->setBaseName("{$this->moduleLower}_{$item->id}");
 
         if (!$imageApi->process()) {
             msg($imageApi->getErrorsAll(), 'danger');
@@ -282,156 +240,6 @@ class PersonController extends AdminController
 
     }
 
-    public function updateItemContent($id)
-    {
-        $model = $this->modelName;
-        $item = $model::find($id);
-
-        if (!$item) {
-            msg('The requested item does not exist or has been deleted.', 'danger');
-            return redirect()->back();
-        }
-
-        $suffix = '_new';
-        $prefix = 'val_';
-
-        $fillableContent = new ModelContent;
-        $fillableContentValues = new ModelContentValue;
-        $fillableContent = $fillableContent->getFillable();
-        $fillableContentValues = $fillableContentValues->getFillable();
-
-        $ids = Input::get('id');
-        $idsNew = Input::get('id_new');
-
-        $attributesContent = [
-            'model_type' => Input::get('model_type'),
-            'lang' => Input::get('lang')
-        ];
-
-        // Loop through existing ids and update
-        if ($ids && $fillableContent) {
-
-            foreach ($ids as $k => $contentId) {
-
-                $modelContent = ModelContent::find($k);
-
-                if ($modelContent) {
-
-                    foreach ($fillableContent as $column) {
-
-                        if (is_array(Input::get($column . '.' . $k, null))) {
-                            $attributesContent[$column] = json_encode(Input::get($column . '.' . $k));
-                        } elseif (!is_null(Input::get($column . '.' . $k, null))) {
-                            $attributesContent[$column] = Input::get($column . '.' . $k);
-                        }
-                    }
-
-                    // Update content
-                    $modelContent->fill($attributesContent);
-                    $modelContent->save();
-
-                    // Update content values. Check id fields
-                    $array = Input::get($prefix . 'id' . '.' . $k, null);
-
-                    if (!is_null($array)) {
-
-                        foreach ($array as $k1 => $value) {
-
-                            $modelContentValue = ModelContentValue::find($k1);
-
-                            if ($modelContentValue) {
-
-                                $attributesValuesTmp = [];
-
-                                foreach ($fillableContentValues as $column) {
-
-                                    // Do not update some columns
-                                    if (in_array($column, ['model_content_id', 'order'])) continue;
-
-                                    $input = $prefix . $column . '.' . $k;
-
-                                    $attributesValuesTmp[$column] = Input::get($input . '.' . $k1);
-                                }
-
-                                if ($attributesValuesTmp)
-                                    $modelContentValue->update($attributesValuesTmp);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        if ($idsNew && $fillableContent) {
-
-            foreach ($idsNew as $k => $null) {
-
-                $attributesValues = [];
-
-                $modelContent = new ModelContent;
-
-                $modelContent->model_id = $id;
-                $modelContent->model_type = get_class($item);
-
-                foreach ($fillableContent as $column) {
-
-                    if (is_array(Input::get($column . $suffix . '.' . $k, null))) {
-
-                        $attributesContent[$column] = json_encode(Input::get($column . $suffix . '.' . $k));
-                    } elseif (!is_null(Input::get($column . $suffix . '.' . $k, null))) {
-                        $attributesContent[$column] = Input::get($column . $suffix . '.' . $k);
-                    }
-                }
-
-                $array = Input::get($prefix . 'value' . $suffix . '.' . $k, null);
-
-                if (!is_null($array)) {
-
-                    $attributesValuesTmp = [];
-
-                    foreach ($array as $k1 => $value) {
-
-                        foreach ($fillableContentValues as $column) {
-
-                            $input = $prefix . $column . $suffix . '.' . $k . '.' . $k1;
-                            if (!is_null(Input::get($input, null))) {
-                                $attributesValuesTmp[$column] = Input::get($input);
-                            }
-                        }
-
-                        if ($attributesValuesTmp)
-                            $attributesValues[] = new ModelContentValue($attributesValuesTmp);
-                    }
-                }
-
-                $modelContent->fill($attributesContent);
-                $modelContent->save();
-
-                if ($attributesValues)
-                    $modelContent->values()->saveMany($attributesValues);
-
-                // Save images
-                if (Input::file($k . '_files_new')) {
-                    $imageApi = new ImageApi;
-                    $imageApi->setConfig($this->contentImageConfig());
-                    $imageApi->setInputFields('files_new', $k . '_files_new');
-                    $imageApi->setInputFields('alt_new', $k . '_alt_new');
-                    $imageApi->setModelId($modelContent->id);
-                    $imageApi->setModelType(get_class($modelContent));
-                    $imageApi->setBaseName("{$this->moduleLower}_{$attributesContent['type']}");
-
-                    if (!$imageApi->process()) {
-                        msg($imageApi->getErrorsAll(), 'danger');
-                    }
-                }
-            }
-        }
-
-        msg('The item successfully updated.');
-
-        return $this->redirect($item);
-    }
-
     /**
      * Reorder items.
      *
@@ -440,211 +248,7 @@ class PersonController extends AdminController
     public function order()
     {
         $model = $this->modelName;
-        $items = $model::all();
+        $items = $model::orderBy('order')->get();
         return view("{$this->moduleLower}::admin.order", compact('model', 'items'));
     }
-
-    public function content($lang = null)
-    {
-        $lang = $this->adminLanguage($lang);
-
-        $languages = config('admin.languages');
-
-        $buttonSize = 'btn-xs';
-
-        $elements = [
-            '' => '* Add element',
-            'textarea' => 'Text area',
-            'rte' => 'Rich text editor',
-            'text' => 'Text',
-            'example' => 'Example',
-            'gallery' => 'Gallery',
-            'video_duo' => 'Video duo',
-            'video' => 'Video',
-        ];
-
-        asort($elements);
-
-        $contents = ModelContent::where('model_type', $this->modelName)
-            ->where('lang', $lang)
-            ->where('model_id', 0)
-            ->orderBy('order')
-            ->get();
-
-        $thisObj = $this;
-
-        $statusButton = function ($item) use ($thisObj) {
-            return $thisObj->renderStatusButtons($item);
-        };
-
-        view()->share('statusButton', $statusButton);
-
-        return view("{$this->moduleLower}::admin.content", compact('lang', 'elements', 'languages', 'buttonSize', 'contents'));
-    }
-
-    public function contentStore($lang = null)
-    {
-
-        $suffix = '_new';
-        $prefix = 'val_';
-
-        $fillableContent = new ModelContent;
-        $fillableContentValues = new ModelContentValue;
-        $fillableContent = $fillableContent->getFillable();
-        $fillableContentValues = $fillableContentValues->getFillable();
-
-        $ids = Input::get('id');
-        $idsNew = Input::get('id_new');
-
-        $attributesContent = [
-            'model_type' => Input::get('model_type'),
-            'lang' => Input::get('lang')
-        ];
-
-        // Loop through existing ids and update
-        if ($ids && $fillableContent) {
-
-            foreach ($ids as $k => $id) {
-
-                $modelContent = ModelContent::find($k);
-
-                if ($modelContent) {
-
-                    foreach ($fillableContent as $column) {
-
-                        if (!is_null(Input::get($column . '.' . $k, null))) {
-                            $attributesContent[$column] = Input::get($column . '.' . $k);
-                        }
-                    }
-
-                    // Update content
-                    $modelContent->fill($attributesContent);
-                    $modelContent->save();
-
-                    // Save images
-                    $imageApi = new ImageApi;
-                    $imageApi->setConfig($this->contentImageConfig());
-                    $imageApi->setInputFields('files_new', $k . '_files_new');
-                    $imageApi->setInputFields('alt_new', $k . '_alt_new');
-                    $imageApi->setModelId($modelContent->id);
-                    $imageApi->setModelType(get_class($modelContent));
-                    $imageApi->setBaseName("{$this->moduleLower}_{$attributesContent['type']}");
-
-                    if (!$imageApi->process()) {
-                        msg($imageApi->getErrorsAll(), 'danger');
-                    }
-
-                    // Update content values. Check id fields
-                    $array = Input::get($prefix . 'id' . '.' . $k, null);
-
-                    if (!is_null($array)) {
-
-                        foreach ($array as $k1 => $value) {
-
-                            $modelContentValue = ModelContentValue::find($k1);
-
-                            if ($modelContentValue) {
-
-                                $attributesValuesTmp = [];
-
-                                foreach ($fillableContentValues as $column) {
-
-                                    // Do not update some columns
-                                    if (in_array($column, ['model_content_id', 'order'])) continue;
-
-                                    $input = $prefix . $column . '.' . $k;
-
-                                    $attributesValuesTmp[$column] = Input::get($input . '.' . $k1);
-                                }
-
-                                if ($attributesValuesTmp)
-                                    $modelContentValue->update($attributesValuesTmp);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        // Create new items
-        if ($idsNew && $fillableContent) {
-
-            foreach ($idsNew as $k => $null) {
-
-                $attributesValues = [];
-
-                $modelContent = new ModelContent;
-
-                foreach ($fillableContent as $column) {
-
-                    if (!is_null(Input::get($column . $suffix . '.' . $k, null))) {
-                        $attributesContent[$column] = Input::get($column . $suffix . '.' . $k);
-                    }
-                }
-
-                $array = Input::get($prefix . 'value' . $suffix . '.' . $k, null);
-
-                if (!is_null($array)) {
-
-                    $attributesValuesTmp = [];
-
-                    foreach ($array as $k1 => $value) {
-
-                        foreach ($fillableContentValues as $column) {
-
-                            $input = $prefix . $column . $suffix . '.' . $k . '.' . $k1;
-                            if (!is_null(Input::get($input, null))) {
-                                $attributesValuesTmp[$column] = Input::get($input);
-                            }
-                        }
-
-                        if ($attributesValuesTmp)
-                            $attributesValues[] = new ModelContentValue($attributesValuesTmp);
-                    }
-                }
-
-                $modelContent->fill($attributesContent);
-                $modelContent->save();
-
-                if ($attributesValues)
-                    $modelContent->values()->saveMany($attributesValues);
-
-                // Save images
-                if (Input::file($k . '_files_new')) {
-                    $imageApi = new ImageApi;
-                    $imageApi->setConfig($this->contentImageConfig());
-                    $imageApi->setInputFields('files_new', $k . '_files_new');
-                    $imageApi->setInputFields('alt_new', $k . '_alt_new');
-                    $imageApi->setModelId($modelContent->id);
-                    $imageApi->setModelType(get_class($modelContent));
-                    $imageApi->setBaseName("{$this->moduleLower}_{$attributesContent['type']}");
-
-                    if (!$imageApi->process()) {
-                        msg($imageApi->getErrorsAll(), 'danger');
-                    }
-                }
-            }
-        }
-
-        return redirect()->back();
-    }
-
-    public function contentImageConfig($type = 'image2')
-    {
-        if (config("{$this->moduleLower}.model_content.element.{$type}.image")) {
-            return "{$this->moduleLower}.model_content.element.{$type}.image";
-        }
-        return "{$this->moduleLower}.image";
-    }
-
-    public function addElement()
-    {
-        $element = Input::get('element');
-
-        $formButtons = $this->formButtons($this->formButtons);
-        view()->share('formButtons', $formButtons);
-
-        return view("admin::_partials.model_content.template", ['type' => $element]);
-    }
-
 }

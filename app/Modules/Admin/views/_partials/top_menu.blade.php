@@ -190,24 +190,22 @@
         <!-- /.dropdown-alerts -->
     </li>
     <!-- /.dropdown -->
+ */?>
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+            <span class="label label-success label-as-badge"><i class="fa fa-flag fa-fw"></i> {{ session('settings.language') }}</span> <i class="fa fa-caret-down"></i>
         </a>
-        <ul class="dropdown-menu dropdown-user">
-            <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-            </li>
-            <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-            </li>
-            <li class="divider"></li>
-            <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-            </li>
+        <ul class="dropdown-menu">
+            @foreach(config('admin.languages', []) as $langCode => $langName)
+                <li>
+                    <a href="{{ route('api.admin.change.language', [$langCode, true]) }}">{{ $langName }}</a>
+                </li>
+            @endforeach
         </ul>
         <!-- /.dropdown-user -->
     </li>
     <!-- /.dropdown -->
 
-   */?>
     <li>
         <a href="{{ route('admin.logout') }}">
             <i class="fa fa-sign-out fa-fw"></i> Logout

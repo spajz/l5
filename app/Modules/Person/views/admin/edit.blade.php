@@ -10,20 +10,13 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-xs-12">
-            <p>{!! $transButtons !!}</p>
-        </div>
-    </div>
-
-    <ul class="nav nav-tabs tab-selector bottom10">
-        <li class="{{ Session::get('settings.tab') == '#basic' ? 'active' : '' }}"><a href="#basic"><i class="fa fa-bars fa-fw"></i>Basic</a></li>
-        <li class="{{ Session::get('settings.tab') == '#content' ? 'active' : '' }}"><a href="#content"><i class="fa fa-folder-open-o fa-fw"></i> Content</a></li>
-    </ul>
-
     <div id="pjax-container">
 
-    <div id="basic">
+        <div class="row">
+            <div class="col-xs-12">
+                <p>{!! $translateButtons or '' !!}</p>
+            </div>
+        </div>
 
         <div id="info-box">{!! Notification::showAll() !!}</div>
 
@@ -41,15 +34,23 @@
 
                                 {!! Former::hidden('id') !!}
 
-                                {!! Former::hidden('updated_at') !!}
-
-                                {!! Former::text('lang')->disabled() !!}
+                                {!! Former::text('lang')->disabled()->forceValue($lang) !!}
 
                                 {!! Former::text('first_name') !!}
 
                                 {!! Former::text('last_name') !!}
 
                                 {!! Former::text('job_title') !!}
+
+                                <div class="form-group required color-picker-input">
+                                    <label for="color" class="control-label col-lg-2 col-sm-4">Color<sup>*</sup></label>
+                                    <div class="col-lg-10 col-sm-8">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i></i></span>
+                                            {!! Former::text('color')->raw() !!}
+                                        </div>
+                                    </div>
+                                </div>
 
                                 {!! Former::textarea('description')->addClass('ckeditor') !!}
 
@@ -77,62 +78,6 @@
         @if(array_get($config, 'image.crop'))
             @include("admin::_partials.crop_form", ['item' => $item])
         @endif
-    </div>
-
-    <div id="content">
-
-        <div id="info-box">{!! Notification::showAll() !!}</div>
-
-        <div class="row">
-            <div class="col-xs-12">
-                {!! Form::open() !!}
-                <div class="form-group">
-                    {!! Form::select('elements', $elements, null, array('class' => 'select2 add-element', 'data-module' => $moduleLower)) !!}
-                    {!! Form::submit('Add', array('class' => 'btn btn-primary  add-element-btn')) !!}
-                </div>
-                {!! Form::close() !!}
-            </div>
-        </div>
-
-        {!!
-        Former::open_for_files()->route("admin.{$moduleLower}.item.content.update", $item->id)
-        ->method('put')
-        ->id('module-content-form')
-        ->addClass('content-sortable')
-        ->data_model('\App\Models\ModelContent')
-        ->data_pjax()
-        !!}
-        {!! Former::hidden('model_type')->value($modelName) !!}
-
-        {!! Former::hidden('lang')->value(session('settings.language')) !!}
-
-        <div class="content-form-box">
-
-            @if($contents)
-
-                @foreach($contents as $item)
-
-                    @include("admin::_partials.model_content.template", ['item' => $item, 'type' => $item->type])
-
-                @endforeach
-
-            @endif
-
-        </div>
-
-        {!!
-        $formButtons or
-        Former::submit('Submit')->addClass('btn-success bottom10')->value('Save')
-        !!}
-
-        {!! Former::hidden('_token')->value(csrf_token()) !!}
-
-        {!! Former::close() !!}
-
-        @section('crop_form')
-        @show
-
-    </div>
 
     </div>
 
@@ -140,16 +85,5 @@
 
 @section('scripts_bottom')
     @parent
-
-    <script type="text/javascript">
-        var dialog;
-        function openCustomRoxy2(id){
-            dialog = $('#' + id).dialog({modal:true, width:875,height:600});
-        }
-        function closeCustomRoxy2(){
-//            $('#roxyCustomPanel2').dialog('close');
-            dialog.dialog('close');
-        }
-    </script>
 
 @stop

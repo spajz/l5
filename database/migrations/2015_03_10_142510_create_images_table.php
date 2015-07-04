@@ -14,8 +14,6 @@ class CreateImagesTable extends Migration {
 	{
         Schema::create('images', function (Blueprint $table)
         {
-            $table->engine = 'MyISAM';
-
             $table->increments('id');
             $table->string('alt', 255)->nullable();
             $table->text('description')->nullable();

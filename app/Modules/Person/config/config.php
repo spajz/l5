@@ -16,9 +16,9 @@ return [
         'path' => public_path() . '/media/images/', // main path with trailing slash
         'baseUrl' => url('media/images') . '/',
         'required' => false, // true or false
-        'multiple' => true,
-        'order' => true, // allow reordering
-        'crop' => true, // allow cropping
+        'multiple' => false,
+        'order' => false, // allow reordering
+        'crop' => false, // allow cropping
         'baseName' => $moduleLower, // image base name
         'filenameFormat' => '', // default: [:base_name]_[:uniqid]
         'quality' => 85,

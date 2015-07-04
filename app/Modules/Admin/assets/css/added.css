@@ -151,6 +151,11 @@ table th {
 }
 
 /*** Bootstrap tweaks ***/
+.label-as-badge {
+    border-radius: 1em;
+    font-size: 1em !important;
+}
+
 .btn-file {
     position: relative;
     overflow: hidden;

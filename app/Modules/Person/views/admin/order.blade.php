@@ -20,18 +20,19 @@
                     <div class="row">
                         <div class="col-xs-12">
 
-                            <table class="table table-striped table-bordered table-hover sortable"
-                                   data-model="{{  get_class($items[0]) }}">
+                            <table class="table table-striped table-bordered table-hover sortable datatable-static"
+                                   data-model="{{  get_class($items[0]) }}"
+                                   id="{{ $moduleLower . '-datatable-static' }}">
                                 <thead>
                                 <tr>
                                     <th>
-                                        #
+                                        First name
                                     </th>
                                     <th>
-                                        #
+                                        Last name
                                     </th>
                                     <th>
-                                        #
+                                        Order
                                     </th>
                                     <th>
                                         Status

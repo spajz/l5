@@ -64,6 +64,7 @@ class AdminController extends BaseController
         if (!Session::get('settings.language')) {
             Session::put('settings.language', $this->language);
         }
+        app()->setLocale(Session::get('settings.language'));
 
         if (!Session::get('settings.tab')) {
             Session::put('settings.tab', '#basic');
@@ -123,6 +124,8 @@ class AdminController extends BaseController
                 $item->save();
             }
         }
+
+
     }
 
     protected function redirect($item, $input = null)
@@ -178,6 +181,12 @@ class AdminController extends BaseController
     {
         $dtFront = new DatatablesFront;
         return $dtFront->renderTransButtons($item);
+    }
+
+    public function renderTranslateButtons($item)
+    {
+        $dtFront = new DatatablesFront;
+        return $dtFront->renderTranslateButtons($item);
     }
 
     public function getModel()
@@ -303,12 +312,15 @@ class AdminController extends BaseController
         return redirect()->back();
     }
 
-    public function adminLanguage($lang)
+    public function adminLanguage($lang = null, $back = null)
     {
         $languages = config('admin.languages');
         if (isset($languages[$lang])) {
             session(['settings.language' => $lang]);
+            app()->setLocale($lang);
         }
+
+        if ($back) return redirect()->back();
 
         return session('settings.language');
     }

@@ -14,8 +14,6 @@ class CreatePagesTable extends Migration {
 	{
 		Schema::create('pages', function(Blueprint $table)
 		{
-            $table->engine = 'MyISAM';
-
 			$table->increments('id');
             $table->string('title')->nullable();
             $table->string('slug')->nullable()->index();

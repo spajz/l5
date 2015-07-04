@@ -170,6 +170,7 @@ $(document).ready(function () {
                 "data": sortData
             },
             success: function (data, textStatus, jqXHR) {
+                location.reload();
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 alert('Server error.');
@@ -240,6 +241,7 @@ $(document).ready(function () {
         initColspan();
         initFancyBoxCrop();
         activeTab();
+        initColorPicker();
     })
 
     function addSubmitButtons(thisObj) {
@@ -562,5 +564,18 @@ $(document).ready(function () {
                 }
             });
     }
+
+    function initColorPicker() {
+        $('.color-picker-input').colorpicker();
+    }
+
+    initColorPicker();
+
+    $('.datatable-static').DataTable({
+        "stateSave": true,
+        "responsive": true,
+        "autoWidth": false,
+        "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
+    });
 
 })

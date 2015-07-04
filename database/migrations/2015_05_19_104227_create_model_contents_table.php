@@ -14,8 +14,6 @@ class CreateModelContentsTable extends Migration {
 	{
 		Schema::create('model_contents', function(Blueprint $table)
 		{
-            $table->engine = 'MyISAM';
-
 			$table->increments('id');
             $table->string('title')->nullable();
             $table->text('content')->nullable();

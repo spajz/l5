@@ -14,8 +14,6 @@ class CreateWorksTable extends Migration
     {
         Schema::create('works', function(Blueprint $table)
         {
-            $table->engine = 'MyISAM';
-
             $table->increments('id');
             $table->string('title')->nullable();
             $table->string('sub_title')->nullable();

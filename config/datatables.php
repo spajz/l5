@@ -23,6 +23,7 @@ return array(
         'statusButtons' => 'admin::datatables.status_buttons',
         'actionButtons' => 'admin::datatables.action_buttons',
         'transButtons' => 'admin::datatables.trans_buttons',
+        'translateButtons' => 'admin::datatables.translate_buttons',
     ),
 
 );

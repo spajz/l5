@@ -14,8 +14,6 @@ class CreateCategoriesTable extends Migration {
 	{
 		Schema::create('categories', function(Blueprint $table)
 		{
-            $table->engine = 'MyISAM';
-
             $table->increments('id');
             $table->string('title')->nullable();
             $table->string('slug')->nullable()->index();

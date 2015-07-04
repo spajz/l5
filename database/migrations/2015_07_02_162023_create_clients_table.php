@@ -14,8 +14,6 @@ class CreateClientsTable extends Migration
     {
         Schema::create('clients', function(Blueprint $table)
         {
-            $table->engine = 'MyISAM';
-
             $table->increments('id');
             $table->string('title')->nullable();
             $table->string('slug')->nullable();

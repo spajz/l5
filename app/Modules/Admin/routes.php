@@ -6,6 +6,8 @@ Route::group(['prefix' => ADMIN], function () {
 
     Route::get('api/change-status',['as' => 'api.admin.change.status', 'uses' => 'App\Modules\Admin\Controllers\AdminController@changeStatus']);
 
+    Route::get('api/change-language/{lang}/{back?}',['as' => 'api.admin.change.language', 'uses' => 'App\Modules\Admin\Controllers\AdminController@adminLanguage']);
+
     Route::post('api/sort-rows', ['as' => 'api.admin.sort.rows', 'uses' => 'App\Modules\Admin\Controllers\AdminController@sortRows']);
 
     Route::post('api/get-model', ['as' => 'api.admin.get.model', 'uses' => 'App\Modules\Admin\Controllers\AdminController@getModel']);

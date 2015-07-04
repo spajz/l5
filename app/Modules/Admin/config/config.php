@@ -10,8 +10,8 @@ return [
     'language' => 'sr',
 
     'languages' => [
-        'sr' => 'sr',
-        'en' => 'en',
+        'sr' => 'Srpski',
+        'en' => 'English',
     ],
 
     'baseUrl' => 'admin',

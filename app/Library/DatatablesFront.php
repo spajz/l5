@@ -31,6 +31,7 @@ class DatatablesFront
         $this->actionButtons = Config::get('datatables.views.actionButtons');
         $this->statusButtons = Config::get('datatables.views.statusButtons');
         $this->transButtons = Config::get('datatables.views.transButtons');
+        $this->translateButtons = Config::get('datatables.views.translateButtons');
     }
 
     public function setTemplate($template)
@@ -251,6 +252,21 @@ class DatatablesFront
         $buttonSize = $this->buttonSize;
 
         return view($this->transButtons, compact('item', 'languages', 'transRelated', 'buttonSize'))->render();
+    }
+
+    public function renderTranslateButtons($item)
+    {
+        $translation = [];
+
+        $languages = Config::get('admin.languages');
+
+        foreach ($languages as $langCode => $langName) {
+            $translation[$langCode] = $item->hasTranslation($langCode);
+        }
+
+        $buttonSize = $this->buttonSize;
+
+        return view($this->translateButtons, compact('item', 'languages', 'translation', 'buttonSize'))->render();
     }
 
     public function renderStatusButtons($data, $model = null, $column = 'status')

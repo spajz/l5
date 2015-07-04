@@ -2,12 +2,14 @@
 
 use App\BaseModel;
 use App\Traits\ValidationTrait;
-use App\Traits\TransTrait;
+//use App\Traits\TransTrait;
+use Dimsav\Translatable\Translatable;
 
 class Person extends BaseModel
 {
     use ValidationTrait;
-    use TransTrait;
+//    use TransTrait;
+    use Translatable;
 
     protected $table = 'persons';
 
@@ -18,13 +20,14 @@ class Person extends BaseModel
         'last_name',
         'job_title',
         'description',
-        'lang',
-        'trans_id',
+        'color',
         'order',
         'status'
     );
 
-    protected $useTransParentImages = false;
+    public $translatedAttributes = [
+        'description',
+    ];
 
     public function rulesAll()
     {
@@ -32,19 +35,20 @@ class Person extends BaseModel
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'job_title' => 'required|max:255',
+            'color' => 'required|max:255',
         ];
-    }
-
-    public function contentable()
-    {
-        return $this->morphMany('App\Models\ModelContent', 'model')
-            ->orderBy('order')
-            ->orderBy('id', 'desc');
     }
 
     public function getFullNameAttribute()
     {
         return $this->attributes['first_name'] . ' ' . $this->attributes['last_name'];
+    }
+
+    protected function images()
+    {
+        return $this->morphMany('App\Models\Image', 'model')
+            ->orderBy('order')
+            ->orderBy('id', 'desc');
     }
 
     public static function boot()
@@ -57,19 +61,19 @@ class Person extends BaseModel
                 $image->delete();
             }
 
-            // Delete related
-            foreach ($model->contentable as $item) {
-                $item->delete();
-            }
+//            // Delete related
+//            foreach ($model->contentable as $item) {
+//                $item->delete();
+//            }
 
-            // Delete trans childeren
-            $transChildren = $model->transChildren;
-
-            if (count($transChildren)) {
-                foreach ($transChildren as $item) {
-                    $item->delete();
-                }
-            }
+//            // Delete trans childeren
+//            $transChildren = $model->transChildren;
+//
+//            if (count($transChildren)) {
+//                foreach ($transChildren as $item) {
+//                    $item->delete();
+//                }
+//            }
         });
     }
 

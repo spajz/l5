@@ -12,8 +12,7 @@ class PersonController extends FrontController
 
     public function index()
     {
-        dd(Model::all());
-        echo 'person index';
-        exit;
+        $model = Model::find(1);
+        dd($model->job_title);
     }
 }
