@@ -376,3 +376,45 @@ div.dataTables_processing {
 .panel-heading .btn-group .btn {
     margin-left: 10px;
 }
+
+/**** Plugin tweaks ****/
+.form-group .awesomplete {
+    z-index: 999;
+    display: block;
+}
+
+div.awesomplete > ul {
+    background: hsla(0, 0%, 100%, .9);
+    background: linear-gradient(to bottom right, white, hsla(0, 0%, 100%, 1));
+}
+
+.autocomplete-suggestions {
+    border: 1px solid #999;
+    background: #FFF;
+    overflow: auto;
+}
+
+.autocomplete-suggestion {
+    padding: 2px 5px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.autocomplete-selected {
+    background: #286090;
+    color: #fff
+}
+
+.autocomplete-suggestions strong {
+    font-weight: normal;
+    color: #3399FF;
+}
+
+.autocomplete-group {
+    padding: 2px 5px;
+}
+
+.autocomplete-group strong {
+    display: block;
+    border-bottom: 1px solid #000;
+}

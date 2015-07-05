@@ -189,14 +189,14 @@ class AdminController extends BaseController
         return $dtFront->renderTranslateButtons($item);
     }
 
-    public function getModel()
+    public function getModel($model = null, $key = null, $column = null, $type = null, $extra = null)
     {
         $out = '';
-        $model = Input::get('model');
-        $key = Input::get('column');
-        $column = Input::get('column');
-        $type = Input::get('type');
-        $extra = Input::get('extra');
+        $model = is_null($model) ? Input::get('model') : $model;
+        $key = is_null($key) ? Input::get('key') : $key;
+        $column = is_null($column) ? Input::get('column') : $column;
+        $type = is_null($type) ? Input::get('type') : $type;
+        $extra = is_null($extra) ? Input::get('extra') : $extra;
 
         if (strpos($column, ',')) {
             $column = explode(',', $column);
@@ -223,6 +223,25 @@ class AdminController extends BaseController
                             $out .= '<option value="' . addslashes($item->$column) . '">' . $item->$column . '</option>';
                         }
                     }
+                }
+                break;
+
+            case 'option-list':
+                $items = $items->groupBy($column)->get();
+                if ($items) {
+                    foreach ($items as $item) {
+                        $out .= '<option>' . $item->$column . '</option>';
+                    }
+                }
+                break;
+
+            case 'autocomplete-json':
+                $query = Input::get('query');
+                $items = $items->where($column, 'LIKE', '%' . $query . '%')->groupBy($column)->lists($column)->all();
+                if ($items) {
+
+//                    $out = $items->get()->lists($column, $key)->all();
+                    return json_encode(['suggestions' => $items]);
                 }
                 break;
 

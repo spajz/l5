@@ -5,7 +5,7 @@ var minifyCSS = require('gulp-minify-css');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var revDel = require('rev-del');
-//var minifyHTML = require('gulp-minify-html');
+var minifyHTML = require('gulp-minify-html');
 var rename = require('gulp-rename');
 var runSequence = require('run-sequence');
 var less = require('gulp-less');
@@ -13,6 +13,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var urlAdjuster = require('gulp-css-url-adjuster');
 var util = require('gulp-util');
 var watch = require('gulp-watch');
+var htmlmin = require('gulp-htmlmin');
 
 // Gulp copy vars
 var copyNo = 1;
@@ -165,6 +166,7 @@ if (!moduleLower) {
         config.bowerDir + 'Jcrop/js/jquery.Jcrop.js',
         config.bowerDir + 'video.js/dist/video-js/video.js',
         config.bowerDir + 'mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js',
+        config.bowerDir + 'devbridge-autocomplete/dist/jquery.autocomplete.min.js',
         //config.assetsDir + 'js/added.js',
     ];
 
@@ -492,4 +494,41 @@ gulp.task('run', function (callback) {
         'gulpCopyProcess',
         'customTasksAfter',
         callback);
+});
+
+gulp.task('compress', function() {
+    var opts = {
+        collapseWhitespace:    true,
+        removeAttributeQuotes: true,
+        removeComments:        true,
+        minifyJS:              true
+    };
+
+    return gulp.src('./storage/framework/views/**/*')
+        .pipe(htmlmin(opts))
+        .pipe(gulp.dest('./storage/framework/views/'));
+});
+
+gulp.task('minhtml', function() {
+    var opts = {
+        conditionals: false,
+        spare:false,
+        empty:false,
+        quotes:false,
+        loose:false
+    };
+
+    return gulp.src('./storage/framework/views/**/*')
+        .pipe(minifyHTML(opts))
+        .pipe(gulp.dest('./storage/framework/views/'));
+
+    //empty - do not remove empty attributes
+    //cdata - do not strip CDATA from scripts
+    //comments - do not remove comments
+    //conditionals - do not remove conditional internet explorer comments
+    //spare - do not remove redundant attributes
+    //quotes - do not remove arbitrary quotes
+    //loose - preserve one whitespace
+
+
 });

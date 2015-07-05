@@ -104,11 +104,15 @@ class PersonController extends AdminController
         // Add validation from model to former
         $validationRules = $model::rulesMergeStore();
 
+        // Add autocomplete lists
+        $autocompleteList['job_title'] = $this->getModel($model, 'id', 'job_title', 'option-list');
+
         return view("{$this->moduleLower}::admin.create",
             compact(
                 'lang',
                 'formButtons',
-                'validationRules'
+                'validationRules',
+                'autocompleteList'
             ));
     }
 
@@ -122,6 +126,7 @@ class PersonController extends AdminController
     public function store(HttpRequest $request, Model $model)
     {
         $this->validate($request, $model->rules());
+
 
         if ($item = $model->create(Input::all())) {
             msg('The item successfully created.');
@@ -166,6 +171,9 @@ class PersonController extends AdminController
         // Add validation from model to former
         $validationRules = $model::rulesMergeUpdate();
 
+        // Add autocomplete lists
+        $autocompleteList['job_title'] = $this->getModel(get_class($item), 'id', 'job_title', 'option-list');
+
         return view("{$this->moduleLower}::admin.edit",
             compact(
                 'item',
@@ -174,7 +182,8 @@ class PersonController extends AdminController
                 'translateButtons',
                 'statusButton',
                 'validationRules',
-                'contents'
+                'contents',
+                'autocompleteList'
             ));
     }
 

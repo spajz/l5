@@ -3,7 +3,7 @@
 /*
  * This file is part of Laravel HTMLMin.
  *
- * (c) Graham Campbell <graham@alt-three.com>
+ * (c) Graham Campbell <graham@mineuk.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -44,6 +44,23 @@ return [
     |
     */
 
-    'force' => false,
+    'force' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Automatic Live Optimizations
+    |--------------------------------------------------------------------------
+    |
+    | This option enables minification of the html responses just before they
+    | are served. These optimizations have greater impact on php processing
+    | time as the optimizations are applied on every request. This package
+    | will do nothing by default to allow it to be used without minifying
+    | pages automatically.
+    |
+    | Default: false
+    |
+    */
+
+    'live' => false,
 
 ];

@@ -24,7 +24,7 @@
         "fzaninotto/faker": "~1.5",
         "edvinaskrucas/notification": "5.*",
         "laravelcollective/html": "~5.0",
-        "graham-campbell/htmlmin": "~3.0",
+        "graham-campbell/htmlmin": "~4.0",
         "baum/baum": "~1.1",
 		"barryvdh/laravel-debugbar": "^2.0",
 		"dimsav/laravel-translatable": "^5.1"

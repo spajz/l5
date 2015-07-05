@@ -70,20 +70,20 @@
 <!-- /#wrapper -->
 
 @if ( Config::get('app.debug') )
-    <script src="{{ elixir3("{$assetsDirAdmin}/js/all.js", $buildPath) }}"></script>
-    <script src="{{ elixir3("{$assetsDirAdmin}/js/added.js", $buildPath) }}"></script>
+    <script src="{{ elixir3($assetsDirAdmin . '/js/all.js', $buildPath) }}"></script>
+    <script src="{{ elixir3($assetsDirAdmin . '/js/added.js', $buildPath) }}"></script>
 @else
-    <script src="{{ elixir3("{$assetsDirAdmin}/js/all.pro.js", $buildPath) }}"></script>
+    <script src="{{ elixir3($assetsDirAdmin . '/js/all.pro.js', $buildPath) }}"></script>
 @endif
 
-<script src="{{ asset("{$assetsDirAdmin}/vendor/ckeditor/ckeditor.js") }}"></script>
-<script src="{{ asset("{$assetsDirAdmin}/vendor/ckeditor/adapters/jquery.js") }}"></script>
+<script src="{{ asset($assetsDirAdmin . '/vendor/ckeditor/ckeditor.js') }}"></script>
+<script src="{{ asset($assetsDirAdmin . '/vendor/ckeditor/adapters/jquery.js') }}"></script>
 
 <script>
     $(document).ready(function () {
         $('#side-menu').metisMenu();
     });
-    videojs.options.flash.swf = "{{ asset("{$assetsDirAdmin}/js/video-js.swf") }}";
+    videojs.options.flash.swf = "{{ asset($assetsDirAdmin . '/js/video-js.swf') }}";
 </script>
 
 @section('scripts_bottom')

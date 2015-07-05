@@ -1,15 +1,31 @@
 // Add csrf token to all ajax calls
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    },
-    beforeSend: function () {
-        $('.ajax-loader').show();
-    },
-    complete: function () {
-        $('.ajax-loader').hide();
-    }
-});
+function ajaxSetupLoader() {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        beforeSend: function () {
+            $('.ajax-loader').show();
+        },
+        complete: function () {
+            $('.ajax-loader').hide();
+        }
+    });
+}
+
+function ajaxSetupNonLoader() {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        beforeSend: function () {
+        },
+        complete: function () {
+        }
+    });
+}
+
+ajaxSetupLoader();
 
 function explode(str, delimiter) {
     return str.split(delimiter);
@@ -242,6 +258,7 @@ $(document).ready(function () {
         initFancyBoxCrop();
         activeTab();
         initColorPicker();
+        initAutocomplete();
     })
 
     function addSubmitButtons(thisObj) {
@@ -565,17 +582,44 @@ $(document).ready(function () {
             });
     }
 
+    // Color picker
     function initColorPicker() {
         $('.color-picker-input').colorpicker();
     }
 
     initColorPicker();
 
+    // Datatable static
     $('.datatable-static').DataTable({
         "stateSave": true,
         "responsive": true,
         "autoWidth": false,
         "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
     });
+
+    function initAutocomplete() {
+        $('.autocomplete').each(function () {
+            var params = {
+                "model": $(this).data('model'),
+                "key": $(this).data('id'),
+                "column": $(this).data('column'),
+                "type": $(this).data('type')
+            };
+            $(this).autocomplete({
+                serviceUrl: baseUrlAdmin + '/api/get-model',
+                params: params,
+                type: 'post',
+                deferRequestBy: 400,
+                onSearchStart: function (query) {
+                    ajaxSetupNonLoader();
+                },
+                onSearchComplete: function (query, suggestions) {
+                    ajaxSetupLoader();
+                }
+            });
+        })
+    }
+
+    initAutocomplete();
 
 })

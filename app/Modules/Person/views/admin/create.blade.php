@@ -35,7 +35,12 @@
 
                                 {!! Former::text('last_name') !!}
 
-                                {!! Former::text('job_title') !!}
+                                {!!
+                                    Former::text('job_title')->addClass('autocomplete')
+                                    ->data_model($modelName)
+                                    ->data_column('job_title')
+                                    ->data_type('autocomplete-json')
+                                !!}
 
                                 <div class="form-group required color-picker-input">
                                     <label for="color" class="control-label col-lg-2 col-sm-4">Color<sup>*</sup></label>
@@ -47,7 +52,7 @@
                                     </div>
                                 </div>
 
-                                {!! Former::textarea('description')->addClass('ckeditor') !!}
+                                {!! Former::textarea('description') !!}
 
                                 {!! Former::hidden('status')->forceValue(0) !!}
                                 {!! Former::checkbox('status')->value(1) !!}

@@ -1,2 +1,2 @@
-<a href="{{ route("admin.{$moduleLower}.edit", $data->id)}}" class="btn btn-info {{ $buttonSize or '' }}"><i class="fa fa-pencil"></i> Edit</a>
-<a href="{{ route("admin.{$moduleLower}.destroy", $data->id)}}" class="btn btn-danger {{ $buttonSize or '' }}" data-bb="confirm"><i class="fa fa-trash-o"></i> Delete</a>
+<a href="{{ route('admin.' . $moduleLower . '.edit', $data->id)}}" class="btn btn-info {{ $buttonSize or '' }}"><i class="fa fa-pencil"></i> Edit</a>
+<a href="{{ route('admin.' . $moduleLower . '.destroy', $data->id)}}" class="btn btn-danger {{ $buttonSize or '' }}" data-bb="confirm"><i class="fa fa-trash-o"></i> Delete</a>

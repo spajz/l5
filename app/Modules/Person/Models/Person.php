@@ -4,6 +4,7 @@ use App\BaseModel;
 use App\Traits\ValidationTrait;
 //use App\Traits\TransTrait;
 use Dimsav\Translatable\Translatable;
+use Input;
 
 class Person extends BaseModel
 {
@@ -54,6 +55,14 @@ class Person extends BaseModel
     public static function boot()
     {
         parent::boot();
+
+        static::creating(function ($model) {
+            // Set order
+            if (!$model->exists && is_null(Input::get('order'))) {
+                $item = $model->orderBy('order', 'desc')->first();
+                $model->attributes['order'] = $item->order + 1;
+            }
+        });
 
         static::deleted(function ($model) {
             // Delete images
