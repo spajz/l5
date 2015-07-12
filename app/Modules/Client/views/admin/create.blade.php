@@ -2,26 +2,18 @@
 
 @section('content')
 
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="page-header">
+                <i class="fa {{ modules()[$moduleLower]['icon'] }} fa-fw"></i> {{ $moduleTitle or $moduleUpper }}
+                Create
+            </h1>
+        </div>
+    </div>
+
     <div id="pjax-container">
 
         <div id="info-box">{!! Notification::showAll() !!}</div>
-
-        <div class="row">
-            <div class="col-xs-12">
-                <h1 class="page-header">
-                    <i class="fa {{ modules()[$moduleLower]['icon'] }} fa-fw"></i> {{ $moduleTitle or $moduleUpper }}
-                    Create
-                </h1>
-            </div>
-        </div>
-
-        @if($transButtons)
-            <div class="row">
-                <div class="col-xs-12">
-                    <p>{!! $transButtons !!}</p>
-                </div>
-            </div>
-        @endif
 
         {!! Former::open_for_files()->route("admin.{$moduleLower}.store")->method('post')->rules($validationRules) !!}
 
@@ -37,19 +29,11 @@
 
                                 {!! Former::hidden('id') !!}
 
-                                {!! Former::hidden('trans_id')->value($trans_id) !!}
-
-                                {!! Former::text('lang')->forceValue($lang)->disabled() !!}
-
-                                {!! Former::hidden('lang')->forceValue($lang) !!}
-
                                 {!! Former::text('title') !!}
 
                                 {!! Former::text('slug') !!}
 
                                 {!! Former::select('industry')->options(sort_array(config("{$moduleLower}.industry", []))) !!}
-
-                                {!! Former::textarea('description')->addClass('ckeditor') !!}
 
                                 {!! Former::hidden('featured')->forceValue(0) !!}
                                 {!! Former::checkbox('featured')->value(1) !!}

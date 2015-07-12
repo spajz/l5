@@ -19,13 +19,9 @@ class ClientTableSeeder extends Seeder {
             array_push($items, array(
 
                 'title' => $faker->word(2),
-                'sub_title' => $faker->word(3),
                 'slug' => $faker->word(4),
-                'intro' => $faker->sentence(4),
                 'description' => $faker->sentence(8),
-
-                'lang' => 'sr',
-                'trans_id' => 0,
+                'industry' => $faker->word(2),
 
                 'order' => $faker->randomDigitNotNull(),
                 'featured' => $faker->randomElement(array(1, 1, 1, 0, 1, 0, 0)),

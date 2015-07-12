@@ -2,14 +2,12 @@
 
 use App\BaseModel;
 use App\Traits\ValidationTrait;
-//use App\Traits\TransTrait;
 use Dimsav\Translatable\Translatable;
 use Input;
 
 class Person extends BaseModel
 {
     use ValidationTrait;
-//    use TransTrait;
     use Translatable;
 
     protected $table = 'persons';
@@ -69,20 +67,6 @@ class Person extends BaseModel
             foreach ($model->images as $image) {
                 $image->delete();
             }
-
-//            // Delete related
-//            foreach ($model->contentable as $item) {
-//                $item->delete();
-//            }
-
-//            // Delete trans childeren
-//            $transChildren = $model->transChildren;
-//
-//            if (count($transChildren)) {
-//                foreach ($transChildren as $item) {
-//                    $item->delete();
-//                }
-//            }
         });
     }
 

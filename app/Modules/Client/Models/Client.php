@@ -2,14 +2,12 @@
 
 use App\BaseModel;
 use App\Traits\ValidationTrait;
-use App\Traits\TransTrait;
 use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
 
 class Client extends BaseModel implements SluggableInterface
 {
     use ValidationTrait;
-    use TransTrait;
     use SluggableTrait;
 
     protected $table = 'clients';
@@ -19,8 +17,6 @@ class Client extends BaseModel implements SluggableInterface
         'slug',
         'description',
         'industry',
-        'lang',
-        'trans_id',
         'order',
         'featured',
         'status'
@@ -28,10 +24,8 @@ class Client extends BaseModel implements SluggableInterface
 
     protected $sluggable = [
         'build_from' => 'title',
-        'save_to'    => 'slug',
+        'save_to' => 'slug',
     ];
-
-    protected $useTransParentImages = false;
 
     public function rulesAll()
     {
@@ -40,9 +34,16 @@ class Client extends BaseModel implements SluggableInterface
         ];
     }
 
-    public function contentable()
+    public function rulesUpdate()
     {
-        return $this->morphMany('App\Models\ModelContent', 'model')
+        return [
+            'slug' => 'required|max:255',
+        ];
+    }
+
+    protected function images()
+    {
+        return $this->morphMany('App\Models\Image', 'model')
             ->orderBy('order')
             ->orderBy('id', 'desc');
     }
@@ -51,24 +52,18 @@ class Client extends BaseModel implements SluggableInterface
     {
         parent::boot();
 
+        static::creating(function ($model) {
+            // Set order
+            if (!$model->exists && is_null(Input::get('order'))) {
+                $item = $model->orderBy('order', 'desc')->first();
+                $model->attributes['order'] = $item->order + 1;
+            }
+        });
+
         static::deleted(function ($model) {
             // Delete images
             foreach ($model->images as $image) {
                 $image->delete();
-            }
-
-            // Delete related
-            foreach ($model->contentable as $item) {
-                $item->delete();
-            }
-
-            // Delete trans childeren
-            $transChildren = $model->transChildren;
-
-            if (count($transChildren)) {
-                foreach ($transChildren as $item) {
-                    $item->delete();
-                }
             }
         });
     }

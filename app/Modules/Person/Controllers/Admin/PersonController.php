@@ -157,7 +157,6 @@ class PersonController extends AdminController
             $this->adminLanguage($lang);
             return redirect()->route("admin.{$this->moduleLower}.edit", $id);
         }
-
         $lang = $this->adminLanguage();
 
         $thisObj = $this;

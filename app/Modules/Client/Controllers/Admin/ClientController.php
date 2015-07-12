@@ -25,14 +25,14 @@ class ClientController extends AdminController
 
     protected $dtChangeStatus = true;
 
-    protected $formButtons = array('except' => array('approve', 'reject'));
+    protected $formButtons = array('except' => array('approve', 'reject', 'destroy'));
+    protected $formButtonsEdit = array('except' => array('approve', 'reject'));
 
     public function __construct()
     {
         parent::__construct();
 
         $this->setConfig(__FILE__);
-        view()->share('hideContentTab', $this->hideContentTab);
     }
 
     public function getDatatable(DatatablesFront $dtFront)
@@ -84,43 +84,20 @@ class ClientController extends AdminController
      * @param string $lang
      * @return Response
      */
-    public function create($trans_id = null, $lang = null)
+    public function create()
     {
         $model = $this->modelName;
-        $transButtons = '';
 
-        $lang = $this->adminLanguage($lang);
-
-        // Create first article only in default language
-        $defaultLang = config('admin.language');
-        if (is_null($trans_id) && $lang != $defaultLang) {
-            msg('The first article must be in the main language.', 'info');
-            $this->adminLanguage($defaultLang);
-            return redirect()->route("admin.{$this->moduleLower}.create");
-        }
-
-        if (is_numeric($trans_id)) {
-
-            $trans = $model::hasTrans($trans_id, $lang)->first();
-            if ($trans) {
-                msg('This item already exists in the requested language.', 'info');
-                return $this->redirect($trans, ['save' => ['edit' => 'Save']]);
-            }
-
-            $item = $model::find($trans_id);
-            if (!$item) {
-                msg('The item which you want to translate does not exist or has been deleted.', 'danger');
-                return redirect()->route("admin.{$this->moduleLower}.index");
-            }
-            Former::populate($item);
-            $transButtons = $this->renderTransButtons($item);
-        }
+        $formButtons = $this->formButtons(isset($this->formButtonsCreate) ? $this->formButtonsCreate : $this->formButtons);
 
         // Add validation from model to former
         $validationRules = $model::rulesMergeStore();
 
-        $formButtons = $this->formButtons($this->formButtons);
-        return view("{$this->moduleLower}::admin.create", compact('formButtons', 'trans_id', 'lang', 'transButtons', 'validationRules'));
+        return view("{$this->moduleLower}::admin.create",
+            compact(
+                'formButtons',
+                'validationRules'
+            ));
     }
 
     /**
@@ -144,28 +121,15 @@ class ClientController extends AdminController
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int $id
      * @return Response
      */
-    public function edit($id, $lang = null)
+    public function edit($id)
     {
         $model = $this->modelName;
         $item = $model::find($id);
-
-        $lang = $this->adminLanguage($lang);
 
         if (!$item) {
             msg('The requested item does not exist or has been deleted.', 'danger');
@@ -174,8 +138,7 @@ class ClientController extends AdminController
 
         $thisObj = $this;
         Former::populate($item);
-        $formButtons = $this->formButtons($this->formButtons);
-        $transButtons = $this->renderTransButtons($item);
+        $formButtons = $this->formButtons('edit', $item, null);
         $statusButton = function ($item) use ($thisObj) {
             return $thisObj->renderStatusButtons($item);
         };
@@ -202,12 +165,10 @@ class ClientController extends AdminController
             compact(
                 'item',
                 'formButtons',
-                'transButtons',
                 'statusButton',
                 'validationRules',
                 'elements',
-                'contents',
-                'lang'
+                'contents'
             ));
     }
 

@@ -156,8 +156,16 @@ class AdminController extends BaseController
         return $route;
     }
 
-    protected function formButtons($filter = array(), $extra = '')
+    protected function formButtons($type = array(), $item = null, $extra = null)
     {
+        if ($type == 'edit') {
+            $filter = isset($this->formButtonsEdit) ? $this->formButtonsEdit : $this->formButtons;
+        } elseif ($type == 'create') {
+            $filter = isset($this->formButtonsCreate) ? $this->formButtonsCreate : $this->formButtons;
+        } else {
+            $filter = $this->formButtons;
+        }
+
         // Default buttons and order
         $formButtons = [
             'back',
@@ -166,6 +174,7 @@ class AdminController extends BaseController
             'save_exit',
             'approve',
             'reject',
+            'destroy',
         ];
 
         if (isset($filter['only'])) {
@@ -174,7 +183,7 @@ class AdminController extends BaseController
             $formButtons = array_diff($formButtons, $filter['except']);
         }
 
-        return view('admin::_partials.form_buttons_template', compact('formButtons', 'extra'));
+        return view('admin::_partials.form_buttons_template', compact('formButtons', 'extra', 'item'));
     }
 
     public function renderTransButtons($item)
