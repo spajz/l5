@@ -19,8 +19,6 @@ class CreateClientsTable extends Migration
             $table->string('slug')->nullable();
             $table->text('description')->nullable();
             $table->string('industry')->nullable();
-            $table->string('lang', 20);
-            $table->integer('trans_id')->default(0);
             $table->integer('order')->default(0);
             $table->tinyInteger('featured')->default(0);
             $table->tinyInteger('status')->default(0);

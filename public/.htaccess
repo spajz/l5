@@ -10,7 +10,7 @@ AddType application/x-font-woff .woff
 
     RewriteEngine On
 
-    # Redirect Trailing Slashes If Not A Folder...
+	# Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)/$ /$1 [L,R=301]
 
