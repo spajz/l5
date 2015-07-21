@@ -27,7 +27,8 @@
         "graham-campbell/htmlmin": "~4.0",
         "baum/baum": "~1.1",
 		"barryvdh/laravel-debugbar": "^2.0",
-		"dimsav/laravel-translatable": "^5.1"
+		"dimsav/laravel-translatable": "^5.1",
+        "barryvdh/laravel-translation-manager": "0.2.x"
 	},
     "require-dev": {
         "fzaninotto/faker": "~1.5",

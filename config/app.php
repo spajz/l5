@@ -208,6 +208,7 @@ return [
         Baum\Providers\BaumServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Dimsav\Translatable\TranslatableServiceProvider::class,
+        Barryvdh\TranslationManager\ManagerServiceProvider::class,
 
     ],
 

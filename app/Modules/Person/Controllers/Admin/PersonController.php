@@ -82,8 +82,6 @@ class PersonController extends AdminController
     /**
      * Show the form for creating a new resource.
      *
-     * @param int $trans_id
-     * @param string $lang
      * @return Response
      */
     public function create()
@@ -245,7 +243,6 @@ class PersonController extends AdminController
         $item->delete();
         msg('The item successfully deleted.');
         return redirect()->back();
-
     }
 
     /**
