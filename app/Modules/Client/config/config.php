@@ -25,7 +25,7 @@ return [
     ],
 
     'image' => [
-        'path' => public_path() . '/media/images/', // main path with trailing slash
+        'path' => public_path('media/images') . '/', // main path with trailing slash
         'baseUrl' => url('media/images') . '/',
         'required' => false, // true or false
         'multiple' => false,

@@ -11,14 +11,16 @@ use Input;
 use Illuminate\Http\Request as HttpRequest;
 use App\Models\ModelContent;
 use App\Models\ModelContentValue;
+use Html;
 
 class ClientController extends AdminController
 {
     protected $dtColumns = [
         ['name' => 'id', 'className' => 'w40'],
+        ['name' => 'image', 'actionColumn' => true],
         ['name' => 'title', 'columnFilter' => 'text'],
         ['name' => 'industry', 'columnFilter' => 'text'],
-        ['name' => 'order', 'className' => 'w40'],
+        ['name' => 'featured', 'className' => 'w40 text-center'],
         ['name' => 'status', 'className' => 'w40 text-center'],
         ['name' => 'actions', 'className' => 'w120 text-center', 'actionColumn' => true],
     ];
@@ -43,13 +45,32 @@ class ClientController extends AdminController
 
         foreach ($this->dtColumns as $columnItem) {
             $columns[$columnItem['name']] = $columnItem['name'];
-            $columns = array_except($columns, ['actions']);
+            $columns = array_except($columns, ['actions', 'image']);
         }
 
         $model = $this->modelName;
         $query = $model::select($columns);
+        $config = $this->config;
 
         return Datatables::of($query)
+            ->addColumn('image', function ($data) use ($dtFront, $config) {
+                $out = 'N/A';
+                $image = isset($data->images[0]) ? $data->images[0]->image : null;
+                if ($image && is_file(array_get($config, 'image.path') . 'thumb/' . $image)) {
+                    $out = '<a href="' . array_get($config, 'image.baseUrl') . 'large/' . $image . '" class="fancybox" rel="gallery">' .
+                        Html::image(array_get($config, 'image.baseUrl') . 'thumb/' . $image,
+                            '',
+                            array(
+                                'class' => 'img-responsive col-centered',
+                            )
+                        ) .
+                        '</a>';
+                }
+                return $out;
+            })
+            ->addColumn('featured', function ($data) use ($dtFront, $model) {
+                return $dtFront->renderStatusButtons($data, $model, 'featured');
+            })
             ->addColumn('status', function ($data) use ($dtFront, $model) {
                 return $dtFront->renderStatusButtons($data, $model);
             })
@@ -229,6 +250,9 @@ class ClientController extends AdminController
 
         $item->delete();
         msg('The item successfully deleted.');
+        if (Input::get('redirect')) {
+            return redirect()->route("admin.{$this->moduleLower}.index");
+        }
         return redirect()->back();
 
     }

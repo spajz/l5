@@ -2,6 +2,7 @@
     <div class="sidebar-nav navbar-collapse">
 
         <ul class="nav" id="side-menu">
+
             <?php /*
             <li class="sidebar-search">
                 <div class="input-group custom-search-form">
@@ -21,6 +22,10 @@
             </li>
 
             {!! $menu or '' !!}
+
+            <li>
+                <a href="{{ url('admin/translations') }}"><span class="glyphicon glyphicon-retweet"></span> Translations</a>
+            </li>
 
             <?php /*
             <li>

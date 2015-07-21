@@ -248,9 +248,9 @@ class AdminController extends BaseController
                 $query = Input::get('query');
                 $items = $items->where($column, 'LIKE', '%' . $query . '%')->groupBy($column)->lists($column)->all();
                 if ($items) {
-
-//                    $out = $items->get()->lists($column, $key)->all();
                     return json_encode(['suggestions' => $items]);
+                } else {
+                    return json_encode(['suggestions' => []]);
                 }
                 break;
 
