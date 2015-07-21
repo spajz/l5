@@ -60,7 +60,9 @@ class Person extends BaseModel
             // Set order
             if (!$model->exists && is_null(Input::get('order'))) {
                 $item = $model->orderBy('order', 'desc')->first();
-                $model->attributes['order'] = $item->order + 1;
+                if ($item) {
+                    $model->attributes['order'] = $item->order + 1;
+                }
             }
         });
 
