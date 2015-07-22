@@ -611,15 +611,15 @@ $(document).ready(function () {
                 type: 'post',
                 deferRequestBy: 400,
                 onSearchStart: function (query) {
-                    ajaxSetupNonLoader()
+                    ajaxSetupNonLoader();
                 },
                 onSearchComplete: function (query, suggestions) {
-                    ajaxSetupLoader()
+                    ajaxSetupLoader();
                 }
             });
         })
     }
 
-    initAutocomplete()
+    initAutocomplete();
 
-});
+})

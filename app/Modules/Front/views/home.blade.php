@@ -24,7 +24,6 @@
         </div>
     </div>
 
-
     <div class="bg-03">
         <div class="container-fluid">
             <div class="row clearfix">
@@ -33,7 +32,7 @@
 
                     <div class="row clearfix">
                         <div class="col-xs-12 col-md-offset-3 col-md-6">
-                            <p> {{ trans('client::client.intro') }}
+                            <p> {{ trans('client.client.intro') }}
                                 <br><a href="{{ route('client.index') }}" class="read-more">See the logos</a>
                             </p>
                         </div>

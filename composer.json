@@ -9,6 +9,10 @@
       {
         "type": "vcs",
         "url": "https://github.com/spajz/pjax"
+      },
+      {
+        "type": "vcs",
+        "url": "https://github.com/spajz/laravel-translation-manager"
       }
     ],
 	"require": {
@@ -28,7 +32,7 @@
         "baum/baum": "~1.1",
 		"barryvdh/laravel-debugbar": "^2.0",
 		"dimsav/laravel-translatable": "^5.1",
-        "barryvdh/laravel-translation-manager": "0.2.x"
+        "barryvdh/laravel-translation-manager": "dev-master as 0.2.1"
 	},
     "require-dev": {
         "fzaninotto/faker": "~1.5",
