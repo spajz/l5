@@ -22,8 +22,8 @@ class UserController extends AdminController
     ];
 
     protected $dtChangeStatus = true;
-
-    protected $formButtons = array('except' => array('approve', 'reject'));
+    protected $formButtons = array('except' => array('approve', 'reject', 'destroy'));
+    protected $formButtonsEdit = array('except' => array('approve', 'reject'));
 
     public function __construct()
     {
@@ -82,7 +82,7 @@ class UserController extends AdminController
             return redirect()->route("admin.{$this->moduleLower}.index");
         }
 
-        $formButtons = $this->formButtons($this->formButtons);
+        $formButtons = $this->formButtons(__FUNCTION__);
         return view("{$this->moduleLower}::admin.create", compact('groups', 'formButtons'));
     }
 
@@ -107,17 +107,6 @@ class UserController extends AdminController
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int $id
@@ -135,12 +124,12 @@ class UserController extends AdminController
 
         Former::populate($item);
 
-        $groups = Group::orderBy('name')->get()->lists('name')->all();
+        $groups = Group::orderBy('name')->get()->lists('name', 'id')->all();
         if(!count($groups)){
             msg('Groups are not defined, please define them.', 'danger');
             return redirect()->route("admin.{$this->moduleLower}.index");
         }
-        $formButtons = $this->formButtons($this->formButtons);
+        $formButtons = $this->formButtons(__FUNCTION__, $item);
 
         return view("{$this->moduleLower}::admin.edit", compact('item', 'groups', 'formButtons'));
     }
@@ -181,7 +170,20 @@ class UserController extends AdminController
      */
     public function destroy($id)
     {
-        //
+        $model = $this->modelName;
+        $item = $model::find($id);
+
+        if (!$item) {
+            msg('The requested item does not exist or has been deleted.', 'danger');
+            return redirect()->back();
+        }
+
+        $item->delete();
+        msg('The item successfully deleted.');
+        if (Input::get('redirect')) {
+            return redirect()->route("admin.{$this->moduleLower}.index");
+        }
+        return redirect()->back();
     }
 
 }

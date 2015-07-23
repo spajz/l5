@@ -156,7 +156,7 @@ class AdminController extends BaseController
         return $route;
     }
 
-    protected function formButtons($type = array(), $item = null, $extra = null)
+    protected function formButtons($type = null, $item = null, $extra = null)
     {
         if ($type == 'edit') {
             $filter = isset($this->formButtonsEdit) ? $this->formButtonsEdit : $this->formButtons;

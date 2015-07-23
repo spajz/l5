@@ -32,6 +32,7 @@ class ImageApi
     protected $uploadedFiles = [];
     protected $order;
     protected $status = null;
+    protected $originalExtension = null;
 
     public function setConfig($config)
     {
@@ -312,7 +313,7 @@ class ImageApi
 
         $pathinfo = pathinfo($originalName);
         $extension = strtolower($originalExtension ?: $pathinfo['extension']);
-        $extension = $this->extensionReplace($extension);
+        $this->originalExtension = $this->extensionReplace($extension);
 
         $search = [
             '[:base_name]',
@@ -321,7 +322,7 @@ class ImageApi
         ];
 
         $replace = [
-            $this->baseName,
+            $this->makeBaseName($this->baseName),
             uniqid(),
             $pathinfo['filename']
         ];
@@ -329,7 +330,21 @@ class ImageApi
         $baseName = str_replace($search, $replace, $this->filenameFormat);
         $baseName = Sanitize::string($baseName);
 
-        return $baseName . '.' . $extension;
+//        return $baseName . '.' . $this->originalExtension;
+        return $baseName;
+    }
+
+    protected function makeBaseName($baseName)
+    {
+        $search = [
+            '[:id]',
+        ];
+
+        $replace = [
+            $this->modelId
+        ];
+
+        return str_replace($search, $replace, $baseName);
     }
 
     protected function extensionReplace($extension)
@@ -466,7 +481,14 @@ class ImageApi
                         if (!is_dir($dir)) {
                             File::makeDirectory($dir);
                         }
-                        $fullPath = $dir . $filename;
+
+                        // Set extension
+                        $extension = $this->originalExtension;
+                        $fullPath = $dir . $filename . '.' . $this->originalExtension;
+                        if(isset($size['extension']) && $size['extension']){
+                            $extension = $size['extension'];
+                            $fullPath = $dir . $filename . '.' . $size['extension'];
+                        }
 
                         // Apply actions
                         if (isset($size['actions']) && !empty($size['actions'])) {
@@ -476,6 +498,7 @@ class ImageApi
                             }
                         }
 
+                        $image->encode($extension, $quality);
                         $image->save($fullPath, $quality);
                         if (!is_file($fullPath)) {
                             $error = true;
@@ -487,7 +510,6 @@ class ImageApi
                         // Delete already uploaded images
                         $this->delete($filename);
                     } else {
-
                         $this->dbSave($type, $filename, $key);
                     }
                 }
@@ -732,7 +754,6 @@ class ImageApi
 
     public function imageCrop()
     {
-
         $imageId = Input::get('image_id');
         if (!is_numeric($imageId)) {
             return false;
@@ -746,7 +767,6 @@ class ImageApi
         }
         $this->processConfig();
         $this->order = $imageModel->order;
-
 
         if ($imageModel) {
             $this->setModelId($imageModel->model_id);

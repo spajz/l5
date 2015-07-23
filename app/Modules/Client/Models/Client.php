@@ -4,6 +4,7 @@ use App\BaseModel;
 use App\Traits\ValidationTrait;
 use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
+use Input;
 
 class Client extends BaseModel implements SluggableInterface
 {
@@ -56,7 +57,9 @@ class Client extends BaseModel implements SluggableInterface
             // Set order
             if (!$model->exists && is_null(Input::get('order'))) {
                 $item = $model->orderBy('order', 'desc')->first();
-                $model->attributes['order'] = $item->order + 1;
+                if ($item) {
+                    $model->attributes['order'] = $item->order + 1;
+                }
             }
         });
 

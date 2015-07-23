@@ -39,8 +39,7 @@
     "jquery.scrollTo": "~2.1.1",
     "slippry": "~1.2.9",
     "jquery.lazyload": "~1.9.5",
-    "devbridge-autocomplete": "~1.2.21",
-    "gsap": "~1.17.0"
+    "devbridge-autocomplete": "~1.2.21"
   },
   "resolutions": {
     "jquery": ">= 2.1.4"

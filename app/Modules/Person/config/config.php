@@ -19,7 +19,7 @@ return [
         'multiple' => false,
         'order' => false, // allow reordering
         'crop' => false, // allow cropping
-        'baseName' => $moduleLower, // image base name
+        'baseName' => $moduleLower . '_[:id]', // [:id]
         'filenameFormat' => '', // default: [:base_name]_[:uniqid]
         'quality' => 85,
         'allowedTypes' => 'jpeg,gif,png',

@@ -31,9 +31,9 @@ return [
         'multiple' => false,
         'order' => false, // allow reordering
         'crop' => true, // allow cropping
-        'baseName' => $moduleLower, // image base name
+        'baseName' => $moduleLower . '_[:id]', // [:id]
         'filenameFormat' => '', // default: [:base_name]_[:uniqid]
-        'quality' => 85,
+        'quality' => 100,
         'allowedTypes' => 'jpeg,gif,png',
         'max' => '4000', // max size in kilobytes (0 for no limit)
         'mainSize' => 'original', //  required
@@ -63,13 +63,15 @@ return [
                 ],
             ],
             'thumb' => [
+                'extension' => 'jpg',
+                'quality' => 100,
                 'folder' => 'thumb/',
                 'actions' => [
                     'resize' => [120, 120, function ($image) {
                         $image->aspectRatio();
                         $image->upsize();
                     }],
-                    'resizeCanvas' => [120, 120, 'center', false, 'rgba(0, 0, 0, 0)'],
+//                    'resizeCanvas' => [120, 120, 'center', false, 'rgba(0, 0, 0, 0)'],
                 ],
             ],
         ],

@@ -97,7 +97,7 @@ class PersonController extends AdminController
             return redirect()->route("admin.{$this->moduleLower}.create");
         }
 
-        $formButtons = $this->formButtons($this->formButtons);
+        $formButtons = $this->formButtons(__FUNCTION__);
 
         // Add validation from model to former
         $validationRules = $model::rulesMergeStore();
@@ -159,7 +159,7 @@ class PersonController extends AdminController
 
         $thisObj = $this;
         Former::populate($item);
-        $formButtons = $this->formButtons($this->formButtons);
+        $formButtons = $this->formButtons(__FUNCTION__, $item);
         $translateButtons = $this->renderTranslateButtons($item);
         $statusButton = function ($item) use ($thisObj) {
             return $thisObj->renderStatusButtons($item);
@@ -208,7 +208,6 @@ class PersonController extends AdminController
         $imageApi->setModelId($id);
         $imageApi->setModelType(get_class($item));
         $imageApi->setStatus(1);
-        $imageApi->setBaseName("{$this->moduleLower}_{$item->id}");
 
         if (!$imageApi->process()) {
             msg($imageApi->getErrorsAll(), 'danger');
@@ -242,6 +241,9 @@ class PersonController extends AdminController
 
         $item->delete();
         msg('The item successfully deleted.');
+        if (Input::get('redirect')) {
+            return redirect()->route("admin.{$this->moduleLower}.index");
+        }
         return redirect()->back();
     }
 

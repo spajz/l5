@@ -9,8 +9,6 @@ use DatatablesFront;
 use Former;
 use Input;
 use Illuminate\Http\Request as HttpRequest;
-use App\Models\ModelContent;
-use App\Models\ModelContentValue;
 use Html;
 
 class ClientController extends AdminController
@@ -26,7 +24,6 @@ class ClientController extends AdminController
     ];
 
     protected $dtChangeStatus = true;
-
     protected $formButtons = array('except' => array('approve', 'reject', 'destroy'));
     protected $formButtonsEdit = array('except' => array('approve', 'reject'));
 
@@ -61,12 +58,15 @@ class ClientController extends AdminController
                         Html::image(array_get($config, 'image.baseUrl') . 'thumb/' . $image,
                             '',
                             array(
-                                'class' => 'img-responsive col-centered',
+                                'class' => 'img-responsive col-centered img-thumbnail',
                             )
                         ) .
                         '</a>';
                 }
                 return $out;
+            })
+            ->addColumn('industry', function ($data) {
+                return isset($this->config['industry'][$data->industry]) ? $this->config['industry'][$data->industry] : $data->industry;
             })
             ->addColumn('featured', function ($data) use ($dtFront, $model) {
                 return $dtFront->renderStatusButtons($data, $model, 'featured');
@@ -109,7 +109,7 @@ class ClientController extends AdminController
     {
         $model = $this->modelName;
 
-        $formButtons = $this->formButtons(isset($this->formButtonsCreate) ? $this->formButtonsCreate : $this->formButtons);
+        $formButtons = $this->formButtons(__FUNCTION__);
 
         // Add validation from model to former
         $validationRules = $model::rulesMergeStore();
@@ -159,7 +159,7 @@ class ClientController extends AdminController
 
         $thisObj = $this;
         Former::populate($item);
-        $formButtons = $this->formButtons('edit', $item, null);
+        $formButtons = $this->formButtons(__FUNCTION__, $item, null);
         $statusButton = function ($item) use ($thisObj) {
             return $thisObj->renderStatusButtons($item);
         };
@@ -216,7 +216,6 @@ class ClientController extends AdminController
         $imageApi->setConfig("{$this->moduleLower}.image");
         $imageApi->setModelId($id);
         $imageApi->setModelType(get_class($item));
-        $imageApi->setBaseName("{$this->moduleLower}_{$item->id}");
 
         if (!$imageApi->process()) {
             msg($imageApi->getErrorsAll(), 'danger');

@@ -1,7 +1,6 @@
 <?php namespace App\Modules\Front\Controllers;
 
 use App\Http\Controllers\BaseController;
-use App;
 
 class FrontController extends BaseController
 {
@@ -19,7 +18,7 @@ class FrontController extends BaseController
     {
         $this->setConfig(__FILE__);
         $this->language = config('front.language');
-        App::setLocale('sr');
+        app()->setLocale($this->language);
     }
 
     protected function setConfig($module, $path = true)
@@ -53,7 +52,6 @@ class FrontController extends BaseController
 
     public function index()
     {
-
         return view_theme("{$this->moduleLower}::home");
     }
 
