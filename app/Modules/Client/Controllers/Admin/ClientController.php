@@ -52,10 +52,10 @@ class ClientController extends AdminController
         return Datatables::of($query)
             ->addColumn('image', function ($data) use ($dtFront, $config) {
                 $out = 'N/A';
-                $image = isset($data->images[0]) ? $data->images[0]->image : null;
-                if ($image && is_file(array_get($config, 'image.path') . 'thumb/' . $image)) {
-                    $out = '<a href="' . array_get($config, 'image.baseUrl') . 'large/' . $image . '" class="fancybox" rel="gallery">' .
-                        Html::image(array_get($config, 'image.baseUrl') . 'thumb/' . $image,
+                $img = isset($data->images[0]) ? $data->images[0] : null;
+                if ($img && is_file(array_get($config, 'image.path') . 'thumb/' . image_filename($img, 'thumb'))) {
+                    $out = '<a href="' . array_get($config, 'image.baseUrl') . 'large/' . image_filename($img, 'large') . '" class="fancybox" rel="gallery">' .
+                        Html::image(array_get($config, 'image.baseUrl') . 'thumb/' . image_filename($img, 'thumb'),
                             '',
                             array(
                                 'class' => 'img-responsive col-centered img-thumbnail',

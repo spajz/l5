@@ -37,12 +37,15 @@ return [
         'allowedTypes' => 'jpeg,gif,png',
         'max' => '4000', // max size in kilobytes (0 for no limit)
         'mainSize' => 'original', //  required
+        'saveAs' => 'jpg', // force extension
+        'background' => '#882211', // background color (png transaprent to jpg) - optional
         'sizes' => [
             'original' => [
                 'folder' => 'original/', // relative path from main image folder with trailing slash
                 'actions' => [],
             ],
             'large' => [
+//                'saveAs' => 'png', // overwrite extension
                 'quality' => 95,
                 'folder' => 'large/', // relative path from main image folder with trailing slash
                 'actions' => [
@@ -53,6 +56,7 @@ return [
                 ],
             ],
             'medium' => [
+                'background' => '#2589aa',
                 'folder' => 'medium/', // relative path from main image folder with trailing slash
                 'actions' => [
                     'resize' => [300, 300, function ($image) {
@@ -63,7 +67,8 @@ return [
                 ],
             ],
             'thumb' => [
-                'extension' => 'jpg',
+//                'saveAs' => 'jpg', // overwrite extension
+//                'background' => '#333333', // background color (png transaprent to jpg) - optional
                 'quality' => 100,
                 'folder' => 'thumb/',
                 'actions' => [

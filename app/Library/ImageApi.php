@@ -33,6 +33,8 @@ class ImageApi
     protected $order;
     protected $status = null;
     protected $originalExtension = null;
+    protected $extensionsBySize = null;
+    protected $imageExtensions = ['jpg', 'jpeg', 'gif', 'png'];
 
     public function setConfig($config)
     {
@@ -330,7 +332,6 @@ class ImageApi
         $baseName = str_replace($search, $replace, $this->filenameFormat);
         $baseName = Sanitize::string($baseName);
 
-//        return $baseName . '.' . $this->originalExtension;
         return $baseName;
     }
 
@@ -456,10 +457,12 @@ class ImageApi
             foreach ($uploadedFiles as $key => $upload) {
 
                 $config = $this->config;
-                $defaultQuality = isset($config['quality']) ? $config['quality'] : $this->defaultQuality;
-                $fullPath = null;
                 $error = null;
+                $fullPath = null;
+                $defaultQuality = isset($config['quality']) ? $config['quality'] : $this->defaultQuality;
                 $filename = $this->makeFilename($upload);
+                $extensionsBySize = $this->getExtensionsBySize($this->originalExtension);
+                $backgroundColor = isset($config['background']) && $config['background'] ? $config['background'] : null;
 
                 if (isset($config['sizes'])) {
 
@@ -467,13 +470,14 @@ class ImageApi
                         $image = Image::make($upload);
 
                         if (!empty($this->actionsAll)) {
-                            $size['actions'] = array_merge($size['actions'], $this->actionsAll);
+                            $size['actions'] = $this->actionsAll + $size['actions'];
                         }
 
                         if (isset($this->actionsBySize[$k])) {
-                            $size['actions'] = array_merge($size['actions'], $this->actionsBySize[$k]['actions']);
+                            $size['actions'] = $this->actionsBySize[$k]['actions'] + $size['actions'];
                         }
 
+                        // Get quality
                         $quality = isset($size['quality']) ? $size['quality'] : $defaultQuality;
 
                         // Make directory
@@ -482,23 +486,26 @@ class ImageApi
                             File::makeDirectory($dir);
                         }
 
-                        // Set extension
+                        // Get extension
                         $extension = $this->originalExtension;
-                        $fullPath = $dir . $filename . '.' . $this->originalExtension;
-                        if(isset($size['extension']) && $size['extension']){
-                            $extension = $size['extension'];
-                            $fullPath = $dir . $filename . '.' . $size['extension'];
+                        if (count($extensionsBySize)) {
+                            $extension = isset($extensionsBySize[$k]) ? $extensionsBySize[$k] : $this->originalExtension;
                         }
+                        $fullPath = $dir . $filename . '.' . $extension;
 
                         // Apply actions
                         if (isset($size['actions']) && !empty($size['actions'])) {
-
                             foreach ($size['actions'] as $action => $param) {
                                 call_user_func_array(array($image, $action), $param);
                             }
                         }
 
-                        $image->encode($extension, $quality);
+                        // Add background
+                        $color = isset($size['background']) && $size['background'] ? $size['background'] : $backgroundColor;
+                        if ($color) {
+                            $image = $this->backgroundCanvas($image, $color);
+                        }
+
                         $image->save($fullPath, $quality);
                         if (!is_file($fullPath)) {
                             $error = true;
@@ -510,11 +517,29 @@ class ImageApi
                         // Delete already uploaded images
                         $this->delete($filename);
                     } else {
-                        $this->dbSave($type, $filename, $key);
+                        $this->dbSave($type, $filename, $key, $extensionsBySize);
                     }
                 }
             }
         }
+    }
+
+    protected function getExtensionsBySize($originalExtension)
+    {
+        $config = $this->config;
+        $extension = isset($config['saveAs']) && $config['saveAs'] ? $config['saveAs'] : $originalExtension;
+        $out = [];
+        foreach ($config['sizes'] as $k => $size) {
+            $out[$k] = isset($size['saveAs']) && $size['saveAs'] ? $size['saveAs'] : $extension;
+        }
+        return $out;
+    }
+
+    protected function backgroundCanvas($image, $color = '#ffffff')
+    {
+        $background = Image::canvas($image->width(), $image->height(), $color);
+        $background->insert($image);
+        return $background;
     }
 
     /**
@@ -549,7 +574,7 @@ class ImageApi
      * @param  int $key
      * @return void
      */
-    protected function dbSave($type, $filename, $key = null)
+    protected function dbSave($type, $filename, $key = null, $extensionsBySize = null)
     {
         if ($type == 'update') {
             $image = ImageModel::find($key);
@@ -562,6 +587,7 @@ class ImageApi
             $image->model_id = $this->modelId;
             $image->model_type = $this->modelType;
             $image->image = $filename;
+            $image->extensions = json_encode($extensionsBySize);
             if (is_numeric($this->status)) {
                 $image->status = $this->status;
             }
@@ -607,6 +633,7 @@ class ImageApi
             $image->model_id = $this->modelId;
             $image->model_type = $this->modelType;
             $image->image = $filename;
+            $image->extensions = json_encode($extensionsBySize);
             $image->order = $order;
             if (is_numeric($this->status)) {
                 $image->status = $this->status;
@@ -668,7 +695,7 @@ class ImageApi
                     $filename = $image->image;
 
                     // File exist
-                    if (is_file(array_get($config, 'image.path') . 'original/' . $filename)) {
+                    if (is_file(array_get($config, 'image.path') . 'original/' . image_filename($image, 'original'))) {
                         // Don't delete last image if is required
                         if ((count($image->sameParent()) < 2) && $config['image']['required']) {
                             msg('You can not delete last image.', 'danger');
@@ -709,8 +736,10 @@ class ImageApi
         if (isset($config['sizes'])) {
             foreach ($config['sizes'] as $size) {
                 $filename = $config['path'] . $size['folder'] . $image;
-                if (is_file($filename)) {
-                    unlink($filename);
+                foreach ($this->imageExtensions as $extension) {
+                    if (is_file($filename . '.' . $extension)) {
+                        unlink($filename . '.' . $extension);
+                    }
                 }
             }
         }
@@ -721,7 +750,7 @@ class ImageApi
         $files = File::allFiles(public_path('media/images'));
         if (count($files)) {
             foreach ($files as $file) {
-                if ($file->getFilename() == $image) {
+                if (strpos($file->getFilename(), $image) === 0) {
                     if (is_file($file->getRealPath())) {
                         unlink($file->getRealPath());
                     }
@@ -777,7 +806,7 @@ class ImageApi
                 Input::get('x'),
                 Input::get('y'),
             )));
-            $this->processLocal($imageModel->image);
+            $this->processLocal($imageModel);
             if ($this->getErrorsNew()) {
                 return false;
             }
@@ -787,14 +816,16 @@ class ImageApi
         return false;
     }
 
-    protected function processLocal($currentFilename)
+    protected function processLocal($imageModel)
     {
         $config = $this->config;
-        $defaultQuality = isset($config['quality']) ? $config['quality'] : $this->defaultQuality;
-        $fullPath = null;
         $error = null;
-        $mainImage = $config['path'] . $config['mainSize'] . '/' . $currentFilename;
-        $filename = $this->makeFilename($currentFilename, true);
+        $fullPath = null;
+        $defaultQuality = isset($config['quality']) ? $config['quality'] : $this->defaultQuality;
+        $mainImage = $config['path'] . $config['mainSize'] . '/' . image_filename($imageModel, 'original');
+        $filename = $this->makeFilename(image_filename($imageModel, 'original'), true);
+        $extensionsBySize = $this->getExtensionsBySize($this->originalExtension);
+        $backgroundColor = isset($config['background']) && $config['background'] ? $config['background'] : null;
 
         if (isset($config['sizes'])) {
 
@@ -809,6 +840,7 @@ class ImageApi
                     $size['actions'] = $this->actionsBySize[$k]['actions'] + $size['actions'];
                 }
 
+                // Get quality
                 $quality = isset($size['quality']) ? $size['quality'] : $defaultQuality;
 
                 // Make directory
@@ -816,13 +848,25 @@ class ImageApi
                 if (!is_dir($dir)) {
                     File::makeDirectory($dir);
                 }
-                $fullPath = $dir . $filename;
+
+                // Get extension
+                $extension = $this->originalExtension;
+                if (count($extensionsBySize)) {
+                    $extension = isset($extensionsBySize[$k]) ? $extensionsBySize[$k] : $this->originalExtension;
+                }
+                $fullPath = $dir . $filename . '.' . $extension;
 
                 // Apply actions
                 if (isset($size['actions']) && !empty($size['actions'])) {
                     foreach ($size['actions'] as $action => $param) {
                         call_user_func_array(array($image, $action), $param);
                     }
+                }
+
+                // Add background
+                $color = isset($size['background']) && $size['background'] ? $size['background'] : $backgroundColor;
+                if ($color) {
+                    $image = $this->backgroundCanvas($image, $color);
                 }
 
                 $image->save($fullPath, $quality);
@@ -835,7 +879,7 @@ class ImageApi
                 $this->errors['new'][] = 'The file "' . $filename . '": error during processing.';
                 $this->delete($filename);
             } else {
-                $this->dbSave('new', $filename);
+                $this->dbSave('new', $filename, null, $extensionsBySize);
             }
         }
     }

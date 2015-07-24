@@ -210,9 +210,9 @@ if (!function_exists('array_to_attribute')) {
 if (!function_exists('link_to_image')) {
     function link_to_image($image, $config, $image_attr = [], $href_attr = [], $sizes = ['thumb', 'large'], $secure = null)
     {
-        $out = '<a href="' . $config['image']['baseUrl'] . $sizes[1] . '/' . $image->image . '" ' . array_to_attribute($href_attr) . '>';
+        $out = '<a href="' . $config['image']['baseUrl'] . $sizes[1] . '/' . image_filename($image, $sizes[1]) . '" ' . array_to_attribute($href_attr) . '>';
         $out .= Html::image(
-            $config['image']['baseUrl'] . $sizes[0] . '/' . $image->image,
+            $config['image']['baseUrl'] . $sizes[0] . '/' . image_filename($image, $sizes[0]),
             $image->alt,
             $image_attr,
             $secure
@@ -220,6 +220,13 @@ if (!function_exists('link_to_image')) {
         $out .= '</a>';
 
         return $out;
+    }
+}
+
+if (!function_exists('image_filename')) {
+    function image_filename($image, $extension = 'original')
+    {
+        return $image->image . '.' . $image->extension($extension);
     }
 }
 

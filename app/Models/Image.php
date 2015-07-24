@@ -5,7 +5,6 @@ use App\Library\ImageApi;
 
 class Image extends BaseModel
 {
-
     protected $table = 'images';
 
     protected $fillable = array(
@@ -14,6 +13,7 @@ class Image extends BaseModel
         'image',
         'model_id',
         'model_type',
+        'extensions',
         'order',
         'status',
     );
@@ -40,6 +40,20 @@ class Image extends BaseModel
         return $query->where('model_id', $this->model_id)
             ->where('model_type', $this->model_type)
             ->get();
+    }
+
+    public function extension($size = 'original')
+    {
+        $extensions = $this->extensions;
+        if (isset($extensions[$size])) {
+            return $extensions[$size];
+        }
+        return 'jpg';
+    }
+
+    public function getExtensionsAttribute($value)
+    {
+        return json_decode($value, true);
     }
 
 }

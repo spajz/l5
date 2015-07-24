@@ -33,11 +33,10 @@
                             <tbody>
                             @if(isset($item) && count($item->images))
                                 @foreach($item->images as $image)
-                                    @if(is_file(array_get($config, 'image.path') . 'original/' . $image->image))
-                                        <?php $size = getimagesize(array_get($config, 'image.path') . 'original/' . $image->image); ?>
+                                    @if(is_file(array_get($config, 'image.path') . 'original/' . image_filename($image, 'original')))
+                                        <?php $size = getimagesize(array_get($config, 'image.path') . 'original/' . image_filename($image, 'original')); ?>
                                         <tr data-id="{{ $image->id }}">
                                             <td>
-
                                                 {!!
                                                 link_to_image(
                                                 $image,
@@ -80,7 +79,7 @@
                                             <td class="text-center">
 
                                                 @if(array_get($config, 'image.crop'))
-                                                    <a href="{{ array_get($config, 'image.baseUrl') . 'original/' . $image->image }}" class="btn btn-info btn-xs fancybox-crop"
+                                                    <a href="{{ array_get($config, 'image.baseUrl') . 'original/' . image_filename($image, 'original') }}" class="btn btn-info btn-xs fancybox-crop"
                                                        data-w="{{ $size[0] }}"
                                                        data-h="{{ $size[1] }}"
                                                        data-image-id="{{ $image->id }}">

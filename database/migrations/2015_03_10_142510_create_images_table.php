@@ -20,6 +20,7 @@ class CreateImagesTable extends Migration {
             $table->string('image', 255);
             $table->integer('model_id');
             $table->string('model_type', 255);
+            $table->string('extensions', 255)->nullable();
             $table->integer('order')->default(0);
             $table->tinyInteger('status')->default(0);
 
