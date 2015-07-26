@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,7 +30,7 @@
 
 </head>
 
-<body>
+<body class="{{ $bodyClass or '' }}">
 
 @yield('content')
 
@@ -45,6 +44,14 @@
 
 @section('scripts_bottom')
 @show
+
+<div class="viewports">
+    <div class="visible-xs"></div>
+    <div class="visible-ms"></div>
+    <div class="visible-sm"></div>
+    <div class="visible-md"></div>
+    <div class="visible-lg"></div>
+</div>
 
 <script>
     videojs.options.flash.swf = "{{ asset("{$assetsDirFront}/js/video-js.swf") }}";

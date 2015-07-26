@@ -457,62 +457,16 @@ class ImageApi
             foreach ($uploadedFiles as $key => $upload) {
 
                 $config = $this->config;
-                $error = null;
+                $this->processError = null;
                 $fullPath = null;
-                $defaultQuality = isset($config['quality']) ? $config['quality'] : $this->defaultQuality;
                 $filename = $this->makeFilename($upload);
                 $extensionsBySize = $this->getExtensionsBySize($this->originalExtension);
-                $backgroundColor = isset($config['background']) && $config['background'] ? $config['background'] : null;
 
                 if (isset($config['sizes'])) {
 
-                    foreach ($config['sizes'] as $k => $size) {
-                        $image = Image::make($upload);
+                    $this->processImage($upload, $filename);
 
-                        if (!empty($this->actionsAll)) {
-                            $size['actions'] = $this->actionsAll + $size['actions'];
-                        }
-
-                        if (isset($this->actionsBySize[$k])) {
-                            $size['actions'] = $this->actionsBySize[$k]['actions'] + $size['actions'];
-                        }
-
-                        // Get quality
-                        $quality = isset($size['quality']) ? $size['quality'] : $defaultQuality;
-
-                        // Make directory
-                        $dir = $config['path'] . $size['folder'];
-                        if (!is_dir($dir)) {
-                            File::makeDirectory($dir);
-                        }
-
-                        // Get extension
-                        $extension = $this->originalExtension;
-                        if (count($extensionsBySize)) {
-                            $extension = isset($extensionsBySize[$k]) ? $extensionsBySize[$k] : $this->originalExtension;
-                        }
-                        $fullPath = $dir . $filename . '.' . $extension;
-
-                        // Apply actions
-                        if (isset($size['actions']) && !empty($size['actions'])) {
-                            foreach ($size['actions'] as $action => $param) {
-                                call_user_func_array(array($image, $action), $param);
-                            }
-                        }
-
-                        // Add background
-                        $color = isset($size['background']) && $size['background'] ? $size['background'] : $backgroundColor;
-                        if ($color) {
-                            $image = $this->backgroundCanvas($image, $color);
-                        }
-
-                        $image->save($fullPath, $quality);
-                        if (!is_file($fullPath)) {
-                            $error = true;
-                        }
-                    }
-
-                    if ($error) {
+                    if ($this->processError) {
                         $this->errors[$type][] = 'The file "' . $upload->getClientOriginalName() . '": error during processing.';
                         // Delete already uploaded images
                         $this->delete($filename);
@@ -520,6 +474,82 @@ class ImageApi
                         $this->dbSave($type, $filename, $key, $extensionsBySize);
                     }
                 }
+            }
+        }
+    }
+
+    protected function processLocal($imageModel)
+    {
+        $config = $this->config;
+        $this->processError = null;
+        $fullPath = null;
+        $mainImage = $config['path'] . $config['mainSize'] . '/' . image_filename($imageModel, 'original');
+        $filename = $this->makeFilename(image_filename($imageModel, 'original'), true);
+        $extensionsBySize = $this->getExtensionsBySize($this->originalExtension);
+
+        if (isset($config['sizes'])) {
+
+            $this->processImage($mainImage, $filename);
+
+            if ($this->processError) {
+                $this->errors['new'][] = 'The file "' . $filename . '": error during processing.';
+                $this->delete($filename);
+            } else {
+                $this->dbSave('new', $filename, null, $extensionsBySize);
+            }
+        }
+    }
+
+    protected function processImage($source, $filename)
+    {
+        $config = $this->config;
+        $defaultQuality = isset($config['quality']) ? $config['quality'] : $this->defaultQuality;
+        $extensionsBySize = $this->getExtensionsBySize($this->originalExtension);
+        $backgroundColor = isset($config['background']) && $config['background'] ? $config['background'] : null;
+
+        foreach ($config['sizes'] as $k => $size) {
+            $image = Image::make($source);
+
+            if (!empty($this->actionsAll)) {
+                $size['actions'] = $this->actionsAll + $size['actions'];
+            }
+
+            if (isset($this->actionsBySize[$k])) {
+                $size['actions'] = $this->actionsBySize[$k]['actions'] + $size['actions'];
+            }
+
+            // Get quality
+            $quality = isset($size['quality']) ? $size['quality'] : $defaultQuality;
+
+            // Make directory
+            $dir = $config['path'] . $size['folder'];
+            if (!is_dir($dir)) {
+                File::makeDirectory($dir);
+            }
+
+            // Get extension
+            $extension = $this->originalExtension;
+            if (count($extensionsBySize)) {
+                $extension = isset($extensionsBySize[$k]) ? $extensionsBySize[$k] : $this->originalExtension;
+            }
+            $fullPath = $dir . $filename . '.' . $extension;
+
+            // Apply actions
+            if (isset($size['actions']) && !empty($size['actions'])) {
+                foreach ($size['actions'] as $action => $param) {
+                    call_user_func_array(array($image, $action), $param);
+                }
+            }
+
+            // Add background
+            $color = isset($size['background']) && $size['background'] ? $size['background'] : $backgroundColor;
+            if ($color) {
+                $image = $this->backgroundCanvas($image, $color);
+            }
+
+            $image->save($fullPath, $quality);
+            if (!is_file($fullPath)) {
+                $this->processError = true;
             }
         }
     }
@@ -604,12 +634,12 @@ class ImageApi
 
             if (count($inputAlt) > 1) {
                 // Multiple input fields
-                $image->alt = Input::get($this->inputFields['alt_' . $type] . '.' . $key);
-                $image->description = Input::get($this->inputFields['description_' . $type] . '.' . $key);
+                $image->alt = Input::get($this->inputFields['alt_' . $type] . '.' . $key) ?: null;
+                $image->description = Input::get($this->inputFields['description_' . $type] . '.' . $key) ?: null;
             } else {
                 // Multiple files, one input field
-                $image->alt = current(Input::get($this->inputFields['alt_' . $type], []));
-                $image->description = current(Input::get($this->inputFields['description_' . $type], []));
+                $image->alt = current(Input::get($this->inputFields['alt_' . $type], [])) ?: null;
+                $image->description = current(Input::get($this->inputFields['description_' . $type], [])) ?: null;
             }
 
             // Order
@@ -816,72 +846,5 @@ class ImageApi
         return false;
     }
 
-    protected function processLocal($imageModel)
-    {
-        $config = $this->config;
-        $error = null;
-        $fullPath = null;
-        $defaultQuality = isset($config['quality']) ? $config['quality'] : $this->defaultQuality;
-        $mainImage = $config['path'] . $config['mainSize'] . '/' . image_filename($imageModel, 'original');
-        $filename = $this->makeFilename(image_filename($imageModel, 'original'), true);
-        $extensionsBySize = $this->getExtensionsBySize($this->originalExtension);
-        $backgroundColor = isset($config['background']) && $config['background'] ? $config['background'] : null;
-
-        if (isset($config['sizes'])) {
-
-            foreach ($config['sizes'] as $k => $size) {
-                $image = Image::make($mainImage);
-
-                if (!empty($this->actionsAll)) {
-                    $size['actions'] = $this->actionsAll + $size['actions'];
-                }
-
-                if (isset($this->actionsBySize[$k])) {
-                    $size['actions'] = $this->actionsBySize[$k]['actions'] + $size['actions'];
-                }
-
-                // Get quality
-                $quality = isset($size['quality']) ? $size['quality'] : $defaultQuality;
-
-                // Make directory
-                $dir = $config['path'] . $size['folder'];
-                if (!is_dir($dir)) {
-                    File::makeDirectory($dir);
-                }
-
-                // Get extension
-                $extension = $this->originalExtension;
-                if (count($extensionsBySize)) {
-                    $extension = isset($extensionsBySize[$k]) ? $extensionsBySize[$k] : $this->originalExtension;
-                }
-                $fullPath = $dir . $filename . '.' . $extension;
-
-                // Apply actions
-                if (isset($size['actions']) && !empty($size['actions'])) {
-                    foreach ($size['actions'] as $action => $param) {
-                        call_user_func_array(array($image, $action), $param);
-                    }
-                }
-
-                // Add background
-                $color = isset($size['background']) && $size['background'] ? $size['background'] : $backgroundColor;
-                if ($color) {
-                    $image = $this->backgroundCanvas($image, $color);
-                }
-
-                $image->save($fullPath, $quality);
-                if (!is_file($fullPath)) {
-                    $error = true;
-                }
-            }
-
-            if ($error) {
-                $this->errors['new'][] = 'The file "' . $filename . '": error during processing.';
-                $this->delete($filename);
-            } else {
-                $this->dbSave('new', $filename, null, $extensionsBySize);
-            }
-        }
-    }
 
 }

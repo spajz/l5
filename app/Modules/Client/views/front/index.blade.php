@@ -21,14 +21,26 @@
 
         <div class="row clearfix">
             <div class="col-xs-12 col-md-offset-3 col-md-6">
-
-                <div class="row clearfix">
+                <div class="row clearfix multi-columns-row">
                     @if(count($clients))
                         @foreach($clients as $client)
-                            <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3">
-                                <img src="{{ asset('media/images/thumb/' . $client->images[0]->image) }}"
-                                     alt="{{ $client->title }}" class="img-responsive mar-center">
-                            </div>
+                            @if($imageUrl = image_url($client, $config))
+                                <div class="col-xs-12 col-ms-6 col-sm-4 col-md-4 col-lg-3">
+
+                                    <div class="ih-item square colored effect6 {{ $hoverEffects[array_rand($hoverEffects)] }}">
+                                        <a href="#" class="no-click" title="{{ $client->title }}">
+                                            <div class="img">
+                                                <img src="{{ asset($imageUrl) }}" alt="{{ $client->title }}" class="img-responsive">
+                                            </div>
+                                            <div class="info" style="background-color: rgba({{ implode(',', hex2rgb($client->group->color)) }}, 0.8);">
+                                                <h3 style="background-color: rgba({{ implode(',', hex2rgb($client->group->color)) }}, 0.9);">{{ $client->title }}</h3>
+                                                <p>{{ $client->group->title }}</p>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                </div>
+                            @endif
                         @endforeach
                     @endif
                 </div>
@@ -39,3 +51,17 @@
     @include('front::_partials.contact')
 
 @stop
+
+@section('scripts_bottom')
+    @parent
+
+    <script>
+        $(document).ready(function(){
+            $('.ih-item').each(function(){
+                $(this).css('maxWidth', $('img', this).width() + 'px')
+            })
+        })
+    </script>
+
+@stop
+

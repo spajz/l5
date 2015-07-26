@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateClientsTable extends Migration
+class CreateClientGroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,20 +12,18 @@ class CreateClientsTable extends Migration
      */
     public function up()
     {
-        Schema::create('clients', function(Blueprint $table)
+        Schema::create('client_groups', function(Blueprint $table)
         {
             $table->increments('id');
             $table->string('title')->nullable();
             $table->string('slug')->nullable();
-            $table->text('description')->nullable();
-            $table->integer('group_id');
+            $table->string('color')->nullable();
             $table->integer('order')->default(0);
             $table->tinyInteger('featured')->default(0);
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
 
             $table->index('slug');
-            $table->index('group_id');
         });
     }
 
@@ -36,6 +34,6 @@ class CreateClientsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('clients');
+        Schema::drop('client_groups');
     }
 }

@@ -112,6 +112,7 @@ class DatatablesFront
     public function addColumns($columns)
     {
         foreach ($columns as &$column) {
+            $name = $column['name'];
             if (isset($column['actionColumn'])) {
                 $column['orderable'] = false;
                 $column['searchable'] = false;
@@ -119,22 +120,27 @@ class DatatablesFront
             }
 
             if (isset($column['thClass'])) {
-                $this->setThClass($column['name'], $column['thClass']);
+                $this->setThClass($name, $column['thClass']);
                 unset($column['thClass']);
             }
 
             if (isset($column['tfClass'])) {
-                $this->setTfClass($column['name'], $column['tfClass']);
+                $this->setTfClass($name, $column['tfClass']);
                 unset($column['tfClass']);
             }
 
-            if (!isset($column['data'])) $column['data'] = $column['name'];
+            if (!isset($column['data'])) {
+                $column['data'] = $name;
+            }
+
+            $column['name'] = (isset($column['prefix']) ? $column['prefix'] . '.' : '') . $name;
+
             if (!isset($column['title'])) {
                 $column['title'] = ucfirst_replace($column['data']);
             }
 
             if (isset($column['columnFilter'])) {
-                $this->setColumnFilters($column['name'], $column['columnFilter']);
+                $this->setColumnFilters($column['data'], $column['columnFilter']);
             }
         }
         $this->columns = $columns;
@@ -150,6 +156,26 @@ class DatatablesFront
     {
         $this->searchColumns = func_get_args();
         return $this;
+    }
+
+    public function createSelectArray($dtColumns, $skipColumns = [])
+    {
+        $columns = [];
+        foreach ($dtColumns as $columnItem) {
+            if (in_array($columnItem['name'], $skipColumns)) continue;
+            if (isset($columnItem['prefix'])) {
+                $prefix = $columnItem['prefix'];
+                if ($prefix == 'clients') {
+                    $columns[$columnItem['name']] = $prefix . '.' . $columnItem['name'];
+                } else {
+                    $data = isset($columnItem['data']) ? $columnItem['data'] : $columnItem['name'];
+                    $columns[$prefix . '_' . $columnItem['name']] = $prefix . '.' . $columnItem['name'] . ' AS ' . $data;
+                }
+            } else {
+                $columns[$columnItem['name']] = $columnItem['name'];
+            }
+        }
+        return $columns;
     }
 
     private function prepareColumns()

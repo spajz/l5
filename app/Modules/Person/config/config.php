@@ -25,6 +25,8 @@ return [
         'allowedTypes' => 'jpeg,gif,png',
         'max' => '4000', // max size in kilobytes (0 for no limit)
         'mainSize' => 'original', //  required
+        'saveAs' => '', // force extension
+        'background' => '', // background color (png transaprent to jpg) - optional
         'sizes' => [
             'original' => [
                 'folder' => 'original/', // relative path from main image folder with trailing slash

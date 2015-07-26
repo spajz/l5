@@ -230,154 +230,180 @@ if (!function_exists('image_filename')) {
     }
 }
 
-if (!function_exists('elixir2')) {
-    /**
-     * Get the path to a versioned Elixir file.
-     *
-     * @param  string $file
-     * @return string
-     */
-    function elixir2($file, $build_path = null)
+if (!function_exists('image_path')) {
+    function image_path($model, $config, $size = 'thumb', $key = 0)
     {
-        static $manifest = null;
-
-        if (is_null($manifest)) {
-            if ($build_path) {
-                $manifest = json_decode(file_get_contents(public_path() . $build_path . '/build/rev-manifest.json'), true);
-            } else {
-                $manifest = json_decode(file_get_contents(public_path() . '/build/rev-manifest.json'), true);
-            }
+        if (!isset($model->images[$key])) return false;
+        $imageObj = $model->images[$key]->image;
+        $fullPath = array_get($config, 'image.path') . $size . '/' . image_filename($imageObj, $size);
+        if (is_file($fullPath)) {
+            return $fullPath;
         }
-
-        if (isset($manifest[$file])) {
-            if ($build_path) {
-                return $build_path . '/build/' . $manifest[$file];
-            } else {
-                return '/build/' . $manifest[$file];
-            }
-        }
-
-        throw new InvalidArgumentException("File {$file} not defined in asset manifest.");
+        return false;
     }
+}
 
-    if (!function_exists('theme')) {
-        function theme($view)
-        {
-            $shared = view()->getShared();
-            if (!isset($shared['theme'])) return false;
-
-            $viewPath = view()->getFinder()->find($view);
-
-            if (!$viewPath) return false;
-
-            $path = pathinfo($viewPath);
-            $themeFile = $path['dirname'] . '/_themes/' . $shared['theme'] . '/' . $path['basename'];
-
-            if (is_file($themeFile)) {
-                $template = explode('::', $view);
-                $view = $template[0] . '::' . 'themes.' . $shared['theme'] . '.' . $template[1];
-            }
-
-            return $view;
+if (!function_exists('image_url')) {
+    function image_url($model, $config, $size = 'thumb', $key = 0)
+    {
+        if (!isset($model->images[$key])) return false;
+        $imageObj = $model->images[$key];
+        $fullPath = array_get($config, 'image.path') . $size . '/' . image_filename($imageObj, $size);
+        if (is_file($fullPath)) {
+            return array_get($config, 'image.baseUrl') . $size . '/' . image_filename($imageObj, $size);
         }
+        return false;
     }
+}
 
-    if (!function_exists('view_theme')) {
-        /**
-         * Get the evaluated view contents for the given view.
-         *
-         * @param  string $view
-         * @param  array $data
-         * @param  array $mergeData
-         * @return \Illuminate\View\View
-         */
-        function view_theme($view = null, $data = array(), $mergeData = array())
-        {
-            $factory = app('Illuminate\Contracts\View\Factory');
-
-            if (func_num_args() === 0) {
-                return $factory;
-            }
-
-            return $factory->make(theme($view), $data, $mergeData);
-        }
-    }
-
-    if (!function_exists('get_object')) {
-        function get_object($obj, $property)
-        {
-            if (is_object($obj)) {
-                return $obj->$property;
-            }
-            return false;
-        }
-    }
-
-    if (!function_exists('is_ajax')) {
-        function is_ajax()
-        {
-            if (Request::ajax()) return true;
-
-            return false;
-        }
-    }
-
-    if (!function_exists('elixir3')) {
+    if (!function_exists('elixir2')) {
         /**
          * Get the path to a versioned Elixir file.
          *
          * @param  string $file
          * @return string
          */
-        function elixir3($file, $manifest_path = null)
+        function elixir2($file, $build_path = null)
         {
             static $manifest = null;
 
             if (is_null($manifest)) {
-                if ($manifest_path) {
-                    $manifest = json_decode(file_get_contents(public_path() . $manifest_path . '/rev-manifest.json'), true);
+                if ($build_path) {
+                    $manifest = json_decode(file_get_contents(public_path() . $build_path . '/build/rev-manifest.json'), true);
                 } else {
-                    $manifest = json_decode(file_get_contents(public_path() . '/rev-manifest.json'), true);
+                    $manifest = json_decode(file_get_contents(public_path() . '/build/rev-manifest.json'), true);
                 }
             }
 
             if (isset($manifest[$file])) {
-                return asset($manifest[$file]);
+                if ($build_path) {
+                    return $build_path . '/build/' . $manifest[$file];
+                } else {
+                    return '/build/' . $manifest[$file];
+                }
             }
 
             throw new InvalidArgumentException("File {$file} not defined in asset manifest.");
         }
-    }
 
-    if (!function_exists('get_related_item')) {
-        function get_related_item($item, $relation, $key = 0, $column = 'id')
-        {
-            if (isset($item->{$relation}[$key])) {
-                return $item->{$relation}[$key]->$column;
+        if (!function_exists('theme')) {
+            function theme($view)
+            {
+                $shared = view()->getShared();
+                if (!isset($shared['theme'])) return false;
+
+                $viewPath = view()->getFinder()->find($view);
+
+                if (!$viewPath) return false;
+
+                $path = pathinfo($viewPath);
+                $themeFile = $path['dirname'] . '/_themes/' . $shared['theme'] . '/' . $path['basename'];
+
+                if (is_file($themeFile)) {
+                    $template = explode('::', $view);
+                    $view = $template[0] . '::' . 'themes.' . $shared['theme'] . '.' . $template[1];
+                }
+
+                return $view;
             }
-            return false;
         }
-    }
 
-    if (!function_exists('get_related_item_by_value')) {
-        function get_related_item_by_value($item, $relation, $key = 0, $column = 'id')
-        {
-            if (isset($item->{$relation})) {
-                return $item->{$relation}[$key]->$column;
+        if (!function_exists('view_theme')) {
+            /**
+             * Get the evaluated view contents for the given view.
+             *
+             * @param  string $view
+             * @param  array $data
+             * @param  array $mergeData
+             * @return \Illuminate\View\View
+             */
+            function view_theme($view = null, $data = array(), $mergeData = array())
+            {
+                $factory = app('Illuminate\Contracts\View\Factory');
+
+                if (func_num_args() === 0) {
+                    return $factory;
+                }
+
+                return $factory->make(theme($view), $data, $mergeData);
             }
-            return false;
         }
-    }
 
-    if (!function_exists('sort_array')) {
-        function sort_array($array, $sort = 'asort')
-        {
-            eval($sort . '($array);');
-            return $array;
+        if (!function_exists('get_object')) {
+            function get_object($obj, $property)
+            {
+                if (is_object($obj)) {
+                    return $obj->$property;
+                }
+                return false;
+            }
         }
-    }
 
-}
+        if (!function_exists('is_ajax')) {
+            function is_ajax()
+            {
+                if (Request::ajax()) return true;
+
+                return false;
+            }
+        }
+
+        if (!function_exists('elixir3')) {
+            /**
+             * Get the path to a versioned Elixir file.
+             *
+             * @param  string $file
+             * @return string
+             */
+            function elixir3($file, $manifest_path = null)
+            {
+                static $manifest = null;
+
+                if (is_null($manifest)) {
+                    if ($manifest_path) {
+                        $manifest = json_decode(file_get_contents(public_path() . $manifest_path . '/rev-manifest.json'), true);
+                    } else {
+                        $manifest = json_decode(file_get_contents(public_path() . '/rev-manifest.json'), true);
+                    }
+                }
+
+                if (isset($manifest[$file])) {
+                    return asset($manifest[$file]);
+                }
+
+                throw new InvalidArgumentException("File {$file} not defined in asset manifest.");
+            }
+        }
+
+        if (!function_exists('get_related_item')) {
+            function get_related_item($item, $relation, $key = 0, $column = 'id')
+            {
+                if (isset($item->{$relation}[$key])) {
+                    return $item->{$relation}[$key]->$column;
+                }
+                return false;
+            }
+        }
+
+        if (!function_exists('get_related_item_by_value')) {
+            function get_related_item_by_value($item, $relation, $key = 0, $column = 'id')
+            {
+                if (isset($item->{$relation})) {
+                    return $item->{$relation}[$key]->$column;
+                }
+                return false;
+            }
+        }
+
+        if (!function_exists('sort_array')) {
+            function sort_array($array, $sort = 'asort')
+            {
+                eval($sort . '($array);');
+                return $array;
+            }
+        }
+
+    }
 
 
 

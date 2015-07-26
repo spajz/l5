@@ -1,26 +1,22 @@
 <?php namespace App\Modules\Client\Controllers\Admin;
 
-use App\Library\ImageApi;
 use App\Modules\Admin\Controllers\AdminController;
-use App\Modules\Client\Models\Client as Model;
-use App\Modules\Client\Models\ClientGroup;
+use App\Modules\Client\Models\ClientGroup as Model;
 
 use Datatables;
 use DatatablesFront;
 use Former;
 use Input;
 use Illuminate\Http\Request as HttpRequest;
-use Html;
 
-class ClientController extends AdminController
+class ClientGroupController extends AdminController
 {
     protected $dtColumns = [
-        ['name' => 'id', 'className' => 'w40', 'prefix' => 'clients'],
-        ['name' => 'image', 'actionColumn' => true],
-        ['name' => 'title', 'columnFilter' => 'text', 'prefix' => 'clients'],
-        ['name' => 'title', 'data' => 'group', 'columnFilter' => 'text', 'title' => 'Group', 'prefix' => 'client_groups'],
-        ['name' => 'featured', 'className' => 'w40 text-center', 'prefix' => 'clients'],
-        ['name' => 'status', 'className' => 'w40 text-center', 'prefix' => 'clients'],
+        ['name' => 'id', 'className' => 'w40'],
+        ['name' => 'title', 'columnFilter' => 'text'],
+        ['name' => 'color'],
+        ['name' => 'featured', 'className' => 'w40 text-center'],
+        ['name' => 'status', 'className' => 'w40 text-center'],
         ['name' => 'actions', 'className' => 'w120 text-center', 'actionColumn' => true],
     ];
 
@@ -32,39 +28,25 @@ class ClientController extends AdminController
     {
         parent::__construct();
 
-        $this->setConfig(__FILE__);
-        $this->viewBase = "{$this->moduleLower}::admin";
+        $this->setConfig('client.clientgroup', false);
+        $this->viewBase = "{$this->mainModuleLower}::admin.{$this->moduleLower}";
     }
 
     public function getDatatable(DatatablesFront $dtFront)
     {
         $model = $this->modelName;
-        $config = $this->config;
 
         if (isset($this->dtChangeStatus) && !$this->dtChangeStatus) {
             view()->share('changeStatusDisabled', true);
         }
 
-        $columns = $dtFront->createSelectArray($this->dtColumns, ['actions', 'image']);
+        $columns = $dtFront->createSelectArray($this->dtColumns, ['actions']);
 
-        $query = $model::with('images')->join('client_groups', 'clients.group_id', '=', 'client_groups.id')
-            ->select($columns);
+        $query = $model::select($columns);
 
         return Datatables::of($query)
-            ->addColumn('image', function ($data) use ($dtFront, $config) {
-                $out = 'N/A';
-                $img = isset($data->images[0]) ? $data->images[0] : null;
-                if ($img && is_file(array_get($config, 'image.path') . 'thumb/' . image_filename($img, 'thumb'))) {
-                    $out = '<a href="' . array_get($config, 'image.baseUrl') . 'large/' . image_filename($img, 'large') . '" class="fancybox" rel="gallery">' .
-                        Html::image(array_get($config, 'image.baseUrl') . 'thumb/' . image_filename($img, 'thumb'),
-                            '',
-                            array(
-                                'class' => 'img-responsive col-centered img-thumbnail',
-                            )
-                        ) .
-                        '</a>';
-                }
-                return $out;
+            ->addColumn('color', function ($data) use ($dtFront, $model) {
+                return '<span style="background-color: ' . $data->color . '">' . str_repeat(" &nbsp; ", 10) . '</span> &nbsp; ' . $data->color;
             })
             ->addColumn('featured', function ($data) use ($dtFront, $model) {
                 return $dtFront->renderStatusButtons($data, $model, 'featured');
@@ -111,13 +93,11 @@ class ClientController extends AdminController
 
         // Add validation from model to former
         $validationRules = $model::rulesMergeStore();
-        $groups = ClientGroup::orderBy('title')->lists('title', 'id')->toArray();
 
         return view("{$this->viewBase}.create",
             compact(
                 'formButtons',
-                'validationRules',
-                'groups'
+                'validationRules'
             ));
     }
 
@@ -166,15 +146,13 @@ class ClientController extends AdminController
 
         // Add validation from model to former
         $validationRules = $model::rulesMergeUpdate();
-        $groups = ClientGroup::orderBy('title')->lists('title', 'id')->toArray();
 
         return view("{$this->viewBase}.edit",
             compact(
                 'item',
                 'formButtons',
                 'statusButton',
-                'validationRules',
-                'groups'
+                'validationRules'
             ));
     }
 
@@ -196,16 +174,6 @@ class ClientController extends AdminController
         }
 
         $this->validate($request, $item->rules());
-
-        $imageApi = new ImageApi;
-        $imageApi->setConfig("{$this->moduleLower}.image");
-        $imageApi->setModelId($id);
-        $imageApi->setModelType(get_class($item));
-
-        if (!$imageApi->process()) {
-            msg($imageApi->getErrorsAll(), 'danger');
-            return redirect()->back();
-        }
 
         if ($item->update(Input::all())) {
             msg('The item successfully updated.');

@@ -5,7 +5,8 @@
     <div class="row">
         <div class="col-xs-12">
             <h1 class="page-header">
-                <i class="fa {{ modules()[$moduleLower]['icon'] }} fa-fw"></i> {{ $moduleTitle or $moduleUpper }} Edit
+                <i class="fa {{ modules()[$mainModuleLower]['icon'] }} fa-fw"></i> {{ $moduleTitle or $moduleUpper }}
+                Create
             </h1>
         </div>
     </div>
@@ -14,7 +15,7 @@
 
         <div id="info-box">{!! Notification::showAll() !!}</div>
 
-        {!! Former::open_for_files()->route("admin.{$moduleLower}.update", $item->id)->method('put')->data_pjax()->rules($validationRules) !!}
+        {!! Former::open_for_files()->route("admin.{$moduleLower}.store")->method('post')->rules($validationRules) !!}
 
         <div class="row">
             <div class="col-xs-12">
@@ -32,7 +33,15 @@
 
                                 {!! Former::text('slug') !!}
 
-                                {!! Former::select('group_id')->options($groups)->class('select2') !!}
+                                <div class="form-group required color-picker-input">
+                                    <label for="color" class="control-label col-lg-2 col-sm-4">Color</label>
+                                    <div class="col-lg-10 col-sm-8">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i></i></span>
+                                            {!! Former::text('color')->raw() !!}
+                                        </div>
+                                    </div>
+                                </div>
 
                                 {!! Former::hidden('featured')->forceValue(0) !!}
                                 {!! Former::checkbox('featured')->value(1) !!}
@@ -54,19 +63,8 @@
             <!-- /.col-xs-12 -->
         </div>
 
-        @include("admin::_partials.images_form", ['item' => $item])
-
         {!! Former::close() !!}
 
-        @if(array_get($config, 'image.crop'))
-            @include("admin::_partials.crop_form", ['item' => $item])
-        @endif
-
     </div>
-
-@stop
-
-@section('scripts_bottom')
-    @parent
 
 @stop

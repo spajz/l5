@@ -33,7 +33,7 @@
 
                                 {!! Former::text('slug') !!}
 
-                                {!! Former::select('industry')->options(sort_array(config("{$moduleLower}.industry", []))) !!}
+                                {!! Former::select('group_id')->options($groups)->class('select2') !!}
 
                                 {!! Former::hidden('featured')->forceValue(0) !!}
                                 {!! Former::checkbox('featured')->value(1) !!}

@@ -43,7 +43,7 @@ class Person extends BaseModel
         return $this->attributes['first_name'] . ' ' . $this->attributes['last_name'];
     }
 
-    protected function images()
+    public function images()
     {
         return $this->morphMany('App\Models\Image', 'model')
             ->orderBy('order')

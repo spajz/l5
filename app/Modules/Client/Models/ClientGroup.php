@@ -6,18 +6,17 @@ use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
 use Input;
 
-class Client extends BaseModel implements SluggableInterface
+class ClientGroup extends BaseModel implements SluggableInterface
 {
     use ValidationTrait;
     use SluggableTrait;
 
-    protected $table = 'clients';
+    protected $table = 'client_groups';
 
     protected $fillable = array(
         'title',
         'slug',
-        'description',
-        'group_id',
+        'color',
         'order',
         'featured',
         'status'
@@ -32,7 +31,6 @@ class Client extends BaseModel implements SluggableInterface
     {
         return [
             'title' => 'required|max:255',
-            'group_id' => 'required',
         ];
     }
 
@@ -43,16 +41,9 @@ class Client extends BaseModel implements SluggableInterface
         ];
     }
 
-    public function images()
+    public function clients()
     {
-        return $this->morphMany('App\Models\Image', 'model')
-            ->orderBy('order')
-            ->orderBy('id', 'desc');
-    }
-
-    public function group()
-    {
-        return $this->belongsTo('App\Modules\Client\Models\ClientGroup', 'group_id');
+        return $this->hasMany('App\Modules\Client\Models\Client', 'group_id');
     }
 
     public static function boot()
@@ -66,13 +57,6 @@ class Client extends BaseModel implements SluggableInterface
                 if ($item) {
                     $model->attributes['order'] = $item->order + 1;
                 }
-            }
-        });
-
-        static::deleted(function ($model) {
-            // Delete images
-            foreach ($model->images as $image) {
-                $image->delete();
             }
         });
     }

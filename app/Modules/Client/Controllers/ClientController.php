@@ -11,11 +11,18 @@ class ClientController extends FrontController
         parent::__construct();
 
         $this->setConfig(__FILE__);
+        view()->share('bodyClass', 'page-' . $this->moduleLower);
     }
 
     public function index()
     {
+        $hoverEffects = [
+            'from_top_and_bottom',
+            'from_left_and_right',
+            'top_to_bottom',
+            'bottom_to_top',
+        ];
         $clients = Model::where('status', 1)->orderBy(DB::raw('RAND()'))->get();
-        return view("{$this->moduleLower}::front.index", compact('clients'));
+        return view("{$this->moduleLower}::front.index", compact('clients', 'hoverEffects'));
     }
 }

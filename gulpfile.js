@@ -281,6 +281,8 @@ if (moduleLower) {
             //config.bowerDir + 'metisMenu/dist/metisMenu.min.css',
             config.bowerDir + 'slippry/dist/slippry.css',
             config.bowerDir + 'video.js/dist/video-js/video-js.min.css',
+            config.assetsDir + 'css/ihover.css',
+            config.assetsDir + 'css/multi-columns-row.css',
 
         ]
 
