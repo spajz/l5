@@ -252,6 +252,23 @@ h1, h2, h3, .h1, .h2, .h3 {
     margin: 0 auto;
 }
 
+/*** Persons ***/
+.person-img {
+    overflow: hidden;
+    /*width: 300px;*/
+    /*height: 300px;*/
+}
+
+.persons-box {
+    background-color: #000;
+    overflow: hidden;
+}
+
+.persons-box > div {
+    padding-left: 0;
+    padding-right: 0;
+}
+
 /*** Contact ***/
 #google-map {
     min-height: 300px;

@@ -6301,7 +6301,7 @@ Create your own skin at http://designer.videojs.com
   transition: all 0.35s ease-in-out;
 }
 .ih-item.square.effect14 .info {
-  background: #333333;
+  /*background: #333333;*/
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
@@ -6318,20 +6318,21 @@ Create your own skin at http://designer.videojs.com
   text-transform: uppercase;
   color: #fff;
   text-align: center;
-  font-size: 17px;
+  /*font-size: 17px;*/
   padding: 10px;
-  background: #111111;
+  /*background: #111111;*/
   margin: 30px 0 0 0;
 }
 .ih-item.square.effect14 .info p {
   font-style: italic;
-  font-size: 12px;
+  /*font-size: 12px;*/
   position: relative;
-  color: #bbb;
+  color: #fff;
   padding: 20px 20px 20px;
   text-align: center;
 }
-.ih-item.square.effect14 a:hover .img {
+/*.ih-item.square.effect14 a:hover .img {*/
+.ih-item.square.effect14 .person-active .img {
   opacity: 0;
   pointer-events: none;
   -webkit-transform: scale(0.5);
@@ -6340,7 +6341,8 @@ Create your own skin at http://designer.videojs.com
   -o-transform: scale(0.5);
   transform: scale(0.5);
 }
-.ih-item.square.effect14 a:hover .info {
+/*.ih-item.square.effect14 a:hover .info {*/
+.ih-item.square.effect14 .person-active .info {
   visibility: visible;
   opacity: 1;
   -webkit-transform: scale(1);
@@ -6357,7 +6359,8 @@ Create your own skin at http://designer.videojs.com
   -o-transform: translateX(0) rotate(0);
   transform: translateX(0) rotate(0);
 }
-.ih-item.square.effect14.left_to_right a:hover .img {
+/*.ih-item.square.effect14.left_to_right a:hover .img {*/
+.ih-item.square.effect14.left_to_right .person-active .img {
   -webkit-transform: translateX(100%) rotate(180deg);
   -moz-transform: translateX(100%) rotate(180deg);
   -ms-transform: translateX(100%) rotate(180deg);

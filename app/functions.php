@@ -17,6 +17,20 @@ if (!function_exists('json_decoder')) {
     }
 }
 
+if (!function_exists('module_asset')) {
+    function module_asset($module, $asset, $secure = null)
+    {
+        return asset('assets/' . $module . '/' . $asset, $secure);
+    }
+}
+
+if (!function_exists('module_asset_path')) {
+    function module_asset_path($module, $asset)
+    {
+        return public_path('assets/' . $module . '/' . $asset);
+    }
+}
+
 if (!function_exists('resources_path')) {
 
     function resources_path($path = '')

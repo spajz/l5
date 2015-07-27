@@ -2,6 +2,7 @@
 
 use App\Modules\Front\Controllers\FrontController;
 use App\Modules\Person\Models\Person as Model;
+use DB;
 
 class PersonController extends FrontController
 {
@@ -21,7 +22,7 @@ class PersonController extends FrontController
             'top_to_bottom',
             'bottom_to_top',
         ];
-        $persons = Model::where('status', 1)->orderBy('order')->get();
+        $persons = Model::where('status', 1)->orderBy(DB::raw('RAND()'))->get();
         return view("{$this->moduleLower}::front.index", compact('persons', 'hoverEffects'));
     }
 }
