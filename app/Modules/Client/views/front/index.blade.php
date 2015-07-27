@@ -8,10 +8,11 @@
         <div class="row clearfix">
             <div class="col-xs-12 text-center">
                 <h1>{{ trans('client::client.clients') }}</h1>
-
                 <div class="row clearfix">
                     <div class="col-xs-12 col-md-offset-3 col-md-6">
-                        <p>{{ trans('client::client.intro') }}</p>
+                        <p>
+                            {{ trans('client::client.intro') }}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -26,7 +27,6 @@
                         @foreach($clients as $client)
                             @if($imageUrl = image_url($client, $config))
                                 <div class="col-xs-12 col-ms-6 col-sm-4 col-md-4 col-lg-3">
-
                                     <div class="ih-item square colored effect6 {{ $hoverEffects[array_rand($hoverEffects)] }}">
                                         <a href="#" class="no-click" title="{{ $client->title }}">
                                             <div class="img">
@@ -38,7 +38,6 @@
                                             </div>
                                         </a>
                                     </div>
-
                                 </div>
                             @endif
                         @endforeach
@@ -46,6 +45,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 
     @include('front::_partials.contact')
@@ -54,14 +54,5 @@
 
 @section('scripts_bottom')
     @parent
-
-    <script>
-        $(document).ready(function(){
-            $('.ih-item').each(function(){
-                $(this).css('maxWidth', $('img', this).width() + 'px')
-            })
-        })
-    </script>
-
 @stop
 

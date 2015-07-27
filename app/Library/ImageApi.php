@@ -846,5 +846,19 @@ class ImageApi
         return false;
     }
 
+    public function getImage($url, $config, $key = 0)
+    {
+        $image = Image::make(urldecode2($url));
+        $config = urldecode2($config);
+        $config = $config . '.image.dynamic.' . $key;
+        $actions = config($config . '.actions', []);
+        $quality = config($config . '.quality', 75);
+        $responseAs = config($config . '.responsAs', 'jpg');
+        // Apply actions
+        foreach ($actions as $action => $param) {
+            call_user_func_array(array($image, $action), $param);
+        }
+        return $image->response($responseAs, $quality);
+    }
 
 }

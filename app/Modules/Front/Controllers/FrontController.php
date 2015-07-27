@@ -18,7 +18,6 @@ class FrontController extends BaseController
     {
         $this->setConfig(__FILE__);
         $this->language = config('front.language');
-        app()->setLocale($this->language);
     }
 
     protected function setConfig($module, $path = true)

@@ -1,9 +1,11 @@
+// Scroll to anchor
 $.extend($.scrollTo.defaults, {
     axis: 'y',
     duration: 1000,
     easing: 'swing'
 });
 
+// Get current viewport
 var waitForFinalEvent = function () {
     var b = {};
     return function (c, d, a) {
@@ -26,16 +28,21 @@ function getViewport() {
     return vpc[1];
 }
 
+// Lazy load
 $("img.lazy").lazyload();
 
 $(document).ready(function () {
-    $('.no-click').on('click', function (e) {
-        e.preventDefault();
-    })
 
     var winHeight = $(window).height();
 
+    $.scrollSpeed(100, 800);
+
     getViewport();
+
+    // Disable click on buttons
+    $('.no-click').on('click', function (e) {
+        e.preventDefault();
+    })
 
     function height100(elem) {
         if (elem.height() > winHeight) return;
@@ -53,5 +60,12 @@ $(document).ready(function () {
     $('.scroll-btn').on('click', function (e) {
         e.preventDefault();
         $(window).stop(true).scrollTo(this.hash, {interrupt: true});
+    })
+})
+
+// Clients hover effects adjust
+$(window).load(function () {
+    $('.ih-item').each(function () {
+        $(this).css('maxWidth', $('img', this).width() + 'px')
     })
 })

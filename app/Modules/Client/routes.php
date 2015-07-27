@@ -5,10 +5,15 @@ extract(config(strtolower(get_dirname(__FILE__)) . '.module', array()));
 // Front
 $namespaceAdmin = 'App\Modules\\' . $moduleUpper . '\Controllers\\';
 
-Route::group(['prefix' => LaravelLocalization::setLocale()], function() use($moduleLower, $namespaceAdmin, $moduleUpper)
-{
-    Route::get($moduleLower, array("as" => "{$moduleLower}.index", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@index"));
-});
+Route::group(
+    [
+        'prefix' => LaravelLocalization::setLocale(),
+        'middleware' => ['localeSessionRedirect', 'localizationRedirect']
+    ],
+    function () use ($moduleLower, $namespaceAdmin, $moduleUpper) {
+        Route::get($moduleLower, array("as" => "{$moduleLower}.index", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@index"));
+    }
+);
 
 // Admin
 $namespaceAdmin = 'App\Modules\\' . $moduleUpper . '\Controllers\Admin\\';
@@ -32,7 +37,7 @@ Route::group(array("prefix" => ADMIN), function () use ($moduleUpper, $moduleLow
     Route::get("api/{$moduleLower}/dt", array("as" => "api.{$moduleLower}.dt", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@getDatatable"));
 
     // Submodule ClientGroup
-    if(config("{$moduleLower}.clientgroup")){
+    if (config("{$moduleLower}.clientgroup")) {
 
         extract(config("{$moduleLower}.clientgroup.module", array()));
 

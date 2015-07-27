@@ -299,6 +299,7 @@ if (moduleLower) {
             config.bowerDir + 'slippry/dist/slippry.min.js',
             config.bowerDir + 'video.js/dist/video-js/video.js',
             config.bowerDir + 'jquery.lazyload/jquery.lazyload.js',
+            config.assetsDir + 'js/jQuery.scrollSpeed.js',
         ];
 
         if (production) scriptsArray.push(config.assetsDir + 'js/added.js');

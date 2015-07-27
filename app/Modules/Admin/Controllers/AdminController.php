@@ -360,4 +360,10 @@ class AdminController extends BaseController
         }
     }
 
+    public function getImage($url, $config, $key = 0)
+    {
+        $imageApi = new ImageApi;
+        return $imageApi->getImage($url, $config, $key);
+    }
+
 }

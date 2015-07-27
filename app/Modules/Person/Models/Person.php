@@ -9,6 +9,7 @@ class Person extends BaseModel
 {
     use ValidationTrait;
     use Translatable;
+    static $setOrder = true;
 
     protected $table = 'persons';
 
@@ -53,16 +54,6 @@ class Person extends BaseModel
     public static function boot()
     {
         parent::boot();
-
-        static::creating(function ($model) {
-            // Set order
-            if (!$model->exists && is_null(Input::get('order'))) {
-                $item = $model->orderBy('order', 'desc')->first();
-                if ($item) {
-                    $model->attributes['order'] = $item->order + 1;
-                }
-            }
-        });
 
         static::deleted(function ($model) {
             // Delete images

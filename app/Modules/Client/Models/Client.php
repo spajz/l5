@@ -4,12 +4,12 @@ use App\BaseModel;
 use App\Traits\ValidationTrait;
 use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
-use Input;
 
 class Client extends BaseModel implements SluggableInterface
 {
     use ValidationTrait;
     use SluggableTrait;
+    static $setOrder = true;
 
     protected $table = 'clients';
 
@@ -58,16 +58,6 @@ class Client extends BaseModel implements SluggableInterface
     public static function boot()
     {
         parent::boot();
-
-        static::creating(function ($model) {
-            // Set order
-            if (!$model->exists && is_null(Input::get('order'))) {
-                $item = $model->orderBy('order', 'desc')->first();
-                if ($item) {
-                    $model->attributes['order'] = $item->order + 1;
-                }
-            }
-        });
 
         static::deleted(function ($model) {
             // Delete images

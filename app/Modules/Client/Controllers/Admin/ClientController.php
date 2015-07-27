@@ -238,7 +238,6 @@ class ClientController extends AdminController
             return redirect()->route("admin.{$this->moduleLower}.index");
         }
         return redirect()->back();
-
     }
 
     /**
@@ -248,9 +247,20 @@ class ClientController extends AdminController
      */
     public function order()
     {
+        $columns = function ($item) {
+            return [
+                'Title' => $item->title,
+                'Group' => $item->group->title,
+                'Order' => $item->order
+            ];
+        };
         $model = $this->modelName;
-        $items = $model::all();
-        return view("{$this->viewBase}.order", compact('model', 'items'));
+        $items = $model::orderBy('order')->get();
+        $headerTitles = [];
+        if (count($items)) {
+            $headerTitles = $columns($items[0]);
+        }
+        return view("{$this->viewBase}.order", compact('model', 'items', 'columns', 'headerTitles'));
     }
 
 }

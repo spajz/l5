@@ -49,7 +49,9 @@
                                                 'data-w' => $size[0],
                                                 'data-h' => $size[1],
                                                 'data-image-id' => $image->id,
-                                                ]
+                                                ],
+                                                ['thumb', 'large'],
+                                                isset($dynamic) ?  $dynamic : null
                                                 )
                                                 !!}
                                             </td>

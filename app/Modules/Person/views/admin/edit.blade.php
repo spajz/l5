@@ -76,7 +76,7 @@
             <!-- /.col-xs-12 -->
         </div>
 
-        @include("admin::_partials.images_form", ['item' => $item])
+        @include("admin::_partials.images_form", ['item' => $item, 'dynamic' => ['person', 0, 'thumb']])
 
         {!! Former::close() !!}
 

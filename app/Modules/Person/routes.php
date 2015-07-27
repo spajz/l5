@@ -2,6 +2,19 @@
 
 extract(config(strtolower(get_dirname(__FILE__)) . '.module', array()));
 
+// Front
+$namespaceAdmin = 'App\Modules\\' . $moduleUpper . '\Controllers\\';
+
+Route::group(
+    [
+        'prefix' => LaravelLocalization::setLocale(),
+        'middleware' => ['localeSessionRedirect', 'localizationRedirect']
+    ],
+    function () use ($moduleLower, $namespaceAdmin, $moduleUpper) {
+        Route::get($moduleLower, array("as" => "{$moduleLower}.index", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@index"));
+    }
+);
+
 // Admin
 $namespaceAdmin = 'App\Modules\\' . $moduleUpper . '\Controllers\Admin\\';
 
@@ -33,16 +46,4 @@ Route::group(array("prefix" => ADMIN), function () use ($moduleUpper, $moduleLow
 
     Route::get("api/{$moduleLower}/add-element",['as' => "api.{$moduleLower}.add.element", 'uses' => $namespaceAdmin . "{$moduleUpper}Controller@addElement"]);
 
-//    Route::get("{$moduleLower}/image/{id}/destroy", array("as" => "admin.{$moduleLower}.image.destroy", "uses" => $moduleUpper . '\Admin\Controllers\\' . "{$moduleUpper}Controller@destroyImage"));
-//    Route::get("api/{$moduleLower}/image/download/{id}", array("as" => "api.{$moduleLower}.image.download", "uses" => $moduleUpper . '\Admin\Controllers\\' . "{$moduleUpper}Controller@imageDownload"));
-
 });
-
-// Front
-$namespaceAdmin = 'App\Modules\\' . $moduleUpper . '\Controllers\\';
-
-Route::group(['prefix' => LaravelLocalization::setLocale()], function() use($moduleLower, $namespaceAdmin, $moduleUpper)
-{
-    Route::get($moduleLower, array("as" => "{$moduleLower}.index", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@index"));
-});
-

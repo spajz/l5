@@ -7,12 +7,21 @@ class PersonController extends FrontController
 {
     public function __construct()
     {
+        parent::__construct();
+
         $this->setConfig(__FILE__);
+        view()->share('bodyClass', 'page-' . $this->moduleLower);
     }
 
     public function index()
     {
-        $model = Model::find(1);
-        dd($model->job_title);
+        $hoverEffects = [
+            'from_top_and_bottom',
+            'from_left_and_right',
+            'top_to_bottom',
+            'bottom_to_top',
+        ];
+        $persons = Model::where('status', 1)->orderBy('order')->get();
+        return view("{$this->moduleLower}::front.index", compact('persons', 'hoverEffects'));
     }
 }

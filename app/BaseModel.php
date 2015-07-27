@@ -5,6 +5,7 @@ use Input;
 
 class BaseModel extends Model
 {
+    static $setOrder = null;
 
     public function reorder($columns, $orderColumn = 'order')
     {
@@ -19,6 +20,25 @@ class BaseModel extends Model
                 $i++;
                 $item->save();
             }
+        }
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        if (static::$setOrder) {
+            static::creating(function ($model) {
+                // Set order
+                if (!$model->exists && is_null(Input::get('order'))) {
+                    $item = $model->orderBy('order', 'desc')->first();
+                    if ($item) {
+                        $model->attributes['order'] = $item->order + 1;
+                    } else {
+                        $model->attributes['order'] = 1;
+                    }
+                }
+            });
         }
     }
 

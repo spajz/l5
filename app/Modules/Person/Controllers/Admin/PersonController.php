@@ -9,11 +9,13 @@ use DatatablesFront;
 use Former;
 use Input;
 use Illuminate\Http\Request as HttpRequest;
+use Html;
 
 class PersonController extends AdminController
 {
     protected $dtColumns = [
         ['name' => 'id', 'className' => 'w40'],
+        ['name' => 'image', 'actionColumn' => true],
         ['name' => 'first_name', 'columnFilter' => 'text'],
         ['name' => 'last_name', 'columnFilter' => 'text'],
         ['name' => 'job_title'],
@@ -24,31 +26,48 @@ class PersonController extends AdminController
     ];
 
     protected $dtChangeStatus = true;
-
-    protected $formButtons = array('except' => array('approve', 'reject'));
+    protected $formButtons = array('except' => array('approve', 'reject', 'destroy'));
+    protected $formButtonsEdit = array('except' => array('approve', 'reject'));
 
     public function __construct()
     {
         parent::__construct();
 
         $this->setConfig(__FILE__);
+        $this->viewBase = "{$this->moduleLower}::admin";
     }
 
     public function getDatatable(DatatablesFront $dtFront)
     {
+        $model = $this->modelName;
+        $config = $this->config;
+
         if (isset($this->dtChangeStatus) && !$this->dtChangeStatus) {
             view()->share('changeStatusDisabled', true);
         }
 
-        foreach ($this->dtColumns as $columnItem) {
-            $columns[$columnItem['name']] = $columnItem['name'];
-            $columns = array_except($columns, ['translate', 'actions']);
-        }
+        $columns = $dtFront->createSelectArray($this->dtColumns, ['translate', 'actions', 'image']);
 
-        $model = $this->modelName;
         $query = $model::select($columns);
 
         return Datatables::of($query)
+            ->addColumn('image', function ($data) use ($dtFront, $config) {
+                $out = 'N/A';
+                $img = isset($data->images[0]) ? $data->images[0] : null;
+                if ($img && is_file(array_get($config, 'image.path') . 'thumb/' . image_filename($img, 'thumb'))) {
+                    // Dynamic thumb image
+                    $imageUrl = array_get($config, 'image.baseUrl') . 'thumb/' . image_filename($img, 'thumb');
+                    $out = '<a href="' . array_get($config, 'image.baseUrl') . 'large/' . image_filename($img, 'large') . '" class="fancybox" rel="gallery">' .
+                        Html::image(route('api.admin.get.image', [urlencode2($imageUrl), urlencode2($config['module']['moduleLower'])]),
+                            '',
+                            array(
+                                'class' => 'img-responsive col-centered img-thumbnail',
+                            )
+                        ) .
+                        '</a>';
+                }
+                return $out;
+            })
             ->addColumn('status', function ($data) use ($dtFront, $model) {
                 return $dtFront->renderStatusButtons($data, $model);
             })
@@ -76,7 +95,7 @@ class PersonController extends AdminController
 
         $vars = $dtFront->render();
 
-        return view("{$this->moduleLower}::admin.index", $vars);
+        return view("{$this->viewBase}.index", $vars);
     }
 
     /**
@@ -105,7 +124,7 @@ class PersonController extends AdminController
         // Add autocomplete lists
         $autocompleteList['job_title'] = $this->getModel($model, 'id', 'job_title', 'option-list');
 
-        return view("{$this->moduleLower}::admin.create",
+        return view("{$this->viewBase}.create",
             compact(
                 'lang',
                 'formButtons',
@@ -124,7 +143,6 @@ class PersonController extends AdminController
     public function store(HttpRequest $request, Model $model)
     {
         $this->validate($request, $model->rules());
-
 
         if ($item = $model->create(Input::all())) {
             msg('The item successfully created.');
@@ -171,7 +189,7 @@ class PersonController extends AdminController
         // Add autocomplete lists
         $autocompleteList['job_title'] = $this->getModel(get_class($item), 'id', 'job_title', 'option-list');
 
-        return view("{$this->moduleLower}::admin.edit",
+        return view("{$this->viewBase}.edit",
             compact(
                 'item',
                 'lang',
@@ -254,8 +272,20 @@ class PersonController extends AdminController
      */
     public function order()
     {
+        $columns = function ($item) {
+            return [
+                'First name' => $item->first_name,
+                'Last name' => $item->last_name,
+                'Job title' => $item->job_title,
+                'Order' => $item->order
+            ];
+        };
         $model = $this->modelName;
         $items = $model::orderBy('order')->get();
-        return view("{$this->moduleLower}::admin.order", compact('model', 'items'));
+        $headerTitles = [];
+        if (count($items)) {
+            $headerTitles = $columns($items[0]);
+        }
+        return view("{$this->viewBase}.order", compact('model', 'items', 'columns', 'headerTitles'));
     }
 }

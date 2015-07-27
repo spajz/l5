@@ -8,6 +8,9 @@
             <a href="{{ route('admin.' . $module['name'] . '.create') }}">Create</a>
         </li>
         <li>
+            <a href="{{ route('admin.' . $module['name'] . '.order') }}">Order</a>
+        </li>
+        <li>
             <a href="{{ route('admin.clientgroup.index') }}">Group List</a>
         </li>
         <li>

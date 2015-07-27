@@ -22,7 +22,7 @@ class ClientController extends FrontController
             'top_to_bottom',
             'bottom_to_top',
         ];
-        $clients = Model::where('status', 1)->orderBy(DB::raw('RAND()'))->get();
+        $clients = Model::where('status', 1)->orderBy('order')->get();
         return view("{$this->moduleLower}::front.index", compact('clients', 'hoverEffects'));
     }
 }
