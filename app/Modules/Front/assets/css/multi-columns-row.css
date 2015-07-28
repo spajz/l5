@@ -8,7 +8,9 @@
 .multi-columns-row .col-xs-4:nth-child(3n + 4),
 .multi-columns-row .col-xs-3:nth-child(4n + 5),
 .multi-columns-row .col-xs-2:nth-child(6n + 7),
-.multi-columns-row .col-xs-1:nth-child(12n + 13) {
+.multi-columns-row .col-xs-1:nth-child(12n + 13),
+.multi-columns-row .col-xs-5-1:nth-child(5n + 6),
+.multi-columns-row .col-xs-7-1:nth-child(7n + 8) {
     clear: left;
 }
 
@@ -18,7 +20,9 @@
     .multi-columns-row .col-xs-4:nth-child(3n + 4),
     .multi-columns-row .col-xs-3:nth-child(4n + 5),
     .multi-columns-row .col-xs-2:nth-child(6n + 7),
-    .multi-columns-row .col-xs-1:nth-child(12n + 13) {
+    .multi-columns-row .col-xs-1:nth-child(12n + 13),
+    .multi-columns-row .col-xs-5-1:nth-child(5n + 6),
+    .multi-columns-row .col-xs-7-1:nth-child(7n + 8) {
         clear: none;
     }
 
@@ -27,7 +31,9 @@
     .multi-columns-row .col-ms-4:nth-child(3n + 4),
     .multi-columns-row .col-ms-3:nth-child(4n + 5),
     .multi-columns-row .col-ms-2:nth-child(6n + 7),
-    .multi-columns-row .col-ms-1:nth-child(12n + 13) {
+    .multi-columns-row .col-ms-1:nth-child(12n + 13),
+    .multi-columns-row .col-ms-5-1:nth-child(5n + 6),
+    .multi-columns-row .col-ms-7-1:nth-child(7n + 8) {
         clear: left;
     }
 }
@@ -38,7 +44,9 @@
     .multi-columns-row .col-ms-4:nth-child(3n + 4),
     .multi-columns-row .col-ms-3:nth-child(4n + 5),
     .multi-columns-row .col-ms-2:nth-child(6n + 7),
-    .multi-columns-row .col-ms-1:nth-child(12n + 13) {
+    .multi-columns-row .col-ms-1:nth-child(12n + 13),
+    .multi-columns-row .col-ms-5-1:nth-child(5n + 6),
+    .multi-columns-row .col-ms-7-1:nth-child(7n + 8) {
         clear: none;
     }
 
@@ -47,7 +55,9 @@
     .multi-columns-row .col-sm-4:nth-child(3n + 4),
     .multi-columns-row .col-sm-3:nth-child(4n + 5),
     .multi-columns-row .col-sm-2:nth-child(6n + 7),
-    .multi-columns-row .col-sm-1:nth-child(12n + 13) {
+    .multi-columns-row .col-sm-1:nth-child(12n + 13),
+    .multi-columns-row .col-sm-5-1:nth-child(5n + 6),
+    .multi-columns-row .col-sm-7-1:nth-child(7n + 8) {
         clear: left;
     }
 }
@@ -58,7 +68,9 @@
     .multi-columns-row .col-sm-4:nth-child(3n + 4),
     .multi-columns-row .col-sm-3:nth-child(4n + 5),
     .multi-columns-row .col-sm-2:nth-child(6n + 7),
-    .multi-columns-row .col-sm-1:nth-child(12n + 13) {
+    .multi-columns-row .col-sm-1:nth-child(12n + 13),
+    .multi-columns-row .col-sm-5-1:nth-child(5n + 6),
+    .multi-columns-row .col-sm-7-1:nth-child(7n + 8) {
         clear: none;
     }
 
@@ -67,7 +79,9 @@
     .multi-columns-row .col-md-4:nth-child(3n + 4),
     .multi-columns-row .col-md-3:nth-child(4n + 5),
     .multi-columns-row .col-md-2:nth-child(6n + 7),
-    .multi-columns-row .col-md-1:nth-child(12n + 13) {
+    .multi-columns-row .col-md-1:nth-child(12n + 13),
+    .multi-columns-row .col-md-5-1:nth-child(5n + 6),
+    .multi-columns-row .col-md-7-1:nth-child(7n + 8) {
         clear: left;
     }
 }
@@ -78,7 +92,9 @@
     .multi-columns-row .col-md-4:nth-child(3n + 4),
     .multi-columns-row .col-md-3:nth-child(4n + 5),
     .multi-columns-row .col-md-2:nth-child(6n + 7),
-    .multi-columns-row .col-md-1:nth-child(12n + 13) {
+    .multi-columns-row .col-md-1:nth-child(12n + 13),
+    .multi-columns-row .col-md-5-1:nth-child(5n + 6),
+    .multi-columns-row .col-md-7-1:nth-child(7n + 8) {
         clear: none;
     }
 
@@ -87,7 +103,9 @@
     .multi-columns-row .col-lg-4:nth-child(3n + 4),
     .multi-columns-row .col-lg-3:nth-child(4n + 5),
     .multi-columns-row .col-lg-2:nth-child(6n + 7),
-    .multi-columns-row .col-lg-1:nth-child(12n + 13) {
+    .multi-columns-row .col-lg-1:nth-child(12n + 13),
+    .multi-columns-row .col-lg-5-1:nth-child(5n + 6),
+    .multi-columns-row .col-lg-7-1:nth-child(7n + 8) {
         clear: left;
     }
 }

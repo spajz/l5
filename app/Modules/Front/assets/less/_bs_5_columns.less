@@ -1,0 +1,52 @@
+@import "./bower_components/bootstrap/less/variables.less";
+@import "./bower_components/bootstrap/less/mixins/grid-framework.less";
+
+// CUSTOMIZATION: adapted from grid-framework.less .make-grid-columns
+// adding '-5' to the generated class name
+.make-5-grid-columns() {
+  // Common styles for all sizes of grid columns, widths 1-12
+  .col(@index) { // initial
+    @item: ~".col-xs-5-@{index}, .col-sm-5-@{index}, .col-md-5-@{index}, .col-lg-5-@{index}";
+    .col((@index + 1), @item);
+  }
+  .col(@index, @list) when (@index =< @grid-columns) { // general; "=<" isn't a typo
+    @item: ~".col-xs-5-@{index}, .col-sm-5-@{index}, .col-md-5-@{index}, .col-lg-5-@{index}";
+    .col((@index + 1), ~"@{list}, @{item}");
+  }
+  .col(@index, @list) when (@index > @grid-columns) { // terminal
+    @{list} {
+      position: relative;
+      // Prevent columns from collapsing when empty
+      min-height: 1px;
+      // Inner gutter via padding
+      padding-left:  (@grid-gutter-width / 2);
+      padding-right: (@grid-gutter-width / 2);
+    }
+  }
+  .col(1); // kickstart it
+}
+
+@grid-columns: 5;
+@screen-ms: 480px;
+@screen-ms-min: @screen-ms;
+@screen-ms-max: (@screen-sm-min - 1);
+
+.make-5-grid-columns();
+
+.make-grid(xs-5);
+
+@media (min-width: @screen-ms-min) and (max-width: @screen-ms-max) {
+  .make-grid(ms-5);
+}
+
+@media (min-width: @screen-sm-min) {
+  .make-grid(sm-5);
+}
+
+@media (min-width: @screen-md-min) {
+  .make-grid(md-5);
+}
+
+@media (min-width: @screen-lg-min) {
+  .make-grid(lg-5);
+}

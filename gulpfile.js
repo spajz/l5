@@ -14,6 +14,7 @@ var urlAdjuster = require('gulp-css-url-adjuster');
 var util = require('gulp-util');
 var watch = require('gulp-watch');
 var htmlmin = require('gulp-htmlmin');
+var del = require('del');
 
 // Gulp copy vars
 var copyNo = 1;
@@ -251,9 +252,18 @@ if (moduleLower) {
 
     if (theme == 'default') {
 
-        customTasksBefore = ['customTask01', 'customTask02'];
+        customTasksBefore = ['customTask01', 'customTask02', 'customTask03'];
 
         gulp.task('customTask01', function () {
+            del(['public/assets/front/css/**/*'], function (err, paths) {
+                //console.log('Deleted files/folders:\n', paths.join('\n'));
+            });
+            del(['public/assets/front/js/**/*'], function (err, paths) {
+                //console.log('Deleted files/folders:\n', paths.join('\n'));
+            });
+        });
+
+        gulp.task('customTask02', function () {
             gulp.src(config.assetsDir + 'fonts/Code-Pro-LC.css')
                 .pipe(urlAdjuster({
                     prepend: '../fonts/'
@@ -261,7 +271,7 @@ if (moduleLower) {
                 .pipe(gulp.dest(config.assetsDir + 'css'));
         });
 
-        gulp.task('customTask02', function () {
+        gulp.task('customTask03', function () {
             gulp.src(config.assetsDir + 'fonts/Code-Pro-Bold-LC.css')
                 .pipe(urlAdjuster({
                     prepend: '../fonts/'
@@ -269,7 +279,11 @@ if (moduleLower) {
                 .pipe(gulp.dest(config.assetsDir + 'css'));
         });
 
-        lessArray = [config.assetsDir + 'less/app.less'];
+        lessArray = [
+            config.assetsDir + 'less/app.less',
+            config.assetsDir + 'less/_bs_5_columns.less',
+            config.assetsDir + 'less/_bs_7_columns.less',
+        ];
 
         cssArray = [
             //config.cssOutput + 'app.css',
@@ -533,6 +547,5 @@ gulp.task('minhtml', function() {
     //spare - do not remove redundant attributes
     //quotes - do not remove arbitrary quotes
     //loose - preserve one whitespace
-
 
 });
