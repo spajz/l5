@@ -9,7 +9,6 @@ use Redirect;
 use DB;
 use App\Models\ModelContent;
 use Session;
-use Cache;
 
 class AdminController extends BaseController
 {
@@ -360,18 +359,5 @@ class AdminController extends BaseController
         }
     }
 
-    public function getImage($url, $config, $key = 0)
-    {
-        $imageApi = new ImageApi;
-
-        // Cache image output
-        if (Cache::has(md5($url))) {
-            return Cache::get(md5($url));
-        }
-
-        $output = $imageApi->getImage($url, $config, $key);
-        Cache::put(md5($url), $output, 120);
-        return $output;
-    }
 
 }

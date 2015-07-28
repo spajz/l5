@@ -26,9 +26,9 @@ $(window).resize(function () {
 function imageResize() {
     $('.persons-box .person-img').each(function (index) {
         var imgWidth = $(this).width();
-        var size = imgWidth * 10;
+        var size = imgWidth * 9;
         $(this).css({
-            'background-position': '-' + imgWidth + 'px 0',
+            'background-position': '0 0',
             'background-size': size + 'px'
         });
     })
@@ -140,7 +140,7 @@ function setOrientation($elem) {
         }
 
         var spritePosition = orientation * imgWidth;
-        var size = imgWidth * 10;
+        var size = imgWidth * 9;
 
         $(this).css({
             'background-position': '-' + spritePosition + 'px 0',
@@ -148,7 +148,6 @@ function setOrientation($elem) {
         });
     })
 }
-
 
 function getViewport() {
     var vpc = $('.viewports div:visible').attr('class');
@@ -186,7 +185,7 @@ $(document).ready(function () {
     //    sensitivity: 400
     //});
 
-    $('.persons-box .person-btn').on('click', function(e){
+    $('.persons-box .person-btn').on('click', function (e) {
         e.preventDefault();
         setOrientation($(this));
         $('.ih-item.square').find('.person-active').removeClass('person-active');
@@ -214,12 +213,5 @@ $(document).ready(function () {
     $('.scroll-btn').on('click', function (e) {
         e.preventDefault();
         $(window).stop(true).scrollTo(this.hash, {interrupt: true});
-    })
-})
-
-// Clients hover effects adjust
-$(window).load(function () {
-    $('.ih-item').each(function () {
-        $(this).css('maxWidth', $('img', this).width() + 'px')
     })
 })

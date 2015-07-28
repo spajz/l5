@@ -40,6 +40,17 @@
 
 @media (min-width: 768px) {
     /* reset previous grid */
+    .multi-columns-row .col-xs-6:nth-child(2n + 3),
+    .multi-columns-row .col-xs-4:nth-child(3n + 4),
+    .multi-columns-row .col-xs-3:nth-child(4n + 5),
+    .multi-columns-row .col-xs-2:nth-child(6n + 7),
+    .multi-columns-row .col-xs-1:nth-child(12n + 13),
+    .multi-columns-row .col-xs-5-1:nth-child(5n + 6),
+    .multi-columns-row .col-xs-7-1:nth-child(7n + 8) {
+        clear: none;
+    }
+
+    /* reset previous grid */
     .multi-columns-row .col-ms-6:nth-child(2n + 3),
     .multi-columns-row .col-ms-4:nth-child(3n + 4),
     .multi-columns-row .col-ms-3:nth-child(4n + 5),

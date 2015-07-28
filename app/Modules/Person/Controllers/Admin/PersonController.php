@@ -54,11 +54,9 @@ class PersonController extends AdminController
             ->addColumn('image', function ($data) use ($dtFront, $config) {
                 $out = 'N/A';
                 $img = isset($data->images[0]) ? $data->images[0] : null;
-                if ($img && is_file(array_get($config, 'image.path') . 'thumb/' . image_filename($img, 'thumb'))) {
-                    // Dynamic thumb image
-                    $imageUrl = array_get($config, 'image.baseUrl') . 'thumb/' . image_filename($img, 'thumb');
+                if ($img && is_file(array_get($config, 'image.path') . 'preview/' . image_filename($img, 'preview'))) {
                     $out = '<a href="' . array_get($config, 'image.baseUrl') . 'large/' . image_filename($img, 'large') . '" class="fancybox" rel="gallery">' .
-                        Html::image(route('api.admin.get.image', [urlencode2($imageUrl), urlencode2($config['module']['moduleLower'])]),
+                        Html::image(array_get($config, 'image.baseUrl') . 'preview/' . image_filename($img, 'preview'),
                             '',
                             array(
                                 'class' => 'img-responsive col-centered img-thumbnail',

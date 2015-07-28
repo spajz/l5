@@ -12,7 +12,7 @@ Route::group(['prefix' => ADMIN], function () {
 
     Route::post('api/get-model', ['as' => 'api.admin.get.model', 'uses' => 'App\Modules\Admin\Controllers\AdminController@getModel']);
 
-    Route::get('api/get-image/{path}/{config}/{key?}', ['as' => 'api.admin.get.image', 'uses' => 'App\Modules\Admin\Controllers\AdminController@getImage']);
+    Route::get('api/get-image/{path}/{config}/{key?}', ['as' => 'api.admin.get.image', 'uses' => 'App\Modules\Admin\Controllers\RapidController@getImage']);
 
     Route::get('api/image-destroy/{id}/{withImages?}/{force?}', ['as' => 'api.admin.image.destroy', 'uses' => 'App\Modules\Admin\Controllers\AdminController@imageDestroy']);
 
@@ -23,6 +23,8 @@ Route::group(['prefix' => ADMIN], function () {
     Route::get('api/model-content/destroy/{id?}', ['as' => 'api.admin.model-content.destroy', 'uses' => 'App\Modules\Admin\Controllers\AdminController@modelContentDestroy']);
 
     Route::post('api/set-session', ['as' => 'api.admin.set.session', 'uses' => 'App\Modules\Admin\Controllers\AdminController@setSession']);
+
+    Route::get('api/prepare-images', ['as' => 'api.admin.prepare.images', 'uses' => 'App\Modules\Admin\Controllers\LocalController@prepareImages']);
 });
 
 Route::get('admin/login', ['as' => 'admin.get.login', 'uses' => 'App\Modules\Admin\Controllers\AuthController@getLogin']);

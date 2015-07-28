@@ -18,7 +18,7 @@ Route::group(
 // Admin
 $namespaceAdmin = 'App\Modules\\' . $moduleUpper . '\Controllers\Admin\\';
 
-Route::group(array("prefix" => ADMIN), function () use ($moduleUpper, $moduleLower, $namespaceAdmin) {
+Route::group(array("prefix" => 'admin'), function () use ($moduleUpper, $moduleLower, $namespaceAdmin) {
 
     Route::get($moduleLower, array("as" => "admin.{$moduleLower}.index", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@index"));
 

@@ -40,7 +40,7 @@ return [
             'medium' => [
                 'folder' => 'medium/', // relative path from main image folder with trailing slash
                 'actions' => [
-                    'resize' => [null, 300, function ($image) {
+                    'resize' => [null, 350, function ($image) {
                         $image->aspectRatio();
                         $image->upsize();
                     }],
@@ -53,6 +53,16 @@ return [
                         $image->aspectRatio();
                         $image->upsize();
                     }],
+                ],
+            ],
+            'preview' => [
+                'folder' => 'preview/',
+                'actions' => [
+                    'resize' => [null, 200, function ($image) {
+                        $image->aspectRatio();
+                        $image->upsize();
+                    }],
+                    'crop' => [200, 200, 0, 0],
                 ],
             ],
         ],

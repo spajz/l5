@@ -253,14 +253,20 @@ h1, h2, h3, .h1, .h2, .h3 {
 }
 
 /*** Persons ***/
+.person-container {
+    background-color: #000;
+}
+
+.person-wrap {
+    max-width: 2100px;
+}
+
 .person-img {
     overflow: hidden;
-    /*width: 300px;*/
-    /*height: 300px;*/
 }
 
 .persons-box {
-    background-color: #000;
+    max-width: 2100px;
     overflow: hidden;
 }
 
