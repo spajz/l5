@@ -6739,3 +6739,27 @@ Create your own skin at http://designer.videojs.com
         clear: left;
     }
 }
+
+@media (min-width: 1600px) {
+    /* reset previous grid */
+    .multi-columns-row .col-lg-6:nth-child(2n + 3),
+    .multi-columns-row .col-lg-4:nth-child(3n + 4),
+    .multi-columns-row .col-lg-3:nth-child(4n + 5),
+    .multi-columns-row .col-lg-2:nth-child(6n + 7),
+    .multi-columns-row .col-lg-1:nth-child(12n + 13),
+    .multi-columns-row .col-lg-5-1:nth-child(5n + 6),
+    .multi-columns-row .col-lg-7-1:nth-child(7n + 8) {
+        clear: none;
+    }
+
+    /* clear first in row for large columns */
+    .multi-columns-row .col-xl-6:nth-child(2n + 3),
+    .multi-columns-row .col-xl-4:nth-child(3n + 4),
+    .multi-columns-row .col-xl-3:nth-child(4n + 5),
+    .multi-columns-row .col-xl-2:nth-child(6n + 7),
+    .multi-columns-row .col-xl-1:nth-child(12n + 13),
+    .multi-columns-row .col-xl-5-1:nth-child(5n + 6),
+    .multi-columns-row .col-xl-7-1:nth-child(7n + 8) {
+        clear: left;
+    }
+}

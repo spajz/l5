@@ -1,16 +1,17 @@
 @import "./bower_components/bootstrap/less/variables.less";
 @import "./bower_components/bootstrap/less/mixins/grid-framework.less";
+@import "_variables.less";
 
 // CUSTOMIZATION: adapted from grid-framework.less .make-grid-columns
 // adding '-5' to the generated class name
 .make-7-grid-columns() {
   // Common styles for all sizes of grid columns, widths 1-12
   .col(@index) { // initial
-    @item: ~".col-xs-7-@{index}, .col-sm-7-@{index}, .col-md-7-@{index}, .col-lg-7-@{index}";
+    @item: ~".col-xs-7-@{index}, .col-sm-7-@{index}, .col-md-7-@{index}, .col-lg-7-@{index}, .col-xl-7-@{index}";
     .col((@index + 1), @item);
   }
   .col(@index, @list) when (@index =< @grid-columns) { // general; "=<" isn't a typo
-    @item: ~".col-xs-7-@{index}, .col-sm-7-@{index}, .col-md-7-@{index}, .col-lg-7-@{index}";
+    @item: ~".col-xs-7-@{index}, .col-sm-7-@{index}, .col-md-7-@{index}, .col-lg-7-@{index}, .col-xl-7-@{index}";
     .col((@index + 1), ~"@{list}, @{item}");
   }
   .col(@index, @list) when (@index > @grid-columns) { // terminal
@@ -27,9 +28,9 @@
 }
 
 @grid-columns: 7;
-@screen-ms: 480px;
-@screen-ms-min: @screen-ms;
-@screen-ms-max: (@screen-sm-min - 1);
+//@screen-ms: 480px;
+//@screen-ms-min: @screen-ms;
+//@screen-ms-max: (@screen-sm-min - 1);
 
 .make-7-grid-columns();
 
@@ -50,3 +51,8 @@
 @media (min-width: @screen-lg-min) {
   .make-grid(lg-7);
 }
+
+@media (min-width: @screen-xl-min) {
+  .make-grid(xl-7);
+}
+

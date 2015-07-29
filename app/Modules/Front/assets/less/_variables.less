@@ -1,0 +1,20 @@
+// MS grid
+@screen-ms: 480px;
+@screen-ms-min: @screen-ms;
+@screen-ms-max: (@screen-sm-min - 1);
+
+// Redefined Extra Small max value
+@screen-xs-max-new: (@screen-ms-min - 1);
+
+// XL grid
+@screen-xl:                  1600px;
+@screen-xl-min:              @screen-xl;
+@screen-xl-hughdesktop:      @screen-xl-min;
+
+// So media queries don't overlap when required, provide a maximum
+@screen-lg-max:              (@screen-xl-min - 1);
+
+//== Container sizes
+// Large screen / wide desktop
+@container-xlarge-desktop:      ((1540px + @grid-gutter-width));
+@container-xl:                 @container-xlarge-desktop;
