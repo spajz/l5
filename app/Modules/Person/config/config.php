@@ -29,7 +29,7 @@ return [
         'background' => '', // background color (transaprent to color background) - optional
         'sizes' => [
             'original' => [
-                'quality' => 95,
+                'quality' => 100,
                 'folder' => 'original/', // relative path from main image folder with trailing slash
                 'actions' => [],
             ],
@@ -56,6 +56,7 @@ return [
                 ],
             ],
             'preview' => [
+                'quality' => 75,
                 'folder' => 'preview/',
                 'actions' => [
                     'resize' => [null, 200, function ($image) {
@@ -69,7 +70,7 @@ return [
         'dynamic' => [ // Get(resize) image on the fly
             '0' => [
                 'responseAs' => 'jpg',
-                'quality' => 95,
+                'quality' => 75,
                 'actions' => [
                     'crop' => [200, 200, 0, 0],
                 ],

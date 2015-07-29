@@ -7,7 +7,7 @@
     <div class="container-fluid">
         <div class="row clearfix">
             <div class="col-xs-12 text-center">
-                <h1>{{ trans('client::client.clients') }}</h1>
+                <h1>{{ trans('client::client.title') }}</h1>
                 <div class="row clearfix">
                     <div class="col-xs-12 col-md-offset-3 col-md-6">
                         <p>

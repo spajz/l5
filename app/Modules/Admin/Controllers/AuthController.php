@@ -12,6 +12,12 @@ class AuthController extends Controller
 
     public function __construct()
     {
+        if (app()->environment() == 'production') {
+            app()->bind('path.public', function () {
+                return base_path() . '/public_html';
+            });
+        }
+
         $this->setConfig('admin.auth');
         view()->share('auth', true);
     }

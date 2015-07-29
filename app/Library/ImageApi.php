@@ -36,6 +36,15 @@ class ImageApi
     protected $extensionsBySize = null;
     protected $imageExtensions = ['jpg', 'jpeg', 'gif', 'png'];
 
+    public function __construct()
+    {
+        if (app()->environment() == 'production') {
+            app()->bind('path.public', function () {
+                return base_path() . '/public_html';
+            });
+        }
+    }
+
     public function setConfig($config)
     {
         if (is_array($config)) {
@@ -845,7 +854,6 @@ class ImageApi
         }
         return false;
     }
-
 
 
 }

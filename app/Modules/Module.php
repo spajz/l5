@@ -20,6 +20,12 @@ class Module
     public function __construct(Application $app)
     {
         $this->app = $app;
+
+        if (app()->environment() == 'production') {
+            app()->bind('path.public', function () {
+                return base_path() . '/public_html';
+            });
+        }
     }
 
     /**

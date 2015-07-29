@@ -1,7 +1,8 @@
 <?php
 return [
     'title' => 'About',
-    'intro' => 'Among our clients you will find the most famous global brands, but also those that are yet to become
-        famous in their city, country or region. And we love them all equally.
-        And when you love somebody, then you care for him/her and you are proud of him/her. Every day.'
+    'intro' => "If you were a color, what color would you be? As a person, and as a brand?
+Is it black or blue... red, green or yellow? Fifty shades of grey or purple? It doesn't matter.
+It is only important that we color this world and make it nicer in a new, unique way.
+"
 ];

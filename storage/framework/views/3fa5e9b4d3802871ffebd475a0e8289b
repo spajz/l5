@@ -1,0 +1,2 @@
+<a href="<?php echo e(route('admin.' . $moduleLower . '.edit', $data->id)); ?>" class="btn btn-info <?php echo e(isset($buttonSize) ? $buttonSize : ''); ?>"><i class="fa fa-pencil"></i> Edit</a>
+<a href="<?php echo e(route('admin.' . $moduleLower . '.destroy', $data->id)); ?>" class="btn btn-danger <?php echo e(isset($buttonSize) ? $buttonSize : ''); ?>" data-bb="confirm"><i class="fa fa-trash-o"></i> Delete</a>

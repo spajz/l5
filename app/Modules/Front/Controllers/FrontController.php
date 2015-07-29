@@ -16,6 +16,12 @@ class FrontController extends BaseController
 
     public function __construct()
     {
+        if (app()->environment() == 'production') {
+            app()->bind('path.public', function () {
+                return base_path() . '/public_html';
+            });
+        }
+
         $this->setConfig(__FILE__);
         $this->language = config('front.language');
     }

@@ -1,7 +1,8 @@
 <?php
 return [
     'title' => 'O nama',
-    'intro' => 'Among our clients you will find the most famous global brands, but also those that are yet to become
-        famous in their city, country or region. And we love them all equally.
-        And when you love somebody, then you care for him/her and you are proud of him/her. Every day.'
+    'intro' => 'Kad biste bili boja, koja bi to boja bila? I kao osoba i kao brend?
+Da li je to crna ili plava... crvena, zelena ili žuta? 50 nijansi sive ili ljubičaste? Nije ni bitno.
+Važno je da svojim idejama bojimo i ulepšavamo ovaj svet na neki nov, neponovljiv, način.
+'
 ];

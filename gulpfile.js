@@ -239,6 +239,11 @@ if (!moduleLower) {
         [config.baseOutput + 'img/']
     );
 
+    gulpCopy(
+        [config.assetsDir + 'fileman/**/*'],
+        [config.baseOutput + 'fileman/']
+    );
+
 }// -- End admin
 
 

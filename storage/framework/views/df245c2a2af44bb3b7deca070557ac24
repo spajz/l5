@@ -1,0 +1,13 @@
+<?php
+$model = urlencode2(is_null($model) ? get_class($data) : $model);
+$changeStatus = 'change-status';
+if(!isset($column)) $column = 'status';
+if(isset($changeStatusDisabled)) $changeStatus = '';
+?>
+<?php if($data->{$column} == 1): ?>
+    <button class="btn btn-success <?php echo e(isset($buttonSize) ? $buttonSize : ''); ?> <?php echo e($changeStatus); ?>" data-id="<?php echo e($data->id); ?>" data-model="<?php echo e($model); ?>" data-column="<?php echo e($column); ?>"><i class="fa fa-check"></i></button>
+<?php elseif($data->{$column} == -1): ?>
+    <button class="btn btn-default <?php echo e(isset($buttonSize) ? $buttonSize : ''); ?> <?php echo e($changeStatus); ?>"  data-id="<?php echo e($data->id); ?>" data-model="<?php echo e($model); ?>" data-column="<?php echo e($column); ?>"><i class="fa fa-exclamation-triangle"></i></button>
+<?php else: ?>
+    <button class="btn btn-danger <?php echo e(isset($buttonSize) ? $buttonSize : ''); ?> <?php echo e($changeStatus); ?>"  data-id="<?php echo e($data->id); ?>" data-model="<?php echo e($model); ?>" data-column="<?php echo e($column); ?>"><i class="fa fa-power-off"></i></button>
+<?php endif; ?>
