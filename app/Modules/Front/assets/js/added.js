@@ -5,6 +5,10 @@ $.extend($.scrollTo.defaults, {
     easing: 'swing'
 });
 
+$(window).load(function () {
+    $('.persons-box .person-img').attr('src', baseUrl + '/assets/front/images/person350.png');
+})
+
 // Get current viewport
 var waitForFinalEvent = function () {
     var b = {};
@@ -20,6 +24,7 @@ $(window).resize(function () {
     waitForFinalEvent(function () {
         var viewPort = getViewport();
         imageResize();
+        setFontSizePerson($('.persons-box .person-btn'));
     }, 100, fullDateString.getTime())
 });
 
@@ -32,6 +37,7 @@ function imageResize() {
             'background-size': size + 'px'
         });
     })
+    //$('.vertical-center').flexVerticalCenter();
 }
 
 /* Orientation
@@ -87,6 +93,9 @@ function setOrientation($elem) {
                 break;
         }
 
+        console.log(left);
+        console.log(itemLeft);
+
         // Horizontal position
         switch (true) {
             case (left < itemLeft):
@@ -139,14 +148,45 @@ function setOrientation($elem) {
                 break;
         }
 
+        console.log(verPosition);
+        console.log(horPosition);
+
         var spritePosition = orientation * imgWidth;
         var size = imgWidth * 9;
 
+        //var elemImage = $elem.find('.person-img').first();
+        //if ($(this)[0] === elemImage[0]) { console.log(index); console.log(7777777)
+        //    $(this).css({
+        //        'background-position': '0 0',
+        //        'background-size': size + 'px'
+        //    });
+        //} else {
         $(this).css({
             'background-position': '-' + spritePosition + 'px 0',
             'background-size': size + 'px'
         });
+        //}
+
     })
+}
+
+function setFontSizePerson(elem) {
+    var imgSize = parseInt(elem.find('.person-img').first().width());
+    var size = parseInt(imgSize / 10);
+    elem.find('.info h3').css({
+        'font-size': parseInt(size * 1.1) + 'px',
+        'margin-top': parseInt(size * 2) + 'px',
+        'margin-bottom': parseInt(size * 0.8) + 'px',
+    });
+    elem.find('.info .description').css({
+        'font-size': parseInt(size * 0.6) + 'px',
+        //'margin-bottom':parseInt(size * 0.8) + 'px',
+    });
+    elem.find('.info .lead').css({
+        'font-size': parseInt(size * 0.8) + 'px',
+        //'margin-bottom':parseInt(size * 0.8) + 'px',
+    });
+    $('.vertical-center').flexVerticalCenter();
 }
 
 function getViewport() {
@@ -159,6 +199,7 @@ function getViewport() {
 $("img.lazy").lazyload();
 
 $(document).ready(function () {
+
 
     // Smooth scroll
     $.scrollSpeed(100, 800);
@@ -187,8 +228,15 @@ $(document).ready(function () {
 
     $('.persons-box .person-btn').on('click', function (e) {
         e.preventDefault();
+        if ($(this).hasClass('person-active')) {
+            $(this).find('.person-img').first().css('background-position', '0 0')
+            $(this).removeClass('person-active');
+            return;
+        }
+        setFontSizePerson($(this));
         setOrientation($(this));
         $('.ih-item.square').find('.person-active').removeClass('person-active');
+
         $(this).addClass('person-active');
     });
 

@@ -41,7 +41,8 @@
     "jquery.lazyload": "~1.9.5",
     "devbridge-autocomplete": "~1.2.21",
     "jquery-hoverintent": "~1.8.1",
-    "bootstrap-5-columns": "~0.2.0"
+    "bootstrap-5-columns": "~0.2.0",
+    "jQuery-Flex-Vertical-Center": "~1.0.0"
   },
   "resolutions": {
     "jquery": ">= 2.1.4"

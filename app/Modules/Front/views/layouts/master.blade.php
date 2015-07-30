@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    @if ( Config::get('app.debug') )
+    @if (app()->environment() != 'test')
         <link rel="stylesheet" href="{{ elixir3($assetsDirFront . '/css/app.css', $buildPath) }}" />
         <link rel="stylesheet" href="{{ elixir3($assetsDirFront . '/css/all.css', $buildPath) }}" />
         <link rel="stylesheet" href="{{ elixir3($assetsDirFront . '/css/added.css', $buildPath) }}" />
@@ -27,14 +27,13 @@
 
     @section('scripts_top')
     @show
-
+    <script type="text/javascript">var baseUrl = '{{ url('/') }}';</script>
 </head>
 
 <body class="{{ $bodyClass or '' }}">
-
 @yield('content')
 
-@if ( Config::get('app.debug') )
+@if(app()->environment() != 'test')
     <script src="{{ elixir3("{$assetsDirFront}/js/all.js", $buildPath) }}"></script>
     <script src="{{ elixir3("{$assetsDirFront}/js/added.js", $buildPath) }}"></script>
 @else

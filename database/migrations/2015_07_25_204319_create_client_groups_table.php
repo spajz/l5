@@ -18,6 +18,7 @@ class CreateClientGroupsTable extends Migration
             $table->string('title')->nullable();
             $table->string('slug')->nullable();
             $table->string('color')->nullable();
+            $table->string('text_color')->nullable();
             $table->integer('order')->default(0);
             $table->tinyInteger('featured')->default(0);
             $table->tinyInteger('status')->default(0);

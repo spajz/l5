@@ -17,6 +17,7 @@ class ClientGroup extends BaseModel implements SluggableInterface
         'title',
         'slug',
         'color',
+        'text_color',
         'order',
         'featured',
         'status'

@@ -320,6 +320,7 @@ if (moduleLower) {
             config.bowerDir + 'jquery.lazyload/jquery.lazyload.js',
             config.bowerDir + 'jquery-hoverintent/jquery.hoverIntent.js',
             config.assetsDir + 'js/jQuery.scrollSpeed.js',
+            config.bowerDir + 'jQuery-Flex-Vertical-Center/jquery.flexverticalcenter.js',
         ];
 
         if (production) scriptsArray.push(config.assetsDir + 'js/added.js');
@@ -378,7 +379,7 @@ if (moduleLower) {
         scriptsArrayLocal = [config.assetsDir + 'js/added.js'];
 
         gulpCopy(
-            [config.assetsDir + 'fonts/*.{eot,ttf,woff,woff2,svg,otf}'],
+            [config.assetsDir + 'fonts/*.{eot,ttf,woff,svg,otf}'],
             [config.baseOutput + 'fonts/']
         );
 

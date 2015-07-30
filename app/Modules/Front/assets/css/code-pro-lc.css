@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'Code-Pro-LC';
   src: url("../fonts/Code-Pro-LC.eot?#iefix") format('embedded-opentype'),  url("../fonts/Code-Pro-LC.otf")  format('opentype'),
-	     url("../fonts/Code-Pro-LC.woff") format('woff'), url("../fonts/Code-Pro-LC.ttf")  format('truetype'), url("../fonts/Code-Pro-LC.svg#Code-Pro-LC") format('svg');
+  url("../fonts/Code-Pro-LC.woff") format('woff'), url("../fonts/Code-Pro-LC.ttf")  format('truetype'), url("../fonts/Code-Pro-LC.svg#Code-Pro-LC") format('svg');
   font-weight: normal;
   font-style: normal;
 }

@@ -1,8 +1,8 @@
-
 @font-face {
   font-family: 'Code-Pro-LC';
   src: url('Code-Pro-LC.eot?#iefix') format('embedded-opentype'),  url('Code-Pro-LC.otf')  format('opentype'),
-	     url('Code-Pro-LC.woff') format('woff'), url('Code-Pro-LC.ttf')  format('truetype'), url('Code-Pro-LC.svg#Code-Pro-LC') format('svg');
+  url('Code-Pro-LC.woff') format('woff'), url('Code-Pro-LC.ttf')  format('truetype'), url('Code-Pro-LC.svg#Code-Pro-LC') format('svg');
   font-weight: normal;
   font-style: normal;
 }
+

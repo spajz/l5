@@ -24,6 +24,7 @@
 
     <div class="container-fluid person-container">
 
+
         <div class="person-wrap">
             <div class="row clearfix multi-columns-row persons-box">
                 @if(count($persons))
@@ -31,61 +32,24 @@
                         @if($imageUrl = image_url($person, $config, 'medium'))
 
                             <div class="col-xs-6 col-ms-4 col-sm-4 col-md-3 col-lg-2 col-xl-7-1">
-
-                                <!-- colored -->
                                 <div class="ih-item square colored effect14 left_to_right">
                                     <a href="#" class="person-btn">
                                         <div class="img">
-
-                                            <img src="{{ module_asset('front', 'images/person350.png') }}"  alt="{{ $person->title }}" class="img-responsive person-img"
+                                            <img src="{{ module_asset('front', 'images/person350b.png') }}"  alt="{{ $person->title }}" class="img-responsive person-img"
                                                  style="background-image:url({{ asset($imageUrl) }}); background-position:0 0;">
-
                                         </div>
-                                        <div class="info" style="background-color: rgba({{ implode(',', hex2rgb($person->color)) }}, 1);">
-                                            <h3 style="background-color: rgba({{ implode(',', hex2rgb($person->color)) }}, 1);">{{ $person->full_name }}</h3>
-                                            <p>{{ $person->description }}</p>
+                                        <div
+                                            class="info"
+                                            style="@include('front::_partials.gradient', ['color' => $person->color])"
+                                        >
+                                            <div class="vertical-center">
+                                                <h3 style="color: {{ $person->text_color }}">{{ $person->full_name }}</h3>
+                                                <p class="lead" style="color: {{ $person->text_color }}">{{ $person->job_title }}</p>
+                                                <p class="description" style="color: {{ $person->text_color }}">{{ $person->description }}</p>
+                                            </div>
                                         </div>
                                     </a>
                                 </div>
-                                <!-- end colored -->
-
-                            </div>
-
-                        @endif
-                    @endforeach
-                @endif
-            </div>
-        </div>
-
-    </div>
-
-    <div class="container-fluid person-container">
-
-        <div class="person-wrap">
-            <div class="row clearfix multi-columns-row persons-box">
-                @if(count($persons))
-                    @foreach($persons as $person)
-                        @if($imageUrl = image_url($person, $config, 'medium'))
-
-                            <div class="col-xs-6 col-ms-4 col-sm-4 col-md-3 col-lg-2">
-
-                                <!-- colored -->
-                                <div class="ih-item square colored effect14 left_to_right">
-                                    <a href="#" class="person-btn">
-                                        <div class="img">
-
-                                            <img src="{{ module_asset('front', 'images/person350.png') }}"  alt="{{ $person->title }}" class="img-responsive person-img"
-                                                 style="background-image:url({{ asset($imageUrl) }}); background-position:0 0;">
-
-                                        </div>
-                                        <div class="info" style="background-color: rgba({{ implode(',', hex2rgb($person->color)) }}, 1);">
-                                            <h3 style="background-color: rgba({{ implode(',', hex2rgb($person->color)) }}, 1);">{{ $person->full_name }}</h3>
-                                            <p>{{ $person->description }}</p>
-                                        </div>
-                                    </a>
-                                </div>
-                                <!-- end colored -->
-
                             </div>
 
                         @endif

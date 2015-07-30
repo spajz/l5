@@ -57,6 +57,16 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group required color-picker-input">
+                                    <label for="color" class="control-label col-lg-2 col-sm-4">Text color<sup>*</sup></label>
+                                    <div class="col-lg-10 col-sm-8">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i></i></span>
+                                            {!! Former::text('text_color')->raw() !!}
+                                        </div>
+                                    </div>
+                                </div>
+
                                 {!! Former::textarea('description') !!}
 
                                 {!! Former::hidden('status')->forceValue(0) !!}

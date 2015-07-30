@@ -21,6 +21,7 @@ class Person extends BaseModel
         'job_title',
         'description',
         'color',
+        'text_color',
         'order',
         'status'
     );
@@ -36,6 +37,7 @@ class Person extends BaseModel
             'last_name' => 'required|max:255',
             'job_title' => 'required|max:255',
             'color' => 'required|max:255',
+            'text_color' => 'required|max:255',
         ];
     }
 
