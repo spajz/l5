@@ -5,6 +5,8 @@ html {
 body {
     padding-top: 100px;
     height: 100%;
+    margin: 0 !important;
+    /*padding: 0 !important;*/
 }
 
 /*** Common ***/
@@ -310,6 +312,32 @@ h1, h2, h3, .h1, .h2, .h3 {
     min-height: 300px;
 }
 
+/*** FCB pattern ***/
+.fcb-pattern {
+    width: 100%;
+    position: relative;
+    height: 30px;
+}
+
+.pattern-btn {
+    position: relative;
+    float: right;
+    top: -27px;
+    right: 5px;
+    opacity: 0.9;
+}
+
+.lsquare {
+    height: 100%;
+    width: auto;
+    /*float: left;*/
+    display: inline-block;
+}
+
+.lsquare:after {
+    /*clear: both;*/
+}
+
 /*XS*/
 @media (max-width: 767px) {
     #navbar .nav > li {
@@ -350,5 +378,4 @@ h1, h2, h3, .h1, .h2, .h3 {
 @media (min-width: 1200px) {
 
 }
-
 

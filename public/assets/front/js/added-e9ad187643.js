@@ -93,9 +93,6 @@ function setOrientation($elem) {
                 break;
         }
 
-        console.log(left);
-        console.log(itemLeft);
-
         // Horizontal position
         switch (true) {
             case (left < itemLeft):
@@ -148,9 +145,6 @@ function setOrientation($elem) {
                 break;
         }
 
-        console.log(verPosition);
-        console.log(horPosition);
-
         var spritePosition = orientation * imgWidth;
         var size = imgWidth * 9;
 
@@ -199,7 +193,6 @@ function getViewport() {
 $("img.lazy").lazyload();
 
 $(document).ready(function () {
-
 
     // Smooth scroll
     $.scrollSpeed(100, 800);
@@ -262,4 +255,15 @@ $(document).ready(function () {
         e.preventDefault();
         $(window).stop(true).scrollTo(this.hash, {interrupt: true});
     })
+
+    function stickyFooter(){
+        var footerHeight = $('#contact').innerHeight();
+        var footerOffset = $('#contact').offset().top;
+        var windowHeight = $(window).innerHeight();
+        if(windowHeight > (footerHeight + footerOffset)){
+            $('#contact').css('padding-top', parseInt(windowHeight - (footerHeight + footerOffset)) + 'px')
+        }
+    }
+    stickyFooter();
+
 })

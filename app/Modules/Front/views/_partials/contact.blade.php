@@ -1,4 +1,4 @@
-<section id="contact">
+<div id="contact">
     <div class="container-fluid">
         <hr class="hr mar-tb15">
         <div class="row clearfix">
@@ -37,7 +37,9 @@
             </div>
         </div>
     </div>
-</section>
+    @include('front::_partials.fcb_pattern')
+</div>
+<?php /*
 <div class="fcb-line">
     <img src="{{ asset($assetsDirFront . '/images/fcb-line.jpg') }}" width="100%">
-</div>
+</div> */ ?>

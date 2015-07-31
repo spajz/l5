@@ -9,7 +9,7 @@
 
     <title>Laravel CMS</title>
 
-    @if ( Config::get('app.debug') )
+    @if (app()->environment() != 'test')
         <link rel="stylesheet" href="{{ elixir3($assetsDirAdmin . '/css/app.css', $buildPath) }}" />
         <link rel="stylesheet" href="{{ elixir3($assetsDirAdmin . '/css/all.css', $buildPath) }}" />
         <link rel="stylesheet" href="{{ elixir3($assetsDirAdmin . '/css/added.css', $buildPath) }}" />
@@ -42,7 +42,7 @@
 </div>
 <!-- /#wrapper -->
 
-@if ( Config::get('app.debug') )
+@if (app()->environment() != 'test')
     <script src="{{ elixir3("{$assetsDirAdmin}/js/all.js", $buildPath) }}"></script>
     <script src="{{ elixir3("{$assetsDirAdmin}/js/added.js", $buildPath) }}"></script>
 @else

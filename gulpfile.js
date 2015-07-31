@@ -321,6 +321,7 @@ if (moduleLower) {
             config.bowerDir + 'jquery-hoverintent/jquery.hoverIntent.js',
             config.assetsDir + 'js/jQuery.scrollSpeed.js',
             config.bowerDir + 'jQuery-Flex-Vertical-Center/jquery.flexverticalcenter.js',
+            config.bowerDir + 'jquery.easing/js/jquery.easing.min.js',
         ];
 
         if (production) scriptsArray.push(config.assetsDir + 'js/added.js');

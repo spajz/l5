@@ -11,7 +11,7 @@
     <meta name="author" content="">
     <meta name="csrf-token" content="{{{ Session::token() }}}">
 
-    @if ( Config::get('app.debug') )
+    @if (app()->environment() != 'test')
         <link rel="stylesheet" href="{{ elixir3($assetsDirAdmin . '/css/app.css', $buildPath) }}"/>
         <link rel="stylesheet" href="{{ elixir3($assetsDirAdmin . '/css/all.css', $buildPath) }}"/>
         <link rel="stylesheet" href="{{ elixir3($assetsDirAdmin . '/css/added.css', $buildPath) }}"/>
@@ -37,7 +37,7 @@
 </head>
 
 <body>
-<img src="{{ cure('assets/admin/images/ajax.gif') }}" class="ajax-loader">
+<img src="{{ admin_asset('images/ajax.gif') }}" class="ajax-loader">
 
 <div id="wrapper">
 
@@ -69,7 +69,7 @@
 </div>
 <!-- /#wrapper -->
 
-@if ( Config::get('app.debug') )
+@if (app()->environment() != 'test')
     <script src="{{ elixir3($assetsDirAdmin . '/js/all.js', $buildPath) }}"></script>
     <script src="{{ elixir3($assetsDirAdmin . '/js/added.js', $buildPath) }}"></script>
 @else
