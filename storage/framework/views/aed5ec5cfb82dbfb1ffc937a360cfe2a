@@ -1,0 +1,71 @@
+<?php $__env->startSection('content'); ?>
+
+    <?php echo $__env->make('front::_partials.navbar', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-xs-12 text-center">
+                <h1><?php echo e(trans('person::person.title')); ?></h1>
+                <div class="row clearfix">
+                    <div class="col-xs-12 col-md-offset-3 col-md-6">
+                        <p>
+                            <?php echo e(trans('person::person.intro')); ?>
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="hr mar-tb15">
+
+    </div>
+
+    <div class="container-fluid person-container">
+
+
+        <div class="person-wrap">
+            <div class="row clearfix multi-columns-row persons-box">
+                <?php if(count($persons)): ?>
+                    <?php foreach($persons as $person): ?>
+                        <?php if($imageUrl = image_url($person, $config, 'medium')): ?>
+
+                            <div class="col-xs-6 col-ms-4 col-sm-4 col-md-3 col-lg-2 col-xl-7-1">
+                                <div class="ih-item square colored effect14 left_to_right">
+                                    <a href="#" class="person-btn">
+                                        <div class="img">
+                                            <img src="<?php echo e(module_asset('front', 'images/person350b.png')); ?>"  alt="<?php echo e($person->title); ?>" class="img-responsive person-img"
+                                                 style="background-image:url(<?php echo e(asset($imageUrl)); ?>); background-position:0 0;">
+                                        </div>
+                                        <div
+                                            class="info"
+                                            style="<?php echo $__env->make('front::_partials.gradient', ['color' => $person->color], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>"
+                                        >
+                                            <div class="vertical-center">
+                                                <h3 style="color: <?php echo e($person->text_color); ?>"><?php echo e($person->full_name); ?></h3>
+                                                <p class="lead" style="color: <?php echo e($person->text_color); ?>"><?php echo e($person->job_title); ?></p>
+                                                <p class="description" style="color: <?php echo e($person->text_color); ?>"><?php echo e($person->description); ?></p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+        </div>
+
+    </div>
+
+    <?php echo $__env->make('front::_partials.contact', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts_bottom'); ?>
+    @parent
+<?php $__env->stopSection(); ?>
+
+
+<?php echo $__env->make($layout, array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

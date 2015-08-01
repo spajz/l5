@@ -12,4 +12,7 @@ background: -webkit-linear-gradient(top, rgba({{ $rgb1 }},1) 0%, rgba({{ $rgb2 }
 background: -o-linear-gradient(top, rgba({{ $rgb1 }},1) 0%, rgba({{ $rgb2 }},1) 100%);
 background: -ms-linear-gradient(top, rgba({{ $rgb1 }},1) 0%, rgba({{ $rgb2 }},1) 100%);
 background: linear-gradient(to bottom, rgba({{ $rgb1 }},1) 0%, rgba({{ $rgb2 }},1) 100%);
+<?php /*
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='{{ $color }}', endColorstr='{{ $color2 }}', GradientType=0 );
+ */
+ ?>

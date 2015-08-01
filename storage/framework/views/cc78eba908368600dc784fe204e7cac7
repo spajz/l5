@@ -67,25 +67,25 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 ?>
 <div class="fcb-pattern-wrap" xmlns="http://www.w3.org/1999/html">
     <div class="fcb-pattern">
-        @foreach($colors as $color)
-            <div class="color-cell" style="@include('front::_partials.fcb_gradient', ['color' => $color])">&nbsp;</div>
-        @endforeach
+        <?php foreach($colors as $color): ?>
+            <div class="color-cell" style="<?php echo $__env->make('front::_partials.fcb_gradient', ['color' => $color], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>">&nbsp;</div>
+        <?php endforeach; ?>
     </div>
     <button type="button" class="btn drpiga-btn btn-xs pattern-btn">Nemoj da klikneš ovde!</button>
 </div>
 <div class="my-pattern-wrap">
     <div class="my-pattern sortable" id="items">
-        @foreach($colors as $color)
-            <div class="color-cell" data-color="{{ $color }}" id="qweqwe"
-                 style="@include('front::_partials.my_gradient', ['color' => $color])">
+        <?php foreach($colors as $color): ?>
+            <div class="color-cell" data-color="<?php echo e($color); ?>" id="qweqwe"
+                 style="<?php echo $__env->make('front::_partials.my_gradient', ['color' => $color], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>">
                 <a href="#" class="remove-btn"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a><br>
 
                 <a href="#" class="add-btn"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
 
-                <input type="hidden" id="hidden-input" class="minicolors" value="{{ $color }}">
+                <input type="hidden" id="hidden-input" class="minicolors" value="<?php echo e($color); ?>">
 
             </div>
-        @endforeach
+        <?php endforeach; ?>
     </div>
 
 
@@ -109,7 +109,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
     </form>
 </div>
 
-@section('scripts_bottom')
+<?php $__env->startSection('scripts_bottom'); ?>
     @parent
     <script type="text/javascript">
 
@@ -202,4 +202,4 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
         }
 
     </script>
-@stop
+<?php $__env->stopSection(); ?>

@@ -302,6 +302,7 @@ if (moduleLower) {
             config.bowerDir + 'video.js/dist/video-js/video-js.min.css',
             config.assetsDir + 'css/ihover.css',
             config.assetsDir + 'css/multi-columns-row.css',
+            config.bowerDir + 'jquery-minicolors/jquery.minicolors.css',
 
         ]
 
@@ -322,6 +323,9 @@ if (moduleLower) {
             config.assetsDir + 'js/jQuery.scrollSpeed.js',
             config.bowerDir + 'jQuery-Flex-Vertical-Center/jquery.flexverticalcenter.js',
             config.bowerDir + 'jquery.easing/js/jquery.easing.min.js',
+            config.bowerDir + 'Sortable/Sortable.min.js',
+            config.bowerDir + 'Sortable/jquery.binding.js',
+            config.bowerDir + 'jquery-minicolors/jquery.minicolors.min.js',
         ];
 
         if (production) scriptsArray.push(config.assetsDir + 'js/added.js');
@@ -348,6 +352,16 @@ if (moduleLower) {
                 config.bowerDir + 'video.js/dist/video-js/video-js.swf',
             ],
             [config.baseOutput + 'js/']
+        );
+
+        gulpCopy(
+            [config.bowerDir + 'bootstrap/fonts/**/*'],
+            [config.baseOutput + 'fonts/']
+        );
+
+        gulpCopy(
+            [config.bowerDir + 'jquery-minicolors/jquery.minicolors.png'],
+            [config.baseOutput + 'css/']
         );
     }
 

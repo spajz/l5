@@ -1,6 +1,7 @@
 html {
     height: 100%;
 }
+
 body {
     padding-top: 100px;
     height: 100%;
@@ -312,29 +313,73 @@ h1, h2, h3, .h1, .h2, .h3 {
 }
 
 /*** FCB pattern ***/
-.fcb-pattern {
+.fcb-pattern-wrap {
     width: 100%;
     position: relative;
     height: 30px;
 }
 
-.pattern-btn {
+.fcb-pattern {
+    width: 100%;
     position: relative;
+    height: 30px;
+    display: table;
+}
+
+.pattern-btn {
+    position: absolute;
     float: right;
-    top: -27px;
     right: 5px;
-    opacity: 0.9;
+    top: 2px;
+    z-index: 9999999;
 }
 
-.lsquare {
+.color-cell {
     height: 100%;
-    width: auto;
-    /*float: left;*/
-    display: inline-block;
+    display: table-cell;
 }
 
-.lsquare:after {
-    /*clear: both;*/
+/*** My pattern ***/
+.my-pattern-wrap {
+    width: 100%;
+    height: auto;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    z-index: 9999;
+}
+
+.my-pattern {
+    width: 100%;
+    position: relative;
+    height: 100%;
+    display: table;
+}
+
+.my-pattern .color-cell {
+    text-align: center;
+}
+
+.colors-form {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.minicolors-theme-default.minicolors {
+    width: 100%;
+    border-bottom: 1px dashed #000;
+    border-top: 1px dashed #000;
+}
+
+.minicolors-swatch {
+    opacity: 0;
+}
+
+.minicolors-theme-default .minicolors-swatch {
+    width: auto !important;
 }
 
 /*XS*/
