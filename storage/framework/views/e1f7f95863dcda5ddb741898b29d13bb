@@ -21,14 +21,31 @@
                 <li><a href="<?php echo e(route('work.index')); ?>">Our work</a></li>
                 <li><a href="<?php echo e(route('client.index')); ?>">Clients</a></li>
                 <li><a href="<?php echo e(route('contact')); ?>">Contact</a></li>
+
+                <li class="lang-but-wrap">
+                    <?php if($countItems = count(config('front.languages'))): ?>
+                        <?php foreach(config('front.languages') as $code => $language): ?>
+                            <a
+                                <?php if(app()->getLocale() == $code): ?>
+                                    class="active"
+                                <?php endif; ?>
+                                href="<?php echo e(LaravelLocalization::getLocalizedURL($code)); ?>"
+                            ><?php echo e($code); ?></a>
+                            <?php
+                                $countItems--;
+                                if($countItems>0) echo '/';
+
+                            ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </li>
                 <?php /*
                 <li>
                     <a href="#" class="h0 border0">
                         <img src="{{ asset($assetsDirFront . '/images/social-but.png') }}" class="social-but">
                     </a>
                 </li>
-
- */ ?>
+                */ ?>
             </ul>
         </div>
         <!--/.nav-collapse -->
