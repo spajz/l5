@@ -45,7 +45,7 @@ class Work extends BaseModel implements SluggableInterface
 
     public function contentable()
     {
-        return $this->morphMany('App\Models\ModelContent', 'model')
+        return $this->morphMany('App\Models\Content', 'model')
             ->orderBy('order')
             ->orderBy('id', 'desc');
     }

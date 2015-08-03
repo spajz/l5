@@ -2,7 +2,7 @@
 
 use App\BaseModel;
 
-class ModelContent extends BaseModel
+class Content extends BaseModel
 {
 
     protected $attributes = array(
@@ -23,7 +23,7 @@ class ModelContent extends BaseModel
 
     public function values()
     {
-        return $this->hasMany('App\Models\ModelContentValue', 'model_content_id');
+        return $this->hasMany('App\Models\ContentValue', 'content_id');
     }
 
     public static function boot()
@@ -34,9 +34,7 @@ class ModelContent extends BaseModel
             foreach ($model->values as $value) {
                 $value->delete();
             }
-        });
 
-        static::deleted(function ($model) {
             foreach ($model->images as $image) {
                 $image->delete();
             }

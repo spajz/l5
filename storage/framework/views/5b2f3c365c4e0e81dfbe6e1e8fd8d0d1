@@ -1,0 +1,85 @@
+<?php if(isset($item)): ?>
+
+    <?php echo Former::hidden('order')->name("order[{$item->id}]")->addClass('order-id')->value($item->order); ?>
+
+
+    <?php echo Former::hidden('id')->name("id[{$item->id}]")->value($item->id); ?>
+
+
+    <?php echo Former::hidden('encoded')->name("encoded[{$item->id}]")->value(1); ?>
+
+
+    <?php echo Former::hidden('type')->name("type[{$item->id}]")->value($item->type); ?>
+
+
+    <?php echo Former::text('title')->name("title[{$item->id}]")->label('Title')->value($item->title); ?>
+
+
+    <?php echo Former::select('sub_type')->name("sub_type[{$item->id}]")->options(['left' => 'Left', 'right' => 'Right'], $item->sub_type)->label('Position'); ?>
+
+
+    <?php echo Former::textarea('content')->name("content[{$item->id}][0]")->label('Content')->value(isset($item->content[0]) ? $item->content[0] : ''); ?>
+
+
+
+    <?php $uniqid_01 = uniqid() ?>
+
+    <?php echo Former::text('content')
+    ->name("content[{$item->id}][1]")
+    ->label('Clip')
+    ->value(isset($item->content[1]) ? $item->content[1] : '')
+    ->id($uniqid_01)->onclick('openCustomRoxy2(\'' . $uniqid_01 . '_frame\')')
+    ->placholder('Click here to select a file.')
+    ->help('<a href="#'. $uniqid_01 . '_clip" class="fancybox">Preview video</a>'); ?>
+
+
+    <div id="<?php echo e($uniqid_01); ?>_clip" style="display: none">
+        <?php echo $__env->make("admin::_partials.videojs_template", ['videoSrc' => asset($item->content[1])], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    </div>
+
+    <div id="<?php echo e($uniqid_01); ?>_frame" style="display: none;">
+        <iframe src="<?php echo e(url('/')); ?>/assets/admin/fileman/index.html?integration=custom&type=files&txtFieldId=<?php echo e($uniqid_01); ?>" style="width:100%;height:100%" frameborder="0">
+        </iframe>
+    </div>
+
+<?php else: ?>
+
+    <?php echo Former::hidden('order')->name("order_new[{$uniqid}]")->addClass('order-id'); ?>
+
+
+    <?php echo Former::hidden('id')->name("id_new[{$uniqid}]"); ?>
+
+
+    <?php echo Former::hidden('encoded')->name("encoded_new[{$uniqid}]")->value(1); ?>
+
+
+    <?php echo Former::hidden('type')->name("type_new[{$uniqid}]")->value('video'); ?>
+
+
+    <?php echo Former::text('title')->name("title_new[{$uniqid}]")->label('Title'); ?>
+
+
+    <?php echo Former::select('sub_type')->name("sub_type_new[{$uniqid}]")->options(['left' => 'Left', 'right' => 'Right'])->label('Position'); ?>
+
+
+    <?php echo Former::textarea('content')->name("content_new[{$uniqid}][0]")->label('Content'); ?>
+
+
+
+    <?php $uniqid_01 = uniqid() ?>
+
+    <?php echo Former::text('content')
+    ->name("content_new[{$uniqid}][1]")
+    ->label('Clip 1')
+    ->id($uniqid_01)->onclick('openCustomRoxy2(\'' . $uniqid_01 . '_frame\')')
+    ->placholder('Click here to select a file.'); ?>
+
+
+
+    <div id="<?php echo e($uniqid_01); ?>_frame" style="display: none;">
+        <iframe src="<?php echo e(url('/')); ?>/assets/admin/fileman/index.html?integration=custom&type=files&txtFieldId=<?php echo e($uniqid_01); ?>" style="width:100%;height:100%" frameborder="0">
+        </iframe>
+    </div>
+
+
+<?php endif; ?>

@@ -2,7 +2,7 @@
 
 use App\BaseModel;
 
-class ModelContentValue extends BaseModel
+class ContentValue extends BaseModel
 {
     public $timestamps = false;
 
@@ -11,15 +11,16 @@ class ModelContentValue extends BaseModel
     );
 
     protected $fillable = array(
-        'model_content_id',
+        'content_id',
         'value',
         'value_type',
+        'value_sub_type',
         'order',
     );
 
     public function content()
     {
-        return $this->belongsTo('App\Models\ModelContentValue', 'model_content_id');
+        return $this->belongsTo('App\Models\ContentValue', 'content_id');
     }
 
     public function scopeOfType($query, $type)

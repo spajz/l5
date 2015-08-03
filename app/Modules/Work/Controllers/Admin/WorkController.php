@@ -9,8 +9,8 @@ use DatatablesFront;
 use Former;
 use Input;
 use Illuminate\Http\Request as HttpRequest;
-use App\Models\ModelContent;
-use App\Models\ModelContentValue;
+use App\Models\Content;
+use App\Models\ContentValue;
 
 class WorkController extends AdminController
 {
@@ -197,6 +197,7 @@ class WorkController extends AdminController
             'gallery' => 'Gallery',
             'video_duo' => 'Video duo',
             'video' => 'Video',
+            'multi_video' => 'Multi video',
         ];
 
         asort($elements);
@@ -290,8 +291,8 @@ class WorkController extends AdminController
         $suffix = '_new';
         $prefix = 'val_';
 
-        $fillableContent = new ModelContent;
-        $fillableContentValues = new ModelContentValue;
+        $fillableContent = new Content;
+        $fillableContentValues = new ContentValue;
         $fillableContent = $fillableContent->getFillable();
         $fillableContentValues = $fillableContentValues->getFillable();
 
@@ -308,7 +309,7 @@ class WorkController extends AdminController
 
             foreach ($ids as $k => $contentId) {
 
-                $modelContent = ModelContent::find($k);
+                $modelContent = Content::find($k);
 
                 if ($modelContent) {
 
@@ -350,7 +351,7 @@ class WorkController extends AdminController
 
                         foreach ($array as $k1 => $value) {
 
-                            $modelContentValue = ModelContentValue::find($k1);
+                            $modelContentValue = ContentValue::find($k1);
 
                             if ($modelContentValue) {
 
@@ -382,7 +383,7 @@ class WorkController extends AdminController
                 $attributesValues = [];
                 $attributesContent = [];
 
-                $modelContent = new ModelContent;
+                $modelContent = new Content;
 
                 $modelContent->model_id = $id;
                 $modelContent->model_type = get_class($item);
@@ -413,7 +414,7 @@ class WorkController extends AdminController
                         }
 
                         if ($attributesValuesTmp)
-                            $attributesValues[] = new ModelContentValue($attributesValuesTmp);
+                            $attributesValues[] = new ContentValue($attributesValuesTmp);
                     }
                 }
 
@@ -452,6 +453,182 @@ class WorkController extends AdminController
         return $this->redirect($item);
     }
 
+    public function updateItemContent2($id)
+    {
+        $model = $this->modelName;
+        $item = $model::find($id);
+
+        if (!$item) {
+            msg('The requested item does not exist or has been deleted.', 'danger');
+            return redirect()->back();
+        }
+
+        $suffix = '_new';
+        $prefix = 'val_';
+
+        $fillableContent = new Content;
+        $fillableContentValues = new ContentValue;
+        $fillableContent = $fillableContent->getFillable();
+        $fillableContentValues = $fillableContentValues->getFillable();
+
+        $ids = Input::get('id');
+        $idsNew = Input::get('id_new');
+
+        $attributesContent = [
+            'model_type' => Input::get('model_type'),
+            'lang' => Input::get('lang')
+        ];
+
+        // Loop through existing ids and update
+        if ($ids && $fillableContent) {
+
+            foreach ($ids as $k => $contentId) {
+
+                $modelContent = Content::find($k);
+
+                if ($modelContent) {
+
+                    $attributesContent = [];
+
+                    foreach ($fillableContent as $column) {
+
+                        if (is_array(Input::get($column . '.' . $k, null))) {
+                            $attributesContent[$column] = json_encode(Input::get($column . '.' . $k));
+                        } elseif (!is_null(Input::get($column . '.' . $k, null))) {
+                            $attributesContent[$column] = Input::get($column . '.' . $k);
+                        }
+                    }
+
+                    // Update content
+                    $modelContent->fill($attributesContent);
+                    $modelContent->save();
+
+                    // New images
+                    if (Input::file($k . '_files_new')) {
+                        $imageApi = new ImageApi;
+                        $imageApi->setConfig($this->contentImageConfig(isset($attributesContent['type']) ? $attributesContent['type'] : ''));
+                        $imageApi->setInputFields('files_new', $k . '_files_new');
+                        $imageApi->setInputFields('alt_new', $k . '_alt_new');
+                        $imageApi->setModelId($modelContent->id);
+                        $imageApi->setModelType(get_class($modelContent));
+                        $imageApi->setBaseName("{$this->moduleLower}_{$attributesContent['type']}");
+                        $imageApi->setStatus(1);
+
+                        if (!$imageApi->process()) {
+                            msg($imageApi->getErrorsAll(), 'danger');
+                        }
+                    }
+
+                    // Update content values. Check id fields
+                    $array = Input::get($prefix . 'id' . '.' . $k, null);
+
+                    if (!is_null($array)) {
+
+                        foreach ($array as $k1 => $value) {
+
+                            $modelContentValue = ContentValue::find($k1);
+
+                            if ($modelContentValue) {
+
+                                $attributesValuesTmp = [];
+
+                                foreach ($fillableContentValues as $column) {
+
+                                    // Do not update some columns
+                                    if (in_array($column, ['model_content_id', 'order'])) continue;
+
+                                    $input = $prefix . $column . '.' . $k;
+
+                                    $attributesValuesTmp[$column] = Input::get($input . '.' . $k1);
+                                }
+
+                                if ($attributesValuesTmp)
+                                    $modelContentValue->update($attributesValuesTmp);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($idsNew && $fillableContent) {
+
+            foreach ($idsNew as $k => $null) {
+
+                $attributesValues = [];
+                $attributesContent = [];
+
+                $modelContent = new Content;
+
+                $modelContent->model_id = $id;
+                $modelContent->model_type = get_class($item);
+
+                foreach ($fillableContent as $column) {
+
+                    if (is_array(Input::get($column . $suffix . '.' . $k, null))) {
+                        $attributesContent[$column] = json_encode(Input::get($column . $suffix . '.' . $k));
+                    } elseif (!is_null(Input::get($column . $suffix . '.' . $k, null))) {
+                        $attributesContent[$column] = Input::get($column . $suffix . '.' . $k);
+                    }
+                }
+
+                $array = Input::get($prefix . 'value' . $suffix . '.' . $k, null);
+
+                if (!is_null($array)) {
+
+                    $attributesValuesTmp = [];
+
+                    foreach ($array as $k1 => $value) {
+
+                        foreach ($fillableContentValues as $column) {
+
+                            $input = $prefix . $column . $suffix . '.' . $k . '.' . $k1;
+                            if (!is_null(Input::get($input, null))) {
+                                $attributesValuesTmp[$column] = Input::get($input);
+                            }
+                        }
+
+                        if ($attributesValuesTmp){
+                            $attributesValues[] = new ContentValue($attributesValuesTmp);
+                        }
+
+                    }
+                }
+
+                $modelContent->fill($attributesContent);
+                $modelContent->save();
+
+                if ($attributesValues)
+                    $modelContent->values()->saveMany($attributesValues);
+
+                // Save images
+                if (Input::file($k . '_files_new')) {
+                    $imageApi = new ImageApi;
+                    $imageApi->setConfig($this->contentImageConfig(isset($attributesContent['type']) ? $attributesContent['type'] : ''));
+                    $imageApi->setInputFields('files_new', $k . '_files_new');
+                    $imageApi->setInputFields('alt_new', $k . '_alt_new');
+                    $imageApi->setModelId($modelContent->id);
+                    $imageApi->setModelType(get_class($modelContent));
+                    $imageApi->setBaseName("{$this->moduleLower}_{$attributesContent['type']}_{$modelContent->id}");
+                    $imageApi->setStatus(1);
+
+                    if (!$imageApi->process()) {
+                        msg($imageApi->getErrorsAll(), 'danger');
+                    }
+                }
+            }
+        }
+
+        // Update alt
+        if (Input::get('alt_update')) {
+            $imageApi = new ImageApi;
+            $imageApi->dbUpdate();
+        }
+
+        msg('The item successfully updated.');
+
+        return $this->redirect($item);
+    }
     /**
      * Reorder items.
      *
@@ -485,7 +662,7 @@ class WorkController extends AdminController
 
         asort($elements);
 
-        $contents = ModelContent::where('model_type', $this->modelName)
+        $contents = Content::where('model_type', $this->modelName)
             ->where('lang', $lang)
             ->where('model_id', 0)
             ->orderBy('order')
@@ -508,8 +685,8 @@ class WorkController extends AdminController
         $suffix = '_new';
         $prefix = 'val_';
 
-        $fillableContent = new ModelContent;
-        $fillableContentValues = new ModelContentValue;
+        $fillableContent = new Content;
+        $fillableContentValues = new ContentValue;
         $fillableContent = $fillableContent->getFillable();
         $fillableContentValues = $fillableContentValues->getFillable();
 
@@ -526,7 +703,7 @@ class WorkController extends AdminController
 
             foreach ($ids as $k => $id) {
 
-                $modelContent = ModelContent::find($k);
+                $modelContent = Content::find($k);
 
                 if ($modelContent) {
 
@@ -561,7 +738,7 @@ class WorkController extends AdminController
 
                         foreach ($array as $k1 => $value) {
 
-                            $modelContentValue = ModelContentValue::find($k1);
+                            $modelContentValue = ContentValue::find($k1);
 
                             if ($modelContentValue) {
 
@@ -593,7 +770,7 @@ class WorkController extends AdminController
 
                 $attributesValues = [];
 
-                $modelContent = new ModelContent;
+                $modelContent = new Content;
 
                 foreach ($fillableContent as $column) {
 
@@ -619,7 +796,7 @@ class WorkController extends AdminController
                         }
 
                         if ($attributesValuesTmp)
-                            $attributesValues[] = new ModelContentValue($attributesValuesTmp);
+                            $attributesValues[] = new ContentValue($attributesValuesTmp);
                     }
                 }
 

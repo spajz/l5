@@ -7,7 +7,7 @@ use DatatablesFront;
 use Notification;
 use Redirect;
 use DB;
-use App\Models\ModelContent;
+use App\Models\Content;
 use Session;
 
 class AdminController extends BaseController
@@ -306,7 +306,7 @@ class AdminController extends BaseController
     {
         $success = false;
         if (is_numeric($id)) {
-            $model = ModelContent::find($id);
+            $model = Content::find($id);
             if ($model) {
                 $success = true;
                 $model->delete();

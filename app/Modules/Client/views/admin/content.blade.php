@@ -47,7 +47,7 @@
             ->method('post')
             ->id('module-content-form')
             ->addClass('content-sortable')
-            ->data_model('\App\Models\ModelContent')
+            ->data_model('\App\Models\Content')
         !!}
             {!! Former::hidden('model_type')->value($modelName) !!}
 

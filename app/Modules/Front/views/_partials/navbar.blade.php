@@ -21,14 +21,31 @@
                 <li><a href="{{ route('work.index') }}">Our work</a></li>
                 <li><a href="{{ route('client.index') }}">Clients</a></li>
                 <li><a href="{{ route('contact') }}">Contact</a></li>
+
+                <li class="lang-but-wrap">
+                    @if($countItems = count(config('front.languages')))
+                        @foreach(config('front.languages') as $code => $language)
+                            <a
+                                @if(app()->getLocale() == $code)
+                                    class="active"
+                                @endif
+                                href="{{LaravelLocalization::getLocalizedURL($code) }}"
+                            >{{ $code }}</a>
+                            <?php
+                                $countItems--;
+                                if($countItems>0) echo '/';
+
+                            ?>
+                        @endforeach
+                    @endif
+                </li>
                 <?php /*
                 <li>
                     <a href="#" class="h0 border0">
                         <img src="{{ asset($assetsDirFront . '/images/social-but.png') }}" class="social-but">
                     </a>
                 </li>
-
- */ ?>
+                */ ?>
             </ul>
         </div>
         <!--/.nav-collapse -->

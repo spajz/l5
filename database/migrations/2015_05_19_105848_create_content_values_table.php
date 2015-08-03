@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateModelContentValuesTable extends Migration {
+class CreateContentValuesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,11 +12,12 @@ class CreateModelContentValuesTable extends Migration {
 	 */
 	public function up()
 	{
-        Schema::create('model_content_values', function(Blueprint $table)
+        Schema::create('content_values', function(Blueprint $table)
         {
             $table->increments('id');
-            $table->integer('model_content_id');
+            $table->integer('content_id');
             $table->string('value_type')->nullable();
+            $table->string('value_sub_type')->nullable();
             $table->text('value')->nullable();
             $table->integer('order')->default(0);
         });
@@ -29,7 +30,7 @@ class CreateModelContentValuesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('model_content_values');
+		Schema::drop('content_values');
 	}
 
 }

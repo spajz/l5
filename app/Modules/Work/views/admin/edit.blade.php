@@ -100,11 +100,11 @@
         </div>
 
         {!!
-        Former::open_for_files()->route("admin.{$moduleLower}.item.content.update", $item->id)
+        Former::open_for_files()->route("admin.{$moduleLower}.item.content.update2", $item->id)
         ->method('put')
         ->id('module-content-form')
         ->addClass('content-sortable')
-        ->data_model('\App\Models\ModelContent')
+        ->data_model('\App\Models\Content')
         ->data_pjax()
         !!}
         {!! Former::hidden('model_type')->value($modelName) !!}

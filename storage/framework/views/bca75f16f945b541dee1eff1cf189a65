@@ -1,0 +1,5 @@
+<?php if(isset($item->id)): ?>
+<a href="<?php echo e(route('admin.' . $moduleLower . '.destroy', [$item->id, 'redirect' => 'index'])); ?>" class="btn btn-danger" data-bb="confirm">
+    Delete
+</a>
+<?php endif; ?>

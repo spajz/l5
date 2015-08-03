@@ -1,0 +1,53 @@
+<!-- Fixed navbar -->
+<a id="top"></a>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container" id="top">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="<?php echo e(route('home')); ?>">
+                <img src="<?php echo e(asset($assetsDirFront . '/images/fcb-afirma-logo.png')); ?>" alt="FCB Afirma">
+            </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="<?php echo e(route('home')); ?>">Home</a></li>
+                <li><a href="#">Who we are</a></li>
+                <li><a href="<?php echo e(route('work.index')); ?>">Our work</a></li>
+                <li><a href="<?php echo e(route('client.index')); ?>">Clients</a></li>
+                <li><a href="<?php echo e(route('contact')); ?>">Contact</a></li>
+
+                <li class="lang-but-wrap">
+                    <?php if($countItems = count(config('front.languages'))): ?>
+                        <?php foreach(config('front.languages') as $code => $language): ?>
+                            <a
+                                <?php if(app()->getLocale() == $code): ?>
+                                    class="active"
+                                <?php endif; ?>
+                                href="<?php echo e(LaravelLocalization::getLocalizedURL($code)); ?>"
+                            ><?php echo e($code); ?></a>
+                            <?php
+                                $countItems--;
+                                if($countItems>0) echo '/';
+
+                            ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </li>
+                <?php /*
+                <li>
+                    <a href="#" class="h0 border0">
+                        <img src="{{ asset($assetsDirFront . '/images/social-but.png') }}" class="social-but">
+                    </a>
+                </li>
+                */ ?>
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</nav>

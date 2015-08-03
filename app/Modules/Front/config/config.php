@@ -10,9 +10,8 @@ return [
     'language' => 'sr',
 
     'languages' => [
-        'sr',
-        'en',
-        'de',
+        'sr' => 'srpski',
+        'en' => 'english',
     ],
 
     'module' => [

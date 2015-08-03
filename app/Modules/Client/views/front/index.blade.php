@@ -27,14 +27,14 @@
                         @foreach($clients as $client)
                             @if($imageUrl = image_url($client, $config))
                                 <div class="col-xs-12 col-ms-6 col-sm-4 col-md-4 col-lg-3">
-                                    <div class="ih-item square colored effect6 {{ $hoverEffects[array_rand($hoverEffects)] }}">
+                                    <div class="ih-item square colored effect6 from_top_and_bottom">
                                         <a href="#" class="no-click" title="{{ $client->title }}">
                                             <div class="img">
                                                 <img src="{{ asset($imageUrl) }}" alt="{{ $client->title }}" class="img-responsive">
                                             </div>
-                                            <div class="info" style="background-color: rgba({{ implode(',', hex2rgb($client->group->color)) }}, 0.8);">
-                                                <h3 style="background-color: rgba({{ implode(',', hex2rgb($client->group->color)) }}, 0.9);">{{ $client->title }}</h3>
-                                                <p>{{ $client->group->title }}</p>
+                                            <div class="info" style="@include('front::_partials.fcb_gradient', ['color' => $client->group->color])">
+                                                <h3 style="color: {{ $client->group->text_color }}">{{ $client->title }}</h3>
+                                                <p style="color: {{ $client->group->text_color }}">{{ $client->group->title }}</p>
                                             </div>
                                         </a>
                                     </div>

@@ -1,0 +1,92 @@
+<?php $__env->startSection('content'); ?>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="page-header">
+                <i class="fa <?php echo e(modules()[$mainModuleLower]['icon']); ?> fa-fw"></i> <?php echo e(isset($moduleTitle) ? $moduleTitle : $moduleUpper); ?>
+
+                Create
+            </h1>
+        </div>
+    </div>
+
+    <div id="pjax-container">
+
+        <div id="info-box"><?php echo Notification::showAll(); ?></div>
+
+        <?php echo Former::open_for_files()->route("admin.{$moduleLower}.store")->method('post')->rules($validationRules); ?>
+
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Basic Information
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+
+                                <?php echo Former::hidden('id'); ?>
+
+
+                                <?php echo Former::text('title'); ?>
+
+
+                                <?php echo Former::text('slug'); ?>
+
+
+                                <div class="form-group required color-picker-input">
+                                    <label for="color" class="control-label col-lg-2 col-sm-4">Color</label>
+                                    <div class="col-lg-10 col-sm-8">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i></i></span>
+                                            <?php echo Former::text('color')->raw(); ?>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group required color-picker-input">
+                                    <label for="color" class="control-label col-lg-2 col-sm-4">Text color</label>
+                                    <div class="col-lg-10 col-sm-8">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i></i></span>
+                                            <?php echo Former::text('text_color')->raw(); ?>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <?php echo Former::hidden('featured')->forceValue(0); ?>
+
+                                <?php echo Former::checkbox('featured')->value(1); ?>
+
+
+                                <?php echo Former::hidden('status')->forceValue(0); ?>
+
+                                <?php echo Former::checkbox('status')->value(1); ?>
+
+
+                                <?php echo isset($formButtons) ? $formButtons : ''; ?>
+
+
+                            </div>
+                            <!-- /.col-xs-12 -->
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-xs-12 -->
+        </div>
+
+        <?php echo Former::close(); ?>
+
+
+    </div>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make($layout, array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

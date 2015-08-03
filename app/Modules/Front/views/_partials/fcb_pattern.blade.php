@@ -71,9 +71,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
             <div class="color-cell" style="@include('front::_partials.fcb_gradient', ['color' => $color])">&nbsp;</div>
         @endforeach
     </div>
+    <?php /*
     <button type="button" class="btn drpiga-btn btn-xs pattern-btn">Nemoj da klikneš ovde!</button>
+    */ ?>
 </div>
-<div class="my-pattern-wrap">
+<div class="my-pattern-wrap" style="display: none">
     <div class="my-pattern sortable" id="items">
         @foreach($colors as $color)
             <div class="color-cell" data-color="{{ $color }}" id="qweqwe"
@@ -122,7 +124,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
             console.log(rgb1);
             console.log(rgb2);
             console.log(color2);
-
 
             elem.css("background-image", "rgba(" + rgb1 + ",1)");
             elem.css("background-image", " -moz-linear-gradient(top, rgba(" + rgb1 + ",0.9) 0%, rgba(" + rgb2 + ",1) 50%)");

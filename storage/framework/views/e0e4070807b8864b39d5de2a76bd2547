@@ -1,0 +1,11 @@
+<?php if($languages): ?>
+    <?php foreach($languages as $lang): ?>
+        <?php if($item->lang == (isset($transRelated[$lang]) ? $lang : false)): ?>
+            <a href="<?php echo e(route("admin.{$moduleLower}.edit", $item->id)); ?>" class="btn btn-default <?php echo e(isset($buttonSize) ? $buttonSize : ''); ?>"><?php echo e($lang); ?></a>
+        <?php elseif(isset($transRelated[$lang])): ?>
+            <a href="<?php echo e(route("admin.{$moduleLower}.edit", $transRelated[$lang]->id)); ?>" class="btn btn-success <?php echo e(isset($buttonSize) ? $buttonSize : ''); ?>"><?php echo e($lang); ?></a>
+        <?php else: ?>
+            <a href="<?php echo e(route("admin.{$moduleLower}.create", [$item->id, $lang])); ?>" class="btn btn-danger <?php echo e(isset($buttonSize) ? $buttonSize : ''); ?>"><?php echo e($lang); ?></a>
+        <?php endif; ?>
+    <?php endforeach; ?>
+<?php endif; ?>
