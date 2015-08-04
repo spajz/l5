@@ -9,6 +9,7 @@
 
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="csrf-token" content="{{{ session()->token() }}}">
 
     @if (app()->environment() != 'test')
         <link rel="stylesheet" href="{{ elixir3($assetsDirFront . '/css/app.css', $buildPath) }}" />
@@ -31,6 +32,7 @@
 </head>
 
 <body class="{{ $bodyClass or '' }}">
+<div id="loader"></div>
 @yield('content')
 
 @if(app()->environment() != 'test')
