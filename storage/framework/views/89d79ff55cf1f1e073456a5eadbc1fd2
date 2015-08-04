@@ -135,7 +135,7 @@
 
                 <?php foreach($contents as $item): ?>
 
-                    <?php echo $__env->make("admin::_partials.model_content.template", ['item' => $item, 'type' => $item->type], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                    <?php echo $__env->make("admin::_partials.content.template", ['item' => $item, 'type' => $item->type], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
                 <?php endforeach; ?>
 

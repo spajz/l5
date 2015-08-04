@@ -204,6 +204,14 @@ class WorkController extends AdminController
 
         $contents = $item->contentable;
 
+        $contentValues = [
+            'video_left' => ['mp4', 'wma', 'ogg'],
+            'video_right' => ['mp4', 'ogg', 'wma'],
+        ];
+
+        $contentValuesColumns = array_content_values_sort($contentValues);
+        view()->share('contentValuesColumns', $contentValuesColumns);
+
         return view("{$this->moduleLower}::admin.edit",
             compact(
                 'item',
@@ -360,7 +368,7 @@ class WorkController extends AdminController
                                 foreach ($fillableContentValues as $column) {
 
                                     // Do not update some columns
-                                    if (in_array($column, ['model_content_id', 'order'])) continue;
+                                    if (in_array($column, ['content_id', 'order'])) continue;
 
                                     $input = $prefix . $column . '.' . $k;
 
@@ -535,15 +543,17 @@ class WorkController extends AdminController
                                 foreach ($fillableContentValues as $column) {
 
                                     // Do not update some columns
-                                    if (in_array($column, ['model_content_id', 'order'])) continue;
+                                    if (in_array($column, ['content_id', 'order'])) continue;
 
                                     $input = $prefix . $column . '.' . $k;
 
                                     $attributesValuesTmp[$column] = Input::get($input . '.' . $k1);
                                 }
 
-                                if ($attributesValuesTmp)
-                                    $modelContentValue->update($attributesValuesTmp);
+                                if ($attributesValuesTmp){
+                                    $modelContentValue->fill($attributesValuesTmp);
+                                    $modelContentValue->save();
+                                }
                             }
                         }
                     }
@@ -588,10 +598,9 @@ class WorkController extends AdminController
                             }
                         }
 
-                        if ($attributesValuesTmp){
+                        if ($attributesValuesTmp) {
                             $attributesValues[] = new ContentValue($attributesValuesTmp);
                         }
-
                     }
                 }
 
@@ -629,6 +638,7 @@ class WorkController extends AdminController
 
         return $this->redirect($item);
     }
+
     /**
      * Reorder items.
      *
@@ -747,7 +757,7 @@ class WorkController extends AdminController
                                 foreach ($fillableContentValues as $column) {
 
                                     // Do not update some columns
-                                    if (in_array($column, ['model_content_id', 'order'])) continue;
+                                    if (in_array($column, ['content_id', 'order'])) continue;
 
                                     $input = $prefix . $column . '.' . $k;
 
@@ -828,8 +838,8 @@ class WorkController extends AdminController
 
     public function contentImageConfig($type = 'image')
     {
-        if (config("{$this->moduleLower}.model_content.element.{$type}.image")) {
-            return "{$this->moduleLower}.model_content.element.{$type}.image";
+        if (config("{$this->moduleLower}.content.element.{$type}.image")) {
+            return "{$this->moduleLower}.content.element.{$type}.image";
         }
         return "{$this->moduleLower}.image";
     }
@@ -838,10 +848,19 @@ class WorkController extends AdminController
     {
         $element = Input::get('element');
 
+        $uploadFileFields = [
+            'video_left' => ['mp4', 'wma', 'ogg'],
+            'video_right' => ['mp4', 'ogg', 'wma'],
+        ];
+
+        $uploadFileFields = array_content_values_sort($uploadFileFields);
+        view()->share('uploadFileFields', $uploadFileFields);
+
+
         $formButtons = $this->formButtons($this->formButtons);
         view()->share('formButtons', $formButtons);
 
-        return view("admin::_partials.model_content.template", ['type' => $element]);
+        return view("admin::_partials.content.template", ['type' => $element]);
     }
 
 }

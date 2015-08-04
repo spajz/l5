@@ -71,25 +71,31 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
             <div class="color-cell" style="<?php echo $__env->make('front::_partials.fcb_gradient', ['color' => $color], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>">&nbsp;</div>
         <?php endforeach; ?>
     </div>
+
     <?php /*
     <button type="button" class="btn drpiga-btn btn-xs pattern-btn">Nemoj da klikneš ovde!</button>
     */ ?>
 </div>
 <div class="my-pattern-wrap" style="display: none">
     <div class="my-pattern sortable" id="items">
+        <div class="color-cell cell-template" data-color="#ffffff"
+             style="<?php echo $__env->make('front::_partials.my_gradient', ['color' => '#ffffff'], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>">
+            <a href="#" class="remove-btn"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a><br>
+            <a href="#" class="add-btn"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a><br>
+            <a href="#" class="replace-btn"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></a>
+        </div>
         <?php foreach($colors as $color): ?>
-            <div class="color-cell" data-color="<?php echo e($color); ?>" id="qweqwe"
+            <div class="color-cell" data-color="<?php echo e($color); ?>"
                  style="<?php echo $__env->make('front::_partials.my_gradient', ['color' => $color], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>">
-                <a href="#" class="remove-btn"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a><br>
-
-                <a href="#" class="add-btn"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
-
-                <input type="hidden" id="hidden-input" class="minicolors" value="<?php echo e($color); ?>">
-
+                <a href="#" class="remove-btn"><span class="glyphicon glyphicon-remove"
+                                                     aria-hidden="true"></span></a><br>
+                <a href="#" class="add-btn"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a><br>
+                <a href="#" class="replace-btn"><span class="glyphicon glyphicon-repeat"
+                                                      aria-hidden="true"></span></a><br>
+                <input type="checkbox" class="color-selector">
             </div>
         <?php endforeach; ?>
     </div>
-
 
     <form class="colors-form">
         <div class="col-xs-12">
@@ -97,12 +103,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
                    placeholder="Ti sigurno nećeš da ne upišeš nešto.">
         </div>
         <div class="col-xs-6">
-            <select class="form-control">
+            <select class="form-control pattern-actions">
                 <option>Akcije su ovde...</option>
-                <option>Obrisi sve</option>
-                <option>Vrati FCB boje</option>
-                <option>Snimi i izadji</option>
-                <option>Podeli na Facebook, i videces i druge</option>
+                <option value="1">Obrisi sve</option>
+                <option value="2">Obrisi selektovane</option>
+                <option value="3">Vrati FCB boje</option>
+                <option value="4">Uradi prelaz izmedju 2 selektovane boje</option>
+                <option value="5">Snimi i izadji</option>
+                <option value="6">Podeli na Facebook, i videces i druge</option>
             </select>
         </div>
         <div class="col-xs-6">
@@ -118,12 +126,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
         function setGradient(color, elem) {
 
             var rgb1 = rgbToStr(hexToRgb(color));
-            var color2 = colorLuminance(color, -0.2);
+            var color2 = colorBrightness(color, -15);
             var rgb2 = rgbToStr(hexToRgb(color2));
-
-            console.log(rgb1);
-            console.log(rgb2);
-            console.log(color2);
 
             elem.css("background-image", "rgba(" + rgb1 + ",1)");
             elem.css("background-image", " -moz-linear-gradient(top, rgba(" + rgb1 + ",0.9) 0%, rgba(" + rgb2 + ",1) 50%)");
@@ -132,8 +136,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
             elem.css("background-image", "-o-linear-gradient(top, rgba(" + rgb1 + ",0.9) 0%, rgba(" + rgb2 + ",1) 50%)");
             elem.css("background-image", "-ms-linear-gradient(top, rgba(" + rgb1 + ",0.9) 0%, rgba(" + rgb2 + ",1) 50%)");
             elem.css("background-image", "linear-gradient(to bottom, rgba(" + rgb1 + ",0.9) 0%, rgba(" + rgb2 + ",1) 50%)");
-        }
 
+        }
 
         $(document).ready(function () {
             $('.pattern-btn').on('click', function () {
@@ -150,38 +154,45 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 
             $('.sortable').sortable({});
 
-            $('.minicolors').minicolors({
+            $('.replace-btn').minicolors({
                 change: function (hex) {
                     setGradient(hex, $(this).closest('.color-cell'));
+                    console.log(jsgradient.generateGradient('#07E3F2', '#155994', 10));
                 }
             });
 
             $('.add-btn').minicolors({
-
+                change: function (hex) {
+                    var cell = $(this).closest('.color-cell');
+                    var clone = $('.my-pattern .cell-template').first().clone();
+                    cell.after(clone);
+                    setGradient(hex, clone);
+                }
             })
 
+            $('.pattern-actions').on('change', function () {
+                if ($(this).val() == 4) {
+                    var colors = [];
+                    var indexes = [];
+                    $('.color-selector').each(function (index) {
+                        if (this.checked) {
+                            colors.push($(this).closest('.color-cell').data('color'));
+                            indexes.push(index);
+                        }
+                    })
 
+                    var steps = indexes[1] - indexes[0];
+                    var gradient = jsgradient.generateGradient(colors[0], colors[1], steps - 1);
+                    var startIndex = indexes[0] + 1;
+                    var currentIndex = 0;
+
+                    $.each(gradient, function (index, value) {
+                        currentIndex = startIndex + index;
+                        setGradient(value, $('.color-selector:eq(' + currentIndex + ')').closest('.color-cell'));
+                    });
+                }
+            })
         })
-
-        function colorLuminance(hex, lum) {
-
-            // validate hex string
-            hex = String(hex).replace(/[^0-9a-f]/gi, '');
-            if (hex.length < 6) {
-                hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
-            }
-            lum = lum || 0;
-
-            // convert to decimal and change luminosity
-            var rgb = "#", c, i;
-            for (i = 0; i < 3; i++) {
-                c = parseInt(hex.substr(i * 2, 2), 16);
-                c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
-                rgb += ("00" + c).substr(c.length);
-            }
-
-            return rgb;
-        }
 
         function hexToRgb(hex) {
             // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
@@ -200,6 +211,33 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 
         function rgbToStr(obj) {
             return obj.r + ',' + obj.g + ',' + obj.b;
+        }
+
+        function colorBrightness(col, amt) {
+            var usePound = false;
+
+            if (col[0] == "#") {
+                col = col.slice(1);
+                usePound = true;
+            }
+
+            var num = parseInt(col, 16);
+            var r = (num >> 16) + amt;
+
+            if (r > 255) r = 255;
+            else if (r < 0) r = 0;
+
+            var b = ((num >> 8) & 0x00FF) + amt;
+
+            if (b > 255) b = 255;
+            else if (b < 0) b = 0;
+
+            var g = (num & 0x0000FF) + amt;
+
+            if (g > 255) g = 255;
+            else if (g < 0) g = 0;
+
+            return (usePound ? "#" : "") + String("000000" + (g | (b << 8) | (r << 16)).toString(16)).slice(-6);
         }
 
     </script>

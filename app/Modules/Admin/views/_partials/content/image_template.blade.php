@@ -1,5 +1,5 @@
 <?php
-$localConfigStr = "{$moduleLower}.model_content.element.{$contentType}";
+$localConfigStr = "{$moduleLower}.content.element.{$contentType}";
 $localConfig = config($localConfigStr, []);
 ?>
 <table

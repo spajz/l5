@@ -1,9 +1,11 @@
 <?php namespace App\Models;
 
 use App\BaseModel;
+use Dimsav\Translatable\Translatable;
 
 class Content extends BaseModel
 {
+    use Translatable;
 
     protected $attributes = array(
         'status' => 1,
@@ -21,9 +23,18 @@ class Content extends BaseModel
         'encoded',
     );
 
+    public $translatedAttributes = [
+        'title',
+        'content',
+    ];
+
     public function values()
     {
-        return $this->hasMany('App\Models\ContentValue', 'content_id');
+        return $this->hasMany('App\Models\ContentValue', 'content_id')
+            ->orderBy('content_id')
+            ->orderBy('order')
+            ->orderBy('value_type')
+            ->orderBy('value_sub_type');
     }
 
     public static function boot()
@@ -43,9 +54,9 @@ class Content extends BaseModel
 
     public function getContentAttribute($value)
     {
-        if ($this->attributes['encoded'] == 1) {
-            return json_decode($value, true);
-        }
+//        if ($this->attributes['encoded'] == 1) {
+//            return json_decode($value, true);
+//        }
         return $value;
     }
 

@@ -33,7 +33,7 @@
 
     @endif
 
-    @include("admin::_partials.model_content.image_template", compact('uniqid', 'item', 'uniqid', 'contentType'))
+    @include("admin::_partials.content.image_template", compact('uniqid', 'item', 'uniqid', 'contentType'))
 
 @else
 
@@ -56,6 +56,6 @@
     {!! Former::text('value')->name("val_value_new[{$uniqid}][]")->label('Value3')->value('3333') !!}
     {!! Former::hidden('value_type')->name("val_value_type_new[{$uniqid}][]")->value('neka vrednost33') !!}
 
-    @include("admin::_partials.model_content.image_template", compact('uniqid', 'contentType'))
+    @include("admin::_partials.content.image_template", compact('uniqid', 'contentType'))
 
 @endif

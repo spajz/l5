@@ -13,6 +13,14 @@ return [
     ],
 
     'element' => [
+        'video' => [
+            'video' => ['mp4', 'wma', 'ogg'],
+        ],
+
+        'video_duo' => [
+            'video_left' => ['mp4', 'wma', 'ogg'],
+            'video_right' => ['mp4', 'ogg', 'wma'],
+        ],
         'gallery' => [
             'image' => [
                 'path' => public_path() . '/media/images/', // main path with trailing slash

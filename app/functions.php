@@ -424,42 +424,53 @@ if (!function_exists('elixir2')) {
     if (!function_exists('color_brightness')) {
         function color_brightness($hex, $steps)
         {
-            // Steps should be between -255 and 255. Negative = darker, positive = lighter
-            $steps = max(-255, min(255, $steps));
+            $str = str_replace('#', '', $hex);
 
-            // Normalize into a six character long hex string
-            $hex = str_replace('#', '', $hex);
-            if (strlen($hex) == 3) {
-                $hex = str_repeat(substr($hex, 0, 1), 2) . str_repeat(substr($hex, 1, 1), 2) . str_repeat(substr($hex, 2, 1), 2);
-            }
+            $rhex = substr($str, 0, 2);
+            $ghex = substr($str, 2, 2);
+            $bhex = substr($str, 4, 2);
 
-            // Split into three parts: R, G and B
-            $color_parts = str_split($hex, 2);
-            $return = '#';
+            $r = hexdec($rhex);
+            $g = hexdec($ghex);
+            $b = hexdec($bhex);
 
-            foreach ($color_parts as $color) {
-                $color = hexdec($color); // Convert to decimal
-                $color = max(0, min(255, $color + $steps)); // Adjust color
-                $return .= str_pad(dechex($color), 2, '0', STR_PAD_LEFT); // Make two char hex code
-            }
+            $r = dechex(max(0, min(255, $r + $steps)));
+            $g = dechex(max(0, min(255, $g + $steps)));
+            $b = dechex(max(0, min(255, $b + $steps)));
 
-            return $return;
+            $r = str_pad($r, 2, "0", STR_PAD_LEFT);
+            $g = str_pad($g, 2, "0", STR_PAD_LEFT);
+            $b = str_pad($b, 2, "0", STR_PAD_LEFT);
+
+            $cor = '#' . $r . $g . $b;
+
+            return $cor;
         }
     }
 
-    if (!function_exists('shade_color')) {
-        function shade_color($color, $percent)
+    if (!function_exists('array_content_values_sort')) {
+        function array_content_values_sort($array)
         {
-            $num = base_convert(substr($color, 1), 16, 10);
-            $amt = round(2.55 * $percent);
-            $r = ($num >> 16) + $amt;
-            $b = ($num >> 8 & 0x00ff) + $amt;
-            $g = ($num & 0x0000ff) + $amt;
-
-            return '#' . substr(base_convert(0x1000000 + ($r < 255 ? $r < 1 ? 0 : $r : 255) * 0x10000 + ($b < 255 ? $b < 1 ? 0 : $b : 255) * 0x100 + ($g < 255 ? $g < 1 ? 0 : $g : 255), 10, 16), 1);
+            if (is_multi($array)) {
+                ksort($array);
+                foreach ($array as &$value) {
+                    asort($value);
+                }
+                return $array;
+            } else {
+                $array = array_flip($array);
+                ksort($array);
+            }
+            return $array;
         }
     }
 
+    if (!function_exists('is_multi')) {
+        function is_multi($array)
+        {
+            return (count($array) != count($array, 1));
+        }
+    }
 
 }
 

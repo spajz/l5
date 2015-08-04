@@ -4,13 +4,17 @@
 
     {!! Former::hidden('id')->name("id[{$item->id}]")->value($item->id) !!}
 
-    {!! Former::hidden('encoded')->name("encoded[{$item->id}]")->value(1) !!}
-
     {!! Former::hidden('type')->name("type[{$item->id}]")->value($item->type) !!}
 
     {!! Former::text('title')->name("title[{$item->id}]")->label('Title')->value($item->title) !!}
 
-    {!! Former::text('content')->name("content[{$item->id}]")->label('Content')->value($item->content) !!}
+    {!! Former::textarea('content')->name("content[{$item->id}]")->label('Content')->value($item->content) !!}
+
+    @include('admin::_partials.content.values.upload_update',
+        [
+          'item' => $item
+        ]
+    )
 
 @else
 
@@ -18,12 +22,16 @@
 
     {!! Former::hidden('id')->name("id_new[{$uniqid}]") !!}
 
-    {!! Former::hidden('encoded')->name("encoded_new[{$uniqid}]")->value(1) !!}
-
-    {!! Former::hidden('type')->name("type_new[{$uniqid}]")->value('text') !!}
+    {!! Former::hidden('type')->name("type_new[{$uniqid}]")->value('video_duo') !!}
 
     {!! Former::text('title')->name("title_new[{$uniqid}]")->label('Title') !!}
 
-    {!! Former::text('content')->name("content_new[{$uniqid}]")->label('Content') !!}
+    {!! Former::textarea('content')->name("content_new[{$uniqid}]")->label('Content') !!}
+
+    @include('admin::_partials.content.values.upload_create',
+        [
+            'uploadFileFields' => $config['content']['element']['video_duo'],
+        ]
+    )
 
 @endif

@@ -1,19 +1,6 @@
-<?php foreach($contentValuesColumns as $k => $v): ?>
-    <?php
-    $uniqidElement = uniqid();
-    /*
-if(isset($labels[$i])){
-    $label = $labels[$i];
-} else {
-    $label = 'File ' . ($i + 1);
-}
+<?php foreach($uploadFileFields as $k => $v): ?>
 
-if(isset($elementSubType[$i])){
-    $subType = $elementSubType[$i];
-} else {
-    $subType = null;
-} */
-    ?>
+    <?php $uniqidElement = uniqid(); ?>
 
     <?php if(is_array($v)): ?>
         <?php foreach($v as $vv): ?>

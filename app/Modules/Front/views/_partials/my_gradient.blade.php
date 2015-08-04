@@ -1,7 +1,7 @@
 <?php
 $rgbArray = hex2rgb($color);
 /*$color2 = color_brightness($color, -50);*/
-$color2 = shade_color($color, -15);
+$color2 = color_brightness($color, -15);
 $rgbArray2 = hex2rgb($color2);
 $rgb1 = implode(',', $rgbArray);
 $rgb2 = implode(',', $rgbArray2);

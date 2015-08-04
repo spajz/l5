@@ -3,7 +3,7 @@
     <?php $uniqidElement = uniqid() ?>
     <?php echo Former::text('value')
     ->name("val_value[{$item->id}][{$value->id}]")
-    ->label('Label')
+    ->label($value->value_type . ' ' . $value->value_sub_type)
     ->id($uniqidElement)->onclick('openCustomRoxy2(\'' . $uniqidElement . '_frame\')')
     ->placholder('Click here to select a file.')
     ->value($value->value); ?>
@@ -19,13 +19,19 @@
     ->value($value->value_sub_type); ?>
 
 
-    <?php echo Former::hidden('value_sub_type')
+    <?php echo Former::hidden('value_id')
    ->name("val_id[{$item->id}][{$value->id}]")
    ->value($value->id); ?>
 
 
+    <?php echo Former::hidden('value_content_id')
+  ->name("val_content_id[{$item->id}][{$value->id}]")
+  ->value($value->content_id); ?>
+
+
     <div id="<?php echo e($uniqidElement); ?>_frame" style="display: none;">
-        <iframe src="<?php echo e(url('/')); ?>/assets/admin/fileman/index.html?integration=custom&type=files&txtFieldId=<?php echo e($uniqidElement); ?>" style="width:100%;height:100%" frameborder="0">
+        <iframe src="<?php echo e(url('/')); ?>/assets/admin/fileman/index.html?integration=custom&type=files&txtFieldId=<?php echo e($uniqidElement); ?>"
+                style="width:100%;height:100%" frameborder="0">
         </iframe>
     </div>
 

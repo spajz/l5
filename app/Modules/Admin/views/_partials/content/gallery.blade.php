@@ -15,7 +15,7 @@
     {!! Former::textarea('content')->name("content[{$item->id}]")->label('Content')->value($item->content) !!}
 
 
-    @include("admin::_partials.model_content.image_template", compact('uniqid', 'item', 'contentType'))
+    @include("admin::_partials.content.image_template", compact('uniqid', 'item', 'contentType'))
 
 @else
 
@@ -32,6 +32,6 @@
     {!! Former::textarea('content')->name("content_new[{$uniqid}]")->label('Content') !!}
 
 
-    @include("admin::_partials.model_content.image_template", compact('uniqid', 'contentType'))
+    @include("admin::_partials.content.image_template", compact('uniqid', 'contentType'))
 
 @endif

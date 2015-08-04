@@ -117,7 +117,7 @@
 
                 @foreach($contents as $item)
 
-                    @include("admin::_partials.model_content.template", ['item' => $item, 'type' => $item->type])
+                    @include("admin::_partials.content.template", ['item' => $item, 'type' => $item->type])
 
                 @endforeach
 
