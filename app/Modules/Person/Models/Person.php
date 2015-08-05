@@ -65,4 +65,18 @@ class Person extends BaseModel
         });
     }
 
+    public function scopeTranslated($query, $lang = null)
+    {
+        if (is_null($lang)) {
+            $lang = app()->getLocale();
+        }
+        $className = strtolower(class_basename(__CLASS__));
+        $joinTable = $className . '_translations';
+        $tableName = $className . 's';
+        return $query->join($joinTable, function ($join) use ($className, $tableName, $joinTable, $lang) {
+            $join->on($joinTable . '.' . $className . '_id', '=', $tableName . '.id');
+        });
+//            ->where($joinTable . '.locale', $lang);
+    }
+
 }

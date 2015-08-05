@@ -2,15 +2,17 @@
 
 use App\BaseModel;
 use App\Traits\ValidationTrait;
-use App\Traits\TransTrait;
-use Cviebrock\EloquentSluggable\SluggableInterface;
-use Cviebrock\EloquentSluggable\SluggableTrait;
+//use App\Traits\TransTrait;
+use Dimsav\Translatable\Translatable;
+//use Cviebrock\EloquentSluggable\SluggableInterface;
+//use Cviebrock\EloquentSluggable\SluggableTrait;
 
-class Work extends BaseModel implements SluggableInterface
+class Work extends BaseModel //implements SluggableInterface
 {
     use ValidationTrait;
-    use TransTrait;
-    use SluggableTrait;
+//    use TransTrait;
+    use Translatable;
+//    use SluggableTrait;
 
     protected $table = 'works';
 
@@ -22,17 +24,23 @@ class Work extends BaseModel implements SluggableInterface
         'slug',
         'intro',
         'description',
-        'lang',
-        'trans_id',
         'order',
         'featured',
         'status'
     );
 
-    protected $sluggable = [
-        'build_from' => 'full_title',
-        'save_to'    => 'slug',
+    public $translatedAttributes = [
+        'title',
+        'sub_title',
+        'slug',
+        'intro',
+        'description',
     ];
+
+//    protected $sluggable = [
+//        'build_from' => 'full_title',
+//        'save_to'    => 'slug',
+//    ];
 
     protected $useTransParentImages = false;
 
@@ -52,7 +60,8 @@ class Work extends BaseModel implements SluggableInterface
 
     public function getFullTitleAttribute()
     {
-        return $this->attributes['title'] . ' ' . $this->attributes['sub_title'];
+//        return $this->attributes['title'] . ' ' . $this->attributes['sub_title'];
+        return 'full name';
     }
 
     public static function boot()

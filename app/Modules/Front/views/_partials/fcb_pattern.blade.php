@@ -76,7 +76,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
     <button type="button" class="btn drpiga-btn btn-xs pattern-btn">Nemoj da klikneš ovde!</button>
     */ ?>
 </div>
-<div class="my-pattern-wrap">
+<div class="my-pattern-wrap" style="display: none;">
     <div class="my-pattern sortable" id="items">
         <div class="color-cell cell-template" data-color="#ffffff"
              style="@include('front::_partials.my_gradient', ['color' => '#ffffff']);">

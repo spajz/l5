@@ -10,9 +10,11 @@
         </div>
     </div>
 
+    <div id="pjax-container">
+
     <div class="row">
         <div class="col-xs-12">
-            <p>{!! $transButtons !!}</p>
+            <p>{!! $translateButtons or '' !!}</p>
         </div>
     </div>
 
@@ -20,8 +22,6 @@
         <li class="{{ Session::get('settings.tab') == '#basic' ? 'active' : '' }}"><a href="#basic"><i class="fa fa-bars fa-fw"></i>Basic</a></li>
         <li class="{{ Session::get('settings.tab') == '#content' ? 'active' : '' }}"><a href="#content"><i class="fa fa-folder-open-o fa-fw"></i> Content</a></li>
     </ul>
-
-    <div id="pjax-container">
 
     <div id="basic">
 
@@ -41,9 +41,7 @@
 
                                 {!! Former::hidden('id') !!}
 
-                                {!! Former::hidden('updated_at') !!}
-
-                                {!! Former::text('lang')->disabled() !!}
+                                {!! Former::text('lang')->disabled()->forceValue($lang) !!}
 
                                 {!! Former::text('title') !!}
 

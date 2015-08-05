@@ -36,27 +36,21 @@
                                 <?php echo Former::text('slug'); ?>
 
 
-                                <div class="form-group required color-picker-input">
-                                    <label for="color" class="control-label col-lg-2 col-sm-4">Color</label>
-                                    <div class="col-lg-10 col-sm-8">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i></i></span>
-                                            <?php echo Former::text('color')->raw(); ?>
+                                <?php echo $__env->make('admin::_partials.color_picker',
+                                   [
+                                       'fieldName' => 'color',
+                                       'label' => 'Color',
+                                       'required' => true,
+                                   ]
+                                , array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group required color-picker-input">
-                                    <label for="color" class="control-label col-lg-2 col-sm-4">Text color</label>
-                                    <div class="col-lg-10 col-sm-8">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i></i></span>
-                                            <?php echo Former::text('text_color')->raw(); ?>
-
-                                        </div>
-                                    </div>
-                                </div>
+                                <?php echo $__env->make('admin::_partials.color_picker',
+                                    [
+                                        'fieldName' => 'text_color',
+                                        'label' => 'Text color',
+                                        'required' => true,
+                                    ]
+                                , array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
                                 <?php echo Former::hidden('featured')->forceValue(0); ?>
 

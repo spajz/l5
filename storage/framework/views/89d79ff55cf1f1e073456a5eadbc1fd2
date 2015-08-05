@@ -8,9 +8,11 @@
         </div>
     </div>
 
+    <div id="pjax-container">
+
     <div class="row">
         <div class="col-xs-12">
-            <p><?php echo $transButtons; ?></p>
+            <p><?php echo isset($translateButtons) ? $translateButtons : ''; ?></p>
         </div>
     </div>
 
@@ -18,8 +20,6 @@
         <li class="<?php echo e(Session::get('settings.tab') == '#basic' ? 'active' : ''); ?>"><a href="#basic"><i class="fa fa-bars fa-fw"></i>Basic</a></li>
         <li class="<?php echo e(Session::get('settings.tab') == '#content' ? 'active' : ''); ?>"><a href="#content"><i class="fa fa-folder-open-o fa-fw"></i> Content</a></li>
     </ul>
-
-    <div id="pjax-container">
 
     <div id="basic">
 
@@ -41,10 +41,7 @@
                                 <?php echo Former::hidden('id'); ?>
 
 
-                                <?php echo Former::hidden('updated_at'); ?>
-
-
-                                <?php echo Former::text('lang')->disabled(); ?>
+                                <?php echo Former::text('lang')->disabled()->forceValue($lang); ?>
 
 
                                 <?php echo Former::text('title'); ?>

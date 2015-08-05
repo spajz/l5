@@ -14,11 +14,12 @@ use Html;
 class PersonController extends AdminController
 {
     protected $dtColumns = [
-        ['name' => 'id', 'className' => 'w40'],
+        ['name' => 'id', 'className' => 'w40', 'prefix' => 'persons'],
         ['name' => 'image', 'actionColumn' => true],
         ['name' => 'first_name', 'columnFilter' => 'text'],
         ['name' => 'last_name', 'columnFilter' => 'text'],
         ['name' => 'job_title'],
+        ['name' => 'description'],
         ['name' => 'order', 'className' => 'w40'],
         ['name' => 'translate', 'className' => 'w120 text-center', 'actionColumn' => true],
         ['name' => 'status', 'className' => 'w40 text-center'],
@@ -46,9 +47,13 @@ class PersonController extends AdminController
             view()->share('changeStatusDisabled', true);
         }
 
-        $columns = $dtFront->createSelectArray($this->dtColumns, ['translate', 'actions', 'image']);
+        $columns = $dtFront->createSelectArray($this->dtColumns, ['translate', 'actions', 'image', 'description']);
 
-        $query = $model::select($columns);
+        $query = $model::translated()->select($columns);
+
+
+//        $query = $model::with('images')->join('person_translations', 'clients.group_id', '=', 'client_groups.id')
+//            ->select($columns);
 
         return Datatables::of($query)
             ->addColumn('image', function ($data) use ($dtFront, $config) {

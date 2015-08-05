@@ -20,9 +20,6 @@ class WorkController extends AdminController
         ['name' => 'sub_title', 'columnFilter' => 'text'],
         ['name' => 'created_at'],
         ['name' => 'order', 'className' => 'w40'],
-        ['name' => 'lang', 'className' => 'w40', 'columnFilter' => 'select', 'tfClass' => 'filter-count'],
-        ['name' => 'trans_id', 'className' => 'w40', 'title' => 'Parent'],
-        ['name' => 'translate', 'className' => 'w120 text-center', 'actionColumn' => true],
         ['name' => 'featured', 'className' => 'w40 text-center'],
         ['name' => 'status', 'className' => 'w40 text-center'],
         ['name' => 'actions', 'className' => 'w120 text-center', 'actionColumn' => true],
@@ -54,9 +51,6 @@ class WorkController extends AdminController
             })
             ->addColumn('status', function ($data) use ($dtFront, $model) {
                 return $dtFront->renderStatusButtons($data, $model);
-            })
-            ->addColumn('translate', function ($data) use ($dtFront, $model) {
-                return $dtFront->renderTransButtons($data);
             })
             ->addColumn('actions', function ($data) use ($dtFront, $model) {
                 return $dtFront->renderActionButtons($data);
@@ -137,6 +131,7 @@ class WorkController extends AdminController
      */
     public function store(HttpRequest $request, Model $model)
     {
+
         $this->validate($request, $model->rules());
 
         if ($item = $model->create(Input::all())) {
@@ -170,17 +165,22 @@ class WorkController extends AdminController
         $model = $this->modelName;
         $item = $model::find($id);
 
-        $lang = $this->adminLanguage($lang);
-
         if (!$item) {
             msg('The requested item does not exist or has been deleted.', 'danger');
             return redirect()->route("admin.{$this->moduleLower}.index");
         }
 
+        if (!is_null($lang)) {
+            $this->adminLanguage($lang);
+            return redirect()->route("admin.{$this->moduleLower}.edit", $id);
+        }
+        $lang = $this->adminLanguage();
+
         $thisObj = $this;
         Former::populate($item);
         $formButtons = $this->formButtons($this->formButtons);
-        $transButtons = $this->renderTransButtons($item);
+//        $transButtons = $this->renderTransButtons($item);
+        $translateButtons = $this->renderTranslateButtons($item);
         $statusButton = function ($item) use ($thisObj) {
             return $thisObj->renderStatusButtons($item);
         };
@@ -216,7 +216,7 @@ class WorkController extends AdminController
             compact(
                 'item',
                 'formButtons',
-                'transButtons',
+                'translateButtons',
                 'statusButton',
                 'validationRules',
                 'elements',

@@ -42,25 +42,21 @@
                                     ->data_type('autocomplete-json')
                                 !!}
 
-                                <div class="form-group required color-picker-input">
-                                    <label for="color" class="control-label col-lg-2 col-sm-4">Color<sup>*</sup></label>
-                                    <div class="col-lg-10 col-sm-8">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i></i></span>
-                                            {!! Former::text('color')->raw() !!}
-                                        </div>
-                                    </div>
-                                </div>
+                                @include('admin::_partials.color_picker',
+                                   [
+                                       'fieldName' => 'color',
+                                       'label' => 'Color',
+                                       'validationRules' => $validationRules,
+                                   ]
+                                )
 
-                                <div class="form-group required color-picker-input">
-                                    <label for="color" class="control-label col-lg-2 col-sm-4">Text color<sup>*</sup></label>
-                                    <div class="col-lg-10 col-sm-8">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i></i></span>
-                                            {!! Former::text('text_color')->raw() !!}
-                                        </div>
-                                    </div>
-                                </div>
+                                @include('admin::_partials.color_picker',
+                                    [
+                                        'fieldName' => 'text_color',
+                                        'label' => 'Text color',
+                                        'validationRules' => $validationRules,
+                                    ]
+                                )
 
                                 {!! Former::textarea('description') !!}
 

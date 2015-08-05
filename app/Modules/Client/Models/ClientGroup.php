@@ -32,6 +32,8 @@ class ClientGroup extends BaseModel implements SluggableInterface
     {
         return [
             'title' => 'required|max:255',
+            'color' => 'required|max:255',
+            'text_color' => 'required|max:255',
         ];
     }
 
