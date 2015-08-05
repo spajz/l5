@@ -1,0 +1,9 @@
+<?php if(count($languages)): ?>
+    <?php foreach($languages as $langCode => $langName): ?>
+        <?php if(isset($translation[$langCode]) && $translation[$langCode]): ?>
+            <a href="<?php echo e(route('admin.' . $moduleLower . '.edit', [$item->id, $langCode])); ?>" class="btn btn-success <?php echo e(isset($buttonSize) ? $buttonSize : ''); ?>"><?php echo e($langCode); ?></a>
+        <?php else: ?>
+            <a href="<?php echo e(route('admin.' . $moduleLower . '.edit', [$item->id, $langCode])); ?>" class="btn btn-danger <?php echo e(isset($buttonSize) ? $buttonSize : ''); ?>"><?php echo e($langCode); ?></a>
+        <?php endif; ?>
+    <?php endforeach; ?>
+<?php endif; ?>

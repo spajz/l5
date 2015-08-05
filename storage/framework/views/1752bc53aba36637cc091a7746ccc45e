@@ -1,0 +1,58 @@
+<?php $__env->startSection('content'); ?>
+
+
+<div class="container">
+
+    <div class="row top20">
+        <div class="col-xl-4 col-xl-offset-4 col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <p class="text-center top5">
+                        <img src="<?php echo e(asset($assetsDirAdmin . '/images/logo.png')); ?>">
+                    </p>
+                </div>
+                <div class="panel-body">
+
+                    <?php if(count($errors) > 0): ?>
+                        <div class="alert alert-danger">
+                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                            <ul>
+                                <?php foreach($errors->all() as $error): ?>
+                                    <li><?php echo e($error); ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php echo Former::open()->route("admin.post.login")->method('post')->rules($validationRules); ?>
+
+
+                        <?php echo Former::text('email')->label('E-Mail Address'); ?>
+
+
+                        <?php echo Former::password('password'); ?>
+
+
+                        <?php echo Former::checkbox('remember')->label('Remember Me'); ?>
+
+
+                        <?php echo Former::actions(
+                                Former::success_submit()->addClass(''),
+                                Former::primary_reset()->addClass('reset-form')
+                            ); ?>
+
+
+                        <?php /*
+                        <a href="/password/email">Forgot Your Password?</a>
+                        */ ?>
+
+                    <?php echo Former::close(); ?>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make($layout, array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

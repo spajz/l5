@@ -47,13 +47,9 @@ class PersonController extends AdminController
             view()->share('changeStatusDisabled', true);
         }
 
-        $columns = $dtFront->createSelectArray($this->dtColumns, ['translate', 'actions', 'image', 'description']);
+        $columns = $dtFront->createSelectArray($this->dtColumns, ['translate', 'actions', 'image']);
 
         $query = $model::translated()->select($columns);
-
-
-//        $query = $model::with('images')->join('person_translations', 'clients.group_id', '=', 'client_groups.id')
-//            ->select($columns);
 
         return Datatables::of($query)
             ->addColumn('image', function ($data) use ($dtFront, $config) {

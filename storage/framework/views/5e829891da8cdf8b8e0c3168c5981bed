@@ -1,0 +1,3 @@
+<a href="<?php echo e(route("admin.{$moduleLower}.index")); ?>" class="btn btn-default">
+    Back to List
+</a>
