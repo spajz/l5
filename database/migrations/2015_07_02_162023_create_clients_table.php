@@ -15,10 +15,12 @@ class CreateClientsTable extends Migration
         Schema::create('clients', function(Blueprint $table)
         {
             $table->increments('id');
+
             $table->string('title')->nullable();
             $table->string('slug')->nullable();
             $table->text('description')->nullable();
             $table->integer('group_id');
+
             $table->integer('order')->default(0);
             $table->tinyInteger('featured')->default(0);
             $table->tinyInteger('status')->default(0);

@@ -15,13 +15,13 @@ class CreatePersonsTable extends Migration {
         Schema::create('persons', function(Blueprint $table)
         {
             $table->increments('id');
+
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('job_title')->nullable();
-//            $table->text('description')->nullable();
             $table->string('color')->nullable();
             $table->string('text_color')->nullable();
-//            $table->integer('trans_id')->default(0);
+
             $table->integer('order')->default(0);
             $table->tinyInteger('status')->default(0);
             $table->timestamps();

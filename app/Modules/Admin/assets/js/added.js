@@ -543,7 +543,7 @@ $(document).ready(function () {
         $('#info-box').html(data).show('fast');
     }
 
-    $('.tab-selector a').on('click', function (e) {
+    $('body').on('click', '.tab-selector a', function (e) {
         e.preventDefault();
         var id = $(this).attr('href');
         $(this).parent('li').siblings().removeClass();
@@ -621,5 +621,10 @@ $(document).ready(function () {
     }
 
     initAutocomplete();
+
+    // Disable click on buttons
+    $('.no-click').on('click', function (e) {
+        e.preventDefault();
+    })
 
 })

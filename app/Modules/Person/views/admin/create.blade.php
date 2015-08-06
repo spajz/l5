@@ -27,8 +27,6 @@
                         <div class="row">
                             <div class="col-xs-12">
 
-                                {!! Former::hidden('id') !!}
-
                                 {!! Former::text('lang')->disabled()->forceValue($lang) !!}
 
                                 {!! Former::text('first_name') !!}

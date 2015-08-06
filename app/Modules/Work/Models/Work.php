@@ -2,17 +2,12 @@
 
 use App\BaseModel;
 use App\Traits\ValidationTrait;
-//use App\Traits\TransTrait;
 use Dimsav\Translatable\Translatable;
-//use Cviebrock\EloquentSluggable\SluggableInterface;
-//use Cviebrock\EloquentSluggable\SluggableTrait;
 
-class Work extends BaseModel //implements SluggableInterface
+class Work extends BaseModel
 {
     use ValidationTrait;
-//    use TransTrait;
     use Translatable;
-//    use SluggableTrait;
 
     protected $table = 'works';
 
@@ -37,11 +32,6 @@ class Work extends BaseModel //implements SluggableInterface
         'description',
     ];
 
-//    protected $sluggable = [
-//        'build_from' => 'full_title',
-//        'save_to'    => 'slug',
-//    ];
-
     protected $useTransParentImages = false;
 
     public function rulesAll()
@@ -51,6 +41,14 @@ class Work extends BaseModel //implements SluggableInterface
         ];
     }
 
+    public function getFullTitleAttribute()
+    {
+        if ($this->hasTranslation()) {
+            return $this->getTranslation()->title . $this->getTranslation()->sub_title != '' ? ' ' . $this->getTranslation()->sub_title : null;
+        }
+        return null;
+    }
+
     public function contentable()
     {
         return $this->morphMany('App\Models\Content', 'model')
@@ -58,10 +56,12 @@ class Work extends BaseModel //implements SluggableInterface
             ->orderBy('id', 'desc');
     }
 
-    public function getFullTitleAttribute()
+
+    public function images()
     {
-//        return $this->attributes['title'] . ' ' . $this->attributes['sub_title'];
-        return 'full name';
+        return $this->morphMany('App\Models\Image', 'model')
+            ->orderBy('order')
+            ->orderBy('id', 'desc');
     }
 
     public static function boot()
@@ -78,16 +78,12 @@ class Work extends BaseModel //implements SluggableInterface
             foreach ($model->contentable as $item) {
                 $item->delete();
             }
-
-            // Delete trans childeren
-            $transChildren = $model->transChildren;
-
-            if (count($transChildren)) {
-                foreach ($transChildren as $item) {
-                    $item->delete();
-                }
-            }
         });
+    }
+
+    public function scopeTranslated($query, $lang = null)
+    {
+        return $this->joinTranslations($query, $lang);
     }
 
 }

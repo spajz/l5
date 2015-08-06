@@ -206,7 +206,6 @@ class ClientGroupController extends AdminController
             return redirect()->route("admin.{$this->moduleLower}.index");
         }
         return redirect()->back();
-
     }
 
     /**

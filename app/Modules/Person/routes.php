@@ -22,7 +22,7 @@ Route::group(array("prefix" => ADMIN), function () use ($moduleUpper, $moduleLow
 
     Route::get($moduleLower, array("as" => "admin.{$moduleLower}.index", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@index"));
 
-    Route::get("{$moduleLower}/create/{id?}/{lang?}", array("as" => "admin.{$moduleLower}.create", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@create"));
+    Route::get("{$moduleLower}/create", array("as" => "admin.{$moduleLower}.create", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@create"));
 
     Route::get("{$moduleLower}/{id}/trans/{lang?}", array("as" => "admin.{$moduleLower}.create2", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@createTrans"));
 
@@ -31,6 +31,8 @@ Route::group(array("prefix" => ADMIN), function () use ($moduleUpper, $moduleLow
     Route::get("{$moduleLower}/{id}/edit/{lang?}", array("as" => "admin.{$moduleLower}.edit", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@edit"));
 
     Route::get("{$moduleLower}/{id}/destroy", array("as" => "admin.{$moduleLower}.destroy", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@destroy"));
+
+    Route::get("{$moduleLower}/{id}/destroy/translation", array("as" => "admin.{$moduleLower}.destroy.translation", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@destroyTranslation"));
 
     Route::post($moduleLower, array("as" => "admin.{$moduleLower}.store", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@store"));
 

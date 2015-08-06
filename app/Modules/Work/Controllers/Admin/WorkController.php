@@ -3,6 +3,7 @@
 use App\Library\ImageApi;
 use App\Modules\Admin\Controllers\AdminController;
 use App\Modules\Work\Models\Work as Model;
+use App\Modules\Work\Models\WorkTranslation as ModelTranslation;
 
 use Datatables;
 use DatatablesFront;
@@ -15,11 +16,11 @@ use App\Models\ContentValue;
 class WorkController extends AdminController
 {
     protected $dtColumns = [
-        ['name' => 'id', 'className' => 'w40'],
+        ['name' => 'id', 'className' => 'w40', 'prefix' => 'works'],
         ['name' => 'title', 'columnFilter' => 'text'],
         ['name' => 'sub_title', 'columnFilter' => 'text'],
-        ['name' => 'created_at'],
         ['name' => 'order', 'className' => 'w40'],
+        ['name' => 'translate', 'className' => 'w120 text-center', 'actionColumn' => true],
         ['name' => 'featured', 'className' => 'w40 text-center'],
         ['name' => 'status', 'className' => 'w40 text-center'],
         ['name' => 'actions', 'className' => 'w120 text-center', 'actionColumn' => true],
@@ -34,18 +35,26 @@ class WorkController extends AdminController
         parent::__construct();
 
         $this->setConfig(__FILE__);
+        $this->viewBase = "{$this->moduleLower}::admin";
     }
 
     public function getDatatable(DatatablesFront $dtFront)
     {
+        $model = $this->modelName;
+        $config = $this->config;
+
         if (isset($this->dtChangeStatus) && !$this->dtChangeStatus) {
             view()->share('changeStatusDisabled', true);
         }
 
-        $model = $this->modelName;
-        $query = $model::select('*');
+        $columns = $dtFront->createSelectArray($this->dtColumns, ['actions', 'translate']);
+
+        $query = $model::translated()->select($columns);
 
         return Datatables::of($query)
+            ->addColumn('translate', function ($data) use ($dtFront, $model) {
+                return $dtFront->renderTranslateButtons($data);
+            })
             ->addColumn('featured', function ($data) use ($dtFront, $model) {
                 return $dtFront->renderStatusButtons($data, $model, 'featured');
             })
@@ -73,7 +82,7 @@ class WorkController extends AdminController
 
         $vars = $dtFront->render();
 
-        return view("{$this->moduleLower}::admin.index", $vars);
+        return view("{$this->viewBase}.index", $vars);
     }
 
     /**
@@ -83,43 +92,23 @@ class WorkController extends AdminController
      * @param string $lang
      * @return Response
      */
-    public function create($trans_id = null, $lang = null)
+    public function create()
     {
         $model = $this->modelName;
-        $transButtons = '';
+        $lang = $this->adminLanguage();
 
-        $lang = $this->adminLanguage($lang);
-
-        // Create first article only in default language
-        $defaultLang = config('admin.language');
-        if (is_null($trans_id) && $lang != $defaultLang) {
-            msg('The first article must be in the main language.', 'info');
-            $this->adminLanguage($defaultLang);
-            return redirect()->route("admin.{$this->moduleLower}.create");
-        }
-
-        if (is_numeric($trans_id)) {
-
-            $trans = $model::hasTrans($trans_id, $lang)->first();
-            if ($trans) {
-                msg('This item already exists in the requested language.', 'info');
-                return $this->redirect($trans, ['save' => ['edit' => 'Save']]);
-            }
-
-            $item = $model::find($trans_id);
-            if (!$item) {
-                msg('The item which you want to translate does not exist or has been deleted.', 'danger');
-                return redirect()->route("admin.{$this->moduleLower}.index");
-            }
-            Former::populate($item);
-            $transButtons = $this->renderTransButtons($item);
-        }
+        // Add form buttons
+        $formButtons = $this->formButtons(__FUNCTION__);
 
         // Add validation from model to former
         $validationRules = $model::rulesMergeStore();
 
-        $formButtons = $this->formButtons($this->formButtons);
-        return view("{$this->moduleLower}::admin.create", compact('formButtons', 'trans_id', 'lang', 'transButtons', 'validationRules'));
+        return view("{$this->viewBase}.create",
+            compact(
+                'lang',
+                'formButtons',
+                'validationRules'
+            ));
     }
 
     /**
@@ -131,7 +120,6 @@ class WorkController extends AdminController
      */
     public function store(HttpRequest $request, Model $model)
     {
-
         $this->validate($request, $model->rules());
 
         if ($item = $model->create(Input::all())) {
@@ -141,17 +129,6 @@ class WorkController extends AdminController
 
         msg('The item has not been created.', 'danger');
         return redirect()->back();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -178,8 +155,7 @@ class WorkController extends AdminController
 
         $thisObj = $this;
         Former::populate($item);
-        $formButtons = $this->formButtons($this->formButtons);
-//        $transButtons = $this->renderTransButtons($item);
+        $formButtons = $this->formButtons(__FUNCTION__, $item);
         $translateButtons = $this->renderTranslateButtons($item);
         $statusButton = function ($item) use ($thisObj) {
             return $thisObj->renderStatusButtons($item);
@@ -197,22 +173,12 @@ class WorkController extends AdminController
             'gallery' => 'Gallery',
             'video_duo' => 'Video duo',
             'video' => 'Video',
-            'multi_video' => 'Multi video',
         ];
-
         asort($elements);
 
         $contents = $item->contentable;
 
-        $contentValues = [
-            'video_left' => ['mp4', 'wma', 'ogg'],
-            'video_right' => ['mp4', 'ogg', 'wma'],
-        ];
-
-        $contentValuesColumns = array_content_values_sort($contentValues);
-        view()->share('contentValuesColumns', $contentValuesColumns);
-
-        return view("{$this->moduleLower}::admin.edit",
+        return view("{$this->viewBase}.edit",
             compact(
                 'item',
                 'formButtons',
@@ -283,7 +249,20 @@ class WorkController extends AdminController
         $item->delete();
         msg('The item successfully deleted.');
         return redirect()->back();
+    }
 
+    public function destroyTranslation($id)
+    {
+        $item = ModelTranslation::find($id);
+
+        if (!$item) {
+            msg('The requested item does not exist or has been deleted.', 'danger');
+            return redirect()->back();
+        }
+
+        $item->delete();
+        msg('The item successfully deleted.');
+        return redirect()->back();
     }
 
     public function updateItemContent($id)
@@ -550,7 +529,7 @@ class WorkController extends AdminController
                                     $attributesValuesTmp[$column] = Input::get($input . '.' . $k1);
                                 }
 
-                                if ($attributesValuesTmp){
+                                if ($attributesValuesTmp) {
                                     $modelContentValue->fill($attributesValuesTmp);
                                     $modelContentValue->save();
                                 }
@@ -646,9 +625,20 @@ class WorkController extends AdminController
      */
     public function order()
     {
+        $columns = function ($item) {
+            return [
+                'Title' => $item->title,
+                'Sub title' => $item->sub_title,
+                'Order' => $item->order
+            ];
+        };
         $model = $this->modelName;
-        $items = $model::all();
-        return view("{$this->moduleLower}::admin.order", compact('model', 'items'));
+        $items = $model::orderBy('order')->get();
+        $headerTitles = [];
+        if (count($items)) {
+            $headerTitles = $columns($items[0]);
+        }
+        return view("{$this->viewBase}.order", compact('model', 'items', 'columns', 'headerTitles'));
     }
 
     public function content($lang = null)
@@ -686,7 +676,7 @@ class WorkController extends AdminController
 
         view()->share('statusButton', $statusButton);
 
-        return view("{$this->moduleLower}::admin.content", compact('lang', 'elements', 'languages', 'buttonSize', 'contents'));
+        return view("{$this->viewBase}.content", compact('lang', 'elements', 'languages', 'buttonSize', 'contents'));
     }
 
     public function contentStore($lang = null)

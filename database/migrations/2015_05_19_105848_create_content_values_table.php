@@ -15,6 +15,7 @@ class CreateContentValuesTable extends Migration {
         Schema::create('content_values', function(Blueprint $table)
         {
             $table->increments('id');
+
             $table->integer('content_id');
             $table->string('value_type')->nullable();
             $table->string('value_sub_type')->nullable();

@@ -12,6 +12,7 @@
                 <div class="panel-heading">
                     Type: {{ $type }}
                     <div class="btn-group pull-right">
+                        @include('admin::_partials.content.translate_buttons', ['item' => $item])
                         <button type="button" class="btn btn-info btn-xs btn-sort">
                             <i class="fa fa-arrows-v w20"></i>
                         </button>
@@ -41,6 +42,7 @@
                 <div class="panel-heading">
                     Type: {{ $type }}
                     <div class="btn-group pull-right">
+                        @include('admin::_partials.content.translate_buttons')
                         <button type="button" class="btn btn-info btn-xs btn-sort">
                             <i class="fa fa-arrows-v w20"></i>
                         </button>

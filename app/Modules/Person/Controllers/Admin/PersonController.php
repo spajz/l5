@@ -3,6 +3,7 @@
 use App\Library\ImageApi;
 use App\Modules\Admin\Controllers\AdminController;
 use App\Modules\Person\Models\Person as Model;
+use App\Modules\Person\Models\PersonTranslation as ModelTranslation;
 
 use Datatables;
 use DatatablesFront;
@@ -107,14 +108,7 @@ class PersonController extends AdminController
         $model = $this->modelName;
         $lang = $this->adminLanguage();
 
-        // Create first article only in default language
-        $defaultLang = config('admin.language');
-        if ($lang != $defaultLang) {
-            msg('The first article must be in the main language.', 'info');
-            $this->adminLanguage($defaultLang);
-            return redirect()->route("admin.{$this->moduleLower}.create");
-        }
-
+        // Add form buttons
         $formButtons = $this->formButtons(__FUNCTION__);
 
         // Add validation from model to former
@@ -261,6 +255,20 @@ class PersonController extends AdminController
         if (Input::get('redirect')) {
             return redirect()->route("admin.{$this->moduleLower}.index");
         }
+        return redirect()->back();
+    }
+
+    public function destroyTranslation($id)
+    {
+        $item = ModelTranslation::find($id);
+
+        if (!$item) {
+            msg('The requested item does not exist or has been deleted.', 'danger');
+            return redirect()->back();
+        }
+
+        $item->delete();
+        msg('The item successfully deleted.');
         return redirect()->back();
     }
 

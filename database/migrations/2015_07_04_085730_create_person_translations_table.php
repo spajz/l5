@@ -15,6 +15,7 @@ class CreatePersonTranslationsTable extends Migration
         Schema::create('person_translations', function(Blueprint $table)
         {
             $table->increments('id');
+
             $table->integer('person_id')->unsigned();
             $table->text('description')->nullable();
             $table->string('locale')->index();

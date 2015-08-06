@@ -9,6 +9,7 @@ use Redirect;
 use DB;
 use App\Models\Content;
 use Session;
+use Route;
 
 class AdminController extends BaseController
 {
@@ -71,6 +72,10 @@ class AdminController extends BaseController
         app()->setLocale(Session::get('settings.language'));
 
         if (!Session::get('settings.tab')) {
+            Session::put('settings.tab', '#basic');
+        }
+
+        if(strpos(Route::currentRouteName(), 'create') !== false){
             Session::put('settings.tab', '#basic');
         }
     }
@@ -177,6 +182,7 @@ class AdminController extends BaseController
             'approve',
             'reject',
             'destroy',
+            'destroy_translation',
         ];
 
         if (isset($filter['only'])) {
@@ -361,6 +367,5 @@ class AdminController extends BaseController
             Session::put(Input::get('session'));
         }
     }
-
 
 }

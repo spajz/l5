@@ -15,11 +15,15 @@ class CreatePagesTable extends Migration {
 		Schema::create('pages', function(Blueprint $table)
 		{
 			$table->increments('id');
+
             $table->string('title')->nullable();
-            $table->string('slug')->nullable()->index();
+            $table->string('slug')->nullable();
+
             $table->integer('order')->default(0);
             $table->tinyInteger('status')->default(0);
 			$table->timestamps();
+
+			$table->index('slug');
 		});
 	}
 

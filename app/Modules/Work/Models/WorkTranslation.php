@@ -8,6 +8,8 @@ class WorkTranslation extends BaseModel implements SluggableInterface
 {
     public $timestamps = false;
 
+    protected $appends = array('full_title');
+
     use SluggableTrait;
 
     protected $fillable = [

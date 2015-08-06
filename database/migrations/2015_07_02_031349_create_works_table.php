@@ -15,18 +15,11 @@ class CreateWorksTable extends Migration
         Schema::create('works', function(Blueprint $table)
         {
             $table->increments('id');
-//            $table->string('title')->nullable();
-//            $table->string('sub_title')->nullable();
-//            $table->string('slug')->nullable();
-//            $table->text('intro')->nullable();
-//            $table->text('description')->nullable();
 
             $table->integer('order')->default(0);
             $table->tinyInteger('featured')->default(0);
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
-
-//            $table->index('slug');
         });
     }
 
