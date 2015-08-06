@@ -8,14 +8,13 @@
         <div class="row clearfix">
             <div class="col-xs-12 text-center">
                 <h1>{{ $work->title }}</h1>
-                <p class="lead">{{ $work->sub_title }}</p>
-
                 <div class="row clearfix">
                     <div class="col-xs-12 col-md-offset-3 col-md-6">
-                        <p>{!! $work->description !!}</p>
+                        <p>
+                            {{ $work->description }}
+                        </p>
                     </div>
                 </div>
-
             </div>
         </div>
 
@@ -25,15 +24,18 @@
 
     <div class="container-fluid">
 
-    @if(count($work->contentable))
+        <div class="row clearfix multi-columns-row">
 
-        @foreach($work->contentable as $k => $content)
+            @if(count($work->contentable))
 
-                @include('work::front._partials.' . $content->type, ['content' => $content])
+                @foreach($work->contentable as $content)
 
-        @endforeach
+                    @include('work::front._partials.' . $content->type . ($content->sub_type ? '_' . $content->sub_type: ''), compact('content'))
 
-    @endif
+                @endforeach
+
+            @endif
+        </div>
 
     </div>
 
@@ -44,3 +46,4 @@
 @section('scripts_bottom')
     @parent
 @stop
+

@@ -169,6 +169,7 @@ class WorkController extends AdminController
             'textarea' => 'Text area',
             'rte' => 'Rich text editor',
             'text' => 'Text',
+            'text_duo' => 'Text duo',
             'example' => 'Example',
             'gallery' => 'Gallery',
             'video_duo' => 'Video duo',

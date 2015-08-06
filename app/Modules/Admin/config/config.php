@@ -24,4 +24,13 @@ return [
         'buildPath' => '/assets/' . $moduleLower,
     ],
 
+    'contentPosition' => [
+        'left_1' => 'Left 1/3',
+        'left_2' => 'Left 2/3',
+        'right_1' => 'Right 1/3',
+        'right_2' => 'Right 2/3',
+        'full' => 'Full',
+        'center' => 'Center',
+    ],
+
 ];

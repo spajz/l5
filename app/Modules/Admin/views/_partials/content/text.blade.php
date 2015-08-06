@@ -8,6 +8,8 @@
 
     {!! Former::text('title')->name("title[{$item->id}]")->label('Title')->value($item->title) !!}
 
+    {!! Former::select('sub_type')->name("sub_type[{$item->id}]")->options(config('admin.contentPosition'), $item->sub_type)->label('Position') !!}
+
     {!! Former::text('content')->name("content[{$item->id}]")->label('Content')->value($item->content) !!}
 
 @else
@@ -19,6 +21,8 @@
     {!! Former::hidden('type')->name("type_new[{$uniqid}]")->value('text') !!}
 
     {!! Former::text('title')->name("title_new[{$uniqid}]")->label('Title') !!}
+
+    {!! Former::select('sub_type')->name("sub_type_new[{$uniqid}]")->options(config('admin.contentPosition'))->label('Position') !!}
 
     {!! Former::text('content')->name("content_new[{$uniqid}]")->label('Content') !!}
 

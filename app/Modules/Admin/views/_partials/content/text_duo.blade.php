@@ -10,6 +10,12 @@
 
     {!! Former::text('content')->name("content[{$item->id}]")->label('Content')->value($item->content) !!}
 
+    @include('admin::_partials.content.values.text_duo_create',
+       [
+         'item' => $item
+       ]
+    )
+
 @else
 
     {!! Former::hidden('order')->name("order_new[{$uniqid}]")->addClass('order-id') !!}
@@ -21,5 +27,11 @@
     {!! Former::text('title')->name("title_new[{$uniqid}]")->label('Title') !!}
 
     {!! Former::text('content')->name("content_new[{$uniqid}]")->label('Content') !!}
+
+    @include('admin::_partials.content.values.text_duo_create',
+       [
+           'uploadFileFields' => $config['content']['element']['text_duo'],
+       ]
+    )
 
 @endif

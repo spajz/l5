@@ -21,6 +21,12 @@ return [
             'video_left' => ['mp4', 'wma', 'ogg'],
             'video_right' => ['mp4', 'ogg', 'wma'],
         ],
+
+        'text_duo' => [
+            'text_left' => ['title', 'description'],
+            'text_right' => ['title', 'description'],
+        ],
+
         'gallery' => [
             'image' => [
                 'path' => public_path() . '/media/images/', // main path with trailing slash

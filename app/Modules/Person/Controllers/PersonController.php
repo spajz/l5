@@ -3,7 +3,6 @@
 use App\Modules\Front\Controllers\FrontController;
 use App\Modules\Person\Models\Person as Model;
 use DB;
-use Mexitek\PHPColors\Color;
 
 class PersonController extends FrontController
 {

@@ -14,7 +14,7 @@ class WorkController extends FrontController
         $this->setConfig(__FILE__);
     }
 
-    public function index($slug = null)
+    public function index2($slug = null)
     {
         $lang = App::getLocale();
         if (!is_null($slug)) {
@@ -33,5 +33,16 @@ class WorkController extends FrontController
             return view("{$this->moduleLower}::front.index", compact('works'));
         }
 
+    }
+
+    public function index($slug = null)
+    {
+        if (!is_null($slug)) {
+            $work = Model::find(1);
+
+            if ($work) {
+                return view("{$this->moduleLower}::front.single", compact('work'));
+            }
+        }
     }
 }
