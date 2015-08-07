@@ -8,7 +8,11 @@
 
     {!! Former::text('title')->name("title[{$item->id}]")->label('Title')->value($item->title) !!}
 
+    {!! Former::select('sub_type')->name("sub_type[{$item->id}]")->options(config('admin.contentPosition'), $item->sub_type)->label('Position') !!}
+
     {!! Former::textarea('content')->addClass('ckeditor')->name("content[{$item->id}]")->label('Content')->value($item->content) !!}
+
+    {!! Former::text('class')->name("class[{$item->id}]")->label('Class')->value($item->class) !!}
 
 @else
 
@@ -20,6 +24,10 @@
 
     {!! Former::text('title')->name("title_new[{$uniqid}]")->label('Title') !!}
 
+    {!! Former::select('sub_type')->name("sub_type_new[{$uniqid}]")->options(config('admin.contentPosition'))->label('Position') !!}
+
     {!! Former::textarea('content')->addClass('ckeditor')->name("content_new[{$uniqid}]")->label('Content') !!}
+
+    {!! Former::text('class')->name("class_new[{$uniqid}]")->label('Class') !!}
 
 @endif

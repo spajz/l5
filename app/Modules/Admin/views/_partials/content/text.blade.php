@@ -12,6 +12,8 @@
 
     {!! Former::text('content')->name("content[{$item->id}]")->label('Content')->value($item->content) !!}
 
+    {!! Former::text('class')->name("class[{$item->id}]")->label('Class')->value($item->class) !!}
+
 @else
 
     {!! Former::hidden('order')->name("order_new[{$uniqid}]")->addClass('order-id') !!}
@@ -25,5 +27,7 @@
     {!! Former::select('sub_type')->name("sub_type_new[{$uniqid}]")->options(config('admin.contentPosition'))->label('Position') !!}
 
     {!! Former::text('content')->name("content_new[{$uniqid}]")->label('Content') !!}
+
+    {!! Former::text('class')->name("class_new[{$uniqid}]")->label('Class') !!}
 
 @endif

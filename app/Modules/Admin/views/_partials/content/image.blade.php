@@ -1,3 +1,5 @@
+<?php $contentType = 'image' ?>
+
 @if(isset($item))
 
     {!! Former::hidden('order')->name("order[{$item->id}]")->addClass('order-id')->value($item->order) !!}
@@ -12,7 +14,8 @@
 
     {!! Former::textarea('content')->name("content[{$item->id}]")->label('Content')->value($item->content) !!}
 
-    {!! Former::text('class')->name("class[{$item->id}]")->label('Class')->value($item->class) !!}
+
+    @include("admin::_partials.content.image_template", compact('uniqid', 'item', 'contentType'))
 
 @else
 
@@ -20,7 +23,7 @@
 
     {!! Former::hidden('id')->name("id_new[{$uniqid}]") !!}
 
-    {!! Former::hidden('type')->name("type_new[{$uniqid}]")->value('textarea') !!}
+    {!! Former::hidden('type')->name("type_new[{$uniqid}]")->value($contentType) !!}
 
     {!! Former::text('title')->name("title_new[{$uniqid}]")->label('Title') !!}
 
@@ -28,6 +31,7 @@
 
     {!! Former::textarea('content')->name("content_new[{$uniqid}]")->label('Content') !!}
 
-    {!! Former::text('class')->name("class_new[{$uniqid}]")->label('Class') !!}
+
+    @include("admin::_partials.content.image_template", compact('uniqid', 'contentType'))
 
 @endif

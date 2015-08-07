@@ -10,7 +10,7 @@
 
     {!! Former::text('title')->name("title[{$item->id}]")->label('Title')->value($item->title) !!}
 
-    {!! Former::select('sub_type')->name("sub_type[{$item->id}]")->options(['left' => 'Left', 'right' => 'Right'], $item->sub_type)->label('Position') !!}
+    {!! Former::select('sub_type')->name("sub_type[{$item->id}]")->options(config('admin.contentPosition'), $item->sub_type)->label('Position') !!}
 
     {!! Former::textarea('content')->name("content[{$item->id}]")->label('Content')->value($item->content) !!}
 
@@ -27,7 +27,7 @@
 
     {!! Former::text('title')->name("title_new[{$uniqid}]")->label('Title') !!}
 
-    {!! Former::select('sub_type')->name("sub_type_new[{$uniqid}]")->options(['left' => 'Left', 'right' => 'Right'])->label('Position') !!}
+    {!! Former::select('sub_type')->name("sub_type_new[{$uniqid}]")->options(config('admin.contentPosition'))->label('Position') !!}
 
     {!! Former::textarea('content')->name("content_new[{$uniqid}]")->label('Content') !!}
 

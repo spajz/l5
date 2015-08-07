@@ -20,6 +20,7 @@ class CreateContentsTable extends Migration {
             $table->integer('model_id')->default(0);
             $table->string('type')->nullable();
             $table->string('sub_type')->nullable();
+			$table->string('class')->nullable();
 
             $table->integer('order')->default(0);
             $table->tinyInteger('status')->default(0);
