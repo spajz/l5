@@ -18,14 +18,19 @@ class CreateCategoriesTable extends Migration {
 
             $table->string('title')->nullable();
             $table->string('slug')->nullable();
-            $table->integer('parent_id')->nullable();
-            $table->integer('lft')->nullable();
-            $table->integer('rgt')->nullable();
-            $table->integer('depth')->nullable();
+            $table->text('intro')->nullable();
+            $table->text('description')->nullable();
+
+			$table->integer('parent_id')->nullable()->index();
+			$table->integer('lft')->nullable()->index();
+			$table->integer('rgt')->nullable()->index();
+			$table->integer('depth')->nullable();
+
             $table->tinyInteger('status')->default(0);
 			$table->timestamps();
 
 			$table->index('slug');
+
 		});
 	}
 
