@@ -19,7 +19,7 @@ class CreateClientsTable extends Migration
             $table->string('title')->nullable();
             $table->string('slug')->nullable();
             $table->text('description')->nullable();
-            $table->integer('group_id');
+            $table->integer('client_group_id');
 
             $table->integer('order')->default(0);
             $table->tinyInteger('featured')->default(0);
@@ -27,7 +27,7 @@ class CreateClientsTable extends Migration
             $table->timestamps();
 
             $table->index('slug');
-            $table->index('group_id');
+            $table->index('client_group_id');
         });
     }
 

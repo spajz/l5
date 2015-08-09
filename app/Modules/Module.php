@@ -2,6 +2,8 @@
 
 use Illuminate\Foundation\Application;
 
+//use Illuminate\Filesystem\Filesystem;
+
 class Module
 {
     /**
@@ -99,9 +101,13 @@ class Module
     public function getModules($state = 'enabled', $return = 'name')
     {
         $modules = array();
+        $modulesJsonAll = array();
+        $modulesJsonEnabled = array();
         foreach ($this->app['files']->files(app_path('Modules/*')) as $file) {
             if (basename($file) == 'module.json') {
+
                 $moduleArray = json_decoder($file);
+//                $modulesJsonAll[strtolower(basename(dirname($file)))] = $moduleArray;
 
                 switch ($state) {
                     case 'enabled':
@@ -119,6 +125,8 @@ class Module
                 }
             }
         }
+
+        $this->createModulesJson($modulesJsonAll, 'modules.json');
 
         uasort($modules, function ($a, $b) {
             return $a['order'] - $b['order'];
@@ -163,6 +171,13 @@ class Module
             $seeder = new $class;
             $seeder->run();
         }
+    }
+
+    public function createModulesJson($content, $filename)
+    {
+        $path = __DIR__;
+        $content = json_encode($content, JSON_PRETTY_PRINT);
+        $this->app['files']->put($path . '/' . $filename, $content);
     }
 
 }

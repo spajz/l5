@@ -1,0 +1,8 @@
+{
+    "name": "helper",
+    "class": "Helper",
+    "enabled": true,
+    "icon": "fa-life-ring",
+    "order": 1854,
+    "title": "Helper"
+}

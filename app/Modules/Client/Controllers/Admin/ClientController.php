@@ -47,7 +47,7 @@ class ClientController extends AdminController
 
         $columns = $dtFront->createSelectArray($this->dtColumns, ['actions', 'image']);
 
-        $query = $model::with('images')->join('client_groups', 'clients.group_id', '=', 'client_groups.id')
+        $query = $model::with('images')->join('client_groups', 'clients.client_group_id', '=', 'client_groups.id')
             ->select($columns);
 
         return Datatables::of($query)

@@ -144,6 +144,7 @@ if (!moduleLower) {
         config.bowerDir + 'Jcrop/css/jquery.Jcrop.css',
         config.bowerDir + 'video.js/dist/video-js/video-js.min.css',
         config.bowerDir + 'mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css',
+
         //config.assetsDir + 'css/added.css',
     ]
 
@@ -168,6 +169,7 @@ if (!moduleLower) {
         config.bowerDir + 'video.js/dist/video-js/video.js',
         config.bowerDir + 'mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js',
         config.bowerDir + 'devbridge-autocomplete/dist/jquery.autocomplete.min.js',
+
         //config.assetsDir + 'js/added.js',
     ];
 
@@ -242,6 +244,11 @@ if (!moduleLower) {
     gulpCopy(
         [config.assetsDir + 'fileman/**/*'],
         [config.baseOutput + 'fileman/']
+    );
+
+    gulpCopy(
+        [config.bowerDir + 'ace-builds/src-min-noconflict/**/*'],
+        [config.baseOutput + 'js/ace-builds']
     );
 
 }// -- End admin

@@ -3,7 +3,6 @@
 use App\BaseModel;
 use App\Traits\ValidationTrait;
 use Dimsav\Translatable\Translatable;
-use Input;
 
 class Person extends BaseModel
 {

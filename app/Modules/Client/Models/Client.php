@@ -17,7 +17,7 @@ class Client extends BaseModel implements SluggableInterface
         'title',
         'slug',
         'description',
-        'group_id',
+        'client_group_id',
         'order',
         'featured',
         'status'
@@ -32,7 +32,7 @@ class Client extends BaseModel implements SluggableInterface
     {
         return [
             'title' => 'required|max:255',
-            'group_id' => 'required',
+            'client_group_id' => 'required',
         ];
     }
 
@@ -52,7 +52,7 @@ class Client extends BaseModel implements SluggableInterface
 
     public function group()
     {
-        return $this->belongsTo('App\Modules\Client\Models\ClientGroup', 'group_id');
+        return $this->belongsTo('App\Modules\Client\Models\ClientGroup', 'client_group_id');
     }
 
     public static function boot()

@@ -32,7 +32,7 @@
 
                                 {!! Former::text('slug') !!}
 
-                                {!! Former::select('group_id')->options($groups)->class('select2') !!}
+                                {!! Former::select('client_group_id')->options($groups)->class('select2')->label('Group') !!}
 
                                 {!! Former::hidden('featured')->forceValue(0) !!}
                                 {!! Former::checkbox('featured')->value(1) !!}

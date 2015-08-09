@@ -46,22 +46,7 @@ class ClientGroup extends BaseModel implements SluggableInterface
 
     public function clients()
     {
-        return $this->hasMany('App\Modules\Client\Models\Client', 'group_id');
-    }
-
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            // Set order
-            if (!$model->exists && is_null(Input::get('order'))) {
-                $item = $model->orderBy('order', 'desc')->first();
-                if ($item) {
-                    $model->attributes['order'] = $item->order + 1;
-                }
-            }
-        });
+        return $this->hasMany('App\Modules\Client\Models\Client', 'client_group_id');
     }
 
 }
