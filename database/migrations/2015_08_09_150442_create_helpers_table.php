@@ -21,6 +21,7 @@ class CreateHelpersTable extends Migration
             $table->integer('helper_group_id')->nullable();
             $table->text('intro')->nullable();
             $table->text('description')->nullable();
+            $table->string('type')->nullable();
 
             $table->tinyInteger('status')->default(0);
             $table->tinyInteger('featured')->default(0);

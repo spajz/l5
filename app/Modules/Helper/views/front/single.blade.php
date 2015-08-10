@@ -7,11 +7,11 @@
     <div class="container-fluid">
         <div class="row clearfix">
             <div class="col-xs-12 text-center">
-                <h1>Helper</h1>
+                <h1>{{ $item->title }}</h1>
                 <div class="row clearfix">
                     <div class="col-xs-12 col-md-offset-3 col-md-6">
                         <p>
-                            Helper
+                            {{ $item->description }}
                         </p>
                     </div>
                 </div>
@@ -23,13 +23,9 @@
         <div class="row clearfix">
             <div class="col-xs-12 col-md-offset-3 col-md-6">
                 <div class="row clearfix multi-columns-row">
-                    @if(count($helpers))
-                        @foreach($helpers as $helper)
-                            <div class="col-xs-12 col-ms-6 col-sm-4 col-md-4 col-lg-3">
-                                {{ $helper->title }}
-                            </div>
-                        @endforeach
-                    @endif
+                    <div class="col-xs-12">
+                        {!! $form !!}
+                    </div>
                 </div>
             </div>
         </div>

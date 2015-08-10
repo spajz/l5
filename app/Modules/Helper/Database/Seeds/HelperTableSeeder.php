@@ -1,10 +1,10 @@
-<?php namespace App\Modules\Client\Database\Seeds;
+<?php namespace App\Modules\Helper\Database\Seeds;
 
 use Faker\Factory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class ClientTableSeeder extends Seeder {
+class HelperTableSeeder extends Seeder {
 
     protected $table = 'helpers';
 

@@ -12,6 +12,8 @@ Route::group(
     ],
     function () use ($moduleLower, $namespaceAdmin, $moduleUpper) {
         Route::get($moduleLower, array("as" => "{$moduleLower}.index", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@index"));
+        Route::get($moduleLower . '/{slug}', array("as" => "{$moduleLower}.show", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@show"));
+        Route::post($moduleLower . '/{id}/process', array("as" => "{$moduleLower}.process", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@process"));
     }
 );
 

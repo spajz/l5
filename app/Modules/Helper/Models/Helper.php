@@ -19,6 +19,7 @@ class Helper extends BaseModel implements SluggableInterface
         'helper_group_id',
         'intro',
         'description',
+        'type',
         'status',
         'featured',
     );

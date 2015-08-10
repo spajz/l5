@@ -59,4 +59,9 @@ return [
             ],
         ],
     ],
+    'type' => [
+        'none' => 'None',
+        'default' => 'Default',
+        'image' => 'Image',
+    ],
 ];

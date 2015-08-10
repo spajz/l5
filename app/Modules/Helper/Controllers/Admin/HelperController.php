@@ -23,6 +23,7 @@ class HelperController extends AdminController
         ['name' => 'image', 'actionColumn' => true],
         ['name' => 'title', 'columnFilter' => 'text', 'prefix' => 'helpers'],
         ['name' => 'title', 'data' => 'group', 'columnFilter' => 'text', 'title' => 'Group', 'prefix' => 'helper_groups'],
+        ['name' => 'type', 'columnFilter' => 'text', 'prefix' => 'helpers'],
         ['name' => 'featured', 'className' => 'w40 text-center', 'prefix' => 'helpers'],
         ['name' => 'status', 'className' => 'w40 text-center', 'prefix' => 'helpers'],
         ['name' => 'actions', 'className' => 'w120 text-center', 'actionColumn' => true],
@@ -38,6 +39,7 @@ class HelperController extends AdminController
 
         $this->setConfig(__FILE__);
         $this->viewBase = "{$this->moduleLower}::admin";
+        $this->viewPath = app_path('Modules/' . $this->moduleUpper . '/views');
         $this->contentPath = app_path('Modules/' . $this->moduleUpper . '/views/content');
     }
 
@@ -139,6 +141,9 @@ class HelperController extends AdminController
 
         if ($item = $model->create(Input::all())) {
             msg('The item successfully created.');
+
+            $this->copyTemplateFiles(Input::get('type'), $item->id);
+
             return $this->redirect($item);
         }
 
@@ -175,17 +180,16 @@ class HelperController extends AdminController
         $groups = HelperGroup::orderBy('title')->lists('title', 'id')->toArray();
 
         // Check content
+        $files = [];
+        $contentFiles = [];
         $contentPath = $this->contentPath . '/' . $id;
-        if (!$filesystem::isDirectory($contentPath)) {
-            $filesystem::makeDirectory($contentPath);
+        if ($filesystem::isDirectory($contentPath)) {
+            $files = $filesystem::files($contentPath);
         }
 
-        foreach ($this->files as $file) {
-            if (!$filesystem::exists($contentPath . '/' . $file)) {
-                $filesystem::put($contentPath . '/' . $file, '');
-            }
-
-            $contentFiles[$file] = $filesystem::get($contentPath . '/' . $file);
+        foreach ($files as $file) {
+            $baseName = basename($file);
+            $contentFiles[$baseName] = $filesystem::get($file);
         }
 
         return view("{$this->viewBase}.edit",
@@ -224,10 +228,15 @@ class HelperController extends AdminController
         $imageApi->setModelId($id);
         $imageApi->setModelType(get_class($item));
 
+        // Change type or update
         $contentPath = $this->contentPath . '/' . $id;
-        foreach ($this->files as $file) {
-            if (Input::get(base64_encode($file), false) !== false) {
-                $filesystem::put($contentPath . '/' . $file, Input::get(base64_encode($file)));
+        if ($item->type != Input::get('type') || !$filesystem::isDirectory($contentPath)) {
+            $this->copyTemplateFiles(Input::get('type'), $id);
+        } else {
+            foreach ($this->files as $file) {
+                if (Input::get(base64_encode($file), false) !== false) {
+                    $filesystem::put($contentPath . '/' . $file, Input::get(base64_encode($file)));
+                }
             }
         }
 
@@ -290,6 +299,44 @@ class HelperController extends AdminController
             $headerTitles = $columns($items[0]);
         }
         return view("{$this->viewBase}.order", compact('model', 'items', 'columns', 'headerTitles'));
+    }
+
+    protected function copyTemplateFiles($type, $id)
+    {
+        // Delete old template files
+        if (is_numeric($id)) {
+
+            $contentPath = $this->contentPath . '/' . $id;
+
+            // Delete dir for none type
+            if ($type == 'none') {
+                if (File::isDirectory($contentPath)) {
+                    File::deleteDirectory($contentPath);
+                }
+                return;
+            }
+
+            if (!File::isDirectory($contentPath)) {
+                File::makeDirectory($contentPath);
+            }
+
+            // Delete existing files
+            $contentFiles = File::files($contentPath);
+            if ($contentFiles) {
+                foreach ($contentFiles as $file) {
+                    File::delete($file);
+                }
+            }
+
+            // Copy template files
+            $templateFiles = File::files($this->viewPath . '/type/' . $type);
+            if ($templateFiles) {
+                foreach ($templateFiles as $file) {
+                    $baseName = basename($file);
+                    File::copy($file, $contentPath . '/' . $baseName);
+                }
+            }
+        }
     }
 
 }

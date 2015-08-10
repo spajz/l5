@@ -38,6 +38,8 @@
 
                                 {!! Former::textarea('description')->addClass('ckeditor') !!}
 
+                                {!! Former::select('type')->options($config['type'])->class('select2') !!}
+
                                 {!! Former::hidden('featured')->forceValue(0) !!}
                                 {!! Former::checkbox('featured')->value(1) !!}
 
