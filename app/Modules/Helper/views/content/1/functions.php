@@ -1,7 +1,7 @@
 <?php
-function _result($view)
+function _result($view = null)
 {
-    return md5(Input::get('string'));
+    return view($view, ['result' => md5(Input::get('string'))])->render();
 }
 
 function _before()

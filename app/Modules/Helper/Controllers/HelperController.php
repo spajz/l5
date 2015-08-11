@@ -2,7 +2,7 @@
 
 use App\Modules\Front\Controllers\FrontController;
 use App\Modules\Helper\Models\Helper as Model;
-use DB;
+use Input;
 
 class HelperController extends FrontController
 {
@@ -44,11 +44,13 @@ class HelperController extends FrontController
             $before = _before();
         }
 
-        if (!is_null(session()->get('_result'))) {
-            $result = session()->get('_result');
-        }
+//        if (!is_null(session()->get('_result'))) {
+//            $result = session()->get('_result');
+//        }
+//
+//        $result = session()->get('_result');
 
-        $form = view()->make("{$this->moduleLower}::content.{$item->id}.form", compact('route', 'result'));
+        $form = view()->make("{$this->moduleLower}::content.{$item->id}.form", compact('route'));
 
         return view()->make("{$this->moduleLower}::front.single", compact(
             'item',
@@ -59,6 +61,7 @@ class HelperController extends FrontController
 
     public function process($id)
     {
+
         $item = Model::where('id', $id)->first();
         if (!$item) {
             return redirect()->route('home');
@@ -73,9 +76,7 @@ class HelperController extends FrontController
             $result = _result("{$this->moduleLower}::content.{$id}.result");
         }
 
-        session()->flash('_result', $result);
-
-        return redirect()->route("{$this->moduleLower}.show", $item->slug)->withInput();
+        return redirect()->route("{$this->moduleLower}.show", $item->slug)->withInput()->with('_result', $result);
 
     }
 
