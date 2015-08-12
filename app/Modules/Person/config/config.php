@@ -26,7 +26,7 @@ return [
         'max' => '4000', // max size in kilobytes (0 for no limit)
         'mainSize' => 'original', //  required
         'saveAs' => '', // force extension
-        'background' => '', // background color (transaprent to color background) - optional
+        'background' => '', // background color (transparent to color background) - optional
         'sizes' => [
             'original' => [
                 'quality' => 100,

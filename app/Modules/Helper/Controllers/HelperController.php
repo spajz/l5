@@ -29,55 +29,60 @@ class HelperController extends FrontController
     public function show($slug)
     {
         $item = Model::where('slug', $slug)->first();
-
         if (!$item) redirect()->route('home');
 
-        $contentPath = $this->contentPath . '/' . $item->id;
-
-        include_once($contentPath . '/functions.php');
-
-        $route = route("{$this->moduleLower}.process", $item->id);
+        $this->includeFiles($item->id);
 
         $before = null;
-        $result = null;
         if (function_exists('_before')) {
-            $before = _before();
+            $before = _before($item->id);
         }
 
-//        if (!is_null(session()->get('_result'))) {
-//            $result = session()->get('_result');
-//        }
-//
-//        $result = session()->get('_result');
-
-        $form = view()->make("{$this->moduleLower}::content.{$item->id}.form", compact('route'));
+        if (!is_null(session()->get('_result'))) {
+            $main = session()->get('_result');
+        } else {
+            $main = $this->getMain($item->id);
+        }
 
         return view()->make("{$this->moduleLower}::front.single", compact(
             'item',
             'before',
-            'form'
+            'main'
         ));
     }
 
     public function process($id)
     {
-
         $item = Model::where('id', $id)->first();
-        if (!$item) {
-            return redirect()->route('home');
-        }
+        if (!$item) return redirect()->route('home');
 
-        $contentPath = $this->contentPath . '/' . $item->id;
-
-        include_once($contentPath . '/functions.php');
+        $this->includeFiles($item->id);
 
         $result = null;
         if (function_exists('_result')) {
-            $result = _result("{$this->moduleLower}::content.{$id}.result");
+            $result = _result($id);
         }
 
-        return redirect()->route("{$this->moduleLower}.show", $item->slug)->withInput()->with('_result', $result);
+        $main = $this->getMain($id, $result);
 
+        return redirect()->route("{$this->moduleLower}.show", $item->slug)->withInput()->with('_result', $main);
+    }
+
+    public function getMain($id, $result = null)
+    {
+        $route = route("{$this->moduleLower}.process", $id);
+        return view()->make("{$this->moduleLower}::content.{$id}.main", compact('route', 'result'))->render();
+    }
+
+    protected function getRoute($id)
+    {
+        return route("{$this->moduleLower}.process", $id);
+    }
+
+    protected function includeFiles($id)
+    {
+        $contentPath = $this->contentPath . '/' . $id;
+        include_once($contentPath . '/functions.php');
     }
 
 }

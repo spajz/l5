@@ -178,16 +178,12 @@ if (!moduleLower) {
     scriptsArrayLocal = [config.assetsDir + 'js/added.js'];
 
     gulpCopy(
-        [
-            config.bowerDir + 'video.js/dist/video-js/video-js.swf',
-        ],
+        [config.bowerDir + 'video.js/dist/video-js/video-js.swf',],
         [config.baseOutput + 'js/']
     );
 
     gulpCopy(
-        [
-            config.bowerDir + 'video.js/dist/video-js/font/**/*',
-        ],
+        [config.bowerDir + 'video.js/dist/video-js/font/**/*',],
         [config.baseOutput + 'css/font/']
     );
 
@@ -355,9 +351,7 @@ if (moduleLower) {
         );
 
         gulpCopy(
-            [
-                config.bowerDir + 'video.js/dist/video-js/video-js.swf',
-            ],
+            [config.bowerDir + 'video.js/dist/video-js/video-js.swf',],
             [config.baseOutput + 'js/']
         );
 

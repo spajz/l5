@@ -2,8 +2,6 @@
 
 use Illuminate\Foundation\Application;
 
-//use Illuminate\Filesystem\Filesystem;
-
 class Module
 {
     /**
@@ -150,7 +148,6 @@ class Module
                 $moduleArray['path'] = dirname($file);
                 return $moduleArray;
                 break;
-
         }
         return $modules;
     }

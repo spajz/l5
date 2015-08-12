@@ -1,10 +1,12 @@
 <?php
-function _result($view = null)
+function _result($id = null)
 {
-    return view($view, ['result' => md5(Input::get('string'))])->render();
+    return Former::text('result')
+        ->forceValue(md5(Input::get('string')))
+        ->disabled();
 }
 
-function _before()
+function _before($id = null)
 {
 
 }

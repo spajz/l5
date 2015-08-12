@@ -38,13 +38,43 @@
 
                                 {!! Former::textarea('description')->addClass('ckeditor') !!}
 
-                                {!! Former::select('type')->options($config['type'])->class('select2') !!}
-
                                 {!! Former::hidden('featured')->forceValue(0) !!}
                                 {!! Former::checkbox('featured')->value(1) !!}
 
                                 {!! Former::hidden('status')->forceValue(0) !!}
                                 {!! Former::checkbox('status')->value(1) !!}
+
+                                {!! $formButtons or '' !!}
+
+                            </div>
+                            <!-- /.col-xs-12 -->
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-xs-12 -->
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Code Edit
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+
+                                {!! Former::select('type')->options($config['type'])->class('select2') !!}
+
+                                {!! Former::text('add_custom_file') !!}
+
+                                @if(count($deleteFiles))
+                                    {!! Former::checkboxes('delete_files')->checkboxes($deleteFiles) !!}
+                                @endif
 
                                 <?php $i=0; ?>
                                 @if($contentFiles)
@@ -97,17 +127,12 @@
         function initEditor(){
             $('.editor-box').each(function (index) {
                 initialContent = $('#editor-form-' + index).val();
-
                 textarea[index] = $('#editor-form-' + index);
-                //        $('#editor-form-' + index).hide();
-
+                //$('#editor-form-' + index).hide();
                 editor[index] = ace.edit('editor-box-' + index);
-
                 editor[index].setValue(initialContent);
-
                 editor[index].setTheme("ace/theme/twilight");
                 editor[index].getSession().setMode("ace/mode/php");
-
                 editor[index].getSession().on('change', function () {
                     textarea[index].val(editor[index].getSession().getValue());
                 });

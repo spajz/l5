@@ -182,6 +182,7 @@ class HelperController extends AdminController
         // Check content
         $files = [];
         $contentFiles = [];
+        $deleteFiles = [];
         $contentPath = $this->contentPath . '/' . $id;
         if ($filesystem::isDirectory($contentPath)) {
             $files = $filesystem::files($contentPath);
@@ -190,6 +191,10 @@ class HelperController extends AdminController
         foreach ($files as $file) {
             $baseName = basename($file);
             $contentFiles[$baseName] = $filesystem::get($file);
+            $deleteFiles[$baseName] = [
+                'name' => 'delete_files[]',
+                'value' => $baseName,
+            ];
         }
 
         return view("{$this->viewBase}.edit",
@@ -199,7 +204,8 @@ class HelperController extends AdminController
                 'statusButton',
                 'validationRules',
                 'groups',
-                'contentFiles'
+                'contentFiles',
+                'deleteFiles'
             ));
     }
 
@@ -233,9 +239,30 @@ class HelperController extends AdminController
         if ($item->type != Input::get('type') || !$filesystem::isDirectory($contentPath)) {
             $this->copyTemplateFiles(Input::get('type'), $id);
         } else {
-            foreach ($this->files as $file) {
+            // Delete files
+            if($deleteFiles = Input::get('delete_files')){
+                foreach($deleteFiles as $deleteFile){
+                    $filesystem::delete($contentPath . '/' . $deleteFile);
+                }
+            }
+
+            // Update files
+            $files = $this->getFiles($id);
+            foreach ($files as $file) {
                 if (Input::get(base64_encode($file), false) !== false) {
                     $filesystem::put($contentPath . '/' . $file, Input::get(base64_encode($file)));
+                }
+            }
+
+            // Add custom file
+            if($addCustomFile = Input::get('add_custom_file')){
+                if(strpos($addCustomFile, ',')){
+                    $customFiles = explode(',', $addCustomFile);
+                } else {
+                    $customFiles[] = $addCustomFile;
+                }
+                foreach($customFiles as $customFile){
+                    $filesystem::put($contentPath . '/' . $customFile, '');
                 }
             }
         }
@@ -321,7 +348,7 @@ class HelperController extends AdminController
             }
 
             // Delete existing files
-            $contentFiles = File::files($contentPath);
+            $contentFiles = $this->getFiles($id);
             if ($contentFiles) {
                 foreach ($contentFiles as $file) {
                     File::delete($file);
@@ -337,6 +364,16 @@ class HelperController extends AdminController
                 }
             }
         }
+    }
+
+    protected function getFiles($id)
+    {
+        $out = [];
+        $contentPath = $this->contentPath . '/' . $id;
+
+        if (!File::isDirectory($contentPath)) return $out;
+
+        return File::files($contentPath);
     }
 
 }
