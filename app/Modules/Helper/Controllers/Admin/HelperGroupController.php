@@ -92,10 +92,17 @@ class HelperGroupController extends AdminController
         // Add validation from model to former
         $validationRules = $model::rulesMergeStore();
 
+        $groups = $model::select('id', 'title')
+            ->orderBy('title')
+            ->lists('title', 'id');
+
+        $groups = $groups + [null => '* ROOT'];
+
         return view("{$this->viewBase}.create",
             compact(
                 'formButtons',
-                'validationRules'
+                'validationRules',
+                'groups'
             ));
     }
 
@@ -145,12 +152,20 @@ class HelperGroupController extends AdminController
         // Add validation from model to former
         $validationRules = $model::rulesMergeUpdate();
 
+        $groups = $model::select('id', 'title')
+            ->where('id', '!=', $id)
+            ->orderBy('title')
+            ->lists('title', 'id')->toArray();
+
+        $groups =[null => '* ROOT'] +  $groups;
+
         return view("{$this->viewBase}.edit",
             compact(
                 'item',
                 'formButtons',
                 'statusButton',
-                'validationRules'
+                'validationRules',
+                'groups'
             ));
     }
 
@@ -216,6 +231,28 @@ class HelperGroupController extends AdminController
         $model = $this->modelName;
         $items = $model::all();
         return view("{$this->viewBase}.order", compact('model', 'items'));
+    }
+
+    /**
+     * Reorder items.
+     *
+     * @return Response
+     */
+    public function tree()
+    {
+        $columns = function ($item) {
+            return [
+                'Title' => $item->first_name,
+                'Order' => $item->status
+            ];
+        };
+        $model = $this->modelName;
+        $items = $model::orderBy('status')->get();
+        $headerTitles = [];
+        if (count($items)) {
+            $headerTitles = $columns($items[0]);
+        }
+        return view("{$this->viewBase}.tree", compact('model', 'items', 'columns', 'headerTitles'));
     }
 
 }

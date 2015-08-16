@@ -33,7 +33,8 @@
 		"barryvdh/laravel-debugbar": "^2.0",
 		"dimsav/laravel-translatable": "^5.1",
         "barryvdh/laravel-translation-manager": "dev-master as 0.2.1",
-		"caffeinated/modules": "~2.0"
+		"caffeinated/modules": "~2.0",
+		"kalnoy/nestedset": "^3.0"
 	},
     "require-dev": {
         "fzaninotto/faker": "~1.5",

@@ -75,7 +75,7 @@ class AdminController extends BaseController
             Session::put('settings.tab', '#basic');
         }
 
-        if(strpos(Route::currentRouteName(), 'create') !== false){
+        if (strpos(Route::currentRouteName(), 'create') !== false) {
             Session::put('settings.tab', '#basic');
         }
     }
@@ -366,6 +366,47 @@ class AdminController extends BaseController
         if (Input::get('session')) {
             Session::put(Input::get('session'));
         }
+    }
+
+    /*
+     *  Get tree
+    [{
+        "id":1,"text":"Root node","children":[
+            {"id":2,"text":"Child node 1"},
+            {"id":3,"text":"Child node 2"}
+        ]
+    }]
+    */
+    public function getTree()
+    {
+//        dd(Input::all());
+        $model = urldecode2(Input::get('model'));
+//        $items = $model::select('*')->get();
+        $tree = $model::defaultOrder()->get()->toTree();
+
+        return response()->json($tree);
+
+        if (count($items)) {
+            foreach ($items as $item) {
+
+            }
+        }
+    }
+
+    public function setTree()
+    {
+        $model = urldecode2(Input::get('model'));
+        $json = json_decode(Input::get('data'));
+//        if (is_array($json)) {
+//            foreach ($json as $item) {
+//                $updateItem = $model::find($item->id);
+//                if ($updateItem) {
+//                    $updateItem->parent_id = is_numeric($item->parent) ? $item->parent : null;
+//                    $updateItem->save();
+//                }
+//            }
+//        }
+        return response()->json($json);
     }
 
 }

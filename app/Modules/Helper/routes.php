@@ -49,6 +49,8 @@ Route::group(array("prefix" => 'admin'), function () use ($moduleUpper, $moduleL
 
         Route::get("{$moduleLower}/order", array("as" => "admin.{$moduleLower}.order", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@order"));
 
+        Route::get("{$moduleLower}/tree", array("as" => "admin.{$moduleLower}.menu", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@tree"));
+
         Route::get("{$moduleLower}/{id}/edit", array("as" => "admin.{$moduleLower}.edit", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@edit"));
 
         Route::get("{$moduleLower}/{id}/destroy", array("as" => "admin.{$moduleLower}.destroy", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@destroy"));

@@ -1,24 +1,26 @@
 <?php namespace App\Modules\Helper\Models;
 
-use App\BaseBaumModel;
+use App\BaseNestedsetModel;
 use App\Traits\ValidationTrait;
 use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
-use Input;
 
-class HelperGroup extends BaseBaumModel implements SluggableInterface
+class HelperGroup extends BaseNestedsetModel implements SluggableInterface
 {
     use ValidationTrait;
     use SluggableTrait;
 
     protected $table = 'helper_groups';
 
+    protected $appends = ['text'];
+
     protected $fillable = array(
         'title',
         'slug',
         'intro',
         'description',
-        'status'
+        'status',
+        'parent_id'
     );
 
     protected $sluggable = [
@@ -43,6 +45,11 @@ class HelperGroup extends BaseBaumModel implements SluggableInterface
     public function helpers()
     {
         return $this->hasMany('App\Modules\Helper\Models\helper', 'helper_group_id');
+    }
+
+    public function getTextAttribute()
+    {
+        return $this->attributes['title'];
     }
 
 }

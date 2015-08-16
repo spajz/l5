@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Kalnoy\Nestedset\NestedSet;
 
 class CreateHelperGroupsTable extends Migration
 {
@@ -21,10 +22,12 @@ class CreateHelperGroupsTable extends Migration
             $table->text('intro')->nullable();
             $table->text('description')->nullable();
 
-            $table->integer('parent_id')->nullable()->index();
-            $table->integer('lft')->nullable()->index();
-            $table->integer('rgt')->nullable()->index();
-            $table->integer('depth')->nullable();
+//            $table->integer('parent_id')->nullable()->index();
+//            $table->integer('lft')->nullable()->index();
+//            $table->integer('rgt')->nullable()->index();
+//            $table->integer('depth')->nullable();
+
+            NestedSet::columns($table);
 
             $table->tinyInteger('status')->default(0);
             $table->timestamps();

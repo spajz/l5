@@ -32,6 +32,8 @@
 
                                 {!! Former::text('slug') !!}
 
+                                {!! Former::select('parent_id')->options($groups)->class('select2')->label('Parent') !!}
+
                                 {!! Former::textarea('intro') !!}
 
                                 {!! Former::textarea('description')->addClass('ckeditor') !!}

@@ -16,6 +16,9 @@
         <li>
             <a href="{{ route('admin.helpergroup.create') }}">Group Create</a>
         </li>
+        <li>
+            <a href="{{ route('admin.helpergroup.menu') }}">Group Tree</a>
+        </li>
     </ul>
     <!-- /.nav-second-level -->
 </li>

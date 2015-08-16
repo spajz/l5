@@ -25,6 +25,9 @@ Route::group(['prefix' => ADMIN], function () {
     Route::post('api/set-session', ['as' => 'api.admin.set.session', 'uses' => 'App\Modules\Admin\Controllers\AdminController@setSession']);
 
     Route::get('api/prepare-images', ['as' => 'api.admin.prepare.images', 'uses' => 'App\Modules\Admin\Controllers\LocalController@prepareImages']);
+
+    Route::post('api/get-tree', ['as' => 'api.admin.get.tree', 'uses' => 'App\Modules\Admin\Controllers\AdminController@getTree']);
+    Route::post('api/set-tree', ['as' => 'api.admin.set.tree', 'uses' => 'App\Modules\Admin\Controllers\AdminController@setTree']);
 });
 
 Route::get('admin/login', ['as' => 'admin.get.login', 'uses' => 'App\Modules\Admin\Controllers\AuthController@getLogin']);
