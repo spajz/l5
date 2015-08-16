@@ -94,9 +94,10 @@ class HelperGroupController extends AdminController
 
         $groups = $model::select('id', 'title')
             ->orderBy('title')
-            ->lists('title', 'id');
+            ->lists('title', 'id')
+            ->toArray();
 
-        $groups = $groups + [null => '* ROOT'];
+        $groups = count($groups) ? [null => '* ROOT'] + $groups : [null => '* ROOT'];
 
         return view("{$this->viewBase}.create",
             compact(
@@ -157,7 +158,7 @@ class HelperGroupController extends AdminController
             ->orderBy('title')
             ->lists('title', 'id')->toArray();
 
-        $groups =[null => '* ROOT'] +  $groups;
+        $groups = [null => '* ROOT'] + $groups;
 
         return view("{$this->viewBase}.edit",
             compact(
@@ -240,19 +241,26 @@ class HelperGroupController extends AdminController
      */
     public function tree()
     {
+
+        $model = $this->modelName;
+        $tree = $model::all()->toHierarchy();
+
+
         $columns = function ($item) {
             return [
                 'Title' => $item->first_name,
                 'Order' => $item->status
             ];
         };
-        $model = $this->modelName;
         $items = $model::orderBy('status')->get();
         $headerTitles = [];
         if (count($items)) {
             $headerTitles = $columns($items[0]);
         }
-        return view("{$this->viewBase}.tree", compact('model', 'items', 'columns', 'headerTitles'));
+        return view("{$this->viewBase}.tree", compact('model', 'items', 'columns', 'headerTitles', 'tree'));
     }
+
+
+
 
 }

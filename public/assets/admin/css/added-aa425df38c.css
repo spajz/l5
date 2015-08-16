@@ -418,3 +418,28 @@ div.awesomplete > ul {
     display: block;
     border-bottom: 1px solid #000;
 }
+
+/* Tree */
+.tree {
+    margin-right: 15px;
+}
+
+.list-group-item {
+    border: none;
+    padding: 10px 0 10px 15px;
+}
+
+.placeholder {
+    border: 1px dashed #ccc;
+}
+
+.list-group-item span {
+    display: block;
+    border-bottom: 1px solid #999;
+}
+
+ul.tree, ul.tree ul {
+    list-style-type: none;
+}
+
+

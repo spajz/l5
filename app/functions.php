@@ -472,6 +472,28 @@ if (!function_exists('elixir2')) {
         }
     }
 
+    if (!function_exists('render_node')) {
+        function render_node($node)
+        {
+            if ($node->isLeaf()) {
+                return '<li class="list-group-item"><span>' . $node->title . '</span></li>';
+            } else {
+                $html = '<li class="list-group-item"><span>' . $node->title . '</span>';
+
+                $html .= '<ul>';
+
+                foreach ($node->children as $child)
+                    $html .= render_node($child);
+
+                $html .= '</ul>';
+
+                $html .= '</li>';
+            }
+
+            return $html;
+        }
+    }
+
 }
 
 

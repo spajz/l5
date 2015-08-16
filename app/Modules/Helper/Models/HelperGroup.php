@@ -1,11 +1,11 @@
 <?php namespace App\Modules\Helper\Models;
 
-use App\BaseNestedsetModel;
+use App\BaseBaumModel;
 use App\Traits\ValidationTrait;
 use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
 
-class HelperGroup extends BaseNestedsetModel implements SluggableInterface
+class HelperGroup extends BaseBaumModel implements SluggableInterface
 {
     use ValidationTrait;
     use SluggableTrait;
@@ -20,7 +20,6 @@ class HelperGroup extends BaseNestedsetModel implements SluggableInterface
         'intro',
         'description',
         'status',
-        'parent_id'
     );
 
     protected $sluggable = [

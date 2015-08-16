@@ -171,6 +171,7 @@ if (!moduleLower) {
         config.bowerDir + 'mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js',
         config.bowerDir + 'devbridge-autocomplete/dist/jquery.autocomplete.min.js',
         config.bowerDir + 'jstree/dist/jstree.min.js',
+        config.bowerDir + 'jquery-nested-sortable/jquery.mjs.nestedSortable.js',
 
         //config.assetsDir + 'js/added.js',
     ];

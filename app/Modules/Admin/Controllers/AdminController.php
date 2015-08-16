@@ -382,7 +382,9 @@ class AdminController extends BaseController
 //        dd(Input::all());
         $model = urldecode2(Input::get('model'));
 //        $items = $model::select('*')->get();
-        $tree = $model::defaultOrder()->get()->toTree();
+//        $tree = $model::defaultOrder()->get()->toTree();
+
+        $tree = $model::all()->toHierarchy()->toArray();
 
         return response()->json($tree);
 

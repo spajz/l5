@@ -20,7 +20,13 @@
                     <div class="row">
                         <div class="col-xs-12">
 
-                            <div id="tree" data-id="tree-{{$moduleLower}}"></div>
+                            {{--<div id="tree" data-id="tree-{{$moduleLower}}"></div>--}}
+
+                            <ul class="tree list-group">
+                                @foreach($tree as $treeItem)
+                                    {!! render_node($treeItem) !!}
+                                @endforeach
+                            </ul>
 
                         </div>
                         <!-- /.col-xs-12 -->
@@ -112,6 +118,18 @@
         $(function () {
 
 
+
+                $('.tree').nestedSortable({
+                    listType: 'ul',
+                    items: 'li',
+                    forcePlaceholderSize: true,
+                    placeholder: 'placeholder',
+                    opacity: .8,
+
+                });
+
+
+
             $('#tree').jstree({
                 'plugins' : ['dnd', 'state'],
                 'core': {
@@ -135,7 +153,7 @@
             });
 
             $('#tree').on("move_node.jstree", function (e, data) {
-                var v = $(this).jstree(true).get_json('#', {no_data:true})
+                var v = $(this).jstree(true).get_json('#')
                 var j = JSON.stringify(v);
                 console.log(v)
 
