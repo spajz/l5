@@ -393,12 +393,52 @@ class AdminController extends BaseController
 
             }
         }
+
+
     }
 
     public function setTree()
     {
+
+        $categories = [
+            ['id' => 1, 'title' => 'TV & Home Theather'],
+            ['id' => 2, 'title' => 'Tablets & E-Readers'],
+            ['id' => 3, 'title' => 'Computers', 'children' => [
+                ['id' => 4, 'title' => 'Laptops', 'children' => [
+                    ['id' => 5, 'title' => 'PC Laptops'],
+                    ['id' => 6, 'title' => 'Macbooks (Air/Pro)']
+                ]],
+                ['id' => 7, 'title' => 'Desktops', 'children' => [
+                    // These will be created
+                    ['title' => 'Towers Only'],
+                    ['title' => 'Desktop Packages'],
+                    ['title' => 'All-in-One Computers'],
+                    ['title' => 'Gaming Desktops']
+                ]]
+                // This one, as it's not present, will be deleted
+                // ['id' => 8, 'title' => 'Monitors'],
+            ]],
+            ['id' => 9, 'title' => 'Cell Phones']
+        ];
+
+
+
         $model = urldecode2(Input::get('model'));
-        $json = json_decode(Input::get('data'));
+        $json = json_decode(Input::get('data'), true);
+
+
+        remove_key($json, 'data');
+        remove_key($json, 'a_attr');
+        remove_key($json, 'icon');
+        remove_key($json, 'li_attr');
+        remove_key($json, 'state');
+
+//       return response()->json($json);
+//        dd($json);
+        
+
+        $model::buildTree($json);
+
 //        if (is_array($json)) {
 //            foreach ($json as $item) {
 //                $updateItem = $model::find($item->id);
@@ -408,7 +448,7 @@ class AdminController extends BaseController
 //                }
 //            }
 //        }
-        return response()->json($json);
+        return response()->json($categories);
     }
 
 }

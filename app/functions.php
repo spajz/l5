@@ -472,8 +472,8 @@ if (!function_exists('elixir2')) {
         }
     }
 
-    if (!function_exists('render_node')) {
-        function render_node($node)
+    if (!function_exists('render_node2')) {
+        function render_node2($node)
         {
             if ($node->isLeaf()) {
                 return '<li class="list-group-item"><span>' . $node->title . '</span></li>';
@@ -493,6 +493,38 @@ if (!function_exists('elixir2')) {
             return $html;
         }
     }
+
+    if (!function_exists('render_node')) {
+        function render_node($node)
+        {
+            if ($node->isLeaf()) {
+                return '<li id="' . $node->id . '">' . $node->title . '</li>';
+            } else {
+                $html = '<li id="' . $node->id . '">' . $node->title;
+
+                $html .= '<ul>';
+
+                foreach ($node->children as $child)
+                    $html .= render_node($child);
+
+                $html .= '</ul>';
+
+                $html .= '</li>';
+            }
+
+            return $html;
+        }
+    }
+
+    function remove_key(&$array, $unwanted_key) {
+        unset($array[$unwanted_key]);
+        foreach ($array as &$value) {
+            if (is_array($value)) {
+                remove_key($value, $unwanted_key);
+            }
+        }
+    }
+
 
 }
 

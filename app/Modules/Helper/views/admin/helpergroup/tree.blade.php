@@ -22,11 +22,13 @@
 
                             {{--<div id="tree" data-id="tree-{{$moduleLower}}"></div>--}}
 
-                            <ul class="tree list-group">
-                                @foreach($tree as $treeItem)
-                                    {!! render_node($treeItem) !!}
-                                @endforeach
-                            </ul>
+                            <div id="tree">
+                                <ul>
+                                    @foreach($tree as $treeItem)
+                                        {!! render_node($treeItem) !!}
+                                    @endforeach
+                                </ul>
+                            </div>
 
                         </div>
                         <!-- /.col-xs-12 -->
@@ -129,8 +131,20 @@
                 });
 
 
-
             $('#tree').jstree({
+                'plugins' : ['dnd', 'state'],
+                'core': {
+                    'check_callback' : function(){
+                        console.log()
+                    },
+                },
+                'state': {
+                    'key': $(this).data('id')
+                }
+            });
+
+
+            $('#tree4').jstree({
                 'plugins' : ['dnd', 'state'],
                 'core': {
                     'check_callback' : function(){
@@ -142,9 +156,6 @@
                         'data': {
                             'model': '{{ urlencode2($modelName) }}'
                         },
-                        'success': function(data){
-//                           console.log(data);
-                        }
                     }
                 },
                 'state': {
@@ -153,9 +164,9 @@
             });
 
             $('#tree').on("move_node.jstree", function (e, data) {
-                var v = $(this).jstree(true).get_json('#')
+                var v = $(this).jstree(true).get_json('#', {no_data: true})
                 var j = JSON.stringify(v);
-                console.log(v)
+//                console.log(v)
 
                 $.ajax({
                     url: baseUrlAdmin + '/api/set-tree',
@@ -165,13 +176,15 @@
                         'data': j
                     },
                     success: function (data, textStatus, jqXHR) {
-//                        console.log(data)
+                        console.log(data)
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         alert('Server error.');
                     },
                 });
             });
+
+
 
 
 
