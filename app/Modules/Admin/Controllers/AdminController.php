@@ -11,6 +11,37 @@ use App\Models\Content;
 use Session;
 use Route;
 
+use League\Fractal;
+use League\Fractal\Manager;
+use League\Fractal\Resource\Collection;
+
+
+function make_collection($collection){
+    if(!$collection instanceof \Illuminate\Support\Collection){
+        $collection = collect($collection);
+    }
+
+    return $collection->transform(function ($item, $key) {
+        if(isset($item['children'])){
+            $item['children'] = make_collection($item['children']);
+        }
+        return $item;
+    });
+}
+
+function make_fractal($collection){
+    if(!$collection instanceof \Illuminate\Support\Collection){
+        $collection = collect($collection);
+    }
+
+    return $collection->transform(function ($item, $key) {
+        if(isset($item['children'])){
+            $item['children'] = make_collection($item['children']);
+        }
+        return $item;
+    });
+}
+
 class AdminController extends BaseController
 {
     protected $layout;
@@ -397,6 +428,16 @@ class AdminController extends BaseController
 
     }
 
+    public function ttt($collection){
+        $thisObj = $this;
+        return $collection->transform(function ($item, $key) use($thisObj) {
+            if(isset($item['children'])){
+                $item['children'] = $thisObj->ttt(collect($item['children']));
+            }
+            return $item;
+        });
+    }
+
     public function setTree()
     {
 
@@ -427,6 +468,92 @@ class AdminController extends BaseController
         $json = json_decode(Input::get('data'), true);
 
 
+
+
+        $fractal = new Manager();
+        $resource = new Collection($json, function($book) {
+            return [
+                'id'      => (int) $book['id'],
+                'title'   => $book['text'],
+
+                'children'   => collect($book['children'])
+            ];
+        });
+
+        // Turn that into a structured array (handy for XML views or auto-YAML converting)
+        $array = $fractal->createData($resource)->toArray();
+
+// Turn all of that into a JSON string
+        echo $fractal->createData($resource)->toJson();
+
+        exit;
+
+
+
+        $collection = collect($json);
+
+
+        $books = make_collection($collection);
+        $books = \App\Modules\Helper\Models\HelperGroup::all();
+/*
+
+        #items: array:1 [
+        0 => array:8 [
+            "id" => "2"
+            "text" => "Group 002"
+            "icon" => true
+            "li_attr" => array:1 [
+                    "id" => "2"
+                ]
+            "a_attr" => array:2 [
+                     "href" => "#"
+                     "id" => "2_anchor"
+             ]
+            "state" => array:4 [
+            "loaded" => true
+                  "opened" => false
+                  "selected" => false
+                  "disabled" => false
+            ]
+            "data" => false
+            "children" => Collection {#466
+                #items: []
+            }
+          ]
+        ]
+*/
+
+        $resource = new Fractal\Resource\Collection($books, function($book) {
+            return [
+                'id'      => (int) $book['id'],
+                'title'   => $book['title'],
+                'icon'    => 'FIX',
+//                'children'   => $book['children']
+            ];
+        });
+
+        foreach($resource as $item){
+            ee($item);
+        };
+
+
+        dd($resource);
+
+
+//        $collection->transform(function ($item, $key) {
+//            if(isset($item['children'])){
+//                $item['children'] = collect($item['children']);
+//            }
+//            return $item;
+//        });
+
+
+        dd($ttt);
+        exit;
+
+        dd($collection);
+
+
         remove_key($json, 'data');
         remove_key($json, 'a_attr');
         remove_key($json, 'icon');
@@ -451,4 +578,10 @@ class AdminController extends BaseController
         return response()->json($categories);
     }
 
+
+
+    public function fun($v){
+
+return $v . ' - - ';
+    }
 }
