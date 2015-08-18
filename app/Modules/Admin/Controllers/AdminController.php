@@ -16,33 +16,6 @@ use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 use App\Library\Transformer;
 
-
-function make_collection($collection){
-    if(!$collection instanceof \Illuminate\Support\Collection){
-        $collection = collect($collection);
-    }
-
-    return $collection->transform(function ($item, $key) {
-        if(isset($item['children'])){
-            $item['children'] = make_collection($item['children']);
-        }
-        return $item;
-    });
-}
-
-function make_fractal($collection){
-    if(!$collection instanceof \Illuminate\Support\Collection){
-        $collection = collect($collection);
-    }
-
-    return $collection->transform(function ($item, $key) {
-        if(isset($item['children'])){
-            $item['children'] = make_collection($item['children']);
-        }
-        return $item;
-    });
-}
-
 class AdminController extends BaseController
 {
     protected $layout;
@@ -429,198 +402,53 @@ class AdminController extends BaseController
 
     }
 
-    public function ttt($collection){
-        $thisObj = $this;
-        return $collection->transform(function ($item, $key) use($thisObj) {
-            if(isset($item['children'])){
-                $item['children'] = $thisObj->ttt(collect($item['children']));
-            }
-            return $item;
-        });
-    }
+
+    /*
+    "id" => "1"
+    "text" => "consequatur"
+    "icon" => true
+    "li_attr" => array:1 [
+    "id" => "1"
+    ]
+    "a_attr" => array:2 [
+    "href" => "#"
+    "id" => "1_anchor"
+    ]
+    "state" => array:4 [
+    "loaded" => true
+    "opened" => false
+    "selected" => false
+    "disabled" => false
+    ]
+    "data" => false
+    "children" => array:1 [
+        */
 
     public function setTree()
     {
-
-        $categories = [
-            ['id' => 1, 'title' => 'TV & Home Theather'],
-            ['id' => 2, 'title' => 'Tablets & E-Readers'],
-            ['id' => 3, 'title' => 'Computers', 'children' => [
-                ['id' => 4, 'title' => 'Laptops', 'children' => [
-                    ['id' => 5, 'title' => 'PC Laptops'],
-                    ['id' => 6, 'title' => 'Macbooks (Air/Pro)']
-                ]],
-                ['id' => 7, 'title' => 'Desktops', 'children' => [
-                    // These will be created
-                    ['title' => 'Towers Only'],
-                    ['title' => 'Desktop Packages'],
-                    ['title' => 'All-in-One Computers'],
-                    ['title' => 'Gaming Desktops']
-                ]]
-                // This one, as it's not present, will be deleted
-                // ['id' => 8, 'title' => 'Monitors'],
-            ]],
-            ['id' => 9, 'title' => 'Cell Phones']
-        ];
-
-        $transArray = function($item){
+        $transformerClosure = function ($item) {
             return [
-                'id'      => (int) $item['id'],
-                'title'   => $item['text'],
-                'keleraba' => [
-                    'kung' => $item['text'],
-                    'fu' => '1 2 3 4 5',
-                ],
-                'a_attr' => $item['a_attr'],
-
-                'children'   => $item['children'],
+                'id' =>$item['id'],
+                'title' => $item['text'],
+                'children' => $item['children'],
             ];
         };
-
-        $ch = function($item){
-            return [
-                'id'      => 55,
-                'title'   => 77,
-                'rumun' => [
-                    '22' => 88,
-                    '33' => '1 2 3 4 5',
-                ],
-            ];
-        };
-
 
         $model = urldecode2(Input::get('model'));
         $json = json_decode(Input::get('data'), true);
 
-
         $transformer = new Transformer;
-//        $transformer->setTransformer($transArray);
+        $transformer->setTransformer($transformerClosure);
 
 //        $transformer->setTransformerByKey('a_attr', $ch);
 
-//        $transformer->setCollectionIgnoreKeys(['li_attr', 'a_attr']);
+       $transformer->setCollectionIgnoreKeys(['li_attr', 'a_attr', 'state']);
 
-        $t = $transformer->makeCollection($json);
-
-
+//        $t = $transformer->transformCollection($json);
+        $t = $transformer->transformArray($json);
 
         dd($t);
 
-
-
-
-        $fractal = new Manager();
-        $resource = new Collection($json, function($book) {
-            return [
-                'id'      => (int) $book['id'],
-                'title'   => $book['text'],
-
-                'children'   => collect($book['children'])
-            ];
-        });
-
-        // Turn that into a structured array (handy for XML views or auto-YAML converting)
-        $array = $fractal->createData($resource)->toArray();
-
-// Turn all of that into a JSON string
-        echo $fractal->createData($resource)->toJson();
-
-        exit;
-
-
-
-        $collection = collect($json);
-
-
-        $books = make_collection($collection);
-        $books = \App\Modules\Helper\Models\HelperGroup::all();
-/*
-
-        #items: array:1 [
-        0 => array:8 [
-            "id" => "2"
-            "text" => "Group 002"
-            "icon" => true
-            "li_attr" => array:1 [
-                    "id" => "2"
-                ]
-            "a_attr" => array:2 [
-                     "href" => "#"
-                     "id" => "2_anchor"
-             ]
-            "state" => array:4 [
-            "loaded" => true
-                  "opened" => false
-                  "selected" => false
-                  "disabled" => false
-            ]
-            "data" => false
-            "children" => Collection {#466
-                #items: []
-            }
-          ]
-        ]
-*/
-
-        $resource = new Fractal\Resource\Collection($books, function($book) {
-            return [
-                'id'      => (int) $book['id'],
-                'title'   => $book['title'],
-                'icon'    => 'FIX',
-//                'children'   => $book['children']
-            ];
-        });
-
-        foreach($resource as $item){
-            ee($item);
-        };
-
-
-        dd($resource);
-
-
-//        $collection->transform(function ($item, $key) {
-//            if(isset($item['children'])){
-//                $item['children'] = collect($item['children']);
-//            }
-//            return $item;
-//        });
-
-
-        dd($ttt);
-        exit;
-
-        dd($collection);
-
-
-        remove_key($json, 'data');
-        remove_key($json, 'a_attr');
-        remove_key($json, 'icon');
-        remove_key($json, 'li_attr');
-        remove_key($json, 'state');
-
-//       return response()->json($json);
-//        dd($json);
-
-
-        $model::buildTree($json);
-
-//        if (is_array($json)) {
-//            foreach ($json as $item) {
-//                $updateItem = $model::find($item->id);
-//                if ($updateItem) {
-//                    $updateItem->parent_id = is_numeric($item->parent) ? $item->parent : null;
-//                    $updateItem->save();
-//                }
-//            }
-//        }
-        return response()->json($categories);
     }
 
-
-
-    public function fun($v){
-
-return $v . ' - - ';
-    }
 }
