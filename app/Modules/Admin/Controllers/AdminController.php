@@ -435,7 +435,7 @@ class AdminController extends BaseController
 
 //       return response()->json($json);
 //        dd($json);
-        
+
 
         $model::buildTree($json);
 
