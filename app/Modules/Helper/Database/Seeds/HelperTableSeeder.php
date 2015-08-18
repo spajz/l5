@@ -3,6 +3,7 @@
 use Faker\Factory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Modules\Helper\Database\Seeds\HelperGroupTableSeeder;
 
 class HelperTableSeeder extends Seeder {
 
@@ -12,6 +13,8 @@ class HelperTableSeeder extends Seeder {
     {
         $faker = Factory::create();
         $items = array();
+
+        $this->call(HelperGroupTableSeeder::class);
 
         // Create 100 items
 //        for ($i = 0; $i < 100; $i++) {
@@ -34,7 +37,7 @@ class HelperTableSeeder extends Seeder {
 //        }
 
         // Delete all items
-        DB::table($this->table)->truncate();
-        DB::table($this->table)->insert($items);
+        //DB::table($this->table)->truncate();
+        //DB::table($this->table)->insert($items);
     }
 }

@@ -14,6 +14,7 @@ use Route;
 use League\Fractal;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
+use App\Library\Transformer;
 
 
 function make_collection($collection){
@@ -462,10 +463,48 @@ class AdminController extends BaseController
             ['id' => 9, 'title' => 'Cell Phones']
         ];
 
+        $transArray = function($item){
+            return [
+                'id'      => (int) $item['id'],
+                'title'   => $item['text'],
+                'keleraba' => [
+                    'kung' => $item['text'],
+                    'fu' => '1 2 3 4 5',
+                ],
+                'a_attr' => $item['a_attr'],
+
+                'children'   => $item['children'],
+            ];
+        };
+
+        $ch = function($item){
+            return [
+                'id'      => 55,
+                'title'   => 77,
+                'rumun' => [
+                    '22' => 88,
+                    '33' => '1 2 3 4 5',
+                ],
+            ];
+        };
 
 
         $model = urldecode2(Input::get('model'));
         $json = json_decode(Input::get('data'), true);
+
+
+        $transformer = new Transformer;
+//        $transformer->setTransformer($transArray);
+
+//        $transformer->setTransformerByKey('a_attr', $ch);
+
+//        $transformer->setCollectionIgnoreKeys(['li_attr', 'a_attr']);
+
+        $t = $transformer->makeCollection($json);
+
+
+
+        dd($t);
 
 
 

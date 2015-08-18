@@ -516,7 +516,15 @@ if (!function_exists('elixir2')) {
         }
     }
 
-    function remove_key(&$array, $unwanted_key) {
+    if (!function_exists('is_closure')) {
+        function is_closure($t)
+        {
+            return is_object($t) && ($t instanceof Closure);
+        }
+    }
+
+    function remove_key(&$array, $unwanted_key)
+    {
         unset($array[$unwanted_key]);
         foreach ($array as &$value) {
             if (is_array($value)) {
