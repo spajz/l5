@@ -2,16 +2,8 @@
 
 use Illuminate\Support\Collection;
 
-function array_map_deep($array, $callback) {
-    $new = array();
-    foreach ($array as $key => $val) {
-        if (is_array($val)) {
-            $new[$key] = array_map_deep($val, $callback);
-        } else {
-            $new[$key] = $val;
-        }
-    }
-    return $new;
+function transer($item){
+    echo __FUNCTION__;
 }
 
 class Transformer
@@ -64,28 +56,29 @@ class Transformer
         });
     }
 
-    public function transformArray($array){
+    public function transformArray(&$array){
 
-        $cb = function ($item) {
+
+
+        $cb = function ($item, $transformer) {
             return [
                 'id' =>isset($item['id']) ? $item['id'] : 'AA',
-                'title' => isset($item['text']) ? $item['text'] : 'TT',
-                'children' => isset($item['children']) ? $item['children'] : 'XX',
+                'title' => $item['text'],
+//                'children' => isset($item['children']) ? $item['children'] : 'XX',
+                'children' => $transformer->transformArray($item['children']),
             ];
         };
 
-//        if(is_array($array)){
-//            foreach($array as $k => &$v){
-//                if($k == 'children'){
-//                    $v = $this->transformArray($v);
+        if(is_array($array)){
+            foreach($array as $k => &$v){
+//                if(isset($v['children'])){
+//                    $v['children'] = $this->transformArray($v['children']);
 //                }
-//            }
-//        }
+                $v = $cb($v, $this);
+            }
+        }
 
-
-        return array_map_deep($array, $cb);
-
-        return array_map($cb, $array);
+        return $array;
 
     }
 
