@@ -398,57 +398,23 @@ class AdminController extends BaseController
 
             }
         }
-
-
     }
-
-
-    /*
-    "id" => "1"
-    "text" => "consequatur"
-    "icon" => true
-    "li_attr" => array:1 [
-    "id" => "1"
-    ]
-    "a_attr" => array:2 [
-    "href" => "#"
-    "id" => "1_anchor"
-    ]
-    "state" => array:4 [
-    "loaded" => true
-    "opened" => false
-    "selected" => false
-    "disabled" => false
-    ]
-    "data" => false
-    "children" => array:1 [
-        */
 
     public function setTree()
     {
-        $transformerClosure = function ($item) {
-            return [
-                'id' =>$item['id'],
-                'title' => $item['text'],
-                'children' => $item['children'],
-            ];
-        };
-
         $model = urldecode2(Input::get('model'));
+        $transform = $model::transform();
         $json = json_decode(Input::get('data'), true);
 
         $transformer = new Transformer;
-        $transformer->setTransformer($transformerClosure);
+        $transformer->setTransformer($transform);
+        $transformer->setCollectionIgnoreKeys(['li_attr', 'a_attr', 'state']);
+        $transformed = $transformer->transformArray($json);
+//        dd($transformed);
 
-//        $transformer->setTransformerByKey('a_attr', $ch);
+        $model::buildTree($transformed);
 
-       $transformer->setCollectionIgnoreKeys(['li_attr', 'a_attr', 'state']);
-
-//        $t = $transformer->transformCollection($json);
-        $t = $transformer->transformArray($json);
-
-        dd($t);
-
+        return response()->json($transformed);
     }
 
 }

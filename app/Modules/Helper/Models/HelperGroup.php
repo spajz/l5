@@ -27,6 +27,17 @@ class HelperGroup extends BaseBaumModel implements SluggableInterface
         'save_to' => 'slug',
     ];
 
+    public static function transform()
+    {
+        return function ($item, $transformer) {
+            return [
+                'id' => $item['id'],
+                'title' => $item['text'],
+                'children' => $transformer->transformArray($item['children']),
+            ];
+        };
+    }
+
     public function rulesAll()
     {
         return [

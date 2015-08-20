@@ -2,10 +2,6 @@
 
 use Illuminate\Support\Collection;
 
-function transer($item){
-    echo __FUNCTION__;
-}
-
 class Transformer
 {
     protected $collection;
@@ -56,30 +52,17 @@ class Transformer
         });
     }
 
-    public function transformArray(&$array){
+    public function transformArray($array)
+    {
+        $cb = $this->transformer;
 
-
-
-        $cb = function ($item, $transformer) {
-            return [
-                'id' =>isset($item['id']) ? $item['id'] : 'AA',
-                'title' => $item['text'],
-//                'children' => isset($item['children']) ? $item['children'] : 'XX',
-                'children' => $transformer->transformArray($item['children']),
-            ];
-        };
-
-        if(is_array($array)){
-            foreach($array as $k => &$v){
-//                if(isset($v['children'])){
-//                    $v['children'] = $this->transformArray($v['children']);
-//                }
+        if (is_array($array)) {
+            foreach ($array as $k => &$v) {
                 $v = $cb($v, $this);
             }
         }
 
         return $array;
-
     }
 
     public function setCollectionIgnoreKeys($keys)
@@ -96,27 +79,5 @@ class Transformer
     {
         $this->transformer = $transformer;
     }
-
-    public function map(callable $callback)
-    {
-        $keys = array_keys($this->items);
-
-        $items = array_map($callback, $this->items, $keys);
-
-        return new static(array_combine($keys, $items));
-    }
-
-    public function transform(callable $callback)
-    {
-        $this->items = $this->map($callback)->all();
-
-        return $this;
-    }
-
-    public function all()
-    {
-        return $this->items;
-    }
-
 
 } 

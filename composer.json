@@ -6,14 +6,18 @@
 	"type": "project",
     "repositories":
     [
-      {
-        "type": "vcs",
-        "url": "https://github.com/spajz/pjax"
-      },
-      {
-        "type": "vcs",
-        "url": "https://github.com/spajz/laravel-translation-manager"
-      }
+        {
+            "type": "vcs",
+            "url": "https://github.com/spajz/pjax"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/spajz/laravel-translation-manager"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/masterakado/baum"
+        }
     ],
 	"require": {
         "php": ">=5.5.9",
