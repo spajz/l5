@@ -145,6 +145,7 @@ if (!moduleLower) {
         config.bowerDir + 'video.js/dist/video-js/video-js.min.css',
         config.bowerDir + 'mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css',
         config.bowerDir + 'jstree/dist/themes/default/style.css',
+        config.bowerDir + 'cropper/dist/cropper.min.css',
 
         //config.assetsDir + 'css/added.css',
     ]
@@ -171,7 +172,7 @@ if (!moduleLower) {
         config.bowerDir + 'mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js',
         config.bowerDir + 'devbridge-autocomplete/dist/jquery.autocomplete.min.js',
         config.bowerDir + 'jstree/dist/jstree.min.js',
-        config.bowerDir + 'jquery-nested-sortable/jquery.mjs.nestedSortable.js',
+        config.bowerDir + 'cropper/dist/cropper.min.js',
 
         //config.assetsDir + 'js/added.js',
     ];

@@ -243,7 +243,7 @@ class HelperGroupController extends AdminController
     {
 
         $model = $this->modelName;
-        $tree = $model::all()->toHierarchy();
+//        $tree = $model::all()->toHierarchy();
 
 
         $columns = function ($item) {
@@ -257,7 +257,7 @@ class HelperGroupController extends AdminController
         if (count($items)) {
             $headerTitles = $columns($items[0]);
         }
-        return view("{$this->viewBase}.tree", compact('model', 'items', 'columns', 'headerTitles', 'tree'));
+        return view("{$this->viewBase}.tree", compact('model', 'items', 'columns', 'headerTitles'));
     }
 
 

@@ -37,6 +37,6 @@ class HelperGroupTableSeeder extends Seeder {
         DB::table($this->table)->truncate();
         DB::table($this->table)->insert($items);
 
-        HelperGroup::rebuild();
+//        HelperGroup::rebuild();
     }
 }

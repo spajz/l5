@@ -389,7 +389,12 @@ class AdminController extends BaseController
 //        $items = $model::select('*')->get();
 //        $tree = $model::defaultOrder()->get()->toTree();
 
-        $tree = $model::all()->toHierarchy()->toArray();
+//        $tree = $model::all()->toHierarchy()->toArray();
+
+//        defaultOrder()->get();
+
+        $tree =  $model::defaultOrder()->get()->toTree()->toArray();
+
 
         return response()->json($tree);
 
@@ -410,11 +415,15 @@ class AdminController extends BaseController
         $transformer->setTransformer($transform);
         $transformer->setCollectionIgnoreKeys(['li_attr', 'a_attr', 'state']);
         $transformed = $transformer->transformArray($json);
-//        dd($transformed);
 
-        $model::buildTree($transformed);
 
-        return response()->json($transformed);
+        $model::updateTreeRoots($transformed);
+        $model::rebuildTree($transformed);
+
+        $tree =  $model::all()->toTree()->toArray();
+
+        return response()->json($tree);
+
     }
 
 }

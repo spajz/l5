@@ -1,11 +1,11 @@
 <?php namespace App\Modules\Helper\Models;
 
-use App\BaseBaumModel;
+use App\BaseNestedsetModel;
 use App\Traits\ValidationTrait;
 use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
 
-class HelperGroup extends BaseBaumModel implements SluggableInterface
+class HelperGroup extends BaseNestedsetModel implements SluggableInterface
 {
     use ValidationTrait;
     use SluggableTrait;
@@ -20,6 +20,7 @@ class HelperGroup extends BaseBaumModel implements SluggableInterface
         'intro',
         'description',
         'status',
+        'parent_id',
     );
 
     protected $sluggable = [
@@ -60,6 +61,67 @@ class HelperGroup extends BaseBaumModel implements SluggableInterface
     public function getTextAttribute()
     {
         return $this->attributes['title'];
+    }
+
+
+    //////////////////////////////////////
+
+    /**
+     * Save roots only
+     * @param type $items
+     * @return type
+     */
+    public static function updateTreeRoots($items)
+    {
+        if (is_array($items)) {
+            foreach ($items as $item) {
+                $node = self::find($item['id']);
+                $node->parent_id = null;
+                $node->save();
+            }
+        }
+    }
+
+    /**
+     * Rebuilds the tree: update descendants and their order
+     * @param type $items
+     * @return type
+     */
+    public static function rebuildTree($items)
+    {
+        if (is_array($items)) {
+
+            foreach ($items as $key => $item) {
+                $node = self::find($item['id']);
+                $shift = count($node->getNextSiblings());
+                $node->down($shift);
+
+                // Loop recursively through the children
+                if (isset($item['children']) && is_array($item['children'])) {
+                    foreach ($item['children'] as $child) {
+
+                        // Append the children to their (old/new)parents
+                        $descendant = self::find($child['id']);
+                        $node->appendNode($descendant);
+
+                        // Ordering trick here, shift the descendants to the bottom to get the right order at the end
+                        $shift = count($descendant->getNextSiblings());
+                        $descendant->down($shift);
+                        self::rebuildTree($item['children']);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * a method to get the children by order
+     * @param type $categories
+     * @return type
+     */
+    public function getChildren()
+    {
+        return $this->children()->orderBy('_lft')->get();
     }
 
 }

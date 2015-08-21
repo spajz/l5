@@ -5,7 +5,8 @@
     <div class="row">
         <div class="col-xs-12">
             <h1 class="page-header">
-                <i class="fa {{ modules()[$mainModuleLower]['icon'] }} fa-fw"></i> {{ $moduleTitle or $moduleUpper }} Order
+                <i class="fa {{ modules()[$mainModuleLower]['icon'] }} fa-fw"></i> {{ $moduleTitle or $moduleUpper }}
+                Order
             </h1>
         </div>
     </div>
@@ -20,13 +21,15 @@
                     <div class="row">
                         <div class="col-xs-12">
 
-                            <div id="tree">
-                                <ul>
-                                    @foreach($tree as $treeItem)
-                                        {!! render_node($treeItem) !!}
-                                    @endforeach
-                                </ul>
-                            </div>
+                            <div id="tree" data-id="tree-{{$moduleLower}}"></div>
+
+                            {{--<div id="tree">--}}
+                                {{--<ul>--}}
+                                    {{--@foreach($tree as $treeItem)--}}
+                                        {{--{!! render_node($treeItem) !!}--}}
+                                    {{--@endforeach--}}
+                                {{--</ul>--}}
+                            {{--</div> --}}
 
                         </div>
                         <!-- /.col-xs-12 -->
@@ -45,13 +48,32 @@
 @section('scripts_bottom')
     @parent
     <script>
-       $(document).ready(function(){
-            $('#tree').jstree({
-                'plugins' : ['dnd', 'state'],
+        $(document).ready(function () {
+            $('#tree2').jstree({
+                'plugins': ['dnd', 'state'],
                 'core': {
-                    'check_callback' : function(){
+                    'check_callback': function () {
                         console.log()
                     },
+                },
+                'state': {
+                    'key': $(this).data('id')
+                }
+            });
+
+            $('#tree').jstree({
+                'plugins': ['dnd', 'state'],
+                'core': {
+                    'check_callback': function () {
+                        console.log()
+                    },
+                    'data': {
+                        'type': 'post',
+                        'url': '{!! route('api.admin.get.tree') !!}',
+                        'data': {
+                            'model': '{{ urlencode2($modelName) }}'
+                        },
+                    }
                 },
                 'state': {
                     'key': $(this).data('id')
