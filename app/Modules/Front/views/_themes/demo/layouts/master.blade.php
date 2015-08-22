@@ -34,7 +34,6 @@
 </head>
 
 <body>
-
 @yield('content')
 
 @if ( Config::get('app.debug') )

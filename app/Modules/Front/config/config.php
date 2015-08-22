@@ -2,6 +2,7 @@
 
 $moduleUpper = get_dirname(__FILE__, 2);
 $moduleLower = strtolower($moduleUpper);
+$theme = env('THEME', null);
 
 return [
 
@@ -19,8 +20,9 @@ return [
         'assetsDirFront' => 'assets/' . $moduleLower,
         'moduleLower' => $moduleLower,
         'moduleUpper' => $moduleUpper,
-        'buildPath' => '/assets/' . $moduleLower,
-        'theme' => env('THEME', null),
+        'buildPath' => $theme ? 'assets/' . $moduleLower . '/_themes/' . $theme : 'assets/' . $moduleLower,
+        'assetsDirTheme' => 'assets/' . $moduleLower . '/_themes/' . $theme,
+        'theme' => $theme,
     ],
 
 ];

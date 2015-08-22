@@ -584,7 +584,7 @@ $(document).ready(function () {
 
     // Color picker
     function initColorPicker() {
-        $('.color-picker-input').colorpicker();
+        $('.color-picker-input').colorpicker({format: 'hex'});
     }
 
     initColorPicker();

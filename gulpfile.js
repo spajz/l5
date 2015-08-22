@@ -15,6 +15,8 @@ var util = require('gulp-util');
 var watch = require('gulp-watch');
 var htmlmin = require('gulp-htmlmin');
 var del = require('del');
+var sass = require('gulp-sass');
+var fs = require('fs');
 
 // Gulp copy vars
 var copyNo = 1;
@@ -31,7 +33,7 @@ var moduleUpper = '';
 var moduleLower = '';
 var theme = 'default';
 var allowedModules = ['Front'];
-var allowedThemes = ['default', 'demo'];
+var allowedThemes = ['default', 'demo', 'helper'];
 
 // Data vars
 var cssArray = [];
@@ -39,6 +41,7 @@ var cssArrayLocal = [];
 var scriptsArray = [];
 var scriptsArrayLocal = [];
 var lessArray = [];
+var sassArray = [];
 
 if (typeof util.env.module !== 'undefined') {
     if (allowedModules.indexOf(util.env.module) >= 0) {
@@ -137,8 +140,13 @@ if (!moduleLower) {
         config.assetsDir + 'vendor/css/dataTables.bootstrap.css',
         config.assetsDir + 'vendor/css/datatables.responsive.css',
         config.bowerDir + 'metisMenu/dist/metisMenu.min.css',
-        config.bowerDir + 'select2/select2.css',
-        config.bowerDir + 'select2-bootstrap-css/select2-bootstrap.css',
+        //config.bowerDir + 'select2/select2.css',
+        //config.bowerDir + 'select2-bootstrap-css/select2-bootstrap.css',
+
+        config.bowerDir + 'select2/dist/css/select2.min.css',
+        config.bowerDir + 'select2-bootstrap-theme/dist/select2-bootstrap.min.css',
+
+
         config.bowerDir + 'fancybox/source/jquery.fancybox.css',
         config.bowerDir + 'jquery-ui/themes/base/jquery-ui.min.css',
         config.bowerDir + 'Jcrop/css/jquery.Jcrop.css',
@@ -163,7 +171,11 @@ if (!moduleLower) {
         config.bowerDir + 'metisMenu/dist/metisMenu.min.js',
         config.bowerDir + 'jquery-pjax/jquery.pjax.js',
         config.bowerDir + 'bootbox/bootbox.js',
-        config.bowerDir + 'select2/select2.js',
+
+        //config.bowerDir + 'select2/select2.js',
+
+        config.bowerDir + 'select2/dist/js/select2.min.js',
+
         config.bowerDir + 'fancybox/source/jquery.fancybox.pack.js',
         config.bowerDir + 'jquery-ui/jquery-ui.min.js',
         config.bowerDir + 'underscore/underscore-min.js',
@@ -413,6 +425,49 @@ if (moduleLower) {
             [config.baseOutput + 'images/']
         );
     }
+
+    if (theme == 'helper') {
+
+        customTasksBefore = ['customTask01'];
+
+        gulp.task('customTask01', function () {
+            del(['public/assets/front/_themes/' + theme + '/css/**/*'], function (err, paths) {
+                //console.log('Deleted files/folders:\n', paths.join('\n'));
+            });
+            del(['public/assets/front/_themes/' + theme + '/js/**/*'], function (err, paths) {
+                //console.log('Deleted files/folders:\n', paths.join('\n'));
+            });
+        });
+
+        sassArray = [config.assetsDir + 'scss/app.scss'];
+
+        cssArray = [
+            config.bowerDir + 'font-awesome/css/font-awesome.css',
+        ]
+
+        if (production) cssArray.push(config.assetsDir + 'css/added.css');
+
+        cssArrayLocal = [config.assetsDir + 'css/added.css'];
+
+        scriptsArray = [
+            config.bowerDir + 'jquery-legacy/dist/jquery.min.js',
+            config.bowerDir + 'bootstrap4/dist/js/bootstrap.min.js',
+        ];
+
+        if (production) scriptsArray.push(config.assetsDir + 'js/added.js');
+
+        scriptsArrayLocal = [config.assetsDir + 'js/added.js'];
+
+        gulpCopy(
+            [config.assetsDir + 'images/**/*'],
+            [config.baseOutput + 'images/']
+        );
+
+        gulpCopy(
+            [config.bowerDir + 'font-awesome/fonts/**/*'],
+            [config.baseOutput + 'fonts/']
+        );
+    }
 }// -- End module
 
 /*
@@ -527,6 +582,25 @@ gulp.task('less', function () {
     return out;
 });
 
+gulp.task('sass', function () {
+    var out = gulp.src(sassArray)
+        .pipe(sourcemaps.init())
+        .pipe(sass().on('error', sass.logError))
+        .pipe(concat({path: config.baseOutputUrl + 'css/app.css', cwd: ''}))
+        .pipe(rev())
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest('public'))
+        .pipe(rev.manifest(config.baseOutput + manifest, {
+            merge: true
+        }))
+        .pipe(revDel({
+            oldManifest: config.baseOutput + manifest,
+            dest: 'public'
+        }))
+        .pipe(gulp.dest(''));
+    return out;
+});
+
 gulp.task('watch', function () {
     gulp.watch(cssArrayLocal, ['cssLocal']);
     gulp.watch(scriptsArrayLocal, ['scriptsLocal']);
@@ -536,6 +610,20 @@ gulp.task('run', function (callback) {
     runSequence(
         'customTasksBefore',
         'less',
+        'css',
+        'scripts',
+        'scriptsLocal',
+        'cssLocal',
+        'gulpCopyProcess',
+        'customTasksAfter',
+        callback);
+});
+
+gulp.task('runSass', function (callback) {
+    runSequence(
+        'customTasksBefore',
+        'sass',
+        'preCss',
         'css',
         'scripts',
         'scriptsLocal',
@@ -579,4 +667,12 @@ gulp.task('minhtml', function() {
     //quotes - do not remove arbitrary quotes
     //loose - preserve one whitespace
 
+});
+
+gulp.task('preCss', function () {
+    // read in our manifest file
+    if (production){
+        var manifest = JSON.parse(fs.readFileSync(config.baseOutput + 'rev-manifest.json', 'utf8'));
+        cssArray.push('public/' + manifest[config.baseOutputUrl + 'css/app.css']);
+    }
 });

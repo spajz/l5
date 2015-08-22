@@ -48,10 +48,10 @@ class FrontController extends BaseController
 
         if (theme('front::layouts.master')) {
             $this->layout = theme('front::layouts.master');
-
         } else {
             $this->layout = 'front::layouts.master';
         }
+
         view()->share('layout', $this->layout);
     }
 

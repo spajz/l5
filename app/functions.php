@@ -314,12 +314,15 @@ if (!function_exists('elixir2')) {
 
             if (!$viewPath) return false;
 
-            $path = pathinfo($viewPath);
-            $themeFile = $path['dirname'] . '/_themes/' . $shared['theme'] . '/' . $path['basename'];
+            $viewPath = realpath($viewPath);
+            $template = explode('::', $view);
+            $modulePath = realpath(modules_path($template[0]));
+            $moduleViewPath = realpath($modulePath . '/views');
+            $baseViewPath = str_replace($moduleViewPath, '', $viewPath);
 
+            $themeFile = realpath($modulePath . '/views/_themes/' . $shared['theme'] . $baseViewPath);
             if (is_file($themeFile)) {
-                $template = explode('::', $view);
-                $view = $template[0] . '::' . 'themes.' . $shared['theme'] . '.' . $template[1];
+                $view = $template[0] . '::' . '_themes.' . $shared['theme'] . '.' . $template[1];
             }
 
             return $view;
@@ -379,7 +382,7 @@ if (!function_exists('elixir2')) {
 
             if (is_null($manifest)) {
                 if ($manifest_path) {
-                    $manifest = json_decode(file_get_contents(public_path() . $manifest_path . '/rev-manifest.json'), true);
+                    $manifest = json_decode(file_get_contents(public_path() . '/' . $manifest_path . '/rev-manifest.json'), true);
                 } else {
                     $manifest = json_decode(file_get_contents(public_path() . '/rev-manifest.json'), true);
                 }

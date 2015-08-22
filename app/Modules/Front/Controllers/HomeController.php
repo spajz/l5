@@ -11,6 +11,7 @@ class HomeController extends FrontController
 
     public function index()
     {
+        return view_theme("{$this->moduleLower}::home");
         return view("{$this->moduleLower}::under_construction");
     }
 
