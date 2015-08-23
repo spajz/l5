@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('front::_partials.navbar')
+
 
     <div class="container-fluid">
         <div class="row clearfix">
@@ -36,7 +36,7 @@
 
     </div>
 
-    @include('front::_partials.contact')
+
 
 @stop
 

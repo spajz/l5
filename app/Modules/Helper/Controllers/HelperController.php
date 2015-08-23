@@ -2,7 +2,6 @@
 
 use App\Modules\Front\Controllers\FrontController;
 use App\Modules\Helper\Models\Helper as Model;
-use Input;
 
 class HelperController extends FrontController
 {
@@ -29,7 +28,7 @@ class HelperController extends FrontController
     public function show($slug)
     {
         $item = Model::where('slug', $slug)->first();
-        if (!$item) redirect()->route('home');
+        if (!$item) return redirect()->route('home');
 
         $this->includeFiles($item->id);
 
