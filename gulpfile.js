@@ -146,7 +146,6 @@ if (!moduleLower) {
         config.bowerDir + 'select2/dist/css/select2.min.css',
         config.bowerDir + 'select2-bootstrap-theme/dist/select2-bootstrap.min.css',
 
-
         config.bowerDir + 'fancybox/source/jquery.fancybox.css',
         config.bowerDir + 'jquery-ui/themes/base/jquery-ui.min.css',
         config.bowerDir + 'Jcrop/css/jquery.Jcrop.css',

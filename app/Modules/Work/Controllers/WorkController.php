@@ -38,7 +38,7 @@ class WorkController extends FrontController
     public function index($slug = null)
     {
         if (!is_null($slug)) {
-            $work = Model::find(1);
+            $work = Model::find(5);
 
             if ($work) {
                 return view("{$this->moduleLower}::front.single", compact('work'));
