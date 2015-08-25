@@ -1,9 +1,10 @@
 @foreach($uploadFileFields as $k => $v)
 
-    <?php $uniqidElement = uniqid(); ?>
-
     @if(is_array($v))
         @foreach($v as $vv)
+
+            <?php $uniqidElement = uniqid(); ?>
+
             {!! Former::text('value')
                 ->name("val_value_new[{$uniqid}][]")
                 ->label($k . ' ' . $vv)
@@ -27,6 +28,9 @@
             </div>
         @endforeach
     @else
+
+        <?php $uniqidElement = uniqid(); ?>
+
         {!! Former::text('value')
            ->name("val_value_new[{$uniqid}][]")
            ->label($k)

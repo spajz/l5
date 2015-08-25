@@ -30,7 +30,9 @@
 
                 @foreach($work->contentable as $content)
 
-                    @include($includeView($content), compact('content', 'columnMixer'))
+                    @if(view()->exists($includeView($content)))
+                        @include($includeView($content), compact('content', 'columnMixer'))
+                    @endif
 
                 @endforeach
 

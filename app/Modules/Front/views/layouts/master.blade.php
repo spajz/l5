@@ -31,8 +31,12 @@
     @section('scripts_top')
     @show
     <script type="text/javascript">var baseUrl = '{{ url('/') }}';</script>
-    <link href="//vjs.zencdn.net/4.12/video-js.css" rel="stylesheet">
-    <script src="//vjs.zencdn.net/4.12/video.js"></script>
+
+    <link href="{{ module_asset('front', 'vendor/video-js/video-js.min.css') }}" rel="stylesheet">
+    <script src="{{ module_asset('front', 'vendor/video-js/video.js') }}"></script>
+    <script>
+        videojs.options.flash.swf = "{{ module_asset('front', 'vendor/video-js/video-js.swf') }}"
+    </script>
 </head>
 
 <body class="{{ $bodyClass or '' }}">

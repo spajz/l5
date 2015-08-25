@@ -2,13 +2,20 @@
 
     <?php $uniqidElement = uniqid() ?>
 
-    {!! Former::text('value')
+    <?php
+    $field = Former::text('value')
         ->name("val_value[{$item->id}][{$value->id}]")
         ->label($value->value_type . ' ' . $value->value_sub_type)
         ->id($uniqidElement)->onclick('openCustomRoxy2(\'' . $uniqidElement . '_frame\')')
         ->placholder('Click here to select a file.')
-        ->value($value->value)
-    !!}
+        ->value($value->value);
+
+    if(in_array($value->value_type, ['video'])) {
+        $field->help(view('admin::_partials.content.values.video_html', ['video' => $value]));
+    };
+
+    echo $field;
+    ?>
 
     {!! Former::hidden('value_type')
         ->name("val_value_type[{$item->id}][{$value->id}]")

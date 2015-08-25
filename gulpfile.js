@@ -149,7 +149,7 @@ if (!moduleLower) {
         config.bowerDir + 'fancybox/source/jquery.fancybox.css',
         config.bowerDir + 'jquery-ui/themes/base/jquery-ui.min.css',
         config.bowerDir + 'Jcrop/css/jquery.Jcrop.css',
-        config.bowerDir + 'video.js/dist/video-js/video-js.min.css',
+        //config.bowerDir + 'video.js/dist/video-js/video-js.min.css',
         config.bowerDir + 'mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css',
         config.bowerDir + 'jstree/dist/themes/default/style.css',
         config.bowerDir + 'cropper/dist/cropper.min.css',
@@ -179,7 +179,7 @@ if (!moduleLower) {
         config.bowerDir + 'jquery-ui/jquery-ui.min.js',
         config.bowerDir + 'underscore/underscore-min.js',
         config.bowerDir + 'Jcrop/js/jquery.Jcrop.js',
-        config.bowerDir + 'video.js/dist/video-js/video.js',
+        //config.bowerDir + 'video.js/dist/video-js/video.js',
         config.bowerDir + 'mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js',
         config.bowerDir + 'devbridge-autocomplete/dist/jquery.autocomplete.min.js',
         config.bowerDir + 'jstree/dist/jstree.min.js',
@@ -192,15 +192,15 @@ if (!moduleLower) {
 
     scriptsArrayLocal = [config.assetsDir + 'js/added.js'];
 
-    gulpCopy(
-        [config.bowerDir + 'video.js/dist/video-js/video-js.swf'],
-        [config.baseOutput + 'js/']
-    );
-
-    gulpCopy(
-        [config.bowerDir + 'video.js/dist/video-js/font/**/*'],
-        [config.baseOutput + 'css/font/']
-    );
+    //gulpCopy(
+    //    [config.bowerDir + 'video.js/dist/video-js/video-js.swf'],
+    //    [config.baseOutput + 'js/']
+    //);
+    //
+    //gulpCopy(
+    //    [config.bowerDir + 'video.js/dist/video-js/font/**/*'],
+    //    [config.baseOutput + 'css/font/']
+    //);
 
     gulpCopy(
         [
@@ -222,7 +222,7 @@ if (!moduleLower) {
 
     gulpCopy(
         [config.bowerDir + 'jquery-ui/themes/base/images/**/*'],
-        [config.baseOutput + 'images/']
+        [config.baseOutput + 'css/images/']
     );
 
     gulpCopy(
@@ -370,6 +370,11 @@ if (moduleLower) {
         //    [config.bowerDir + 'video.js/dist/video-js/font/**/*'],
         //    [config.baseOutput + 'css/font/']
         //);
+
+        gulpCopy(
+            [config.bowerDir + 'video.js/dist/video-js/**/*'],
+            [config.baseOutput + 'vendor/video-js/']
+        );
 
         gulpCopy(
             [config.bowerDir + 'bootstrap/fonts/**/*'],

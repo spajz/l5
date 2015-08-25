@@ -20,7 +20,7 @@ class Content extends BaseModel
         'lang',
         'order',
         'status',
-        'encoded',
+        'class',
     );
 
     public $translatedAttributes = [

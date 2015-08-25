@@ -526,13 +526,15 @@ if (!function_exists('elixir2')) {
         }
     }
 
-    function remove_key(&$array, $unwanted_key)
-    {
-        unset($array[$unwanted_key]);
-        foreach ($array as &$value) {
-            if (is_array($value)) {
-                remove_key($value, $unwanted_key);
-            }
+    if (!function_exists('file_mime')) {
+        function file_mime($file)
+        {
+            if (!is_file($file)) return false;
+
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $mime = finfo_file($finfo, $file);
+            finfo_close($finfo);
+            return $mime;
         }
     }
 
