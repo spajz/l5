@@ -854,4 +854,59 @@ class WorkController extends AdminController
         return view("admin::_partials.content.template", ['type' => $element]);
     }
 
+    public function contentEdit($id, $lang = null)
+    {
+        $model = $this->modelName;
+        $item = $model::find($id);
+
+        if (!$item) {
+            msg('The requested item does not exist or has been deleted.', 'danger');
+            return redirect()->route("admin.{$this->moduleLower}.index");
+        }
+
+        if (!is_null($lang)) {
+            $this->adminLanguage($lang);
+            return redirect()->route("admin.{$this->moduleLower}.edit", $id);
+        }
+        $lang = $this->adminLanguage();
+
+        $thisObj = $this;
+        Former::populate($item);
+        $formButtons = $this->formButtons(__FUNCTION__, $item);
+        $translateButtons = $this->renderTranslateButtons($item);
+        $statusButton = function ($item) use ($thisObj) {
+            return $thisObj->renderStatusButtons($item);
+        };
+
+        // Add validation from model to former
+        $validationRules = $model::rulesMergeUpdate();
+
+        $elements = [
+            '' => '* Add element',
+            'textarea' => 'Text area',
+            'rte' => 'Rich text editor',
+            'text' => 'Text',
+            'text_duo' => 'Text duo',
+            'example' => 'Example',
+            'gallery' => 'Gallery',
+            'video_duo' => 'Video duo',
+            'video' => 'Video',
+        ];
+        asort($elements);
+
+        $contents = $item->contentable;
+
+        return view("{$this->viewBase}.content",
+            compact(
+                'item',
+                'formButtons',
+                'translateButtons',
+                'statusButton',
+                'validationRules',
+                'elements',
+                'contents',
+                'lang'
+            ));
+    }
+
 }

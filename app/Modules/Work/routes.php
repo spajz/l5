@@ -42,6 +42,8 @@ Route::group(array("prefix" => ADMIN), function () use ($moduleUpper, $moduleLow
 
     Route::get("{$moduleLower}/content/{lang?}", array("as" => "admin.{$moduleLower}.content", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@content"));
 
+    Route::get("{$moduleLower}/content-edit/{id}", array("as" => "admin.{$moduleLower}.content.edit", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@contentEdit"));
+
     Route::post("{$moduleLower}/content/{lang?}", array("as" => "admin.{$moduleLower}.content.store", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@contentStore"));
 
     Route::put("{$moduleLower}/item/content/update/{id}", array("as" => "admin.{$moduleLower}.item.content.update", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@updateItemContent"));
