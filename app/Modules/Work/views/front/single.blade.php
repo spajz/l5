@@ -30,7 +30,7 @@
 
                 @foreach($work->contentable as $content)
 
-                    @include('work::front._partials.' . $content->type . ($content->sub_type ? '_' . $content->sub_type: ''), compact('content'))
+                    @include($includeView($content), compact('content', 'columnMixer'))
 
                 @endforeach
 

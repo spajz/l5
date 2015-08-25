@@ -1,4 +1,4 @@
-<div class="col-xs-12 col-md-8">
+<div class="{{ $columnMixer($content) }}">
     <h3>{{ $content->title }}</h3>
     <p>
         {{ $content->content }}

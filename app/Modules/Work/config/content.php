@@ -14,12 +14,12 @@ return [
 
     'element' => [
         'video' => [
-            'video' => ['mp4', 'wma', 'ogg'],
+            'video' => ['mp4', 'webm', 'ogg'],
         ],
 
         'video_duo' => [
-            'video_left' => ['mp4', 'wma', 'ogg'],
-            'video_right' => ['mp4', 'ogg', 'wma'],
+            'video_left' => ['mp4', 'webm', 'ogg'],
+            'video_right' => ['mp4', 'webm', 'ogg'],
         ],
 
         'text_duo' => [

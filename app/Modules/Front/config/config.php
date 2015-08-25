@@ -3,6 +3,7 @@
 $moduleUpper = get_dirname(__FILE__, 2);
 $moduleLower = strtolower($moduleUpper);
 $theme = env('THEME', null);
+$theme = $theme == 'default' ? null : $theme;
 
 return [
 

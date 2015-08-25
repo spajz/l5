@@ -9,7 +9,9 @@
 
     <meta name="description" content="">
     <meta name="author" content="">
-    <meta name="csrf-token" content="{{{ session()->token() }}}">
+    <meta name="csrf-token" content="{!! session()->token() !!}">
+
+
 
     @if (app()->environment() != 'test')
         <link rel="stylesheet" href="{{ elixir3($assetsDirFront . '/css/app.css', $buildPath) }}" />
@@ -29,6 +31,8 @@
     @section('scripts_top')
     @show
     <script type="text/javascript">var baseUrl = '{{ url('/') }}';</script>
+    <link href="//vjs.zencdn.net/4.12/video-js.css" rel="stylesheet">
+    <script src="//vjs.zencdn.net/4.12/video.js"></script>
 </head>
 
 <body class="{{ $bodyClass or '' }}">

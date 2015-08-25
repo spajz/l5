@@ -193,12 +193,12 @@ if (!moduleLower) {
     scriptsArrayLocal = [config.assetsDir + 'js/added.js'];
 
     gulpCopy(
-        [config.bowerDir + 'video.js/dist/video-js/video-js.swf',],
+        [config.bowerDir + 'video.js/dist/video-js/video-js.swf'],
         [config.baseOutput + 'js/']
     );
 
     gulpCopy(
-        [config.bowerDir + 'video.js/dist/video-js/font/**/*',],
+        [config.bowerDir + 'video.js/dist/video-js/font/**/*'],
         [config.baseOutput + 'css/font/']
     );
 
@@ -208,15 +208,6 @@ if (!moduleLower) {
             config.bowerDir + 'bootstrap/fonts/**/*',
         ],
         [config.baseOutput + 'fonts/']
-    );
-
-    gulpCopy(
-        [
-            config.bowerDir + 'select2/select2.png',
-            config.bowerDir + 'select2/select2x2.png',
-            config.bowerDir + 'select2/select2-spinner.gif',
-        ],
-        [config.baseOutput + 'css/']
     );
 
     gulpCopy(
@@ -322,7 +313,7 @@ if (moduleLower) {
             //config.bowerDir + 'owl.carousel/dist/assets/owl.carousel.min.css',
             //config.bowerDir + 'metisMenu/dist/metisMenu.min.css',
             config.bowerDir + 'slippry/dist/slippry.css',
-            config.bowerDir + 'video.js/dist/video-js/video-js.min.css',
+            //config.bowerDir + 'video.js/dist/video-js/video-js.min.css',
             config.assetsDir + 'css/ihover.css',
             config.assetsDir + 'css/multi-columns-row.css',
             config.bowerDir + 'jquery-minicolors/jquery.minicolors.css',
@@ -340,7 +331,7 @@ if (moduleLower) {
             config.bowerDir + 'matchHeight/jquery.matchHeight-min.js',
             config.bowerDir + 'jquery.scrollTo/jquery.scrollTo.min.js',
             config.bowerDir + 'slippry/dist/slippry.min.js',
-            config.bowerDir + 'video.js/dist/video-js/video.js',
+            //config.bowerDir + 'video.js/dist/video-js/video.js',
             config.bowerDir + 'jquery.lazyload/jquery.lazyload.js',
             config.bowerDir + 'jquery-hoverintent/jquery.hoverIntent.js',
             config.assetsDir + 'js/jQuery.scrollSpeed.js',
@@ -370,10 +361,15 @@ if (moduleLower) {
             [config.baseOutput + 'images/']
         );
 
-        gulpCopy(
-            [config.bowerDir + 'video.js/dist/video-js/video-js.swf',],
-            [config.baseOutput + 'js/']
-        );
+        //gulpCopy(
+        //    [config.bowerDir + 'video.js/dist/video-js/video-js.swf'],
+        //    [config.baseOutput + 'js/']
+        //);
+        //
+        //gulpCopy(
+        //    [config.bowerDir + 'video.js/dist/video-js/font/**/*'],
+        //    [config.baseOutput + 'css/font/']
+        //);
 
         gulpCopy(
             [config.bowerDir + 'bootstrap/fonts/**/*'],

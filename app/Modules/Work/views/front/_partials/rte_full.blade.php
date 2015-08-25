@@ -1,6 +1,6 @@
 <div class="{{ $columnMixer($content) }}">
     <h3>{{ $content->title }}</h3>
     <p>
-        {{ $content->content }}
+        {!! $content->content !!}
     </p>
 </div>
