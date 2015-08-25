@@ -49,7 +49,10 @@
 }
 
 .make-grid-xlcolumns();
-.make-grid(xl);
+
+@media (min-width: @screen-xl-min) {
+  .make-grid(xl);
+}
 
 // Generate the large columns
 .make-xl-column(@columns; @gutter: @grid-gutter-width) {

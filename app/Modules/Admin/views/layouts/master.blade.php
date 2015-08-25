@@ -9,7 +9,7 @@
 
     <meta name="description" content="CMS">
     <meta name="author" content="">
-    <meta name="csrf-token" content="{{{ Session::token() }}}">
+    <meta name="csrf-token" content="{{ Session::token() }}">
 
     @if (app()->environment() != 'test')
         <link rel="stylesheet" href="{{ elixir3($assetsDirAdmin . '/css/app.css', $buildPath) }}"/>
@@ -83,7 +83,6 @@
     $(document).ready(function () {
         $('#side-menu').metisMenu();
     });
-    {{--videojs.options.flash.swf = "{{ asset($assetsDirAdmin . '/js/video-js.swf') }}";--}}
 </script>
 
 @section('scripts_bottom')

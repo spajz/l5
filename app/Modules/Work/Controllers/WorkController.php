@@ -34,16 +34,20 @@ class WorkController extends FrontController
         }
     }
 
-    public function index($slug = null)
+    public function index($id = null)
     {
         $includeView = $this->includeView();
         $columnMixer = $this->columnMixer();
-        if (!is_null($slug)) {
-            $work = Model::find(5);
+        if (!is_null($id)) {
+            $work = Model::find($id);
 
             if ($work) {
                 return view("{$this->moduleLower}::front.single", compact('work', 'includeView', 'columnMixer'));
             }
+        } else {
+            $works = Model::where('status', 1)
+                ->get();
+            return view("{$this->moduleLower}::front.index", compact('works'));
         }
     }
 
@@ -64,8 +68,8 @@ class WorkController extends FrontController
     {
         return function ($item) {
 
-            $class = 'col-xs-12 col-ms-12 col-sm-% col-md-% col-lg-%';
-            $classPullPush = 'col-xs-12 col-ms-12 col-sm-%1 col-sm-%3-%2 col-md-%1 col-md-%3-%2 col-lg-%1 col-lg-%3-%2';
+            $class = 'col-xs-12 col-ms-12 col-sm-% col-md-6 col-lg-% col-xl-%';
+            $classPullPush = 'col-xs-12 col-ms-12 col-sm-%1 col-sm-%3-%2 col-md-%1 col-md-%3-%2 col-lg-%1 col-lg-%3-%2 col-xl-%1 col-xl-%3-%2';
 
             switch ($item->sub_type) {
                 case 'column_1':

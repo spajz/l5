@@ -12,6 +12,8 @@
 
     {!! Former::textarea('content')->name("content[{$item->id}]")->label('Content')->value($item->content) !!}
 
+    {!! Former::text('class')->name("class[{$item->id}]")->label('Class')->value($item->class) !!}
+
     @include('admin::_partials.content.values.upload_update',
         [
             'item' => $item,
@@ -31,6 +33,8 @@
     {!! Former::select('sub_type')->name("sub_type_new[{$uniqid}]")->options(config('admin.contentPosition'))->label('Position') !!}
 
     {!! Former::textarea('content')->name("content_new[{$uniqid}]")->label('Content') !!}
+
+    {!! Former::text('class')->name("class_new[{$uniqid}]")->label('Class') !!}
 
     @include('admin::_partials.content.values.upload_create',
         [
