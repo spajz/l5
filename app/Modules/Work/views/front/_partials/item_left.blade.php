@@ -8,16 +8,25 @@
             <br><a href="{{ route('work.index', $work->slug) }}" class="read-more red">Read more</a>
         </p>
     </div>
-    <div class="col-xs-12 col-md-8">
+    <div class="col-xs-12 col-md-8 media-right">
         @if(count($work->images))
-            <ul class="slider-box-left">
+            {{--<ul class="slider-box-left">--}}
+                {{--@foreach($work->images as $image)--}}
+                        {{--<li>--}}
+                            {{--<img src="{{ asset('media/images/medium/' . image_filename($image, 'medium')) }}"--}}
+                                 {{--alt="{{ $image->alt }}" class="lazy">--}}
+                        {{--</li>--}}
+                {{--@endforeach--}}
+            {{--</ul>--}}
+
+
+            <div class="slider single-item">
                 @foreach($work->images as $image)
-                    <li>
-                        <img src="{{ asset('media/images/medium/' . $image->image) }}"
-                             alt="{{ $image->alt }}" class="lazy">
-                    </li>
+                    <img src="{{ asset('media/images/medium/' . image_filename($image, 'medium')) }}"
+                         alt="{{ $image->alt }}" class="lazy zoom-1">
                 @endforeach
-            </ul>
+            </div>
+
         @endif
     </div>
 </div>

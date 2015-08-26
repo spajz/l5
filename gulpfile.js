@@ -325,6 +325,7 @@ if (moduleLower) {
             config.assetsDir + 'css/ihover.css',
             config.assetsDir + 'css/multi-columns-row.css',
             config.bowerDir + 'jquery-minicolors/jquery.minicolors.css',
+            config.bowerDir + 'slick-carousel/slick/slick.css',
 
         ]
 
@@ -348,6 +349,7 @@ if (moduleLower) {
             config.bowerDir + 'Sortable/Sortable.min.js',
             config.bowerDir + 'Sortable/jquery.binding.js',
             config.bowerDir + 'jquery-minicolors/jquery.minicolors.min.js',
+            config.bowerDir + 'slick-carousel/slick/slick.min.js',
         ];
 
         if (production) scriptsArray.push(config.assetsDir + 'js/added.js');

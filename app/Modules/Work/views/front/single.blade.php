@@ -18,13 +18,11 @@
             </div>
         </div>
 
-        <hr class="hr mar-tb15">
-
     </div>
 
     <div class="container-fluid">
 
-        <div class="row clearfix multi-columns-row">
+        <div class="row clearfix bor-t1">
 
             @if(count($work->contentable))
 

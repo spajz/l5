@@ -33,7 +33,9 @@ class AuthenticateAdmin
      */
     public function handle($request, Closure $next)
     {
+        session_start();
         if ($this->auth->guest()) {
+            $_SESSION['isAdmin'] = false;
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
             } else {
@@ -42,6 +44,7 @@ class AuthenticateAdmin
         }
 
         if ($this->auth->admin()) {
+            $_SESSION['isAdmin'] = true;
             return $next($request);
         } else {
             msg('Unauthorized.', 'info');

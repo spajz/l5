@@ -37,10 +37,4 @@
         ->value($value->content_id)
     !!}
 
-    {{--<div id="{{ $uniqidElement }}_frame" style="display: none;">--}}
-        {{--<iframe src="{{ url('/') }}/assets/admin/fileman/index.html?integration=custom&type=files&txtFieldId={{ $uniqidElement }}"--}}
-                {{--style="width:100%;height:100%" frameborder="0">--}}
-        {{--</iframe>--}}
-    {{--</div>--}}
-
 @endforeach

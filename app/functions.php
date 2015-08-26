@@ -538,6 +538,14 @@ if (!function_exists('elixir2')) {
         }
     }
 
+    if (!function_exists('call_function')) {
+        function call_function($function, $param = null)
+        {
+            $function($param);
+            return $param;
+        }
+    }
+
 
 }
 

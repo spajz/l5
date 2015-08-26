@@ -73,6 +73,27 @@ body {
     margin-bottom: 20px;
 }
 
+.bor-tb1 {
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.bor-t1 {
+    border-top: 1px solid #eee;
+}
+
+.bor-b1 {
+    border-bottom: 1px solid #eee;
+}
+
+.clear-left {
+    clear: left;
+}
+
+.clear-right {
+    clear: right;
+}
+
 .relative {
     position: relative;
 }
@@ -457,6 +478,16 @@ h1, h2, h3, .h1, .h2, .h3 {
     .lang-but-wrap a {
         font-size: 15px !important;
     }
+
+    .media-left {
+        padding: 0 !important;
+    }
+
+    .media-right {
+        padding-right: 0 !important;
+        padding-left: 60px !important;
+        font-size: 0;
+    }
 }
 
 /*MS*/
@@ -564,4 +595,12 @@ h1, h2, h3, .h1, .h2, .h3 {
     -o-transform: scale(1.5) translate(30px);
     transform: scale(1.5) translate(30px);
     opacity: 1;
+}
+
+.zoom-1 {
+    transition: all .8s ease;
+}
+
+.zoom-1-scale {
+    transform: scale(1.05);
 }

@@ -23,23 +23,23 @@
 
     <div class="container-fluid">
 
-    @if(count($works))
+        @if(count($works))
 
-        @foreach($works as $k => $work)
+            @foreach($works as $k => $work)
 
-            @if ($k & 1)
+                @if ($k & 1)
 
-                @include('work::front._partials.item_right', ['work' => $work])
+                    @include('work::front._partials.item_right', ['work' => $work])
 
-            @else
+                @else
 
-                @include('work::front._partials.item_left', ['work' => $work])
+                    @include('work::front._partials.item_left', ['work' => $work])
 
-            @endif
+                @endif
 
-        @endforeach
+            @endforeach
 
-    @endif
+        @endif
 
     </div>
 
@@ -50,6 +50,30 @@
 @section('scripts_bottom')
     @parent
     <script type="text/javascript">
+
+
+        $('.single-item').slick({
+            autoplay: true,
+            fade: true,
+            arrows: false,
+            speed: 2000,
+            waitForAnimate: false,
+        });
+
+        $('.single-item img').on('click', function (e) {
+            $(this).closest('.single-item').slick('slickNext')
+        });
+
+        $('.single-item img').hoverIntent({
+            over: function(){
+                $(this).addClass('zoom-1-scale');
+            },
+            out: function(){
+                $(this).removeClass('zoom-1-scale');
+            },
+        });
+
+
         $('.slider-box-left').slippry({
             // general elements & wrapper
             slippryWrapper: '<div class="sy-box pictures-slider" />', // wrapper to wrap everything, including pager

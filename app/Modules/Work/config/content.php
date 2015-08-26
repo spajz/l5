@@ -14,7 +14,7 @@ return [
 
     'element' => [
         'video' => [
-            'video' => ['mp4', 'webm', 'ogg'],
+            'video' => call_function('asort', ['mp4', 'webm', 'ogg']),
         ],
 
         'video_duo' => [

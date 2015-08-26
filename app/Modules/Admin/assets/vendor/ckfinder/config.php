@@ -1,19 +1,10 @@
 <?php
-// Laravel 5
-require __DIR__ . '/../../../../../bootstrap/autoload.php';
-$app = require_once __DIR__ . '/../../../../../bootstrap/app.php';
-
-$app->make('Illuminate\Contracts\Http\Kernel')
-    ->handle(Illuminate\Http\Request::capture());
+session_start();
 
 function CheckAuthentication()
 {
-    if (Auth::check()) {
-        $user = Auth::user();
-        $group = $user->group;
-        if (count($group) && $group->admin == 1) {
-            return true;
-        }
+    if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] === true) {
+        return true;
     }
     return false;
 }

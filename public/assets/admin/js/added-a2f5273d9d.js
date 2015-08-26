@@ -553,8 +553,8 @@ $(document).ready(function () {
             placeholder: 'sortable-placeholder',
             helper: function (e, ui) {
                 ui.children().each(function () {
-                    $(this).width($(this).width());
-                    $(this).height($(this).height());
+                    //$(this).width($(this).width());
+                    //$(this).height($(this).height());
                 });
                 return ui;
             },
@@ -668,8 +668,18 @@ $(document).ready(function () {
     // Toggle panel
     $('body').on('click', '.btn-toggle', function (e) {
         e.preventDefault();
-        $(this).closest('.panel-heading').next().toggle();
-        console.log($(this).closest('.panel-heading'));
+        var panel = $(this).closest('.panel-heading').next();
+        if (panel.height() < 1) {
+            panel.css({
+                'height': 'auto',
+                'padding': '15px',
+            });
+        } else {
+            panel.css({
+                'height': '0',
+                'padding': '0',
+            });
+        }
     })
 
 

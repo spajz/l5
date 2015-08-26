@@ -1,7 +1,6 @@
 <div id="contact">
     <div class="container-fluid">
-        <hr class="hr mar-tb15">
-        <div class="row clearfix">
+        <div class="row clearfix bor-t1">
             <div class="col-xs-12 text-center">
                 <a href="#top" class="read-more red scroll-btn">Back to top</a>
             </div>

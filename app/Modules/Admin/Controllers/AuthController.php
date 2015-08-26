@@ -95,7 +95,10 @@ class AuthController extends Controller
      */
     public function getLogout()
     {
+        session_start();
         Auth::logout();
+
+        unset($_SESSION['isAdmin']);
 
         if (Auth::check()) {
             msg('Whoops, looks like something went wrong, you are still logged in.', 'danger');

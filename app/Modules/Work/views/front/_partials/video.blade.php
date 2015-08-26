@@ -1,4 +1,4 @@
-<div class="{{ $columnMixer($content) }} {{ $content->class }}" style="font-size: 0">
+<div class="{{ $columnMixer($content) }} {{ $content->class }}">
     @if(count($content->values))
     <video width="100%" height="auto" controls>
         @foreach($content->values as $video)

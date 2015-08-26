@@ -151,6 +151,10 @@ table th {
 }
 
 /*** Bootstrap tweaks ***/
+.panel-body {
+    overflow: hidden;
+}
+
 .label-as-badge {
     border-radius: 1em;
     font-size: 1em !important;
