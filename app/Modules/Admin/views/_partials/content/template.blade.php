@@ -10,6 +10,9 @@
         <div class="col-xs-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
+                    <button type="button" class="btn btn-primary btn-xs btn-toggle">
+                        <i class="fa fa-caret-square-o-down"></i>
+                    </button>
                     Type: {{ $type }}
                     <div class="btn-group pull-right">
                         @include('admin::_partials.content.translate_buttons', ['item' => $item])
@@ -40,6 +43,9 @@
         <div class="col-xs-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
+                    <button type="button" class="btn btn-primary btn-xs btn-toggle">
+                        <i class="fa fa-caret-square-o-down"></i>
+                    </button>
                     Type: {{ $type }}
                     <div class="btn-group pull-right">
                         @include('admin::_partials.content.translate_buttons')

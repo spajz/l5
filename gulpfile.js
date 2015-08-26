@@ -234,6 +234,14 @@ if (!moduleLower) {
     );
 
     gulpCopy(
+        [
+            config.assetsDir + 'vendor/ckfinder/**/*',
+            '!' + config.assetsDir + 'vendor/ckfinder/samples{,/**}',
+        ],
+        [config.baseOutput + 'vendor/ckfinder']
+    );
+
+    gulpCopy(
         [config.bowerDir + 'Jcrop/css/Jcrop.gif'],
         [config.baseOutput + 'css/']
     );

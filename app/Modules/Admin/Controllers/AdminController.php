@@ -140,29 +140,32 @@ class AdminController extends BaseController
         }
     }
 
-    protected function redirect($item, $input = null)
+    protected function redirect($item, $input = null, $module = null)
     {
 
         if (is_null($input)) {
             $input = Input::all();
         }
+        if (is_null($module)) {
+            $module = $this->moduleLower;
+        }
         $action = $input['save'];
 
         switch (true) {
             case isset($action['edit']):
-                $route = Redirect::route("admin.{$this->moduleLower}.edit", $item->id);
+                $route = Redirect::route("admin.{$module}.edit", $item->id);
                 break;
 
             case isset($action['exit']):
-                $route = Redirect::route("admin.{$this->moduleLower}.index");
+                $route = Redirect::route("admin.{$module}.index");
                 break;
 
             case isset($action['new']):
-                $route = Redirect::route("admin.{$this->moduleLower}.create");
+                $route = Redirect::route("admin.{$module}.create");
                 break;
 
             default:
-                $route = Redirect::route("admin.{$this->moduleLower}.index");
+                $route = Redirect::route("admin.{$module}.index");
 
         }
         return $route;
@@ -393,7 +396,7 @@ class AdminController extends BaseController
 
 //        defaultOrder()->get();
 
-        $tree =  $model::defaultOrder()->get()->toTree()->toArray();
+        $tree = $model::defaultOrder()->get()->toTree()->toArray();
 
 
         return response()->json($tree);
@@ -420,7 +423,7 @@ class AdminController extends BaseController
         $model::updateTreeRoots($transformed);
         $model::rebuildTree($transformed);
 
-        $tree =  $model::all()->toTree()->toArray();
+        $tree = $model::all()->toTree()->toArray();
 
         return response()->json($tree);
 

@@ -616,7 +616,7 @@ class WorkController extends AdminController
 
         msg('The item successfully updated.');
 
-        return $this->redirect($item);
+        return $this->redirect($item, null, $this->moduleLower . '.content');
     }
 
     /**
@@ -872,7 +872,8 @@ class WorkController extends AdminController
 
         $thisObj = $this;
         Former::populate($item);
-        $formButtons = $this->formButtons(__FUNCTION__, $item);
+        $this->formButtonsEdit = array('only' => array('back', 'save'));
+        $formButtons = $this->formButtons('edit', $item);
         $translateButtons = $this->renderTranslateButtons($item);
         $statusButton = function ($item) use ($thisObj) {
             return $thisObj->renderStatusButtons($item);
@@ -896,7 +897,7 @@ class WorkController extends AdminController
 
         $contents = $item->contentable;
 
-        return view("{$this->viewBase}.content",
+        return view("{$this->viewBase}.content_edit",
             compact(
                 'item',
                 'formButtons',

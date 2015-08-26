@@ -78,6 +78,7 @@
 
 <script src="{{ asset($assetsDirAdmin . '/vendor/ckeditor/ckeditor.js') }}"></script>
 <script src="{{ asset($assetsDirAdmin . '/vendor/ckeditor/adapters/jquery.js') }}"></script>
+<script src="{{ asset($assetsDirAdmin . '/vendor/ckfinder/ckfinder.js') }}"></script>
 
 <script>
     $(document).ready(function () {

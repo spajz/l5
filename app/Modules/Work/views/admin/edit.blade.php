@@ -19,14 +19,9 @@
     </div>
 
     <ul class="nav nav-tabs tab-selector bottom10">
-        <li class="{{ Session::get('settings.tab') == '#basic' ? 'active' : '' }}"><a href="{{ route("admin.{$moduleLower}.edit", $item->id) }}"><i class="fa fa-bars fa-fw"></i>Basic</a></li>
-        <li class="{{ Session::get('settings.tab') == '#content' ? 'active' : '' }}"><a href="{{ route("admin.{$moduleLower}.content.edit", $item->id) }}"><i class="fa fa-folder-open-o fa-fw"></i> Content</a></li>
+        <li class="active"><a href="{{ route("admin.{$moduleLower}.edit", $item->id) }}"><i class="fa fa-bars fa-fw"></i>Basic</a></li>
+        <li class=""><a href="{{ route("admin.{$moduleLower}.content.edit", $item->id) }}"><i class="fa fa-folder-open-o fa-fw"></i> Content</a></li>
     </ul>
-
-    {{--<ul class="nav nav-tabs tab-selector bottom10">--}}
-        {{--<li class="{{ Session::get('settings.tab') == '#basic' ? 'active' : '' }}"><a href="#basic"><i class="fa fa-bars fa-fw"></i>Basic</a></li>--}}
-        {{--<li class="{{ Session::get('settings.tab') == '#content' ? 'active' : '' }}"><a href="#content"><i class="fa fa-folder-open-o fa-fw"></i> Content</a></li>--}}
-    {{--</ul>--}}
 
     <div id="basic">
 
