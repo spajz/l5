@@ -367,13 +367,13 @@ h1, h2, h3, .h1, .h2, .h3 {
 .media-left {
     padding-left: 0 !important;
     padding-right: 60px !important;
-    font-size: 0;
+    /*font-size: 0;*/
 }
 
 .media-right {
     padding-right: 0 !important;
     padding-left: 60px !important;
-    font-size: 0;
+    /*font-size: 0;*/
 }
 
 /*** Contact ***/
@@ -598,9 +598,9 @@ h1, h2, h3, .h1, .h2, .h3 {
 }
 
 .zoom-1 {
-    transition: all .8s ease;
+    transition: transform .8s, opacity 2000ms !important;
 }
 
-.zoom-1-scale {
+.zoom-1:hover {
     transform: scale(1.05);
 }

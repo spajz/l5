@@ -23,7 +23,7 @@
             <div class="slider single-item">
                 @foreach($work->images as $image)
                     <img src="{{ asset('media/images/medium/' . image_filename($image, 'medium')) }}"
-                         alt="{{ $image->alt }}" class="lazy zoom-1">
+                         alt="{{ $image->alt }}" class="zoom-1">
                 @endforeach
             </div>
 

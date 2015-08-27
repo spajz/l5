@@ -64,14 +64,14 @@
             $(this).closest('.single-item').slick('slickNext')
         });
 
-        $('.single-item img').hoverIntent({
-            over: function(){
-                $(this).addClass('zoom-1-scale');
-            },
-            out: function(){
-                $(this).removeClass('zoom-1-scale');
-            },
-        });
+//        $('.single-item img').hoverIntent({
+//            over: function(){
+//                $(this).addClass('zoom-1');
+//            },
+//            out: function(){
+//                $(this).removeClass('zoom-1');
+//            },
+//        });
 
 
         $('.slider-box-left').slippry({
