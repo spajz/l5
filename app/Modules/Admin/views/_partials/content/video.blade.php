@@ -1,18 +1,18 @@
 @if(isset($item))
 
-    {!! Former::hidden('order')->name("order[{$item->id}]")->addClass('order-id')->value($item->order) !!}
+    {!! Former::hidden('order')->name("order[{$item->id}]")->addClass('order-id') !!}
 
-    {!! Former::hidden('id')->name("id[{$item->id}]")->value($item->id) !!}
+    {!! Former::hidden('id')->name("id[{$item->id}]") !!}
 
-    {!! Former::hidden('type')->name("type[{$item->id}]")->value($item->type) !!}
+    {!! Former::hidden('type')->name("type[{$item->id}]") !!}
 
-    {!! Former::text('title')->name("title[{$item->id}]")->label('Title')->value($item->title) !!}
+    {!! Former::text('title')->name("title[{$item->id}]")->label('Title') !!}
 
     {!! Former::select('sub_type')->name("sub_type[{$item->id}]")->options(config('admin.contentPosition'), $item->sub_type)->label('Position') !!}
 
-    {!! Former::textarea('content')->name("content[{$item->id}]")->label('Content')->value($item->content) !!}
+    {!! Former::textarea('content')->name("content[{$item->id}]")->label('Content') !!}
 
-    {!! Former::text('class')->name("class[{$item->id}]")->label('Class')->value($item->class) !!}
+    {!! Former::text('class')->name("class[{$item->id}]")->label('Class') !!}
 
     @include('admin::_partials.content.values.upload_update',
         [

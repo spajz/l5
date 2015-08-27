@@ -12,35 +12,33 @@ return [
         'modelName' => 'App\Modules\\' . $moduleUpper . '\Models\\' . $moduleUpper,
     ],
 
+    'elementView' => [
+        'image_16_9' => 'image',
+        'image_4_3' => 'image',
+        'gallery_16_9' => 'image',
+        'gallery_4_3' => 'image',
+    ],
+
     'element' => [
         'video' => [
             'video' => call_function('asort', ['mp4', 'webm', 'ogg']),
         ],
-
-        'video_duo' => [
-            'video_left' => ['mp4', 'webm', 'ogg'],
-            'video_right' => ['mp4', 'webm', 'ogg'],
-        ],
-
-        'text_duo' => [
-            'text_left' => ['title', 'description'],
-            'text_right' => ['title', 'description'],
-        ],
-
         'gallery' => [
             'image' => [
-                'path' => public_path() . '/media/images/', // main path with trailing slash
+                'path' => public_path('media/images') . '/', // main path with trailing slash
                 'baseUrl' => url('media/images') . '/',
                 'required' => false, // true or false
-                'multiple' => true,
-                'order' => true, // allow reordering
+                'multiple' => false,
+                'order' => false, // allow reordering
                 'crop' => false, // allow cropping
-                'baseName' => $moduleLower, // image base name
+                'baseName' => $moduleLower . '_[:id]', // [:id]
                 'filenameFormat' => '', // default: [:base_name]_[:uniqid]
-                'quality' => 85,
+                'quality' => 80,
                 'allowedTypes' => 'jpeg,gif,png',
                 'max' => '4000', // max size in kilobytes (0 for no limit)
                 'mainSize' => 'original', //  required
+                'saveAs' => '', // force extension
+                'background' => '', // background color (transparent to color background) - optional
                 'sizes' => [
                     'original' => [
                         'folder' => 'original/', // relative path from main image folder with trailing slash

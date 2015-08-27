@@ -3,10 +3,13 @@
     {!! Former::open_for_files()->class('added-form') !!}
     -->
 @endif
+<?php $elementView = $config['content']['elementView'] ?>
 
-@if(isset($item))
+@if(isset($contentItem))
 
-    <div class="row sortable-row remove-this" data-id="{{ $item->id }}">
+    <?php  Former::populate($contentItem) ?>
+
+    <div class="row sortable-row remove-this" data-id="{{ $contentItem->id }}">
         <div class="col-xs-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -15,11 +18,11 @@
                     </button>
                     Type: {{ $type }}
                     <div class="btn-group pull-right">
-                        @include('admin::_partials.content.translate_buttons', ['item' => $item])
+                        @include('admin::_partials.content.translate_buttons', ['item' => $contentItem])
                         <button type="button" class="btn btn-info btn-xs btn-sort">
                             <i class="fa fa-arrows-v w20"></i>
                         </button>
-                        <a href="{{ route("api.admin.model-content.destroy", $item->id)}}" class="btn btn-danger btn-xs"
+                        <a href="{{ route("api.admin.model-content.destroy", $contentItem->id)}}" class="btn btn-danger btn-xs"
                            data-bb="remove"><i class="fa fa-trash-o"></i> Delete</a>
                     </div>
                     <div class="clearfix"></div>
@@ -28,7 +31,7 @@
                     <div class="row">
                         <div class="col-xs-12">
 
-                            @include("admin::_partials.content." . $type, ['item' => $item, 'uniqid' => uniqid()])
+                            @include("admin::_partials.content." . array_get($elementView, $type, $type), ['item' => $contentItem, 'uniqid' => uniqid()])
 
                         </div>
                     </div>
@@ -61,7 +64,7 @@
                     <div class="row">
                         <div class="col-xs-12">
 
-                            @include("admin::_partials.content." . $type, ['uniqid' => uniqid()])
+                            @include("admin::_partials.content." . array_get($elementView, $type, $type), ['uniqid' => uniqid()])
 
                         </div>
                     </div>

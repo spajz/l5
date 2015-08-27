@@ -54,9 +54,9 @@
 
                 @if($contents)
 
-                    @foreach($contents as $item)
+                    @foreach($contents as $contentItem)
 
-                        @include("admin::_partials.content.template", ['item' => $item, 'type' => $item->type])
+                        @include("admin::_partials.content.template", ['contentItem' => $contentItem, 'type' => $contentItem->type])
 
                     @endforeach
 

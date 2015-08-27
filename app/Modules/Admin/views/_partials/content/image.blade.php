@@ -2,17 +2,19 @@
 
 @if(isset($item))
 
-    {!! Former::hidden('order')->name("order[{$item->id}]")->addClass('order-id')->value($item->order) !!}
+    <?php //dd($item->title)?>
 
-    {!! Former::hidden('id')->name("id[{$item->id}]")->value($item->id) !!}
+    {!! Former::hidden('order')->name("order[{$item->id}]")->addClass('order-id') !!}
 
-    {!! Former::hidden('type')->name("type[{$item->id}]")->value($item->type) !!}
+    {!! Former::hidden('id')->name("id[{$item->id}]") !!}
 
-    {!! Former::text('title')->name("title[{$item->id}]")->label('Title')->value($item->title) !!}
+    {!! Former::hidden('type')->name("type[{$item->id}]") !!}
+
+    {!! Former::text('title')->name("title[{$item->id}]")->label('Title') !!}
 
     {!! Former::select('sub_type')->name("sub_type[{$item->id}]")->options(config('admin.contentPosition'), $item->sub_type)->label('Position') !!}
 
-    {!! Former::textarea('content')->name("content[{$item->id}]")->label('Content')->value($item->content) !!}
+    {!! Former::textarea('content')->name("content[{$item->id}]")->label('Content') !!}
 
 
     @include("admin::_partials.content.image_template", compact('uniqid', 'item', 'contentType'))

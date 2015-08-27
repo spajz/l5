@@ -839,13 +839,13 @@ class WorkController extends AdminController
     {
         $element = Input::get('element');
 
-        $uploadFileFields = [
-            'video_left' => ['mp4', 'wma', 'ogg'],
-            'video_right' => ['mp4', 'ogg', 'wma'],
-        ];
-
-        $uploadFileFields = array_content_values_sort($uploadFileFields);
-        view()->share('uploadFileFields', $uploadFileFields);
+//        $uploadFileFields = [
+//            'video_left' => ['mp4', 'wma', 'ogg'],
+//            'video_right' => ['mp4', 'ogg', 'wma'],
+//        ];
+//
+//        $uploadFileFields = array_content_values_sort($uploadFileFields);
+//        view()->share('uploadFileFields', $uploadFileFields);
 
 
         $formButtons = $this->formButtons($this->formButtons);
@@ -871,7 +871,6 @@ class WorkController extends AdminController
         $lang = $this->adminLanguage();
 
         $thisObj = $this;
-        Former::populate($item);
         $this->formButtonsEdit = array('only' => array('back', 'save'));
         $formButtons = $this->formButtons('edit', $item);
         $translateButtons = $this->renderTranslateButtons($item);
@@ -887,11 +886,16 @@ class WorkController extends AdminController
             'textarea' => 'Text area',
             'rte' => 'Rich text editor',
             'text' => 'Text',
-            'text_duo' => 'Text duo',
-            'example' => 'Example',
-            'gallery' => 'Gallery',
+
             'video_duo' => 'Video duo',
             'video' => 'Video',
+
+            'image_16_9' => 'Image 16:9',
+            'image_4_3' => 'Image 4:3',
+
+            'gallery_16_9' => 'Gallery 16:9',
+            'gallery_4_3' => 'Gallery 4:3',
+
         ];
         asort($elements);
 
