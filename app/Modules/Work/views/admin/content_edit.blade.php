@@ -39,7 +39,7 @@
             </div>
 
             {!!
-            Former::open_for_files()->route("admin.{$moduleLower}.item.content.update2", $item->id)
+            Former::open_for_files()->route("admin.{$moduleLower}.item.content.update", $item->id)
             ->method('put')
             ->id('module-content-form')
             ->addClass('content-sortable')

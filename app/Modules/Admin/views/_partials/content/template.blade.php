@@ -31,7 +31,7 @@
                     <div class="row">
                         <div class="col-xs-12">
 
-                            @include("admin::_partials.content." . array_get($elementView, $type, $type), ['item' => $contentItem, 'uniqid' => uniqid(), 'contentType' => $type])
+                            @include("admin::_partials.content." . array_get($elementView, $type, $type), ['item' => $contentItem, 'uniqid' => uniqid(), 'type' => $type])
 
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                     <div class="row">
                         <div class="col-xs-12">
 
-                            @include("admin::_partials.content." . array_get($elementView, $type, $type), ['uniqid' => uniqid(), 'contentType' => $type])
+                            @include("admin::_partials.content." . array_get($elementView, $type, $type), ['uniqid' => uniqid(), 'type' => $type])
 
                         </div>
                     </div>

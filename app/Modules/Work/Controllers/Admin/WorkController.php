@@ -26,6 +26,18 @@ class WorkController extends AdminController
         ['name' => 'actions', 'className' => 'w120 text-center', 'actionColumn' => true],
     ];
 
+    protected $contentElements = [
+        '' => '* Add element',
+        'textarea' => 'Text area',
+        'rte' => 'Rich text editor',
+        'text' => 'Text',
+        'video' => 'Video',
+        'image_16_9' => 'Image 16:9',
+        'image_4_3' => 'Image 4:3',
+        'gallery_16_9' => 'Gallery 16:9',
+        'gallery_4_3' => 'Gallery 4:3',
+    ];
+
     protected $dtChangeStatus = true;
 
     protected $formButtons = array('except' => array('approve', 'reject'));
@@ -164,18 +176,7 @@ class WorkController extends AdminController
         // Add validation from model to former
         $validationRules = $model::rulesMergeUpdate();
 
-        $elements = [
-            '' => '* Add element',
-            'textarea' => 'Text area',
-            'rte' => 'Rich text editor',
-            'text' => 'Text',
-            'text_duo' => 'Text duo',
-            'example' => 'Example',
-            'gallery' => 'Gallery',
-            'video_duo' => 'Video duo',
-            'video' => 'Video',
-        ];
-        asort($elements);
+        $elements = $this->getContentElements();
 
         $contents = $item->contentable;
 
@@ -267,181 +268,6 @@ class WorkController extends AdminController
     }
 
     public function updateItemContent($id)
-    {
-        $model = $this->modelName;
-        $item = $model::find($id);
-
-        if (!$item) {
-            msg('The requested item does not exist or has been deleted.', 'danger');
-            return redirect()->back();
-        }
-
-        $suffix = '_new';
-        $prefix = 'val_';
-
-        $fillableContent = new Content;
-        $fillableContentValues = new ContentValue;
-        $fillableContent = $fillableContent->getFillable();
-        $fillableContentValues = $fillableContentValues->getFillable();
-
-        $ids = Input::get('id');
-        $idsNew = Input::get('id_new');
-
-        $attributesContent = [
-            'model_type' => Input::get('model_type'),
-            'lang' => Input::get('lang')
-        ];
-
-        // Loop through existing ids and update
-        if ($ids && $fillableContent) {
-
-            foreach ($ids as $k => $contentId) {
-
-                $modelContent = Content::find($k);
-
-                if ($modelContent) {
-
-                    $attributesContent = [];
-
-                    foreach ($fillableContent as $column) {
-
-                        if (is_array(Input::get($column . '.' . $k, null))) {
-                            $attributesContent[$column] = json_encode(Input::get($column . '.' . $k));
-                        } elseif (!is_null(Input::get($column . '.' . $k, null))) {
-                            $attributesContent[$column] = Input::get($column . '.' . $k);
-                        }
-                    }
-
-                    // Update content
-                    $modelContent->fill($attributesContent);
-                    $modelContent->save();
-
-                    // New images
-                    if (Input::file($k . '_files_new')) {
-                        $imageApi = new ImageApi;
-                        $imageApi->setConfig($this->contentImageConfig(isset($attributesContent['type']) ? $attributesContent['type'] : ''));
-                        $imageApi->setInputFields('files_new', $k . '_files_new');
-                        $imageApi->setInputFields('alt_new', $k . '_alt_new');
-                        $imageApi->setModelId($modelContent->id);
-                        $imageApi->setModelType(get_class($modelContent));
-                        $imageApi->setBaseName("{$this->moduleLower}_{$attributesContent['type']}");
-                        $imageApi->setStatus(1);
-
-                        if (!$imageApi->process()) {
-                            msg($imageApi->getErrorsAll(), 'danger');
-                        }
-                    }
-
-                    // Update content values. Check id fields
-                    $array = Input::get($prefix . 'id' . '.' . $k, null);
-
-                    if (!is_null($array)) {
-
-                        foreach ($array as $k1 => $value) {
-
-                            $modelContentValue = ContentValue::find($k1);
-
-                            if ($modelContentValue) {
-
-                                $attributesValuesTmp = [];
-
-                                foreach ($fillableContentValues as $column) {
-
-                                    // Do not update some columns
-                                    if (in_array($column, ['content_id', 'order'])) continue;
-
-                                    $input = $prefix . $column . '.' . $k;
-
-                                    $attributesValuesTmp[$column] = Input::get($input . '.' . $k1);
-                                }
-
-                                if ($attributesValuesTmp)
-                                    $modelContentValue->update($attributesValuesTmp);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        if ($idsNew && $fillableContent) {
-
-            foreach ($idsNew as $k => $null) {
-
-                $attributesValues = [];
-                $attributesContent = [];
-
-                $modelContent = new Content;
-
-                $modelContent->model_id = $id;
-                $modelContent->model_type = get_class($item);
-
-                foreach ($fillableContent as $column) {
-
-                    if (is_array(Input::get($column . $suffix . '.' . $k, null))) {
-                        $attributesContent[$column] = json_encode(Input::get($column . $suffix . '.' . $k));
-                    } elseif (!is_null(Input::get($column . $suffix . '.' . $k, null))) {
-                        $attributesContent[$column] = Input::get($column . $suffix . '.' . $k);
-                    }
-                }
-
-                $array = Input::get($prefix . 'value' . $suffix . '.' . $k, null);
-
-                if (!is_null($array)) {
-
-                    $attributesValuesTmp = [];
-
-                    foreach ($array as $k1 => $value) {
-
-                        foreach ($fillableContentValues as $column) {
-
-                            $input = $prefix . $column . $suffix . '.' . $k . '.' . $k1;
-                            if (!is_null(Input::get($input, null))) {
-                                $attributesValuesTmp[$column] = Input::get($input);
-                            }
-                        }
-
-                        if ($attributesValuesTmp)
-                            $attributesValues[] = new ContentValue($attributesValuesTmp);
-                    }
-                }
-
-                $modelContent->fill($attributesContent);
-                $modelContent->save();
-
-                if ($attributesValues)
-                    $modelContent->values()->saveMany($attributesValues);
-
-                // Save images
-                if (Input::file($k . '_files_new')) {
-                    $imageApi = new ImageApi;
-                    $imageApi->setConfig($this->contentImageConfig(isset($attributesContent['type']) ? $attributesContent['type'] : ''));
-                    $imageApi->setInputFields('files_new', $k . '_files_new');
-                    $imageApi->setInputFields('alt_new', $k . '_alt_new');
-                    $imageApi->setModelId($modelContent->id);
-                    $imageApi->setModelType(get_class($modelContent));
-                    $imageApi->setBaseName("{$this->moduleLower}_{$attributesContent['type']}_{$modelContent->id}");
-                    $imageApi->setStatus(1);
-
-                    if (!$imageApi->process()) {
-                        msg($imageApi->getErrorsAll(), 'danger');
-                    }
-                }
-            }
-        }
-
-        // Update alt
-        if (Input::get('alt_update')) {
-            $imageApi = new ImageApi;
-            $imageApi->dbUpdate();
-        }
-
-        msg('The item successfully updated.');
-
-        return $this->redirect($item);
-    }
-
-    public function updateItemContent2($id)
     {
         $model = $this->modelName;
         $item = $model::find($id);
@@ -650,18 +476,7 @@ class WorkController extends AdminController
 
         $buttonSize = 'btn-xs';
 
-        $elements = [
-            '' => '* Add element',
-            'textarea' => 'Text area',
-            'rte' => 'Rich text editor',
-            'text' => 'Text',
-            'example' => 'Example',
-            'gallery' => 'Gallery',
-            'video_duo' => 'Video duo',
-            'video' => 'Video',
-        ];
-
-        asort($elements);
+        $elements = $this->getContentElements();
 
         $contents = Content::where('model_type', $this->modelName)
             ->where('lang', $lang)
@@ -829,8 +644,9 @@ class WorkController extends AdminController
 
     public function contentImageConfig($type = 'image')
     {
-        if (config("{$this->moduleLower}.content.element.{$type}.image")) {
-            return "{$this->moduleLower}.content.element.{$type}.image";
+        $config = get_content_config("{$this->moduleLower}.content.element.{$type}");
+        if (isset($config['image'])) {
+            return $config['image'];
         }
         return "{$this->moduleLower}.image";
     }
@@ -881,23 +697,7 @@ class WorkController extends AdminController
         // Add validation from model to former
         $validationRules = $model::rulesMergeUpdate();
 
-        $elements = [
-            '' => '* Add element',
-            'textarea' => 'Text area',
-            'rte' => 'Rich text editor',
-            'text' => 'Text',
-
-            'video_duo' => 'Video duo',
-            'video' => 'Video',
-
-            'image_16_9' => 'Image 16:9',
-            'image_4_3' => 'Image 4:3',
-
-            'gallery_16_9' => 'Gallery 16:9',
-            'gallery_4_3' => 'Gallery 4:3',
-
-        ];
-        asort($elements);
+        $elements = $this->getContentElements();
 
         $contents = $item->contentable;
 
@@ -912,6 +712,12 @@ class WorkController extends AdminController
                 'contents',
                 'lang'
             ));
+    }
+
+    protected function getContentElements()
+    {
+        asort($this->contentElements);
+        return $this->contentElements;
     }
 
 }

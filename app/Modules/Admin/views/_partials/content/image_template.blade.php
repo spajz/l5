@@ -1,6 +1,5 @@
 <?php
-$localConfigStr = "{$moduleLower}.content.element.{$contentType}";
-$localConfig = config($localConfigStr, []);
+$localConfig = get_content_config("{$moduleLower}.content.element.{$type}");
 ?>
 <table
 @if(isset($item) && count($item->images))
@@ -30,7 +29,6 @@ $localConfig = config($localConfigStr, []);
                 <?php $size = getimagesize(array_get($localConfig, 'image.path') . 'original/' . image_filename($image, 'original')); ?>
                 <tr data-id="{{ $image->id }}">
                     <td>
-
                         {!!
                         link_to_image(
                         $image,
@@ -47,7 +45,6 @@ $localConfig = config($localConfigStr, []);
                         )
                         !!}
                     </td>
-
 
                     <td>
                         {!! Former::text("alt_update[{$image->id}]")->label(null)->value($image->alt)->placeholder('Enter alt text.') !!}

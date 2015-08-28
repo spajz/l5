@@ -1,15 +1,15 @@
-<?php namespace App\Modules\Work\Models;
+<?php namespace App\Modules\Page\Models;
 
 use App\BaseModel;
 use App\Traits\ValidationTrait;
 use Dimsav\Translatable\Translatable;
 
-class Work extends BaseModel
+class Page extends BaseModel
 {
     use ValidationTrait;
     use Translatable;
 
-    protected $table = 'works';
+    protected $table = 'pages';
 
     protected $appends = array('full_title');
 
@@ -49,14 +49,6 @@ class Work extends BaseModel
         return null;
     }
 
-    public function contentable()
-    {
-        return $this->morphMany('App\Models\Content', 'model')
-            ->orderBy('order')
-            ->orderBy('id', 'desc');
-    }
-
-
     public function images()
     {
         return $this->morphMany('App\Models\Image', 'model')
@@ -72,11 +64,6 @@ class Work extends BaseModel
             // Delete images
             foreach ($model->images as $image) {
                 $image->delete();
-            }
-
-            // Delete related
-            foreach ($model->contentable as $item) {
-                $item->delete();
             }
         });
     }

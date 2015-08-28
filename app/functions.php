@@ -546,6 +546,17 @@ if (!function_exists('elixir2')) {
         }
     }
 
+    if (!function_exists('get_content_config')) {
+        function get_content_config($configName)
+        {
+            $config = config($configName, []);
+            if ($config instanceof Closure) {
+                $config = $config();
+            }
+            return $config;
+        }
+    }
+
 
 }
 

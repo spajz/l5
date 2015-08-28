@@ -40,12 +40,4 @@ Route::group(array("prefix" => ADMIN), function () use ($moduleUpper, $moduleLow
 
     Route::get("api/{$moduleLower}/dt", array("as" => "api.{$moduleLower}.dt", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@getDatatable"));
 
-    Route::get("{$moduleLower}/content/{lang?}", array("as" => "admin.{$moduleLower}.content", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@content"));
-
-    Route::post("{$moduleLower}/content/{lang?}", array("as" => "admin.{$moduleLower}.content.store", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@contentStore"));
-
-    Route::put("{$moduleLower}/item/content/update/{id}", array("as" => "admin.{$moduleLower}.item.content.update", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@updateItemContent"));
-
-    Route::get("api/{$moduleLower}/add-element",['as' => "api.{$moduleLower}.add.element", 'uses' => $namespaceAdmin . "{$moduleUpper}Controller@addElement"]);
-
 });

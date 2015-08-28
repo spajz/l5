@@ -2,7 +2,7 @@
     "name": "page",
     "class": "Page",
     "enabled": true,
-    "icon": "fa-female",
+    "icon": "fa-bookmark-o",
     "order": 453542,
     "title": "Page"
 }

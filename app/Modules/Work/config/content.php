@@ -74,9 +74,6 @@ return [
                 ],
             ],
         ],
-
-
-
         'image_4_3' => [
             'image' => [
                 'path' => public_path('media/images') . '/', // main path with trailing slash
@@ -128,8 +125,15 @@ return [
                 ],
             ],
         ],
-
-
+        'image_16_9' => function(){
+            return config("work.content.element.image_4_3");
+        },
+        'gallery_4_3' => function(){
+            return config("work.content.element.image_4_3");
+        },
+        'gallery_16_9' => function(){
+            return config("work.content.element.image_4_3");
+        },
     ],
 
 ];

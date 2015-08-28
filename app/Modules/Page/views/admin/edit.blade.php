@@ -12,18 +12,11 @@
 
     <div id="pjax-container">
 
-    <div class="row">
-        <div class="col-xs-12">
-            <p>{!! $translateButtons or '' !!}</p>
+        <div class="row">
+            <div class="col-xs-12">
+                <p>{!! $translateButtons or '' !!}</p>
+            </div>
         </div>
-    </div>
-
-    <ul class="nav nav-tabs tab-selector bottom10">
-        <li class="active"><a href="{{ route("admin.{$moduleLower}.edit", $item->id) }}"><i class="fa fa-bars fa-fw"></i>Basic</a></li>
-        <li class=""><a href="{{ route("admin.{$moduleLower}.content.edit", $item->id) }}"><i class="fa fa-folder-open-o fa-fw"></i> Content</a></li>
-    </ul>
-
-    <div id="basic">
 
         <div id="info-box">{!! Notification::showAll() !!}</div>
 
@@ -33,7 +26,7 @@
             <div class="col-xs-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Basic Information {{ $item->full_title  }}
+                        Basic Information
                     </div>
                     <div class="panel-body">
                         <div class="row">
@@ -43,18 +36,34 @@
 
                                 {!! Former::text('lang')->disabled()->forceValue($lang) !!}
 
-                                {!! Former::text('title') !!}
+                                {!! Former::text('first_name') !!}
 
-                                {!! Former::text('sub_title') !!}
+                                {!! Former::text('last_name') !!}
 
-                                {!! Former::text('slug') !!}
+                                {!!
+                                    Former::text('job_title')->addClass('autocomplete')
+                                    ->data_model($modelName)
+                                    ->data_column('job_title')
+                                    ->data_type('autocomplete-json')
+                                !!}
 
-                                {!! Former::textarea('intro')->addClass('ckeditor') !!}
+                                @include('admin::_partials.color_picker',
+                                    [
+                                        'fieldName' => 'color',
+                                        'label' => 'Color',
+                                        'validationRules' => $validationRules,
+                                    ]
+                                )
 
-                                {!! Former::textarea('description')->addClass('ckeditor') !!}
+                                @include('admin::_partials.color_picker',
+                                    [
+                                        'fieldName' => 'text_color',
+                                        'label' => 'Text color',
+                                        'validationRules' => $validationRules,
+                                    ]
+                                )
 
-                                {!! Former::hidden('featured')->forceValue(0) !!}
-                                {!! Former::checkbox('featured')->value(1) !!}
+                                {!! Former::textarea('description') !!}
 
                                 {!! Former::hidden('status')->forceValue(0) !!}
                                 {!! Former::checkbox('status')->value(1) !!}
@@ -73,14 +82,13 @@
             <!-- /.col-xs-12 -->
         </div>
 
-        @include("admin::_partials.images_form", ['item' => $item])
+        @include("admin::_partials.images_form", ['item' => $item, 'dynamic' => ['person', 0, 'thumb']])
 
         {!! Former::close() !!}
 
         @if(array_get($config, 'image.crop'))
             @include("admin::_partials.crop_form", ['item' => $item])
         @endif
-    </div>
 
     </div>
 
@@ -88,16 +96,5 @@
 
 @section('scripts_bottom')
     @parent
-
-    <script type="text/javascript">
-        var dialog;
-        function openCustomRoxy2(id){
-            dialog = $('#' + id).dialog({modal:true, width:875,height:600});
-        }
-        function closeCustomRoxy2(){
-//            $('#roxyCustomPanel2').dialog('close');
-            dialog.dialog('close');
-        }
-    </script>
 
 @stop

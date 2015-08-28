@@ -13,37 +13,34 @@ return [
     ],
 
     'image' => [
-        'path' => public_path() . '/media/images/', // main path with trailing slash
+        'path' => public_path('media/images') . '/', // main path with trailing slash
         'baseUrl' => url('media/images') . '/',
         'required' => false, // true or false
-        'multiple' => true,
-        'order' => true, // allow reordering
-        'crop' => true, // allow cropping
-        'baseName' => $moduleLower, // image base name
+        'multiple' => false,
+        'order' => false, // allow reordering
+        'crop' => false, // allow cropping
+        'baseName' => $moduleLower . '_[:id]', // [:id]
         'filenameFormat' => '', // default: [:base_name]_[:uniqid]
-        'quality' => 85,
+        'quality' => 80,
         'allowedTypes' => 'jpeg,gif,png',
         'max' => '4000', // max size in kilobytes (0 for no limit)
         'mainSize' => 'original', //  required
+        'saveAs' => '', // force extension
+        'background' => '', // background color (transparent to color background) - optional
         'sizes' => [
             'original' => [
+                'quality' => 100,
                 'folder' => 'original/', // relative path from main image folder with trailing slash
                 'actions' => [],
             ],
             'large' => [
-                'quality' => 95,
                 'folder' => 'large/', // relative path from main image folder with trailing slash
-                'actions' => [
-                    'resize' => [800, 800, function ($image) {
-                        $image->aspectRatio();
-                        $image->upsize();
-                    }],
-                ],
+                'actions' => [],
             ],
             'medium' => [
                 'folder' => 'medium/', // relative path from main image folder with trailing slash
                 'actions' => [
-                    'resize' => [250, null, function ($image) {
+                    'resize' => [null, 350, function ($image) {
                         $image->aspectRatio();
                         $image->upsize();
                     }],
@@ -52,10 +49,21 @@ return [
             'thumb' => [
                 'folder' => 'thumb/',
                 'actions' => [
-                    'fit' => [140, 110, function ($image) {
+                    'resize' => [null, 200, function ($image) {
                         $image->aspectRatio();
                         $image->upsize();
                     }],
+                ],
+            ],
+            'preview' => [
+                'quality' => 75,
+                'folder' => 'preview/',
+                'actions' => [
+                    'resize' => [null, 200, function ($image) {
+                        $image->aspectRatio();
+                        $image->upsize();
+                    }],
+                    'crop' => [200, 200, 0, 0],
                 ],
             ],
         ],
