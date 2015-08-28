@@ -1,8 +1,6 @@
-<?php $contentType = 'image' ?>
+<?php //$contentType = 'image'; ?>
 
 @if(isset($item))
-
-    <?php //dd($item->title)?>
 
     {!! Former::hidden('order')->name("order[{$item->id}]")->addClass('order-id') !!}
 
@@ -15,7 +13,6 @@
     {!! Former::select('sub_type')->name("sub_type[{$item->id}]")->options(config('admin.contentPosition'), $item->sub_type)->label('Position') !!}
 
     {!! Former::textarea('content')->name("content[{$item->id}]")->label('Content') !!}
-
 
     @include("admin::_partials.content.image_template", compact('uniqid', 'item', 'contentType'))
 
@@ -32,7 +29,6 @@
     {!! Former::select('sub_type')->name("sub_type_new[{$uniqid}]")->options(config('admin.contentPosition'))->label('Position') !!}
 
     {!! Former::textarea('content')->name("content_new[{$uniqid}]")->label('Content') !!}
-
 
     @include("admin::_partials.content.image_template", compact('uniqid', 'contentType'))
 

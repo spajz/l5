@@ -480,11 +480,15 @@ $(document).ready(function () {
                 $('.fancybox-outer #alt_new_crop').val($(this.element).closest('tr').find("input[name^='alt_update']").first().val());
                 $('.fancybox-outer #description_new_crop').val($(this.element).closest('tr').find("input[name^='description_update']").first().val());
 
+                var w = $('.fancybox-inner').width();
+                var h = $('.fancybox-inner').height();
                 $('.fancybox-outer input[name=image_id]').val($(this.element).attr('data-image-id'))
                 $('.fancybox-inner').find('img').Jcrop({
                     allowMove: true,
                     onChange: updateCoords,
-                    trueSize: [$(this.element).attr('data-w'), $(this.element).attr('data-h')]
+                    boxHeight: h,
+                    boxWidth: w,
+                    //trueSize: [$(this.element).attr('data-w'), $(this.element).attr('data-h')]
                 });
             },
             beforeShow: function () {

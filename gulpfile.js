@@ -148,7 +148,10 @@ if (!moduleLower) {
 
         config.bowerDir + 'fancybox/source/jquery.fancybox.css',
         config.bowerDir + 'jquery-ui/themes/base/jquery-ui.min.css',
-        config.bowerDir + 'Jcrop/css/jquery.Jcrop.css',
+
+        //config.bowerDir + 'Jcrop/css/jquery.Jcrop.css',
+        config.bowerDir + 'Jcrop2/css/Jcrop.min.css',
+
         //config.bowerDir + 'video.js/dist/video-js/video-js.min.css',
         config.bowerDir + 'mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css',
         config.bowerDir + 'jstree/dist/themes/default/style.css',
@@ -178,7 +181,11 @@ if (!moduleLower) {
         config.bowerDir + 'fancybox/source/jquery.fancybox.pack.js',
         config.bowerDir + 'jquery-ui/jquery-ui.min.js',
         config.bowerDir + 'underscore/underscore-min.js',
-        config.bowerDir + 'Jcrop/js/jquery.Jcrop.js',
+
+        //config.bowerDir + 'Jcrop/js/jquery.Jcrop.js',
+        config.bowerDir + 'Jcrop2/js/Jcrop.min.js',
+
+
         //config.bowerDir + 'video.js/dist/video-js/video.js',
         config.bowerDir + 'mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js',
         config.bowerDir + 'devbridge-autocomplete/dist/jquery.autocomplete.min.js',

@@ -499,7 +499,7 @@ class WorkController extends AdminController
                         $imageApi->setInputFields('alt_new', $k . '_alt_new');
                         $imageApi->setModelId($modelContent->id);
                         $imageApi->setModelType(get_class($modelContent));
-                        $imageApi->setBaseName("{$this->moduleLower}_{$attributesContent['type']}");
+                        $imageApi->setBaseName("{$this->moduleLower}_{$attributesContent['type']}_{$id}");
                         $imageApi->setStatus(1);
 
                         if (!$imageApi->process()) {

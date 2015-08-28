@@ -13,7 +13,7 @@ $localConfig = config($localConfigStr, []);
     <tr>
         <th>Image</th>
         <th>Alt</th>
-        <?php /* <th>Upload</th> */ ?>
+        <th>Upload</th>
         @if(array_get($localConfig, 'image.order'))
             <th>Order</th>
         @endif
@@ -26,8 +26,8 @@ $localConfig = config($localConfigStr, []);
     @if(isset($item) && count($item->images))
 
         @foreach($item->images as $image)
-            @if(is_file(array_get($localConfig, 'image.path') . 'original/' . $image->image))
-                <?php $size = getimagesize(array_get($localConfig, 'image.path') . 'original/' . $image->image); ?>
+            @if(is_file(array_get($localConfig, 'image.path') . 'original/' . image_filename($image, 'original')))
+                <?php $size = getimagesize(array_get($localConfig, 'image.path') . 'original/' . image_filename($image, 'original')); ?>
                 <tr data-id="{{ $image->id }}">
                     <td>
 
@@ -47,10 +47,12 @@ $localConfig = config($localConfigStr, []);
                         )
                         !!}
                     </td>
+
+
                     <td>
                         {!! Former::text("alt_update[{$image->id}]")->label(null)->value($image->alt)->placeholder('Enter alt text.') !!}
                     </td>
-                    <?php /*
+
                     <td class="w200">
                         <div class="input-group">
                             <span class="input-group-btn">
@@ -61,7 +63,7 @@ $localConfig = config($localConfigStr, []);
                             <input type="text" class="form-control" readonly>
                         </div>
                     </td>
-                    */?>
+
                     @if(array_get($localConfig, 'image.order'))
                         <td class="text-center">
                             <button type="button" class="btn btn-info btn-xs btn-sort">

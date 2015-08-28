@@ -29,6 +29,7 @@
     "html5shiv": "~3.7.2",
     "isInViewport": "~2.2.4",
     "Jcrop": "~0.9.12",
+    "Jcrop2": "Jcrop#WIP-2.x",
     "jQuery-Flex-Vertical-Center": "~1.0.0",
     "jquery-hoverintent": "~1.8.1",
     "jquery-legacy": "jquery#^1",
