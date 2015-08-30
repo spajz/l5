@@ -29,34 +29,15 @@
 
                                 {!! Former::text('lang')->disabled()->forceValue($lang) !!}
 
-                                {!! Former::text('first_name') !!}
+                                {!! Former::text('title') !!}
 
-                                {!! Former::text('last_name') !!}
+                                {!! Former::text('sub_title') !!}
 
-                                {!!
-                                    Former::text('job_title')->addClass('autocomplete')
-                                    ->data_model($modelName)
-                                    ->data_column('job_title')
-                                    ->data_type('autocomplete-json')
-                                !!}
+                                {!! Former::text('slug') !!}
 
-                                @include('admin::_partials.color_picker',
-                                   [
-                                       'fieldName' => 'color',
-                                       'label' => 'Color',
-                                       'validationRules' => $validationRules,
-                                   ]
-                                )
+                                {!! Former::textarea('intro')->addClass('ckeditor') !!}
 
-                                @include('admin::_partials.color_picker',
-                                    [
-                                        'fieldName' => 'text_color',
-                                        'label' => 'Text color',
-                                        'validationRules' => $validationRules,
-                                    ]
-                                )
-
-                                {!! Former::textarea('description') !!}
+                                {!! Former::textarea('description')->addClass('ckeditor') !!}
 
                                 {!! Former::hidden('status')->forceValue(0) !!}
                                 {!! Former::checkbox('status')->value(1) !!}

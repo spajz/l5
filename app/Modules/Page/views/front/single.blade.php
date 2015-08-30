@@ -1,0 +1,3 @@
+OVO JE STANDARDNI SINGLE TEMPLATE
+
+{{ $page->title }}

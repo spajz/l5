@@ -33,7 +33,7 @@
             <div class="col-xs-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Basic Information {{ $item->full_title  }}
+                        Basic Information
                     </div>
                     <div class="panel-body">
                         <div class="row">

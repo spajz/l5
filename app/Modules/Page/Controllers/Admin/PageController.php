@@ -13,17 +13,28 @@ use Illuminate\Http\Request as HttpRequest;
 use App\Models\Content;
 use App\Models\ContentValue;
 
-class WorkController extends AdminController
+class PageController extends AdminController
 {
     protected $dtColumns = [
-        ['name' => 'id', 'className' => 'w40', 'prefix' => 'works'],
+        ['name' => 'id', 'className' => 'w40', 'prefix' => 'pages'],
         ['name' => 'title', 'columnFilter' => 'text'],
         ['name' => 'sub_title', 'columnFilter' => 'text'],
         ['name' => 'order', 'className' => 'w40'],
         ['name' => 'translate', 'className' => 'w120 text-center', 'actionColumn' => true],
-        ['name' => 'featured', 'className' => 'w40 text-center'],
         ['name' => 'status', 'className' => 'w40 text-center'],
         ['name' => 'actions', 'className' => 'w120 text-center', 'actionColumn' => true],
+    ];
+
+    protected $contentElements = [
+        '' => '* Add element',
+        'textarea' => 'Text area',
+        'rte' => 'Rich text editor',
+        'text' => 'Text',
+        'video' => 'Video',
+        'image_wide' => 'Image wide',
+        'image_normal' => 'Image normal',
+        'gallery_wide' => 'Gallery wide',
+        'gallery_normal' => 'Gallery normal',
     ];
 
     protected $dtChangeStatus = true;
@@ -54,9 +65,6 @@ class WorkController extends AdminController
         return Datatables::of($query)
             ->addColumn('translate', function ($data) use ($dtFront, $model) {
                 return $dtFront->renderTranslateButtons($data);
-            })
-            ->addColumn('featured', function ($data) use ($dtFront, $model) {
-                return $dtFront->renderStatusButtons($data, $model, 'featured');
             })
             ->addColumn('status', function ($data) use ($dtFront, $model) {
                 return $dtFront->renderStatusButtons($data, $model);

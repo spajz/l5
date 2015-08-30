@@ -20,7 +20,6 @@ class Page extends BaseModel
         'intro',
         'description',
         'order',
-        'featured',
         'status'
     );
 
