@@ -482,7 +482,10 @@ $(document).ready(function () {
 
                 var w = $('.fancybox-inner').width();
                 var h = $('.fancybox-inner').height();
-                $('.fancybox-outer input[name=image_id]').val($(this.element).attr('data-image-id'))
+                $('.fancybox-outer input[name=image_id]').val($(this.element).attr('data-image-id'));
+
+                $('.fancybox-outer input[name=image_config]').val($(this.element).attr('data-config'));
+
                 $('.fancybox-inner').find('img').Jcrop({
                     allowMove: true,
                     onChange: updateCoords,

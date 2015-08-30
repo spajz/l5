@@ -269,17 +269,6 @@ class DatatablesFront
         return view($this->actionButtons, array('data' => $data, 'buttonSize' => $this->buttonSize))->render();
     }
 
-    public function renderTransButtons($item)
-    {
-        $languages = Config::get('admin.languages');
-
-        $transRelated = $item->transRelated();
-
-        $buttonSize = $this->buttonSize;
-
-        return view($this->transButtons, compact('item', 'languages', 'transRelated', 'buttonSize'))->render();
-    }
-
     public function renderTranslateButtons($item)
     {
         $translation = [];

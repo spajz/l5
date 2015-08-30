@@ -547,19 +547,17 @@ if (!function_exists('elixir2')) {
     }
 
     if (!function_exists('get_content_config')) {
-        function get_content_config($configName)
+        function get_content_config($configName, $closureKey = null)
         {
             $config = config($configName, []);
             if ($config instanceof Closure) {
                 $config = $config();
+                if(!is_null($closureKey) && isset($config[$closureKey])){
+                    $config = $config[$closureKey];
+                }
             }
             return $config;
         }
     }
 
-
 }
-
-
-
-

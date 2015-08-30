@@ -13,10 +13,10 @@ return [
     ],
 
     'elementView' => [
-        'image_16_9' => 'image',
-        'image_4_3' => 'image',
-        'gallery_16_9' => 'image',
-        'gallery_4_3' => 'image',
+        'image_normal' => 'image',
+        'image_wide' => 'image',
+        'gallery_normal' => 'image',
+        'gallery_wide' => 'image',
     ],
 
     'element' => [
@@ -74,7 +74,7 @@ return [
                 ],
             ],
         ],
-        'image_4_3' => [
+        'image_normal' => [
             'image' => [
                 'path' => public_path('media/images') . '/', // main path with trailing slash
                 'baseUrl' => url('media/images') . '/',
@@ -125,14 +125,14 @@ return [
                 ],
             ],
         ],
-        'image_16_9' => function(){
-            return config("work.content.element.image_4_3");
+        'image_wide' => function(){
+            return config("work.content.element.image_normal");
         },
-        'gallery_4_3' => function(){
-            return config("work.content.element.image_4_3");
+        'gallery_normal' => function(){
+            return config("work.content.element.image_normal");
         },
-        'gallery_16_9' => function(){
-            return config("work.content.element.image_4_3");
+        'gallery_wide' => function(){
+            return config("work.content.element.image_normal");
         },
     ],
 

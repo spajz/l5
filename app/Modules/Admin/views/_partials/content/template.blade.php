@@ -16,7 +16,7 @@
                     <button type="button" class="btn btn-primary btn-xs btn-toggle">
                         <i class="fa fa-caret-square-o-down"></i>
                     </button>
-                    Type: {{ $type }}
+                    Type: {{ str_replace('_', ' ', $type) }}
                     <div class="btn-group pull-right">
                         @include('admin::_partials.content.translate_buttons', ['item' => $contentItem])
                         <button type="button" class="btn btn-info btn-xs btn-sort">
@@ -49,7 +49,7 @@
                     <button type="button" class="btn btn-primary btn-xs btn-toggle">
                         <i class="fa fa-caret-square-o-down"></i>
                     </button>
-                    Type: {{ $type }}
+                    Type: {{ str_replace('_', ' ', $type) }}
                     <div class="btn-group pull-right">
                         @include('admin::_partials.content.translate_buttons')
                         <button type="button" class="btn btn-info btn-xs btn-sort">

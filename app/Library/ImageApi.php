@@ -35,6 +35,7 @@ class ImageApi
     protected $originalExtension = null;
     protected $extensionsBySize = null;
     protected $imageExtensions = ['jpg', 'jpeg', 'gif', 'png'];
+    protected $uploadTypes = ['new', 'update'];
 
     public function __construct()
     {
@@ -45,12 +46,17 @@ class ImageApi
         }
     }
 
+    public function setUploadTypes($types)
+    {
+        $this->uploadTypes = $types;
+    }
+
     public function setConfig($config)
     {
         if (is_array($config)) {
             $this->config = $config;
         } else {
-            $this->config = config($config);
+            $this->config = get_content_config($config, 'image');
         }
         return $this;
     }
@@ -271,7 +277,7 @@ class ImageApi
 
     public function uploadFiles()
     {
-        foreach (['new', 'update'] as $type) {
+        foreach ($this->uploadTypes as $type) {
             $filesType = "files_{$type}";
 
             if (Input::hasFile($this->inputFields[$filesType])) {
@@ -397,9 +403,11 @@ class ImageApi
      * @param  array $types
      * @return void
      */
-    protected function validateFiles($types = ['new', 'update'])
+    protected function validateFiles($types = null)
     {
-
+        if (is_null($types)) {
+            $types = $this->uploadTypes;
+        }
         foreach ($types as $type) {
 //            if (!count($files)) {
 //                $this->errors[] = 'There is no files.';
@@ -457,7 +465,7 @@ class ImageApi
      */
     protected function processUpload()
     {
-        foreach (['new', 'update'] as $type) {
+        foreach ($this->uploadTypes as $type) {
 
             $uploadedFiles = $this->getUploadedFiles($type);
 

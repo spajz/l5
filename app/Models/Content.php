@@ -52,14 +52,6 @@ class Content extends BaseModel
         });
     }
 
-    public function getContentAttribute($value)
-    {
-//        if ($this->attributes['encoded'] == 1) {
-//            return json_decode($value, true);
-//        }
-        return $value;
-    }
-
     public function images()
     {
         return $this->morphMany('App\Models\Image', 'model')

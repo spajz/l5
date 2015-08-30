@@ -10,9 +10,6 @@
         <li>
             <a href="{{ route('admin.' . $module['name'] . '.order') }}">Order</a>
         </li>
-        <li>
-            <a href="{{ route('admin.' . $module['name'] . '.content') }}">Content</a>
-        </li>
     </ul>
     <!-- /.nav-second-level -->
 </li>

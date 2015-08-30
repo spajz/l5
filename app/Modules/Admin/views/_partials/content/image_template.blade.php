@@ -2,12 +2,12 @@
 $localConfig = get_content_config("{$moduleLower}.content.element.{$type}");
 ?>
 <table
-@if(isset($item) && count($item->images))
-    class="table table-bordered table-striped table-hover sortable" data-model="{{  get_class($item->images[0]) }}"
-@else
-    class="table table-bordered table-striped table-hover"
-@endif
->
+        @if(isset($item) && count($item->images))
+        class="table table-bordered table-striped table-hover sortable" data-model="{{  get_class($item->images[0]) }}"
+        @else
+        class="table table-bordered table-striped table-hover"
+        @endif
+        >
     <thead>
     <tr>
         <th>Image</th>
@@ -47,14 +47,15 @@ $localConfig = get_content_config("{$moduleLower}.content.element.{$type}");
                     </td>
 
                     <td>
-                        {!! Former::text("alt_update[{$image->id}]")->label(null)->value($image->alt)->placeholder('Enter alt text.') !!}
+                        {!! Former::text("{$item->id}_alt_update[{$image->id}]")->label(null)->value($image->alt)->placeholder('Enter alt text.') !!}
                     </td>
 
                     <td class="w200">
                         <div class="input-group">
                             <span class="input-group-btn">
                                 <span class="btn btn-default btn-file">
-                                    Browse&hellip;  <input type="file"  name="files_update[{{$image->id}}]">
+                                    Browse&hellip; <input type="file"
+                                                          name="{{$item->id}}_files_update[{{ $image->id }}]">
                                 </span>
                             </span>
                             <input type="text" class="form-control" readonly>
@@ -74,15 +75,18 @@ $localConfig = get_content_config("{$moduleLower}.content.element.{$type}");
                     <td class="text-center">
 
                         @if(array_get($localConfig, 'image.crop'))
-                            <a href="{{ array_get($localConfig, 'image.baseUrl') . 'original/' . $image->image }}" class="btn btn-info btn-xs fancybox-crop"
+                            <a href="{{ array_get($localConfig, 'image.baseUrl') . 'original/' . image_filename($image, 'original') }}"
+                               class="btn btn-info btn-xs fancybox-crop"
                                data-w="{{ $size[0] }}"
                                data-h="{{ $size[1] }}"
+                               data-config="{{ "{$moduleLower}.content.element.{$type}" }}"
                                data-image-id="{{ $image->id }}">
                                 <i class="fa fa-crop"></i> Crop
                             </a>
                         @endif
 
-                        <a href="{{ route('api.admin.image.destroy', [$image->id, true, true]) }}" class="btn btn-danger btn-xs" data-bb="confirmPjax">
+                        <a href="{{ route('api.admin.image.destroy', [$image->id, true, true]) }}"
+                           class="btn btn-danger btn-xs" data-bb="confirmPjax">
                             <i class="fa fa-trash-o"></i> Delete
                         </a>
                     </td>
@@ -90,8 +94,10 @@ $localConfig = get_content_config("{$moduleLower}.content.element.{$type}");
             @else
                 <tr>
                     <td class="colspan">Whoops, looks like something went wrong,
-                        file "{{$image->image}}" does not exist. Please delete record from database.
-                        <a href="{{ route('api.admin.image.destroy', $image->id) }}" class="btn btn-danger btn-xs" data-bb="confirmPjax">
+                        file "{{$image->image}}" not found with current configuration. Please delete record from
+                        database.
+                        <a href="{{ route('api.admin.image.destroy', $image->id) }}" class="btn btn-danger btn-xs"
+                           data-bb="confirmPjax">
                             <i class="fa fa-trash-o"></i> Delete
                         </a>
                     </td>
@@ -162,6 +168,3 @@ $localConfig = get_content_config("{$moduleLower}.content.element.{$type}");
     </div>
 
 @endif
-
-
-

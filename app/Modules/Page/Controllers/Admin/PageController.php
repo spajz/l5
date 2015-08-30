@@ -1,9 +1,9 @@
-<?php namespace App\Modules\Work\Controllers\Admin;
+<?php namespace App\Modules\Page\Controllers\Admin;
 
 use App\Library\ImageApi;
 use App\Modules\Admin\Controllers\AdminController;
-use App\Modules\Work\Models\Work as Model;
-use App\Modules\Work\Models\WorkTranslation as ModelTranslation;
+use App\Modules\Page\Models\Page as Model;
+use App\Modules\Page\Models\PageTranslation as ModelTranslation;
 
 use Datatables;
 use DatatablesFront;
@@ -24,18 +24,6 @@ class WorkController extends AdminController
         ['name' => 'featured', 'className' => 'w40 text-center'],
         ['name' => 'status', 'className' => 'w40 text-center'],
         ['name' => 'actions', 'className' => 'w120 text-center', 'actionColumn' => true],
-    ];
-
-    protected $contentElements = [
-        '' => '* Add element',
-        'textarea' => 'Text area',
-        'rte' => 'Rich text editor',
-        'text' => 'Text',
-        'video' => 'Video',
-        'image_wide' => 'Image wide',
-        'image_normal' => 'Image normal',
-        'gallery_wide' => 'Gallery wide',
-        'gallery_normal' => 'Gallery normal',
     ];
 
     protected $dtChangeStatus = true;

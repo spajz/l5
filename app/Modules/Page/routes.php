@@ -40,4 +40,11 @@ Route::group(array("prefix" => ADMIN), function () use ($moduleUpper, $moduleLow
 
     Route::get("api/{$moduleLower}/dt", array("as" => "api.{$moduleLower}.dt", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@getDatatable"));
 
+    Route::get("{$moduleLower}/{id}/content-edit", array("as" => "admin.{$moduleLower}.content.edit", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@contentEdit"));
+
+    Route::put("{$moduleLower}/{id}/content-update", array("as" => "admin.{$moduleLower}.content.update", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@contentUpdate"));
+
+    Route::get("api/{$moduleLower}/add-element", ['as' => "api.{$moduleLower}.add.element", 'uses' => $namespaceAdmin . "{$moduleUpper}Controller@addElement"]);
+
+
 });

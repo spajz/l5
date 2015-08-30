@@ -39,7 +39,7 @@
             </div>
 
             {!!
-            Former::open_for_files()->route("admin.{$moduleLower}.item.content.update", $item->id)
+            Former::open_for_files()->route("admin.{$moduleLower}.content.update", $item->id)
             ->method('put')
             ->id('module-content-form')
             ->addClass('content-sortable')
@@ -73,8 +73,7 @@
 
             {!! Former::close() !!}
 
-            @section('crop_form')
-            @show
+            @include("admin::_partials.crop_form")
 
         </div>
 
@@ -84,16 +83,5 @@
 
 @section('scripts_bottom')
     @parent
-
-    <script type="text/javascript">
-        var dialog;
-        function openCustomRoxy2(id){
-            dialog = $('#' + id).dialog({modal:true, width:875,height:600});
-        }
-        function closeCustomRoxy2(){
-//            $('#roxyCustomPanel2').dialog('close');
-            dialog.dialog('close');
-        }
-    </script>
 
 @stop

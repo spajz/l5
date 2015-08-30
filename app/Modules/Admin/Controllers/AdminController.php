@@ -202,16 +202,24 @@ class AdminController extends BaseController
         return view('admin::_partials.form_buttons_template', compact('formButtons', 'extra', 'item'));
     }
 
-    public function renderTransButtons($item)
-    {
-        $dtFront = new DatatablesFront;
-        return $dtFront->renderTransButtons($item);
-    }
-
     public function renderTranslateButtons($item)
     {
         $dtFront = new DatatablesFront;
         return $dtFront->renderTranslateButtons($item);
+    }
+
+    public function formTranslateButtons($item){
+        $translation = [];
+
+        $languages = config()->get('admin.languages');
+
+        foreach ($languages as $langCode => $langName) {
+            $translation[$langCode] = $item->hasTranslation($langCode);
+        }
+
+        $buttonSize = 'btn-xs';
+
+        return view('admin::_partials.translate_buttons', compact('item', 'languages', 'translation', 'buttonSize'))->render();
     }
 
     public function getModel($model = null, $key = null, $column = null, $type = null, $extra = null)
