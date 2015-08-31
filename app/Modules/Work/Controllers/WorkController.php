@@ -1,7 +1,8 @@
 <?php namespace App\Modules\Work\Controllers;
 
 use App\Modules\Front\Controllers\FrontController;
-use App\Modules\Work\Models\Work as Model;
+use App\Modules\Work\Models\Work;
+use App\Modules\Work\Models\WorkTranslation;
 use DB;
 use App;
 
@@ -18,34 +19,38 @@ class WorkController extends FrontController
     {
         $lang = App::getLocale();
         if (!is_null($slug)) {
-            $work = Model::where('slug', $slug)
-                ->where('lang', $lang)
+
+            $work = Work::translated()
+                ->where('slug', $slug)
                 ->first();
 
             if ($work) {
                 return view("{$this->moduleLower}::front.single", compact('work'));
             }
         } else {
-            $works = Model::where('status', 1)
-                ->where('lang', $lang)
+            $works = Work::where('status', 1)
                 ->orderBy(DB::raw('RAND()'))
                 ->get();
             return view("{$this->moduleLower}::front.index", compact('works'));
         }
     }
 
-    public function index($id = null)
+    public function index($slug = null)
     {
         $includeView = $this->includeView();
         $columnMixer = $this->columnMixer();
-        if (!is_null($id)) {
-            $work = Model::find($id);
+        if (!is_null($slug)) {
+            $work = Work::find(5);
+
+            $workTranslation = WorkTranslation::where('slug', $slug)->first();
+
+            dd($workTranslation);
 
             if ($work) {
                 return view("{$this->moduleLower}::front.single", compact('work', 'includeView', 'columnMixer'));
             }
         } else {
-            $works = Model::where('status', 1)
+            $works = Work::where('status', 1)
                 ->get();
             return view("{$this->moduleLower}::front.index", compact('works'));
         }

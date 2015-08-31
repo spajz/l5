@@ -23,6 +23,8 @@ class ClientController extends FrontController
             'bottom_to_top',
         ];
         $clients = Model::where('status', 1)->orderBy('order')->get();
-        return view("{$this->moduleLower}::front.index", compact('clients', 'hoverEffects'));
+        $pages['ourClients'] = $this->getPageByConfigKey('ourClients');
+
+        return view("{$this->moduleLower}::front.index", compact('clients', 'hoverEffects', 'pages'));
     }
 }

@@ -39,7 +39,7 @@
     </script>
 </head>
 
-<body class="{{ $bodyClass or '' }}">
+<body class="{{ $bodyClass or '' }}"><a id="top" style="top: -30px; position: absolute;"></a>
 <div id="loader"></div>
 @yield('content')
 

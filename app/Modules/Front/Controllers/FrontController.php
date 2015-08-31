@@ -1,6 +1,7 @@
 <?php namespace App\Modules\Front\Controllers;
 
 use App\Http\Controllers\BaseController;
+use App\Modules\Page\Models\Page;
 
 class FrontController extends BaseController
 {
@@ -58,6 +59,13 @@ class FrontController extends BaseController
     public function index()
     {
         return view_theme("{$this->moduleLower}::home");
+    }
+
+    public function getPageByConfigKey($key)
+    {
+        $pagesConfig = config('page.pages');
+        if (!isset($pagesConfig[$key])) return null;
+        return Page::find($pagesConfig[$key]);
     }
 
 }

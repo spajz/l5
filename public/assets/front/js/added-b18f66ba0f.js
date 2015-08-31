@@ -7,6 +7,10 @@ Array.prototype.prev = function () {
 };
 Array.prototype.current = 0;
 
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 // Scroll to anchor
 $.extend($.scrollTo.defaults, {
     axis: 'y',
@@ -245,6 +249,36 @@ $(document).ready(function () {
         }
     );
 
+    function menuCollapse() {
+        //#navbar .nav > li        padding: 38px 18px;
+        //.navbar-brand padding: 35px 15px;
+        $('#navbar .nav > li').animate({'padding': '24px 18px'}, 'fast');
+        $('.navbar-brand').animate({'padding': '20px 15px',}, 'fast');
+    }
+
+    function menuDefault() {
+        $('#navbar .nav > li').animate({'padding': '38px 18px'}, 'fast');
+        $('.navbar-brand').animate({'padding': '35px 15px'}, 'fast' );
+    }
+
+
+    var menuState = 1;
+    $(window).on('scroll', function (e) {
+        if($(document).scrollTop() > 30){
+            if(menuState == 1) {
+                menuCollapse();
+                menuState = 0;
+            }
+        }
+        if($(document).scrollTop() <= 30){
+            if(menuState == 0){
+                menuDefault();
+                menuState = 1;
+            }
+        }
+    });
+
+
     //$('.persons-box .person-btn').hoverIntent({
     //    over:  function () {
     //        setOrientation($(this));
@@ -303,6 +337,7 @@ $(document).ready(function () {
     stickyFooter();
 
 })
+
 
 // Calculate color gradient
 jsgradient = {

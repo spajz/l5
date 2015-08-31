@@ -11,7 +11,7 @@ Route::group(
         'middleware' => ['localeSessionRedirect', 'localizationRedirect']
     ],
     function () use ($moduleLower, $namespaceAdmin, $moduleUpper) {
-        Route::get($moduleLower, array("as" => "{$moduleLower}.index", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@index"));
+        Route::get('who-we-are', array("as" => "{$moduleLower}.index", "uses" => $namespaceAdmin . "{$moduleUpper}Controller@index"));
     }
 );
 

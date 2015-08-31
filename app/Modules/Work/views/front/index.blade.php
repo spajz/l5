@@ -50,15 +50,15 @@
     @parent
     <script type="text/javascript">
 
-        $(window).load(function(){
+        $(window).load(function () {
+
             $('.single-item').slick({
                 autoplay: true,
-                autoplaySpeed: 1000,
+                autoplaySpeed: 1800,
                 fade: true,
                 arrows: false,
-                speed: 2000,
-                waitForAnimate: false,
-//                lazyLoad: 'progressive',
+                speed: 1200,
+                waitForAnimate: true,
                 pauseOnHover: true,
             });
 
@@ -68,10 +68,9 @@
         })
 
         $(window).on('load scroll', function (e) {
-            $('.single-item').each(function(){
-                if($(this).hasClass('slick-initialized')){
-                    if($(this).is( ':in-viewport' )){
-                        console.log($(this));
+            $('.single-item').each(function () {
+                if ($(this).hasClass('slick-initialized')) {
+                    if ($(this).is(':in-viewport')) {
                         $(this).slick('slickPlay');
                     } else {
                         $(this).slick('slickPause');

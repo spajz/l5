@@ -23,6 +23,8 @@ class PersonController extends FrontController
             'bottom_to_top',
         ];
         $persons = Model::where('status', 1)->orderBy(DB::raw('RAND()'))->get();
-        return view("{$this->moduleLower}::front.index", compact('persons', 'hoverEffects'));
+        $pages['ourPeople'] = $this->getPageByConfigKey('ourPeople');
+
+        return view("{$this->moduleLower}::front.index", compact('persons', 'hoverEffects', 'pages'));
     }
 }

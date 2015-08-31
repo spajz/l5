@@ -5,7 +5,7 @@
         <p class="lead">{{ $work->sub_title }}</p>
         {!! $work->intro  !!}
         <p>
-            <br><a href="{{ route('work.index', $work->slug) }}" class="read-more red">Read more</a>
+            <br><a href="{{ route('work.index', $work->slug) }}" class="read-more red">{{ trans('front::general.read_more') }}</a>
         </p>
     </div>
     <div class="col-xs-12 col-md-8 col-md-pull-4 box-left">

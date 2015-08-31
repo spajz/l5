@@ -7,11 +7,11 @@
     <div class="container-fluid">
         <div class="row clearfix">
             <div class="col-xs-12 text-center">
-                <h1>{{ $work->title }}</h1>
+                <h1>{{ $work->title }} rr</h1>
                 <div class="row clearfix">
                     <div class="col-xs-12 col-md-offset-3 col-md-6">
                         <p>
-                            {{ $work->description }}
+                            {{ $work->description }} yy
                         </p>
                     </div>
                 </div>

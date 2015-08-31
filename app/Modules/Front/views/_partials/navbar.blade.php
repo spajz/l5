@@ -1,6 +1,5 @@
 <!-- Fixed navbar -->
-<a id="top"></a>
-<nav class="navbar navbar-default navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top bor-b1">
     <div class="container" id="top">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
@@ -16,11 +15,11 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="{{ route('home') }}">Home</a></li>
-                <li><a href="#">Who we are</a></li>
-                <li><a href="{{ route('work.index') }}">Our work</a></li>
-                <li><a href="{{ route('client.index') }}">Clients</a></li>
-                <li><a href="{{ route('contact') }}">Contact</a></li>
+                <li><a href="{{ route('home') }}">{{ trans('front::menu.home') }}</a></li>
+                <li><a href="{{ route('person.index') }}">{{ trans('front::menu.who_we_are') }}</a></li>
+                <li><a href="{{ route('work.index') }}">{{ trans('front::menu.our_work') }}</a></li>
+                <li><a href="{{ route('client.index') }}">{{ trans('front::menu.our_clients') }}</a></li>
+                <li><a href="{{ route('contact') }}">{{ trans('front::menu.contact') }}</a></li>
 
                 <li class="lang-but-wrap">
                     @if($countItems = count(config('front.languages')))
@@ -34,7 +33,6 @@
                             <?php
                                 $countItems--;
                                 if($countItems>0) echo '/';
-
                             ?>
                         @endforeach
                     @endif

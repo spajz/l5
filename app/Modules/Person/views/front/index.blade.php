@@ -7,24 +7,20 @@
     <div class="container-fluid">
         <div class="row clearfix">
             <div class="col-xs-12 text-center">
-                <h1>{{ trans('person::person.title') }}</h1>
+                <h1>{{ $pages['ourPeople']->title }}</h1>
+
                 <div class="row clearfix">
                     <div class="col-xs-12 col-md-offset-3 col-md-6">
-                        <p>
-                            {{ trans('person::person.intro') }}
-                        </p>
+                        {!! $pages['ourPeople']->description  !!}
                     </div>
                 </div>
             </div>
         </div>
-
-        <hr class="hr mar-tb15">
-
     </div>
 
+    <hr class="spacer">
+
     <div class="container-fluid person-container">
-
-
         <div class="person-wrap">
             <div class="row clearfix multi-columns-row persons-box">
                 @if(count($persons))
@@ -57,7 +53,6 @@
                 @endif
             </div>
         </div>
-
     </div>
 
     @include('front::_partials.contact')

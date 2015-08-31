@@ -12,6 +12,13 @@ return [
         'modelName' => 'App\Modules\\' . $moduleUpper . '\Models\\' . $moduleUpper,
     ],
 
+    'pages' => [
+        'whereWeAre' => 1,
+        'whoWeAre' => 2,
+        'ourPeople' => 3,
+        'ourClients' => 4,
+    ],
+
     'image' => [
         'path' => public_path('media/images') . '/', // main path with trailing slash
         'baseUrl' => url('media/images') . '/',

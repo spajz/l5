@@ -7,18 +7,22 @@
     <div class="container-fluid">
         <div class="row clearfix">
             <div class="col-xs-12 text-center">
-                <h1>{{ trans('client::client.title') }}</h1>
+                <h1>{{ $pages['ourClients']->title }}</h1>
+
                 <div class="row clearfix">
                     <div class="col-xs-12 col-md-offset-3 col-md-6">
-                        <p>
-                            {{ trans('client::client.intro') }}
-                        </p>
+                        {!! $pages['ourClients']->description  !!}
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <hr class="hr mar-tb15">
+    <hr class="spacer">
+
+    <div class="container-fluid bor-t1">
+
+        <hr class="spacer">
 
         <div class="row clearfix">
             <div class="col-xs-12 col-md-offset-3 col-md-6">
@@ -30,10 +34,13 @@
                                     <div class="ih-item square colored effect6 from_top_and_bottom">
                                         <a href="#" class="no-click" title="{{ $client->title }}">
                                             <div class="img">
-                                                <img src="{{ asset($imageUrl) }}" alt="{{ $client->title }}" class="img-responsive">
+                                                <img src="{{ asset($imageUrl) }}" alt="{{ $client->title }}"
+                                                     class="img-responsive">
                                             </div>
-                                            <div class="info" style="@include('front::_partials.fcb_gradient', ['color' => $client->group->color])">
+                                            <div class="info"
+                                                 style="@include('front::_partials.fcb_gradient', ['color' => $client->group->color])">
                                                 <h3 style="color: {{ $client->group->text_color }}">{{ $client->title }}</h3>
+
                                                 <p style="color: {{ $client->group->text_color }}">{{ $client->group->title }}</p>
                                             </div>
                                         </a>
@@ -45,7 +52,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     @include('front::_partials.contact')

@@ -1,11 +1,11 @@
 <div class="row clearfix match-height">
     <div class="col-xs-12 col-md-4">
-        <h2 class="mar-b0">{{ $work->title }} right</h2>
+        <h2 class="mar-b0">{{ $work->title }}</h2>
 
         <p class="lead">{{ $work->sub_title }}</p>
         {!! $work->intro  !!}
         <p>
-            <br><a href="{{ route('work.index', $work->slug) }}" class="read-more red">Read more</a>
+            <br><a href="{{ route('work.index', $work->slug) }}" class="read-more red">{{ trans('front::general.read_more') }}</a>
         </p>
     </div>
     <div class="col-xs-12 col-md-8 box-right">

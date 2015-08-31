@@ -29,4 +29,6 @@ class WorkTranslation extends BaseModel implements SluggableInterface
     {
         return $this->attributes['title'] . ' ' . $this->attributes['sub_title'];
     }
+
+    public function belon
 }
