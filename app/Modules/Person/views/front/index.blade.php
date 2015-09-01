@@ -7,11 +7,11 @@
     <div class="container-fluid">
         <div class="row clearfix">
             <div class="col-xs-12 text-center">
-                <h1>{{ $pages['ourPeople']->title }}</h1>
+                <h1>{{ object_get($pages['ourPeople'], 'title') }}</h1>
 
                 <div class="row clearfix">
                     <div class="col-xs-12 col-md-offset-3 col-md-6">
-                        {!! $pages['ourPeople']->description  !!}
+                        {!! object_get($pages['ourPeople'], 'description')  !!}
                     </div>
                 </div>
             </div>

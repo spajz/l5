@@ -17,6 +17,7 @@ return [
         'whoWeAre' => 2,
         'ourPeople' => 3,
         'ourClients' => 4,
+        'ourWorks' => 5,
     ],
 
     'image' => [

@@ -1,17 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>FCB</title>
+    <title>FCB Afirma</title>
 
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content="FCB Afirma Digital">
     <meta name="csrf-token" content="{!! session()->token() !!}">
-
-
 
     @if (app()->environment() != 'test')
         <link rel="stylesheet" href="{{ elixir3($assetsDirFront . '/css/app.css', $buildPath) }}" />
@@ -20,23 +18,18 @@
     @else
         <link rel="stylesheet" href="{{ elixir3($assetsDirFront . '/css/all.css', $buildPath) }}">
         <link rel="stylesheet" href="{{ elixir3($assetsDirFront . '/css/added.css', $buildPath) }}">
-        @endif
+    @endif
 
-                <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
     @section('scripts_top')
     @show
     <script type="text/javascript">var baseUrl = '{{ url('/') }}';</script>
 
-    <link href="{{ module_asset('front', 'vendor/video-js/video-js.min.css') }}" rel="stylesheet">
-    <script src="{{ module_asset('front', 'vendor/video-js/video.js') }}"></script>
-    <script>
-        videojs.options.flash.swf = "{{ module_asset('front', 'vendor/video-js/video-js.swf') }}"
-    </script>
 </head>
 
 <body class="{{ $bodyClass or '' }}"><a id="top" style="top: -30px; position: absolute;"></a>
@@ -61,10 +54,6 @@
     <div class="visible-md"></div>
     <div class="visible-lg"></div>
 </div>
-
-<script>
-    videojs.options.flash.swf = "{{ asset("{$assetsDirFront}/js/video-js.swf") }}";
-</script>
 
 </body>
 </html>

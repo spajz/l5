@@ -15,44 +15,21 @@ class WorkController extends FrontController
         $this->setConfig(__FILE__);
     }
 
-    public function index2($slug = null)
-    {
-        $lang = App::getLocale();
-        if (!is_null($slug)) {
-
-            $work = Work::translated()
-                ->where('slug', $slug)
-                ->first();
-
-            if ($work) {
-                return view("{$this->moduleLower}::front.single", compact('work'));
-            }
-        } else {
-            $works = Work::where('status', 1)
-                ->orderBy(DB::raw('RAND()'))
-                ->get();
-            return view("{$this->moduleLower}::front.index", compact('works'));
-        }
-    }
-
     public function index($slug = null)
     {
         $includeView = $this->includeView();
         $columnMixer = $this->columnMixer();
         if (!is_null($slug)) {
-            $work = Work::find(5);
-
             $workTranslation = WorkTranslation::where('slug', $slug)->first();
-
-            dd($workTranslation);
-
-            if ($work) {
+            if ($workTranslation && $workTranslation->work) {
+                $work = $workTranslation->work;
                 return view("{$this->moduleLower}::front.single", compact('work', 'includeView', 'columnMixer'));
             }
         } else {
+            $pages['ourWorks'] = $this->getPageByConfigKey('ourWorks');
             $works = Work::where('status', 1)
                 ->get();
-            return view("{$this->moduleLower}::front.index", compact('works'));
+            return view("{$this->moduleLower}::front.index", compact('works', 'pages'));
         }
     }
 

@@ -11,13 +11,13 @@
     <div class="container-fluid">
         <div class="row clearfix">
             <div class="col-xs-12 text-center">
-                <h1 class="red">{{ $pages['whoWeAre']->title }}</h1>
+                <h1 class="red">{{ object_get( $pages['whoWeAre'], 'title') }}</h1>
 
                 <div class="row clearfix">
                     <div class="col-xs-12 col-md-offset-3 col-md-6">
-                        {!! $pages['whoWeAre']->description  !!}
+                        {!! object_get($pages['whoWeAre'], 'description')  !!}
                         <p>
-                            <br><a href="#" class="read-more red">{{ trans('front::general.more_about_us') }}</a>
+                            <br><a href="{{ route('person.index') }}" class="read-more red">{{ trans('front::general.more_about_us') }}</a>
                         </p>
                     </div>
                 </div>
@@ -52,11 +52,11 @@
         <div class="container-fluid">
             <div class="row clearfix">
                 <div class="col-xs-12 text-center">
-                    <h1>{{ $pages['ourClients']->title }}</h1>
+                    <h1>{{ object_get($pages['ourClients'], 'title') }}</h1>
 
                     <div class="row clearfix">
                         <div class="col-xs-12 col-md-offset-3 col-md-6">
-                            {!! $pages['ourClients']->description !!}
+                            {!! object_get($pages['ourClients'], 'description') !!}
                             <p>
                                 <br><a href="{{ route('client.index') }}"
                                        class="read-more">{{ trans('front::general.see_the_logos') }}</a>

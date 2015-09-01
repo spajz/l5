@@ -19,8 +19,7 @@ class HomeController extends FrontController
             ->orderBy(DB::raw('RAND()'))
             ->limit(2)
             ->get();
-        return view_theme("{$this->moduleLower}::home", compact('pages', 'works'));
-//        return view("{$this->moduleLower}::under_construction");
+        return view("{$this->moduleLower}::home", compact('pages', 'works'));
     }
 
     public function contact()

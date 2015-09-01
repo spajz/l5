@@ -7,18 +7,17 @@
     <div class="container-fluid">
         <div class="row clearfix">
             <div class="col-xs-12 text-center">
-                <h1>{{ $work->title }} rr</h1>
+                <h1>{{ $work->title }}</h1>
                 <div class="row clearfix">
                     <div class="col-xs-12 col-md-offset-3 col-md-6">
-                        <p>
-                            {{ $work->description }} yy
-                        </p>
+                        {!!  $work->description  !!}
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
+
+    <hr class="spacer">
 
     <div class="container-fluid">
 

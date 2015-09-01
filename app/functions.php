@@ -252,7 +252,7 @@ if (!function_exists('image_path')) {
     function image_path($model, $config, $size = 'thumb', $key = 0)
     {
         if (!isset($model->images[$key])) return false;
-        $imageObj = $model->images[$key]->image;
+        $imageObj = $model->images[$key];
         $fullPath = array_get($config, 'image.path') . $size . '/' . image_filename($imageObj, $size);
         if (is_file($fullPath)) {
             return $fullPath;

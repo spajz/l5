@@ -32,6 +32,6 @@ class WorkTranslation extends BaseModel implements SluggableInterface
 
     public function work()
     {
-        return $this->belongsTo(' App\Modules\Work\Models', 'work_id');
+        return $this->belongsTo('App\Modules\Work\Models\Work', 'work_id');
     }
 }

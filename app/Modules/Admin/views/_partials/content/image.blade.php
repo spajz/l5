@@ -12,6 +12,8 @@
 
     {!! Former::textarea('content')->name("content[{$item->id}]")->label('Content') !!}
 
+    {!! Former::text('class')->name("class[{$item->id}]")->label('Class') !!}
+
     @include("admin::_partials.content.image_template", compact('uniqid', 'item', 'type'))
 
 @else
@@ -27,6 +29,8 @@
     {!! Former::select('sub_type')->name("sub_type_new[{$uniqid}]")->options(config('admin.contentPosition'))->label('Position') !!}
 
     {!! Former::textarea('content')->name("content_new[{$uniqid}]")->label('Content') !!}
+
+    {!! Former::text('class')->name("class_new[{$uniqid}]")->label('Class') !!}
 
     @include("admin::_partials.content.image_template", compact('uniqid', 'type'))
 

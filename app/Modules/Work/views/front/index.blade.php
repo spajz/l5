@@ -7,13 +7,15 @@
     <div class="container-fluid">
         <div class="row clearfix">
             <div class="col-xs-12 text-center">
-                <h1>{{ trans('work::work.title') }}</h1>
+                <h1>{{ object_get($pages['ourWorks'], 'title') }}</h1>
 
-                <div class="row clearfix">
-                    <div class="col-xs-12 col-md-offset-3 col-md-6">
-                        <p>{{ trans('work::work.intro') }}</p>
+                @if(object_get($pages['ourWorks'], 'description'))
+                    <div class="row clearfix">
+                        <div class="col-xs-12 col-md-offset-3 col-md-6">
+                            <p>{{ object_get($pages['ourWorks'], 'description') }}</p>
+                        </div>
                     </div>
-                </div>
+                @endif
             </div>
         </div>
     </div>
