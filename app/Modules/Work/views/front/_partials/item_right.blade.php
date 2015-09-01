@@ -3,7 +3,9 @@
         <h2 class="mar-b0">{{ $work->title }}</h2>
 
         <p class="lead">{{ $work->sub_title }}</p>
+
         {!! $work->intro  !!}
+
         <p>
             <br><a href="{{ route('work.index', $work->slug) }}" class="read-more red">{{ trans('front::general.read_more') }}</a>
         </p>

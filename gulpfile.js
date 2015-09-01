@@ -258,10 +258,10 @@ if (!moduleLower) {
         [config.baseOutput + 'img/']
     );
 
-    gulpCopy(
-        [config.assetsDir + 'fileman/**/*'],
-        [config.baseOutput + 'fileman/']
-    );
+    //gulpCopy(
+    //    [config.assetsDir + 'fileman/**/*'],
+    //    [config.baseOutput + 'fileman/']
+    //);
 
     gulpCopy(
         [config.bowerDir + 'ace-builds/src-min-noconflict/**/*'],
@@ -388,10 +388,10 @@ if (moduleLower) {
         //    [config.baseOutput + 'css/font/']
         //);
 
-        gulpCopy(
-            [config.bowerDir + 'video.js/dist/video-js/**/*'],
-            [config.baseOutput + 'vendor/video-js/']
-        );
+        //gulpCopy(
+        //    [config.bowerDir + 'video.js/dist/video-js/**/*'],
+        //    [config.baseOutput + 'vendor/video-js/']
+        //);
 
         gulpCopy(
             [config.bowerDir + 'bootstrap/fonts/**/*'],

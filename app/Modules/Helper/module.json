@@ -1,7 +1,7 @@
 {
     "name": "helper",
     "class": "Helper",
-    "enabled": true,
+    "enabled": false,
     "icon": "fa-life-ring",
     "order": 1854,
     "title": "Helper"

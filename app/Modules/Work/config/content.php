@@ -37,7 +37,7 @@ return [
                 'allowedTypes' => 'jpeg,gif,png',
                 'max' => '4000', // max size in kilobytes (0 for no limit)
                 'mainSize' => 'original', //  required
-                'saveAs' => '', // force extension
+                'saveAs' => 'jpg', // force extension
                 'background' => '', // background color (transparent to color background) - optional
                 'sizes' => [
                     'original' => [
@@ -56,7 +56,7 @@ return [
                     'medium' => [
                         'folder' => 'medium/', // relative path from main image folder with trailing slash
                         'actions' => [
-                            'resize' => [988, 556, function ($image) {
+                            'resize' => [960, 540, function ($image) {
                                 $image->aspectRatio();
                                 $image->upsize();
                             }],
@@ -88,7 +88,7 @@ return [
                 'allowedTypes' => 'jpeg,gif,png',
                 'max' => '4000', // max size in kilobytes (0 for no limit)
                 'mainSize' => 'original', //  required
-                'saveAs' => '', // force extension
+                'saveAs' => 'jpg', // force extension
                 'background' => '', // background color (transparent to color background) - optional
                 'sizes' => [
                     'original' => [
@@ -98,7 +98,7 @@ return [
                     'large' => [
                         'folder' => 'large/', // relative path from main image folder with trailing slash
                         'actions' => [
-                            'resize' => [1280, 720, function ($image) {
+                            'resize' => [1280, 1200, function ($image) {
                                 $image->aspectRatio();
                                 $image->upsize();
                             }],
@@ -107,7 +107,7 @@ return [
                     'medium' => [
                         'folder' => 'medium/', // relative path from main image folder with trailing slash
                         'actions' => [
-                            'resize' => [988, 556, function ($image) {
+                            'resize' => [960, 900, function ($image) {
                                 $image->aspectRatio();
                                 $image->upsize();
                             }],
@@ -116,7 +116,7 @@ return [
                     'thumb' => [
                         'folder' => 'thumb/',
                         'actions' => [
-                            'resize' => [160, 90, function ($image) {
+                            'resize' => [160, 150, function ($image) {
                                 $image->aspectRatio();
                                 $image->upsize();
                             }],
@@ -139,7 +139,7 @@ return [
                 'allowedTypes' => 'jpeg,gif,png',
                 'max' => '4000', // max size in kilobytes (0 for no limit)
                 'mainSize' => 'original', //  required
-                'saveAs' => '', // force extension
+                'saveAs' => 'jpg', // force extension
                 'background' => '', // background color (transparent to color background) - optional
                 'sizes' => [
                     'original' => [
@@ -158,7 +158,7 @@ return [
                     'medium' => [
                         'folder' => 'medium/', // relative path from main image folder with trailing slash
                         'actions' => [
-                            'resize' => [800, 600, function ($image) {
+                            'resize' => [960, 540, function ($image) {
                                 $image->aspectRatio();
                                 $image->upsize();
                             }],
@@ -167,7 +167,7 @@ return [
                     'thumb' => [
                         'folder' => 'thumb/',
                         'actions' => [
-                            'resize' => [160, 120, function ($image) {
+                            'resize' => [160, 90, function ($image) {
                                 $image->aspectRatio();
                                 $image->upsize();
                             }],
@@ -190,7 +190,7 @@ return [
                 'allowedTypes' => 'jpeg,gif,png',
                 'max' => '4000', // max size in kilobytes (0 for no limit)
                 'mainSize' => 'original', //  required
-                'saveAs' => '', // force extension
+                'saveAs' => 'jpg', // force extension
                 'background' => '', // background color (transparent to color background) - optional
                 'sizes' => [
                     'original' => [
@@ -200,7 +200,7 @@ return [
                     'large' => [
                         'folder' => 'large/', // relative path from main image folder with trailing slash
                         'actions' => [
-                            'resize' => [1280, 720, function ($image) {
+                            'resize' => [1280, 1200, function ($image) {
                                 $image->aspectRatio();
                                 $image->upsize();
                             }],
@@ -209,7 +209,7 @@ return [
                     'medium' => [
                         'folder' => 'medium/', // relative path from main image folder with trailing slash
                         'actions' => [
-                            'resize' => [800, 600, function ($image) {
+                            'resize' => [960, 900, function ($image) {
                                 $image->aspectRatio();
                                 $image->upsize();
                             }],
@@ -218,7 +218,7 @@ return [
                     'thumb' => [
                         'folder' => 'thumb/',
                         'actions' => [
-                            'resize' => [160, 120, function ($image) {
+                            'resize' => [160, 150, function ($image) {
                                 $image->aspectRatio();
                                 $image->upsize();
                             }],

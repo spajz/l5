@@ -12,12 +12,20 @@ return [
         'modelName' => 'App\Modules\\' . $moduleUpper . '\Models\\' . $moduleUpper,
     ],
 
+//    'pages' => [
+//        'whereWeAre' => 1,
+//        'whoWeAre' => 2,
+//        'ourPeople' => 3,
+//        'ourClients' => 4,
+//        'ourWorks' => 5,
+//    ],
+
     'pages' => [
-        'whereWeAre' => 1,
-        'whoWeAre' => 2,
-        'ourPeople' => 3,
-        'ourClients' => 4,
-        'ourWorks' => 5,
+        'whereWeAre' => 7,
+        'whoWeAre' => 5,
+        'ourPeople' => 8,
+        'ourClients' => 6,
+        'ourWorks' => 9,
     ],
 
     'image' => [
