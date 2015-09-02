@@ -54,7 +54,8 @@
             </div>
         </div>
     </div>
-    <img src="{{ module_asset('front', 'images/person350.png') }}" style="display: none;">
+
+    <img src="{{ module_asset('front', 'images/person350b.png') }}" style="display: none;">
 
     @include('front::_partials.contact')
 

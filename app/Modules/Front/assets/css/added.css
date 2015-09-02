@@ -367,6 +367,8 @@ img {
 
 .person-img {
     overflow: hidden;
+    background-position: 0 0;
+    background-size: auto;
 }
 
 .persons-box {
