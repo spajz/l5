@@ -5,8 +5,14 @@
     @include('front::_partials.navbar')
 
     <div class="container-full">
-        <img src="{{ asset($assetsDirFront . '/images/slider.jpg') }}" width="100%">
+        <div id="hero">
+                <img src="{{ asset($assetsDirFront . '/images/hero/fcb-hero-slide-01.jpg') }}" >
+                <img src="{{ asset($assetsDirFront . '/images/hero/fcb-hero-slide-02.jpg') }}" >
+                <img src="{{ asset($assetsDirFront . '/images/hero/fcb-hero-slide-03.jpg') }}" >
+                <img src="{{ asset($assetsDirFront . '/images/hero/fcb-hero-slide-04.jpg') }}" >
+            </div>
     </div>
+
 
     <div class="container-fluid">
         <div class="row clearfix">
@@ -17,7 +23,8 @@
                     <div class="col-xs-12 col-md-offset-3 col-md-6">
                         {!! object_get($pages['whoWeAre'], 'description')  !!}
                         <p>
-                            <br><a href="{{ route('person.index') }}" class="read-more red">{{ trans('front::general.more_about_us') }}</a>
+                            <br><a href="{{ route('person.index') }}"
+                                   class="read-more red">{{ trans('front::general.more_about_us') }}</a>
                         </p>
                     </div>
                 </div>
@@ -70,4 +77,36 @@
 
     @include('front::_partials.contact')
 
+@stop
+
+@section('scripts_bottom')
+    @parent
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            function animateBg(a) {
+                a = typeof a !== 'undefined' ? a : 1;
+                var percent = a * 100;
+                $('#hero-img-01').animate({
+                    'background-position-x': percent + '%',
+                }, 40000, 'linear', function () {
+                    a++;
+                    animateBg(a);
+                });
+            }
+
+            function animateBg2(a) {
+                a = typeof a !== 'undefined' ? a : 1;
+                var percent = a * 100;
+                $('#hero-img-02').animate({
+                    'background-position-x': percent + '%',
+                }, 25000, 'linear', function () {
+                    a++;
+                    animateBg2(a);
+                });
+            }
+
+
+        })
+    </script>
 @stop

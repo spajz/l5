@@ -44,6 +44,6 @@ return [
     |
     */
 
-    'force' => false,
+    'force' => true,
 
 ];

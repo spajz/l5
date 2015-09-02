@@ -1,6 +1,7 @@
 <?php namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Request;
 
 class ConfigServiceProvider extends ServiceProvider {
 
@@ -15,8 +16,11 @@ class ConfigServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
+		$segment1 = Request::segment(1);
 		config([
 //            'former.TwitterBootstrap3' => config('TwitterBootstrap3')
+			'htmlmin.blade' => $segment1 == 'admin' ? false : config('htmlmin.blade'),
+			'htmlmin.force' => $segment1 == 'admin' ? false : config('htmlmin.force'),
 		]);
 	}
 

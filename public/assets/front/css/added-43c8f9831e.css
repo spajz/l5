@@ -315,6 +315,20 @@ h2, .h2 {
 /*************** Sections ***************/
 
 /*** Clients ***/
+a {
+    outline: none;
+}
+
+#hero img {
+    cursor: pointer;
+    outline: none;
+}
+
+img {
+    border: 0;
+}
+
+/*** Clients ***/
 .page-client .multi-columns-row > div {
     margin-bottom: 15px;
     padding-left: 10px;
@@ -336,6 +350,10 @@ h2, .h2 {
 .page-client .multi-columns-row .ih-item {
     text-align: center;
     margin: 0 auto;
+}
+
+.no-click {
+    cursor: default;
 }
 
 /*** Persons ***/

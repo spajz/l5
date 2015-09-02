@@ -350,8 +350,23 @@ $(window).load(function () {
         pauseOnHover: true,
     });
 
+    $('#hero').slick({
+        autoplay: true,
+        autoplaySpeed: 1800,
+        fade: true,
+        arrows: false,
+        speed: 1200,
+        waitForAnimate: true,
+
+
+    });
+
     $('.single-item img').on('click', function (e) {
         $(this).closest('.single-item').slick('slickNext')
+    });
+
+    $('#hero img').on('click', function (e) {
+        $(this).closest('#hero').slick('slickNext')
     });
 })
 

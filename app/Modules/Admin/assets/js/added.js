@@ -245,21 +245,6 @@ $(document).ready(function () {
     $('#overlay-modal').modal();
 
     // CKEditor
-    function initCkeditor2() {
-        if (typeof CKEDITOR !== 'undefined') {
-            var roxyFileman = baseUrl + '/assets/admin/fileman/index.html';
-
-            CKEDITOR.disableAutoInline = true;
-            $('.ckeditor').ckeditor(
-                {
-                    filebrowserBrowseUrl: roxyFileman,
-                    filebrowserImageBrowseUrl: roxyFileman + '?type=image',
-                    removeDialogTabs: 'link:upload;image:upload'
-                }
-            );
-        }
-    }
-
     function initCkeditor() {
         if (typeof CKEDITOR !== 'undefined') {
 
@@ -269,14 +254,14 @@ $(document).ready(function () {
                     filebrowserBrowseUrl: baseUrl + '/assets/admin/vendor/ckfinder/ckfinder.html',
                     filebrowserImageBrowseUrl: baseUrl + '/assets/admin/vendor/ckfinder/ckfinder.html?type=Images',
                     filebrowserUploadUrl: baseUrl + '/assets/admin/vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
-                    filebrowserImageUploadUrl: baseUrl + '/assets/admin/vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images'
+                    filebrowserImageUploadUrl: baseUrl + '/assets/admin/vendor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
+                    entities_latin: false,
                 }
             );
         }
     }
 
     initCkeditor();
-
 
     // Pjax
     $.pjax.defaults.scrollTo = false;
