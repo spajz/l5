@@ -71,38 +71,3 @@
     @include('front::_partials.contact')
 
 @stop
-
-@section('scripts_bottom')
-    @parent
-    <script type="text/javascript">
-
-        $(window).load(function () {
-
-            $('.single-item').slick({
-                autoplay: true,
-                autoplaySpeed: 1800,
-                fade: true,
-                arrows: false,
-                speed: 1200,
-                waitForAnimate: true,
-                pauseOnHover: true,
-            });
-
-            $('.single-item img').on('click', function (e) {
-                $(this).closest('.single-item').slick('slickNext')
-            });
-        })
-
-        $(window).on('load scroll', function (e) {
-            $('.single-item').each(function () {
-                if ($(this).hasClass('slick-initialized')) {
-                    if ($(this).is(':in-viewport')) {
-                        $(this).slick('slickPlay');
-                    } else {
-                        $(this).slick('slickPause');
-                    }
-                }
-            })
-        });
-    </script>
-@stop

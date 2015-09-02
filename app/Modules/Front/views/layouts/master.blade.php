@@ -11,13 +11,12 @@
     <meta name="author" content="FCB Afirma Digital">
     <meta name="csrf-token" content="{!! session()->token() !!}">
 
-    @if (app()->environment() != 'test')
+    @if (app()->environment() != 'production')
         <link rel="stylesheet" href="{{ elixir3($assetsDirFront . '/css/app.css', $buildPath) }}" />
         <link rel="stylesheet" href="{{ elixir3($assetsDirFront . '/css/all.css', $buildPath) }}" />
         <link rel="stylesheet" href="{{ elixir3($assetsDirFront . '/css/added.css', $buildPath) }}" />
     @else
-        <link rel="stylesheet" href="{{ elixir3($assetsDirFront . '/css/all.css', $buildPath) }}">
-        <link rel="stylesheet" href="{{ elixir3($assetsDirFront . '/css/added.css', $buildPath) }}">
+        <link rel="stylesheet" href="{{ elixir3($assetsDirFront . '/css/all.pro.css', $buildPath) }}">
     @endif
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -36,12 +35,11 @@
 <div id="loader"></div>
 @yield('content')
 
-@if(app()->environment() != 'test')
+@if(app()->environment() != 'production')
     <script src="{{ elixir3("{$assetsDirFront}/js/all.js", $buildPath) }}"></script>
     <script src="{{ elixir3("{$assetsDirFront}/js/added.js", $buildPath) }}"></script>
 @else
-    <script src="{{ elixir3("{$assetsDirFront}/js/all.js", $buildPath) }}"></script>
-    <script src="{{ elixir3("{$assetsDirFront}/js/added.js", $buildPath) }}"></script>
+    <script src="{{ elixir3("{$assetsDirFront}/js/all.pro.js", $buildPath) }}"></script>
 @endif
 
 @section('scripts_bottom')

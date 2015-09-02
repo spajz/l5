@@ -289,12 +289,14 @@ if (moduleLower) {
         customTasksBefore = ['customTask01', 'customTask02', 'customTask03'];
 
         gulp.task('customTask01', function () {
-            del(['public/assets/front/css/**/*'], function (err, paths) {
-                //console.log('Deleted files/folders:\n', paths.join('\n'));
-            });
-            del(['public/assets/front/js/**/*'], function (err, paths) {
-                //console.log('Deleted files/folders:\n', paths.join('\n'));
-            });
+            if(!production){
+                del(['public/assets/front/css/**/*'], function (err, paths) {
+                    //console.log('Deleted files/folders:\n', paths.join('\n'));
+                });
+                del(['public/assets/front/js/**/*'], function (err, paths) {
+                    //console.log('Deleted files/folders:\n', paths.join('\n'));
+                });
+            }
         });
 
         gulp.task('customTask02', function () {
@@ -336,7 +338,7 @@ if (moduleLower) {
 
         ]
 
-        if (production) cssArray.push(config.assetsDir + 'css/added.css');
+        //if (production) cssArray.push(config.assetsDir + 'css/added.css');
 
         cssArrayLocal = [config.assetsDir + 'css/added.css'];
 
@@ -627,6 +629,7 @@ gulp.task('run', function (callback) {
     runSequence(
         'customTasksBefore',
         'less',
+        'preCss',
         'css',
         'scripts',
         'scriptsLocal',
@@ -691,5 +694,6 @@ gulp.task('preCss', function () {
     if (production){
         var manifest = JSON.parse(fs.readFileSync(config.baseOutput + 'rev-manifest.json', 'utf8'));
         cssArray.push('public/' + manifest[config.baseOutputUrl + 'css/app.css']);
+        cssArray.push(config.assetsDir + 'css/added.css');
     }
 });

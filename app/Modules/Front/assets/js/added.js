@@ -44,10 +44,6 @@ function hideLoader() {
     $('#loader').hide();
 }
 
-$(window).load(function () {
-    $('.persons-box .person-img').attr('src', baseUrl + '/assets/front/images/person350.png');
-})
-
 // Get current viewport
 var waitForFinalEvent = function () {
     var b = {};
@@ -228,9 +224,6 @@ function getViewport() {
     return vpc[1];
 }
 
-// Lazy load
-$("img.lazy").lazyload();
-
 $(document).ready(function () {
 
     // Smooth scroll
@@ -277,7 +270,6 @@ $(document).ready(function () {
             }
         }
     });
-
 
     //$('.persons-box .person-btn').hoverIntent({
     //    over:  function () {
@@ -337,6 +329,43 @@ $(document).ready(function () {
     stickyFooter();
 
 })
+
+// Person add switch image to transparent
+$(window).load(function () {
+    $('.persons-box .person-img').each(function(){
+        $(this).attr('src', baseUrl + '/assets/front/images/person350.png');
+    })
+})
+
+// Slick slideshow
+$(window).load(function () {
+
+    $('.single-item').slick({
+        autoplay: true,
+        autoplaySpeed: 1800,
+        fade: true,
+        arrows: false,
+        speed: 1200,
+        waitForAnimate: true,
+        pauseOnHover: true,
+    });
+
+    $('.single-item img').on('click', function (e) {
+        $(this).closest('.single-item').slick('slickNext')
+    });
+})
+
+$(window).on('load scroll', function (e) {
+    $('.single-item').each(function () {
+        if ($(this).hasClass('slick-initialized')) {
+            if ($(this).is(':in-viewport')) {
+                $(this).slick('slickPlay');
+            } else {
+                $(this).slick('slickPause');
+            }
+        }
+    })
+});
 
 
 // Calculate color gradient

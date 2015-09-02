@@ -113,30 +113,6 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
-       /* 'Illuminate\Foundation\Providers\ArtisanServiceProvider',
-        'Illuminate\Auth\AuthServiceProvider',
-        'Illuminate\Bus\BusServiceProvider',
-        'Illuminate\Cache\CacheServiceProvider',
-        'Illuminate\Foundation\Providers\ConsoleSupportServiceProvider',
-        'Illuminate\Routing\ControllerServiceProvider',
-        'Illuminate\Cookie\CookieServiceProvider',
-        'Illuminate\Database\DatabaseServiceProvider',
-        'Illuminate\Encryption\EncryptionServiceProvider',
-        'Illuminate\Filesystem\FilesystemServiceProvider',
-        'Illuminate\Foundation\Providers\FoundationServiceProvider',
-        'Illuminate\Hashing\HashServiceProvider',
-        'Illuminate\Mail\MailServiceProvider',
-        'Illuminate\Pagination\PaginationServiceProvider',
-        'Illuminate\Pipeline\PipelineServiceProvider',
-        'Illuminate\Queue\QueueServiceProvider',
-        'Illuminate\Redis\RedisServiceProvider',
-        'Illuminate\Auth\Passwords\PasswordResetServiceProvider',
-        'Illuminate\Session\SessionServiceProvider',
-        'Illuminate\Translation\TranslationServiceProvider',
-        'Illuminate\Validation\ValidationServiceProvider',
-        'Illuminate\View\ViewServiceProvider',*/
-
-
         Illuminate\Foundation\Providers\ArtisanServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
@@ -161,16 +137,9 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
 
-
         /*
          * Application Service Providers...
          */
-
-       /* 'App\Providers\ConfigServiceProvider',
-        'App\Providers\EventServiceProvider',
-        'App\Providers\RouteServiceProvider',
-        'App\Providers\AppServiceProvider',*/
-
         App\Providers\ConfigServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\EventServiceProvider::class,
@@ -179,20 +148,6 @@ return [
         /*
          * Added
          */
-        /*'yajra\Datatables\DatatablesServiceProvider',
-        'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
-        'Intervention\Image\ImageServiceProvider',
-        'Cviebrock\EloquentSluggable\SluggableServiceProvider',
-        'Former\FormerServiceProvider',
-        'Krucas\Notification\NotificationServiceProvider',
-        'Collective\Html\HtmlServiceProvider',
-
-        'App\Modules\ModulesServiceProvider',
-        'App\Providers\AuthServiceProvider',
-        'Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider',
-        'GrahamCampbell\HTMLMin\HTMLMinServiceProvider',
-        'Baum\Providers\BaumServiceProvider',*/
-
         yajra\Datatables\DatatablesServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
@@ -224,39 +179,6 @@ return [
     */
 
     'aliases' => [
-
-//        'App'       => 'Illuminate\Support\Facades\App',
-//        'Artisan'   => 'Illuminate\Support\Facades\Artisan',
-//        'Auth'      => 'Illuminate\Support\Facades\Auth',
-//        'Blade'     => 'Illuminate\Support\Facades\Blade',
-//        'Bus'       => 'Illuminate\Support\Facades\Bus',
-//        'Cache'     => 'Illuminate\Support\Facades\Cache',
-//        'Config'    => 'Illuminate\Support\Facades\Config',
-//        'Cookie'    => 'Illuminate\Support\Facades\Cookie',
-//        'Crypt'     => 'Illuminate\Support\Facades\Crypt',
-//        'DB'        => 'Illuminate\Support\Facades\DB',
-//        'Eloquent'  => 'Illuminate\Database\Eloquent\Model',
-//        'Event'     => 'Illuminate\Support\Facades\Event',
-//        'File'      => 'Illuminate\Support\Facades\File',
-//        'Hash'      => 'Illuminate\Support\Facades\Hash',
-//        'Input'     => 'Illuminate\Support\Facades\Input',
-//        'Inspiring' => 'Illuminate\Foundation\Inspiring',
-//        'Lang'      => 'Illuminate\Support\Facades\Lang',
-//        'Log'       => 'Illuminate\Support\Facades\Log',
-//        'Mail'      => 'Illuminate\Support\Facades\Mail',
-//        'Password'  => 'Illuminate\Support\Facades\Password',
-//        'Queue'     => 'Illuminate\Support\Facades\Queue',
-//        'Redirect'  => 'Illuminate\Support\Facades\Redirect',
-//        'Redis'     => 'Illuminate\Support\Facades\Redis',
-//        'Request'   => 'Illuminate\Support\Facades\Request',
-//        'Response'  => 'Illuminate\Support\Facades\Response',
-//        'Route'     => 'Illuminate\Support\Facades\Route',
-//        'Schema'    => 'Illuminate\Support\Facades\Schema',
-//        'Session'   => 'Illuminate\Support\Facades\Session',
-//        'Storage'   => 'Illuminate\Support\Facades\Storage',
-//        'URL'       => 'Illuminate\Support\Facades\URL',
-//        'Validator' => 'Illuminate\Support\Facades\Validator',
-//        'View'      => 'Illuminate\Support\Facades\View',
 
         'App'       => Illuminate\Support\Facades\App::class,
         'Artisan'   => Illuminate\Support\Facades\Artisan::class,
@@ -294,17 +216,6 @@ return [
         /*
          * Added
          */
-//        'Image'           => 'Intervention\Image\Facades\Image',
-//        'Former'          => 'Former\Facades\Former',
-//        'Datatables'      => 'yajra\Datatables\Datatables',
-//        'DatatablesFront' => 'App\Library\DatatablesFront',
-//        'Notification'    => 'Krucas\Notification\Facades\Notification',
-//        'Form'            => 'Collective\Html\FormFacade',
-//        'Html'            => 'Collective\Html\HtmlFacade',
-//        'LaravelLocalization' => 'Mcamara\LaravelLocalization\Facades\LaravelLocalization',
-//        'Sanitize'            => 'App\Library\Sanitize',
-//        'HTMLMin'             => 'GrahamCampbell\HTMLMin\Facades\HTMLMin',
-
         'Image'           => Intervention\Image\Facades\Image::class,
         'Former'          => Former\Facades\Former::class,
         'Datatables'      => yajra\Datatables\Datatables::class,
