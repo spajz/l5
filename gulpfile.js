@@ -359,6 +359,8 @@ if (moduleLower) {
             config.bowerDir + 'Sortable/jquery.binding.js',
             config.bowerDir + 'jquery-minicolors/jquery.minicolors.min.js',
             config.bowerDir + 'slick-carousel/slick/slick.min.js',
+            config.bowerDir + 'velocity/velocity.js',
+            config.bowerDir + 'velocity/velocity.ui.js',
         ];
 
         if (production) scriptsArray.push(config.assetsDir + 'js/added.js');

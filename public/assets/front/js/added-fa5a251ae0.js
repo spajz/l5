@@ -232,6 +232,7 @@ $(document).ready(function () {
     var winHeight = $(window).height();
 
     getViewport();
+    imageResize();
 
     $('.persons-box .person-btn').hover(
         function () {
@@ -316,24 +317,21 @@ $(document).ready(function () {
         $(window).stop(true).scrollTo(this.hash, {interrupt: true});
     })
 
+    function stickyFooter() {
+        var footerHeight = $('#contact').innerHeight();
+        var footerOffset = $('#contact').offset().top;
+        var windowHeight = $(window).innerHeight();
+        if (windowHeight > (footerHeight + footerOffset)) {
+            $('#contact').css('padding-top', parseInt(windowHeight - (footerHeight + footerOffset)) + 'px')
+        }
+    }
 
+    stickyFooter();
 
 })
 
-function stickyFooter() {
-    var footerHeight = $('#contact').innerHeight();
-    var footerOffset = $('#contact').offset().top;
-    var windowHeight = $(window).innerHeight();
-    if (windowHeight > (footerHeight + footerOffset)) {
-        $('#contact').css('padding-top', parseInt(windowHeight - (footerHeight + footerOffset)) + 'px')
-    }
-}
-
-
 // Person add switch image to transparent
 $(window).load(function () {
-    imageResize();
-    stickyFooter();
     $('.persons-box .person-img').each(function(){
         $(this).attr('src', baseUrl + '/assets/front/images/person350.png');
     })
