@@ -1,17 +1,7 @@
 {
   "assets/front/css/app.css": "assets/front/css/app-0c15906bdc.css",
-  "assets/front/css/all.css": "assets/front/css/all-f4dc06a3a6.css",
-<<<<<<< HEAD
-  "assets/front/js/added.js": "assets/front/js/added-55a18d5ec9.js",
+  "assets/front/css/all.css": "assets/front/css/all-3aa8229698.css",
+  "assets/front/js/added.js": "assets/front/js/added-e48fc04c99.js",
   "assets/front/css/added.css": "assets/front/css/added-4e080932a1.css",
-  "assets/front/js/all.js": "assets/front/js/all-25bcfe2b20.js",
-  "assets/front/css/all.pro.css": "assets/front/css/all.pro-084b738627.css",
-  "assets/front/js/all.pro.js": "assets/front/js/all.pro-c71b657e94.js"
-=======
-  "assets/front/js/added.js": "assets/front/js/added-fa5a251ae0.js",
-  "assets/front/css/added.css": "assets/front/css/added-43c8f9831e.css",
-  "assets/front/js/all.js": "assets/front/js/all-1fefd83b06.js",
-  "assets/front/css/all.pro.css": "assets/front/css/all.pro-0b63fe0448.css",
-  "assets/front/js/all.pro.js": "assets/front/js/all.pro-8c1931c89a.js"
->>>>>>> 822ba4c2c7c3e1ade0d7eea6ea836beb32d5e19e
+  "assets/front/js/all.js": "assets/front/js/all-b828eed588.js"
 }

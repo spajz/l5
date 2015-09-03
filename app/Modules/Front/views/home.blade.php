@@ -14,12 +14,12 @@
             <div class="slider-box">
                 <img src="{{ asset($assetsDirFront . '/images/hero/hero-img-1500.png') }}" class="hero-bg-02">
                 <img src="{{ asset($assetsDirFront . '/images/hero/baloni.png') }}" class="hero-baloni">
-                {{--<img src="{{ asset($assetsDirFront . '/images/hero/konj.png') }}" class="hero-konj">--}}
+                <img src="{{ asset($assetsDirFront . '/images/hero/konj.png') }}" class="hero-konj">
             </div>
             <div class="slider-box">
                 <img src="{{ asset($assetsDirFront . '/images/hero/hero-img-1500.png') }}" class="hero-bg-03">
                 <img src="{{ asset($assetsDirFront . '/images/hero/change.png') }}" class="hero-change">
-                {{--<img src="{{ asset($assetsDirFront . '/images/hero/hram.png') }}" class="hero-hram">--}}
+                <img src="{{ asset($assetsDirFront . '/images/hero/hram.png') }}" class="hero-hram">
             </div>
             <div class="slider-box">
                 <img src="{{ asset($assetsDirFront . '/images/hero/hero-img-1500.png') }}" class="hero-bg-04">
@@ -106,11 +106,15 @@
             height: auto;
         }
 
-        .hero-creativity{
+        .hero-creativity {
             opacity: 0;
         }
 
-        .hero-bg-01{
+        .hero-baloni {
+            opacity: 0;
+        }
+
+        .hero-bg-01 {
             background: url({{ asset($assetsDirFront . '/images/hero/hero-bg.jpg') }}) no-repeat 0 0;
             -webkit-background-size: auto 100%;
             -moz-background-size: auto 100%;
@@ -118,7 +122,7 @@
             background-size: auto 100%;
         }
 
-        .hero-bg-02{
+        .hero-bg-02 {
             background: url({{ asset($assetsDirFront . '/images/hero/hero-bg.jpg') }}) no-repeat 33.33333% 0;
             -webkit-background-size: auto 100%;
             -moz-background-size: auto 100%;
@@ -126,7 +130,7 @@
             background-size: auto 100%;
         }
 
-        .hero-bg-03{
+        .hero-bg-03 {
             background: url({{ asset($assetsDirFront . '/images/hero/hero-bg.jpg') }}) no-repeat 50% 0;
             -webkit-background-size: auto 100%;
             -moz-background-size: auto 100%;
@@ -134,7 +138,7 @@
             background-size: auto 100%;
         }
 
-        .hero-bg-04{
+        .hero-bg-04 {
             background: url({{ asset($assetsDirFront . '/images/hero/hero-bg.jpg') }}) no-repeat 100% 0;
             -webkit-background-size: auto 100%;
             -moz-background-size: auto 100%;
@@ -173,7 +177,7 @@
             }
         })
 
-        $(window).on('load', function(){
+        $(window).on('load', function () {
 
 
             var h = $('.slider-box').find('img').first().height();
@@ -181,49 +185,177 @@
             $('.slider-box').height(h);
 
             $('#hero').slick({
-                autoplay: false,
+                autoplay: true,
                 autoplaySpeed: 4000,
                 fade: false,
                 arrows: false,
-                speed: 1000,
+                speed: 1500,
                 waitForAnimate: true,
                 pauseOnHover: false,
             });
-
 
             $('#hero img').on('click', function (e) {
                 $(this).closest('#hero').slick('slickNext')
             });
 
+            $('#hero').on('afterChange', function(event, slick, currentSlide, nextSlide){
+                console.log(currentSlide);
+                if(currentSlide == 1){
+                    $.Velocity.RunSequence(sequnce02);
+                }
+                if(currentSlide == 2){
+                    $.Velocity.RunSequence(sequnce03);
+                }
 
-
-            $('.hero-pobednik').velocity({
-                left: "-=5%",
-            }, {
-//                loop: 4,
-                /* Wait 100ms before alternating back. */
-//                delay: 300,
-                duration: 4000,
-                easing: 'linear',
             });
 
-            $('.hero-creativity').velocity({
-                right: "-=5%",
-                opacity: 1,
-//                width: "+=5rem", // Add 5rem to the current rem value
-//                height: "*=2" // Double the current height
-            }, {
-                easing: 'linear',
-                duration: 2000,
-            }).velocity({
+
+//            { e: $element1, p: { translateX: 100 }, o: { duration: 1000 } },
+//            { e: $element2, p: { translateX: 200 }, o: { duration: 1000 } },
+//            { e: $element3, p: { translateX: 300 }, o: { duration: 1000 } }
+
+            var sequnce01 = [
+                {
+                    e: $('.hero-pobednik'),
+                    p: {left: "-=7%"},
+                    o: {
+                        duration: 4000,
+                        easing: 'linear',
+                        sequenceQueue: false
+                    }
+                },
+                {
+                    e: $('.hero-creativity'),
+                    p: {
                         right: "-=5%",
-                        opacity: 0,
-//                width: "+=5rem", // Add 5rem to the current rem value
-//                height: "*=2" // Double the current height
-                    }, {
+                        opacity: 1,
+                    },
+                    o: {
                         easing: 'linear',
                         duration: 2000,
-                    });
+                        sequenceQueue: false
+                    }
+                },
+                {
+                    e: $('.hero-creativity'),
+                    p: {
+                        right: "-=5%",
+                        opacity: 0,
+                    },
+                    o: {
+                        easing: 'linear',
+                        duration: 2000,
+                    }
+                },
+            ];
+
+            $.Velocity.RunSequence(sequnce01);
+
+
+
+            var sequnce02 = [
+
+                {
+                    e: $('.hero-konj'),
+                    p: {left: "+=7%"},
+                    o: {
+                        duration: 4000,
+                        easing: 'linear',
+                        sequenceQueue: false
+                    }
+                },
+                {
+                    e: $('.hero-baloni'),
+                    p: {
+                        top: "-=15%",
+                        opacity: 1,
+                    },
+                    o: {
+                        easing: 'linear',
+                        duration: 1330,
+                        sequenceQueue: false
+                    }
+                },
+                {
+                    e: $('.hero-baloni'),
+                    p: {
+                        top: "-=15%",
+                    },
+                    o: {
+                        easing: 'linear',
+                        duration: 1330,
+                    }
+                },
+                {
+                    e: $('.hero-baloni'),
+                    p: {
+                        top: "-=15%",
+                        opacity: 0,
+                    },
+                    o: {
+                        easing: 'linear',
+                        duration: 1330,
+                    }
+                },
+            ];
+
+            var sequnce03 = [
+                {
+                    e: $('.hero-hram'),
+                    p: {left: "-=7%"},
+                    o: {
+                        duration: 4000,
+                        easing: 'linear',
+                        sequenceQueue: false
+                    }
+                },
+                {
+                    e: $('.hero-change'),
+                    p: {
+                        right: "-=5%",
+                        opacity: 1,
+                    },
+                    o: {
+                        easing: 'linear',
+                        duration: 2000,
+                        sequenceQueue: false
+                    }
+                },
+
+            ];
+
+
+
+
+
+
+//            $('.hero-bg-01').velocity({
+//                'background-position-x': ['-150px', '0px']
+//            }, {
+//                duration: 4000,
+//                easing: 'linear',
+//            });
+
+//            $('.hero-pobednik').velocity({
+//                left: "-=5%",
+//            }, {
+//                duration: 4000,
+//                easing: 'linear',
+//            });
+
+//            $('.hero-creativity').velocity({
+//                right: "-=5%",
+//                opacity: 1,
+//            }, {
+//                easing: 'linear',
+//                duration: 2000,
+//            }).velocity({
+//                right: "-=5%",
+//                opacity: 0,
+//            }, {
+//                easing: 'linear',
+//                duration: 2000,
+//            });
         })
     </script>
 @stop
