@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript">
+        var parsed =
+                (document.location.href.split('#')[1]||'').split('&');
+        var params = parsed.reduce(function (params, param) {
+            var param = param.split('=');
+            params[param[0]] =
+                    decodeURIComponent(param.slice(1).join('='));
+            return params;
+        }, {});
+
+        document.getElementById('creativelink').href = params.clickTag;
+        console.log(params.clickTag);
+    </script>
+</head>
+<body>
+
+<a id="creativelink" target="_blank" href="http://www.channel4.com/programmes/goks-fashion-fix?jjh=234&clickTag=999999888">
+   ret jem9igfuefu euitge
+</a>
+
+</body>
+</html>

@@ -114,6 +114,10 @@
             opacity: 0;
         }
 
+        .hero-change {
+            opacity: 0;
+        }
+
         .hero-bg-01 {
             background: url({{ asset($assetsDirFront . '/images/hero/hero-bg.jpg') }}) no-repeat 0 0;
             -webkit-background-size: auto 100%;
@@ -198,21 +202,28 @@
                 $(this).closest('#hero').slick('slickNext')
             });
 
-            $('#hero').on('afterChange', function(event, slick, currentSlide, nextSlide){
+            $('#hero').on('afterChange', function (event, slick, currentSlide, nextSlide) {
                 console.log(currentSlide);
-                if(currentSlide == 1){
+                if (currentSlide == 0) {
+                    $.Velocity.RunSequence(sequnce01);
+                }
+                if (currentSlide == 1) {
                     $.Velocity.RunSequence(sequnce02);
                 }
-                if(currentSlide == 2){
+                if (currentSlide == 2) {
                     $.Velocity.RunSequence(sequnce03);
+                }
+                if (currentSlide == 3) {
+                    $.Velocity.RunSequence(sequnce04);
                 }
 
             });
 
-
-//            { e: $element1, p: { translateX: 100 }, o: { duration: 1000 } },
-//            { e: $element2, p: { translateX: 200 }, o: { duration: 1000 } },
-//            { e: $element3, p: { translateX: 300 }, o: { duration: 1000 } }
+            function resetProperties(properties) {
+                $.each(properties, function (index, value) {
+                    $(value).attr("style", "");
+                });
+            }
 
             var sequnce01 = [
                 {
@@ -245,13 +256,16 @@
                     o: {
                         easing: 'linear',
                         duration: 2000,
+                        complete: function () {
+                            setTimeout(function () {
+                                resetProperties(['.hero-pobednik', '.hero-creativity']);
+                            }, 1000);
+                        }
                     }
                 },
             ];
 
             $.Velocity.RunSequence(sequnce01);
-
-
 
             var sequnce02 = [
 
@@ -295,6 +309,11 @@
                     o: {
                         easing: 'linear',
                         duration: 1330,
+                        complete: function () {
+                            setTimeout(function () {
+                                resetProperties(['.hero-konj', '.hero-baloni']);
+                            }, 1000);
+                        }
                     }
                 },
             ];
@@ -312,21 +331,53 @@
                 {
                     e: $('.hero-change'),
                     p: {
-                        right: "-=5%",
-                        opacity: 1,
+                        scale: 0.3,
                     },
                     o: {
-                        easing: 'linear',
-                        duration: 2000,
+                        duration: 300,
                         sequenceQueue: false
                     }
                 },
-
+                {
+                    e: $('.hero-change'),
+                    p: {
+                        scale: 1,
+                        opacity: 1,
+                    },
+                    o: {
+                        easing: 'easeInQuad',
+                        duration: 3700,
+                        complete: function () {
+                            setTimeout(function () {
+                                resetProperties(['.hero-hram']);
+                            }, 1000);
+                            setTimeout(function () {
+                                $('.hero-change').css({
+                                    opacity: 0,
+                                    transform: 'scale(0.3)'
+                                });
+                            }, 1000);
+                        }
+                    }
+                },
             ];
 
-
-
-
+            var sequnce04 = [
+                {
+                    e: $('.hero-ljuljaska'),
+                    p: {left: "-=10%"},
+                    o: {
+                        duration: 1000,
+                        loop: 2,
+                        easing: 'easeInOutQuad',
+                        complete: function () {
+                            setTimeout(function () {
+                                resetProperties(['.hero-ljuljaska']);
+                            }, 1000);
+                        }
+                    }
+                },
+            ];
 
 
 //            $('.hero-bg-01').velocity({

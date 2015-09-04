@@ -17,6 +17,7 @@
         <link rel="stylesheet" href="{{ elixir3($assetsDirFront . '/css/added.css', $buildPath) }}" />
     @else
         <link rel="stylesheet" href="{{ elixir3($assetsDirFront . '/css/all.pro.css', $buildPath) }}">
+        <link rel="stylesheet" href="{{ module_asset('front', 'css/_vlada.css')  }}">
     @endif
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
